@@ -1,6 +1,6 @@
 # PiGI - A Raspberry Pi Geiger-Mueller Interface
 
-Built as a drop-in module for the Raspberry Pi but is designed in such a universal/versatile way, so that it's very hackable and can be connected to any processing system that can detect falling edges like:
+The PiGI is built as a ready-to-go drop-in module for the Raspberry Pi to transform it into a versatile geiger counter to measure/monitor radioactivity. It will generate the required high voltage the counting tubes need to operate and it will safely invert the counting impulses to a falling edge, detectable by a GPIO Pin on the PI. But it's also designed in such a universal way in order to be  very hackable. Basically it can be connected to any processing system that can detect falling edges like:
 
   * Arduino
   * ATMega

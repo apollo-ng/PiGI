@@ -20,8 +20,12 @@ Built as a drop-in module for the Raspberry Pi but is designed in such a univers
 ## Hardware
 
   * Schematics
-  * board designs 
+  * Board designs 
 
 ## Software
 
+  * Basic prove-of-concept code
 
+## Website & Contact
+
+[https://apollo.open-resource.org/lab:pigi](https://apollo.open-resource.org/lab:pigi)

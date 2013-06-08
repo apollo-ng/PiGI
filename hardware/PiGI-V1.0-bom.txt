@@ -1,0 +1,30 @@
+Partlist exported from /home/chrono/eagle/PeIger-Counter/PiGI-V1.0.sch at 5/13/13 7:31 PM
+
+Part      Value                  Device                 Package              Description                            
+C1        220uF                  CPOL-EU153CLV-0810     153CLV-0810          POLARIZED CAPACITOR, European symbol   
+C2        10nF/600               C-EUC1206              C1206                CAPACITOR, European symbol             
+C3        10nF/600               C-EUC1206              C1206                CAPACITOR, European symbol             
+C4        1nF                    C-EUC0805              C0805                CAPACITOR, European symbol             
+C5        330p                   C-EUC0805              C0805                CAPACITOR, European symbol             
+C6        100nF                  C-EUC0805              C0805                CAPACITOR, European symbol             
+D1        UF4007                 MBRA340T3              SMA                  Surface Mount Schottky Power Rectifier 
+D2        1N4148                 CGRM4001-G             SOD-123_MINI-SMA     Molded plasitc,JEDEC SOD-123/Mini SMA  
+HV+       HV+                    SMD5                   SMD2,54-5,08         SMD PAD                                
+HV-       HV-                    SMD5                   SMD2,54-5,08         SMD PAD                                
+IC1       NE555D                 NE555D                 SO08                 TIMER                                  
+L1        15mH                   1200LRS                1200LRS                                                     
+LOGO1     OSHW_LOGO_FILLX0150-NT OSHW_LOGO_FILLX0150-NT OSHW_FILLX150_NOTEXT                                        
+PIGI-V1.0 RASPBERRY-PI           RASPBERRY-PI           RASPBERRY-PI         Raspberry Pi Board                     
+R1        100k                   R-EU_R0805             R0805                RESISTOR, European symbol              
+R2        1M                     R-EU_R1206             R1206                RESISTOR, European symbol              
+R3        4.7M                   R-EU_R1206             R1206                RESISTOR, European symbol              
+R4        3.9k                   R-EU_M0805             M0805                RESISTOR, European symbol              
+R5        330                    R-EU_R0805             R0805                RESISTOR, European symbol              
+R6        220k                   R-EU_R0805             R0805                RESISTOR, European symbol              
+R7        1.5k                   R-EU_R0805             R0805                RESISTOR, European symbol              
+R8        100k                   R-EU_R0805             R0805                RESISTOR, European symbol              
+R9        27k                    R-EU_R0805             R0805                RESISTOR, European symbol              
+R10       100                    TRIM_EU-RJ9W           RJ9W                 POTENTIOMETER                          
+T1        STN0214                -NPN-SOT223            SOT223               NPN Transistror                        
+T2        2N4401                 NPN-TRANSISTOR_SOT23   SOT23                NPN TRANSISTOR                         
+T3        2N4401                 NPN-TRANSISTOR_SOT23   SOT23                NPN TRANSISTOR                         

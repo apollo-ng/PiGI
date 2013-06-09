@@ -17911,6 +17911,8 @@ Source: http://www.bourns.com/data/global/PDFs/3223.PDF</description>
 <part name="SUPPLY4" library="supply2" deviceset="V+" device=""/>
 <part name="R10" library="pot" deviceset="TRIM_EU-" device="RJ9W" value="100"/>
 <part name="J2" library="rcl" deviceset="C-EU" device="C0805"/>
+<part name="R10A" library="resistor" deviceset="R-EU_" device="M0805" value="30R"/>
+<part name="GND9" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -17954,7 +17956,7 @@ Source: http://www.bourns.com/data/global/PDFs/3223.PDF</description>
 <attribute name="VALUE" x="127" y="58.42" size="1.778" layer="96"/>
 </instance>
 <instance part="D2" gate="G$1" x="22.86" y="45.72" rot="R180"/>
-<instance part="GND4" gate="1" x="68.58" y="35.56"/>
+<instance part="GND4" gate="1" x="60.96" y="35.56"/>
 <instance part="GND5" gate="1" x="50.8" y="35.56"/>
 <instance part="RES1" gate="G$1" x="43.18" y="35.56" rot="R180"/>
 <instance part="RES2" gate="G$1" x="5.08" y="71.12"/>
@@ -17969,12 +17971,23 @@ Source: http://www.bourns.com/data/global/PDFs/3223.PDF</description>
 <instance part="LOGO1" gate="G$1" x="20.32" y="35.56"/>
 <instance part="C1" gate="G$1" x="-12.7" y="63.5"/>
 <instance part="GND12" gate="1" x="-12.7" y="35.56"/>
-<instance part="L1" gate="G$1" x="60.96" y="76.2"/>
+<instance part="L1" gate="G$1" x="60.96" y="76.2" smashed="yes">
+<attribute name="NAME" x="57.34" y="78.28" size="1.27" layer="95"/>
+<attribute name="VALUE" x="62.42" y="78.2" size="1.27" layer="96"/>
+</instance>
 <instance part="SUPPLY1" gate="1" x="50.8" y="93.98"/>
 <instance part="SUPPLY3" gate="1" x="193.04" y="93.98" rot="R270"/>
 <instance part="SUPPLY4" gate="1" x="-12.7" y="93.98"/>
-<instance part="R10" gate="1" x="68.58" y="43.18" rot="MR0"/>
+<instance part="R10" gate="1" x="60.96" y="43.18" smashed="yes" rot="MR0">
+<attribute name="NAME" x="65.151" y="41.91" size="1.778" layer="95" rot="MR270"/>
+<attribute name="VALUE" x="64.77" y="49.53" size="1.778" layer="96" rot="MR270"/>
+</instance>
 <instance part="J2" gate="G$1" x="132.08" y="68.58" rot="R270"/>
+<instance part="R10A" gate="G$1" x="68.58" y="43.18" smashed="yes" rot="R90">
+<attribute name="NAME" x="72.1614" y="36.83" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="71.882" y="44.45" size="1.778" layer="96" rot="R90"/>
+</instance>
+<instance part="GND9" gate="1" x="68.58" y="35.56"/>
 </instances>
 <busses>
 </busses>
@@ -18046,9 +18059,13 @@ Source: http://www.bourns.com/data/global/PDFs/3223.PDF</description>
 <pinref part="GND4" gate="1" pin="GND"/>
 <pinref part="R10" gate="1" pin="A"/>
 <pinref part="R10" gate="1" pin="S"/>
-<wire x1="63.5" y1="43.18" x2="63.5" y2="38.1" width="0.1524" layer="91"/>
-<wire x1="63.5" y1="38.1" x2="68.58" y2="38.1" width="0.1524" layer="91"/>
-<junction x="68.58" y="38.1"/>
+<wire x1="55.88" y1="43.18" x2="55.88" y2="38.1" width="0.1524" layer="91"/>
+<wire x1="55.88" y1="38.1" x2="60.96" y2="38.1" width="0.1524" layer="91"/>
+<junction x="60.96" y="38.1"/>
+</segment>
+<segment>
+<pinref part="R10A" gate="G$1" pin="1"/>
+<pinref part="GND9" gate="1" pin="GND"/>
 </segment>
 </net>
 <net name="N$5" class="0">
@@ -18092,8 +18109,12 @@ Source: http://www.bourns.com/data/global/PDFs/3223.PDF</description>
 <pinref part="T1" gate="G$1" pin="E"/>
 <wire x1="68.58" y1="55.88" x2="68.58" y2="50.8" width="0.1524" layer="91"/>
 <pinref part="T2" gate="G$1" pin="B"/>
-<wire x1="55.88" y1="50.8" x2="68.58" y2="50.8" width="0.1524" layer="91"/>
+<wire x1="55.88" y1="50.8" x2="60.96" y2="50.8" width="0.1524" layer="91"/>
 <pinref part="R10" gate="1" pin="E"/>
+<wire x1="60.96" y1="50.8" x2="68.58" y2="50.8" width="0.1524" layer="91"/>
+<wire x1="60.96" y1="48.26" x2="60.96" y2="50.8" width="0.1524" layer="91"/>
+<junction x="60.96" y="50.8"/>
+<pinref part="R10A" gate="G$1" pin="2"/>
 <wire x1="68.58" y1="48.26" x2="68.58" y2="50.8" width="0.1524" layer="91"/>
 <junction x="68.58" y="50.8"/>
 </segment>

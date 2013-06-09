@@ -17924,7 +17924,10 @@ Source: http://www.bourns.com/data/global/PDFs/3223.PDF</description>
 <instance part="GND2" gate="1" x="43.18" y="71.12" rot="R90"/>
 <instance part="R6" gate="G$1" x="5.08" y="60.96"/>
 <instance part="R5" gate="G$1" x="33.02" y="53.34" rot="R90"/>
-<instance part="R1" gate="G$1" x="38.1" y="60.96"/>
+<instance part="R1" gate="G$1" x="38.1" y="60.96" smashed="yes">
+<attribute name="NAME" x="36.83" y="62.4586" size="1.778" layer="95"/>
+<attribute name="VALUE" x="36.83" y="57.658" size="1.778" layer="96"/>
+</instance>
 <instance part="R4" gate="G$1" x="50.8" y="68.58" rot="R270"/>
 <instance part="R2" gate="G$1" x="86.36" y="76.2"/>
 <instance part="R3" gate="G$1" x="93.98" y="83.82" rot="R90"/>
@@ -17955,7 +17958,10 @@ Source: http://www.bourns.com/data/global/PDFs/3223.PDF</description>
 <attribute name="NAME" x="124.46" y="60.96" size="1.778" layer="95"/>
 <attribute name="VALUE" x="127" y="58.42" size="1.778" layer="96"/>
 </instance>
-<instance part="D2" gate="G$1" x="22.86" y="45.72" rot="R180"/>
+<instance part="D2" gate="G$1" x="22.86" y="45.72" smashed="yes" rot="R180">
+<attribute name="NAME" x="22.86" y="50.3174" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="27.94" y="42.9514" size="1.778" layer="96" rot="R180"/>
+</instance>
 <instance part="GND4" gate="1" x="60.96" y="35.56"/>
 <instance part="GND5" gate="1" x="50.8" y="35.56"/>
 <instance part="RES1" gate="G$1" x="43.18" y="35.56" rot="R180"/>
@@ -17971,16 +17977,22 @@ Source: http://www.bourns.com/data/global/PDFs/3223.PDF</description>
 <instance part="LOGO1" gate="G$1" x="20.32" y="35.56"/>
 <instance part="C1" gate="G$1" x="-12.7" y="63.5"/>
 <instance part="GND12" gate="1" x="-12.7" y="35.56"/>
-<instance part="L1" gate="G$1" x="60.96" y="76.2"/>
+<instance part="L1" gate="G$1" x="60.96" y="76.2" smashed="yes">
+<attribute name="NAME" x="57.34" y="78.28" size="1.27" layer="95"/>
+<attribute name="VALUE" x="62.42" y="78.2" size="1.27" layer="96"/>
+</instance>
 <instance part="SUPPLY1" gate="1" x="50.8" y="93.98"/>
 <instance part="SUPPLY3" gate="1" x="193.04" y="93.98" rot="R270"/>
 <instance part="SUPPLY4" gate="1" x="-12.7" y="93.98"/>
 <instance part="R10" gate="1" x="60.96" y="43.18" smashed="yes" rot="MR0">
-<attribute name="NAME" x="67.31" y="44.069" size="1.778" layer="95" rot="MR0"/>
-<attribute name="VALUE" x="67.31" y="46.99" size="1.778" layer="96" rot="MR0"/>
+<attribute name="NAME" x="65.151" y="41.91" size="1.778" layer="95" rot="MR270"/>
+<attribute name="VALUE" x="64.77" y="49.53" size="1.778" layer="96" rot="MR270"/>
 </instance>
 <instance part="J2" gate="G$1" x="132.08" y="68.58" rot="R270"/>
-<instance part="R10A" gate="G$1" x="68.58" y="43.18" rot="R90"/>
+<instance part="R10A" gate="G$1" x="68.58" y="43.18" smashed="yes" rot="R90">
+<attribute name="NAME" x="72.1614" y="36.83" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="71.882" y="44.45" size="1.778" layer="96" rot="R90"/>
+</instance>
 <instance part="GND9" gate="1" x="68.58" y="35.56"/>
 </instances>
 <busses>

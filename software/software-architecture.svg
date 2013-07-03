@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   inkscape:export-filename="/home/chrono/src/PiGI/software/software-overview.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90"
+   sodipodi:docname="New document 1">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.90843249"
+     inkscape:cx="372.04724"
+     inkscape:cy="576.01213"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1176"
+     inkscape:window-x="3286"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ffb948;fill-opacity:1;stroke:#000000;stroke-width:1.0694797;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect2985"
+       width="604.26825"
+       height="603.16742"
+       x="67.183372"
+       y="20.949884"
+       ry="36.517445" />
+    <rect
+       style="fill:#ececec;fill-opacity:1;stroke:#000000;stroke-width:1.09473276;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3755"
+       width="337.85004"
+       height="256.39102"
+       x="307.1698"
+       y="341.29453"
+       ry="20.907429" />
+    <rect
+       style="fill:#ececec;fill-opacity:1;stroke:#000000;stroke-width:0.56094253;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3755-0"
+       width="194.17935"
+       height="117.12355"
+       x="91.146645"
+       y="480.27853"
+       ry="18.35722" />
+    <rect
+       style="fill:#ececec;fill-opacity:1;stroke:#000000;stroke-width:1.22617126;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3755-7"
+       width="549.07166"
+       height="197.91731"
+       x="92.580048"
+       y="121.7512"
+       ry="16.139185" />
+    <rect
+       style="fill:#ececec;fill-opacity:1;stroke:#000000;stroke-width:0.56876576;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3755-0-6"
+       width="194.17154"
+       height="120.41811"
+       x="88.948967"
+       y="342.68271"
+       ry="15.323505" />
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="129.89409"
+       y="183.83315"
+       id="text3811"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3813"
+         x="129.89409"
+         y="183.83315">Parent Process</tspan><tspan
+         sodipodi:role="line"
+         x="129.89409"
+         y="203.83315"
+         id="tspan3815">- Parse command line parameters</tspan><tspan
+         sodipodi:role="line"
+         x="129.89409"
+         y="223.83315"
+         id="tspan3817">- Set up system accordingly</tspan><tspan
+         sodipodi:role="line"
+         x="129.89409"
+         y="243.83315"
+         id="tspan3819">- Set up signal handlers</tspan><tspan
+         sodipodi:role="line"
+         x="129.89409"
+         y="263.83313"
+         id="tspan3827">- Detach &amp; daemonize</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="394.08542"
+       y="223.46184"
+       id="text3821"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3823"
+         x="394.08542"
+         y="223.46184"></tspan><tspan
+         sodipodi:role="line"
+         id="tspan3825"
+         x="394.08542"
+         y="243.46184" /></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="129.89407"
+       y="388.37985"
+       id="text3829"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3831"
+         x="129.89407"
+         y="388.37985">RPi GPIO IRQ</tspan><tspan
+         sodipodi:role="line"
+         x="129.89407"
+         y="408.37985"
+         id="tspan3833">Loop Handler</tspan><tspan
+         sodipodi:role="line"
+         x="129.89407"
+         y="428.37985"
+         id="tspan3861">Thread 1</tspan></text>
+    <path
+       style="fill:#393030;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+       d="m 274.09852,390.9719 20.91515,0 0,-21.10402 26.41914,26.41914 -26.41914,26.41913 0,-18.71355 -20.91515,0 z"
+       id="path3859"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccccc" />
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="130.63002"
+       y="526.4563"
+       id="text3829-8"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3831-0"
+         x="130.63002"
+         y="526.4563">RPi GPIO IRQ</tspan><tspan
+         sodipodi:role="line"
+         x="130.63002"
+         y="546.4563"
+         id="tspan3833-9">Loop Handler</tspan><tspan
+         sodipodi:role="line"
+         x="130.63002"
+         y="566.4563"
+         id="tspan3861-3">Thread 2</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="95.769363"
+       y="79.257401"
+       id="text3890"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3892"
+         x="95.769363"
+         y="79.257401"
+         style="font-size:28px">COUNTERD</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="348.95273"
+       y="387.48065"
+       id="text3894"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3896"
+         x="348.95273"
+         y="387.48065">Main Processing Thread</tspan><tspan
+         sodipodi:role="line"
+         x="348.95273"
+         y="407.48065"
+         id="tspan3898">- Supervise LH Threads</tspan><tspan
+         sodipodi:role="line"
+         x="348.95273"
+         y="427.48065"
+         id="tspan3944">- Track CPM</tspan><tspan
+         sodipodi:role="line"
+         x="348.95273"
+         y="447.48065"
+         id="tspan3900">- Provide UNIX/Net socket</tspan><tspan
+         sodipodi:role="line"
+         x="348.95273"
+         y="467.48065"
+         id="tspan3902">- Provide demo mode</tspan><tspan
+         sodipodi:role="line"
+         x="348.95273"
+         y="487.48065"
+         id="tspan3904">- Provide audio output</tspan><tspan
+         sodipodi:role="line"
+         x="348.95273"
+         y="507.48065"
+         id="tspan3942" /></text>
+    <path
+       style="fill:#393030;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 274.45286,534.87223 20.91515,0 0,-21.10402 26.41914,26.41914 -26.41914,26.41913 0,-18.71355 -20.91515,0 z"
+       id="path3859-9"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccccc" />
+    <rect
+       style="fill:#83ae4e;fill-opacity:1;stroke:#000000;stroke-width:0.65169376000000001;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect2985-3"
+       width="604.68604"
+       height="223.81015"
+       x="66.424065"
+       y="640.48981"
+       ry="31.162867" />
+    <path
+       style="fill:#393030;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 477.55714,598.08171 0,20.91515 21.10402,0 -26.41914,26.41914 -26.41913,-26.41914 18.71355,0 0,-20.91515 z"
+       id="path3859-6"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccccc" />
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="121.08769"
+       y="744.13892"
+       id="text3964"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3966"
+         x="121.08769"
+         y="744.13892"
+         style="font-size:24px;fill:#ffffff;fill-opacity:1">3rd Party Tools</tspan><tspan
+         sodipodi:role="line"
+         x="121.08769"
+         y="774.13892"
+         id="tspan3968"
+         style="font-size:24px;fill:#ffffff;fill-opacity:1">Monitors / Logging / Network Distribution</tspan></text>
+  </g>
+</svg>

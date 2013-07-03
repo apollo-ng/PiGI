@@ -1,17 +1,27 @@
-# Basic software prove of concept
+# Software
 
-## Compile
+![Image](software-overview.png)
 
-gcc -o counterd counterd3.c
+This is how it should look like :)
 
-## Setup
+## Basic software prove of concept
+
+This is what is there for now.
+
+### Compile
+
+    gcc -o counterd counterd3.c
+
+### Setup
 
 Export the GPIO
 
-echo 4 > /sys/class/gpio/export
+    echo 4 > /sys/class/gpio/export
  
 Set falling edge interrupt detection
 
-echo falling > /sys/class/gpio/gpio4/edge
+    echo falling > /sys/class/gpio/gpio4/edge
 
-./counterd
+Start the counter
+
+    ./counterd

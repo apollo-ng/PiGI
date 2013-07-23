@@ -15,8 +15,8 @@ The PiGI is built as a ready-to-go drop-in module for the Raspberry Pi to transf
   * Very low energy consumption (<2mA @ 0.09uSv/h local dose rate)
   * Cathode counting
   * Low BOM count / small footprint
-  * Very cheap design (Prototype costs per board: EUR15)
-  * Dual stackable for low/high dosis couting with 2 tubes
+  * Very cheap design: Prototype costs per board -> EUR15 / High Volume Production < 10 EUR
+  * Dual stackable for low/high dosis counting with 2 tubes
   * Open-Source Hardware/Software
 
 ## Hardware

@@ -57,7 +57,7 @@ class Geigercounter (threading.Thread):
         #print "Ticks: %d"%self.count
         if self.socket:
             try:
-                self.socket.send(json.dumps({"type":"TICK"}))
+                self.socket.send(json.dumps({"type":"tick"}))
             except:
                 print "SOCKET ERROR"
         self.last_tick = now
@@ -86,6 +86,17 @@ class Geigercounter (threading.Thread):
             r = sum(r2_fifo)/float(len(rate_fifo))
             print "cpm: %.2f"%(r*60)
             print
+            msg = {
+                "type": "status",
+                "cps": round(rate,2),
+                "cpm": round(r*60,2),
+            }
+            if self.socket:
+                try:
+                    self.socket.send(json.dumps(msg))
+                except:
+                    print "SOCKET ERROR"
+            
         
 
     def get_state(self):

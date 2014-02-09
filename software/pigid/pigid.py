@@ -53,7 +53,6 @@ def handle_ws():
         try:
             message = wsock.receive()
             log.info("Received : %s" % message)
-            msgdict = json.loads(message)
             counterd.counter_start(wsock)
             
         except WebSocketError:

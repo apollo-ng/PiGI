@@ -2,7 +2,7 @@
 
 import RPi.GPIO as GPIO
 import time
-
+import json
 GPIO_PIGI = 4
 
 tick_counter = 0
@@ -23,7 +23,7 @@ def countEventHandler (pin):
     print "Ticks: %d"%tick_counter
     global ws
     if ws:
-        socket.send(json.dumps({"type":"TICK"}))
+        ws.send(json.dumps({"type":"TICK"}))
 
 # main function
 def main():

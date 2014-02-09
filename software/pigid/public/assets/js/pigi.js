@@ -11,6 +11,9 @@ var ws_status = new WebSocket(host+"/status");
 var ws_control = new WebSocket(host+"/control");
 var ws_storage = new WebSocket(host+"/storage");
 
+var ws = new WebSocket(host+"/ws");
+var snd = new Audio("assets/tock.wav");
+
 if(window.webkitRequestAnimationFrame) window.requestAnimationFrame = window.webkitRequestAnimationFrame;
 
 graph.profile =
@@ -481,6 +484,18 @@ $(document).ready(function()
 
             }
         };
+
+
+        ws.onopen = function()
+        {
+            ws.send("weofewfo");
+        };
+
+        ws.onmessage = function(e)
+        {
+            console.log(e.data);
+            snd.play();
+        }
 
 
 

@@ -6,6 +6,10 @@ import bottle
 from gevent.pywsgi import WSGIServer
 from geventwebsocket import WebSocketHandler, WebSocketError
 
+import counterd
+#import geigercounter
+#counter = geigercounter.Counter()
+
 try:
     import config
 except:
@@ -50,10 +54,11 @@ def handle_ws():
             message = wsock.receive()
             log.info("Received : %s" % message)
             msgdict = json.loads(message)
+            counterd.counter_start(wsock)
             
         except WebSocketError:
             break
-    log.info("websocket (control) closed")
+    log.info("websocket closed")
 
 
 def main():

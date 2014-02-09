@@ -74,22 +74,27 @@ class Geigercounter (threading.Thread):
         rate_length = 5
         rate_step = 1
         
+        cpm_fifo = deque([],60*rate_step)
         rate_fifo = deque([],rate_length)
         r2_fifo = deque([],rate_length)
         while True:
             time.sleep(rate_step)
-            rate_fifo.appendleft(self.count)
+            cpm_fifo.appendleft(self.count)
+            #rate_fifo.appendleft(self.count)
+            print "cps: %d"%(self.count)
             self.count = 0
-            rate = float(sum(rate_fifo))/float(len(rate_fifo))/float(rate_step)
-            print "cps: %.2f"%(rate)
-            r2_fifo.appendleft(rate)
-            r = sum(r2_fifo)/float(len(rate_fifo))
-            print "cpm: %.2f"%(r*60)
+            #rate = float(sum(rate_fifo))/float(len(rate_fifo))/float(rate_step)
+            
+            #r2_fifo.appendleft(rate)
+            #r = sum(r2_fifo)/float(len(rate_fifo))
+            #print "cpm: %.2f"%(r*60)
+            print "cpm: %d"%sum(cpm_fifo)
             print
             msg = {
                 "type": "status",
-                "cps": round(rate,2),
-                "cpm": round(r*60,2),
+                "cps": self.count,
+                #"cpm": round(r*60,2),
+                "cpm": sum(cpm_fifo),
             }
             if self.socket:
                 try:

@@ -50,6 +50,7 @@ function updateProfile(id)
     graph.plot = $.plot("#graph_container", [ graph.profile, graph.live ] , getOptions());
 }
 
+
 function deleteProfile()
 {
     console.log("Delete profile:" + selected_profile_name);
@@ -493,8 +494,20 @@ $(document).ready(function()
 
         ws.onmessage = function(e)
         {
-            console.log(e.data);
-            snd.play();
+            x = JSON.parse(e.data);
+           
+           switch(x.type)
+           {
+               case "tick":
+                    console.log(e.data);
+                    snd.play();
+                   break;
+               case "status":
+                   $('#act_cpm').html(parseInt(x.cpm));    
+                   break;
+               default:
+               
+           }
         }
 
 

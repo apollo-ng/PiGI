@@ -9,6 +9,9 @@ import config
 
 log = logging.getLogger(__name__)
 
+
+GPIO_PIGI = 4
+
 try:
     import RPi.GPIO as GPIO
     gpio_available = True

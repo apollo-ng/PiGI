@@ -30,7 +30,10 @@ def countEventHandler (pin):
     print "Ticks: %d"%tick_counter
     global ws
     if ws:
-        ws.send(json.dumps({"type":"TICK"}))
+        try:
+            ws.send(json.dumps({"type":"TICK"}))
+        except:
+            pass
 
 # main function
 def main():

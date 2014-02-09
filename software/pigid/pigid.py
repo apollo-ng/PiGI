@@ -14,26 +14,20 @@ except:
     exit(1)
 
 logging.basicConfig(level=config.log_level, format=config.log_format)
-log = logging.getLogger("picoreflowd")
-log.info("Starting picoreflowd")
-
-from oven import Oven, Profile
-from ovenWatcher import OvenWatcher
+log = logging.getLogger("pigid")
+log.info("Starting pigid")
 
 app = bottle.Bottle()
-oven = Oven()
-ovenWatcher = OvenWatcher(oven)
+
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
-profile_path = os.path.join(script_dir, "storage", "profiles")
-
 
 @app.route('/')
 def index():
-    return bottle.redirect('/picoreflow/index.html')
+    return bottle.redirect('/pigi/index.html')
 
 
-@app.route('/picoreflow/:filename#.*#')
+@app.route('/pigi/:filename#.*#')
 def send_static(filename):
     log.debug("serving %s" % filename)
     return bottle.static_file(filename, root='./public/')
@@ -47,118 +41,19 @@ def get_websocket_from_request():
     return wsock
 
 
-@app.route('/control')
-def handle_control():
+@app.route('/ws')
+def handle_ws():
     wsock = get_websocket_from_request()
-    log.info("websocket (control) opened")
+    log.info("websocket opened")
     while True:
         try:
             message = wsock.receive()
-            log.info("Received (control): %s" % message)
+            log.info("Received : %s" % message)
             msgdict = json.loads(message)
-            if msgdict.get("cmd") == "RUN":
-                log.info("RUN command received")
-                profile_obj = msgdict.get('profile')
-                if profile_obj:
-                    profile_json = json.dumps(profile_obj)
-                    profile = Profile(profile_json)
-                oven.run_profile(profile)
-                ovenWatcher.record(profile)
-            elif msgdict.get("cmd") == "SIMULATE":
-                log.info("SIMULATE command received")
-                profile_obj = msgdict.get('profile')
-                if profile_obj:
-                    profile_json = json.dumps(profile_obj)
-                    profile = Profile(profile_json)
-                simulated_oven = Oven(simulate=True, time_step=0.05)
-                simulation_watcher = OvenWatcher(simulated_oven)
-                simulation_watcher.add_observer(wsock)
-                #simulated_oven.run_profile(profile)
-                #simulation_watcher.record(profile)
-            elif msgdict.get("cmd") == "STOP":
-                log.info("Stop command received")
-                oven.abort_run()
+            
         except WebSocketError:
             break
     log.info("websocket (control) closed")
-
-
-@app.route('/storage')
-def handle_storage():
-    wsock = get_websocket_from_request()
-    log.info("websocket (storage) opened")
-    while True:
-        try:
-            message = wsock.receive()
-            if not message:
-                break
-            log.debug("websocket (storage) received: %s" % message)
-
-            try:
-                msgdict = json.loads(message)
-            except:
-                msgdict = {}
-
-            if message == "GET":
-                log.info("GET command recived")
-                wsock.send(get_profiles())
-            elif msgdict.get("cmd") == "PUT":
-                log.info("PUT command received")
-                profile_obj = msgdict.get('profile')
-                force = msgdict.get('force', False)
-                if profile_obj:
-                    #del msgdict["cmd"]
-                    if save_profile(profile_obj, force):
-                        msgdict["resp"] = "OK"
-                    else:
-                        msgdict["resp"] = "FAIL"
-                    log.debug("websocket (storage) sent: %s" % message)
-
-                    wsock.send(json.dumps(msgdict))
-                    wsock.send(get_profiles())
-        except WebSocketError:
-            break
-    log.info("websocket (storage) closed")
-
-
-@app.route('/status')
-def handle_status():
-    wsock = get_websocket_from_request()
-    ovenWatcher.add_observer(wsock)
-    log.info("websocket (status) opened")
-    while True:
-        try:
-            message = wsock.receive()
-            wsock.send("Your message was: %r" % message)
-        except WebSocketError:
-            break
-    log.info("websocket (status) closed")
-
-
-def get_profiles():
-    try:
-        profile_files = os.listdir(profile_path)
-    except:
-        profile_files = []
-    profiles = []
-    for filename in profile_files:
-        with open(os.path.join(profile_path, filename), 'r') as f:
-            profiles.append(json.load(f))
-    return json.dumps(profiles)
-
-
-def save_profile(profile, force=False):
-    profile_json = json.dumps(profile)
-    filename = profile['name']+".json"
-    filepath = os.path.join(profile_path, filename)
-    if not force and os.path.exists(filepath):
-        log.error("Could not write, %s already exists" % filepath)
-        return False
-    with open(filepath, 'w+') as f:
-        f.write(profile_json)
-        f.close()
-    log.info("Wrote %s" % filepath)
-    return True
 
 
 def main():

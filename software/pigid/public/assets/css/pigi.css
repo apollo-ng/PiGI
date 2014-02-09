@@ -83,7 +83,7 @@ body {
 }
 
 .ds-num {
-    width: 100px;
+    width: 120px;
     font-family: "Digi";
     border-right: 1px solid #b9b6af;
     white-space: nowrap;
@@ -107,7 +107,7 @@ body {
 
 .ds-unit {
     font-family: "Arial";
-    font-size: 22px;
+    font-size: 20px;
     vertical-align: top;
     line-height: 32px;
     margin-left: 4px;

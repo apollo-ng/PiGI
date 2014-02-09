@@ -26,7 +26,7 @@ body {
     -moz-border-radius: 7px;
     border-radius: 7px;
     border: 1px solid #ddd;
-    height: 81px;
+    height: 90px;
     -moz-box-shadow: 0 0 1.1em 0 rgba(0,0,0,0.55);
     -webkit-box-shadow: 0 0 1.5em 0 rgba(0,0,0,0.55);
     box-shadow: 0 0 1.1em 0 rgba(0,0,0,0.55);
@@ -38,8 +38,8 @@ body {
     padding-right: 5px;
     font-size: 40px;
     font-weight: normal;
-    height: 40px;
-    line-height: 40px;
+    height: 45px;
+    line-height: 45px;
     vertical-align: middle;
     color: #d8d3c5;
     border-color: #000000;
@@ -69,12 +69,32 @@ body {
     height: 18px;
 }
 
+
+.ds-bottom-panel {
+    -webkit-border-bottom-left-radius: 6px;
+    -webkit-border-bottom-right-radius: 6px;
+    -moz-border-radius-bottomleft: 6px;
+    -moz-border-radius-bottomright: 6px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    height: 23px;
+    background: rgb(56,56,56);
+    background: -moz-linear-gradient(top, rgba(56,56,56,1) 0%, rgba(14,14,14,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(56,56,56,1)), color-stop(100%,rgba(14,14,14,1)));
+    background: -webkit-linear-gradient(top, rgba(56,56,56,1) 0%,rgba(14,14,14,1) 100%);
+    background: -o-linear-gradient(top, rgba(56,56,56,1) 0%,rgba(14,14,14,1) 100%);
+    background: -ms-linear-gradient(top, rgba(56,56,56,1) 0%,rgba(14,14,14,1) 100%);
+    background: linear-gradient(to bottom, rgba(56,56,56,1) 0%,rgba(14,14,14,1) 100%);
+    border-top: 1px solid #555;
+}
+
+
 .ds-title {
     display: inline-block;
     font-size: 10px;
     height: 18px;
     line-height: 18px;
-    width: 100px;
+    width: 110px;
     border-right: 1px solid #b9b6af;
     vertical-align: top;
     text-align: center;
@@ -82,11 +102,25 @@ body {
     text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.75);
 }
 
+.ds-bottom {
+    display: inline-block;
+    font-size: 10px;
+    height: 24px;
+    line-height: 23px;
+    vertical-align: top;
+    width: 110px;
+    border-right: 1px solid #69665f;
+    text-align: center;
+    color: #d8d3c5;
+    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.75);
+}
+
 .ds-num {
-    width: 120px;
+    width: 110px;
     font-family: "Digi";
     border-right: 1px solid #b9b6af;
     white-space: nowrap;
+    text-align: center;
     text-shadow: 0 0 25px rgba(0, 0, 0, 1);
 }
 
@@ -106,11 +140,31 @@ body {
 }
 
 .ds-unit {
+    position: relative;
+    top: -1px;
     font-family: "Arial";
-    font-size: 20px;
+    font-size: 14px;
     vertical-align: top;
-    line-height: 32px;
-    margin-left: 4px;
+    line-height: 14px;
+    background: rgb(39,38,36);
+    background: -moz-linear-gradient(top, rgba(39,38,36,1) 0%, rgba(56,56,56,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(39,38,36,1)), color-stop(100%,rgba(56,56,56,1)));
+    background: -webkit-linear-gradient(top, rgba(39,38,36,1) 0%,rgba(56,56,56,1) 100%);
+    background: -o-linear-gradient(top, rgba(39,38,36,1) 0%,rgba(56,56,56,1) 100%);
+    background: -ms-linear-gradient(top, rgba(39,38,36,1) 0%,rgba(56,56,56,1) 100%);
+    background: linear-gradient(to bottom, rgba(39,38,36,1) 0%,rgba(56,56,56,1) 100%);
+    -webkit-border-bottom-left-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    -moz-border-radius-bottomright: 3px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-bottom: 2px;
+    border-left: 1px solid #111;
+    border-right: 1px solid #555;
+    border-bottom: 1px solid #555;
 }
 
 .ds-led {

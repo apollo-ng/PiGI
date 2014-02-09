@@ -82,7 +82,7 @@ class Geigercounter (threading.Thread):
             cpm_fifo.appendleft(self.count)
             #rate_fifo.appendleft(self.count)
             print "cps: %d"%(self.count)
-            self.count = 0
+            
             #rate = float(sum(rate_fifo))/float(len(rate_fifo))/float(rate_step)
             
             #r2_fifo.appendleft(rate)
@@ -96,6 +96,7 @@ class Geigercounter (threading.Thread):
                 #"cpm": round(r*60,2),
                 "cpm": sum(cpm_fifo),
             }
+            self.count = 0
             if self.socket:
                 try:
                     self.socket.send(json.dumps(msg))

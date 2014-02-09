@@ -504,6 +504,7 @@ $(document).ready(function()
                    break;
                case "status":
                    $('#act_cpm').html(parseInt(x.cpm));    
+                    $('#act_eqd').html(parseFloat(x.cps));
                    break;
                default:
                

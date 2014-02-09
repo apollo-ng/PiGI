@@ -1,17 +1,17 @@
 @font-face{
     font-family: "Digi";
-    src: url('/picoreflow/assets/fonts/digital-7-webfont.eot');
+    src: url('../fonts/digital-7-webfont.eot');
     src: local("Digital 7"),
-    url('/picoreflow/assets/fonts/digital-7-webfont.woff') format("woff"),
-    url('/picoreflow/assets/fonts/digital-7-webfont.ttf') format("truetype");
+    url('../fonts/digital-7-webfont.woff') format("woff"),
+    url('../fonts/digital-7-webfont.ttf') format("truetype");
 }
 
 @font-face{
     font-family: "Tables";
-    src: url('/picoreflow/assets/fonts/tables.eot');
+    src: url('../fonts/tables.eot');
     src: local("Tables"),
-    url('/picoreflow/assets/fonts/tables.woff') format("woff"),
-    url('/picoreflow/assets/fonts/tables.ttf') format("truetype");
+    url('../fonts/tables.woff') format("woff"),
+    url('../fonts/tables.ttf') format("truetype");
 }
 
 body {
@@ -47,7 +47,7 @@ body {
 
 .ds-panel {
     border-top: 1px solid #000;
-    background: #3F3E3A url('/picoreflow/assets/images/panel_bg.png') repeat;
+    background: #3F3E3A url('../images/panel_bg.png') repeat;
     -moz-box-shadow: inset 0 0 42px 0 #000;
     -webkit-box-shadow: inset 0 0 42px 0 #000;
     box-shadow: inset 0 0 42px 0 #000;
@@ -95,7 +95,7 @@ body {
     font-family: "Digi";
     font-size: 24px;
     text-shadow: 0 0 12px rgba(0, 0, 0, 1);
-    background: #3F3E3A url('/picoreflow/assets/images/panel_bg.png') repeat;
+    background: #3F3E3A url('../images/panel_bg.png') repeat;
     -moz-box-shadow: inset 0 0 12px 0 #000;
     -webkit-box-shadow: inset 0 0 12px 0 #000;
     box-shadow: inset 0 0 12px 0 #000;
@@ -170,11 +170,11 @@ body {
     -webkit-box-shadow: 0 0 1.5em 0 rgba(0,0,0,0.55);
     box-shadow: 0 0 1.1em 0 rgba(0,0,0,0.55);
     margin-top: 15px;
-    background: #3F3E3A url('/picoreflow/assets/images/panel_bg.png') repeat;
+    background: #3F3E3A url('../images/panel_bg.png') repeat;
 }
 
 .panel-heading {
-    background: #fafafa url('/picoreflow/assets/images/page_bg.png') repeat-x;
+    background: #fafafa url('../images/page_bg.png') repeat-x;
     overflow: hidden;
     padding: 10px;
     -webkit-border-top-left-radius: 5px;

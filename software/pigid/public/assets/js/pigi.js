@@ -271,6 +271,8 @@ $(document).ready(function()
                case "status":
                     console.log("UPDATE")
                     graph.live.data.push([x.timestamp*1000, x.doserate]);
+                    while(graph.live.data[0][0] < (x.timestamp - 15*60)*1000) graph.live.data.shift();
+                    
                     graph.plot = $.plot("#graph_container", [ graph.profile, graph.live ] , getOptions());
                     break;
                default:

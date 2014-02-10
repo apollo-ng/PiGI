@@ -68,6 +68,7 @@ class LogWebSocketsManager(WebSocketsManager):
         WebSocketsManager.__init__(self,geiger)
     def run(self):
         while True:
+            time.sleep(10)
             key = datetime.datetime.now().strftime("%s")
             state = self.geiger.get_state()
             state["timestamp"] = key
@@ -75,8 +76,7 @@ class LogWebSocketsManager(WebSocketsManager):
             self.db.Put(key, value)
             print "%s : %s"%(key,value)
             self.send(state)
-            time.sleep(10)
-    
+            
     def add_socket(self,socket):
         history = dict(self.db.RangeIter())
         socket.send(json.dumps({"type":"history","log":history}))

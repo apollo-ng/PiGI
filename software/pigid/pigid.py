@@ -9,8 +9,10 @@ from geventwebsocket import WebSocketHandler, WebSocketError
 #import counterd
 import geigercounter
 
-websockets_manager = geigercounter.WebSocketsManager()
-geiger = geigercounter.Geigercounter(websockets_manager)
+
+geiger = geigercounter.Geigercounter()
+wsock_mgr_status = geigercounter.StatusWebSocketsManager(geiger)
+wsock_mgr_ticks = geigercounter.TicksWebSocketsManager(geiger)
 
 try:
     import config
@@ -46,11 +48,27 @@ def get_websocket_from_request():
     return wsock
 
 
-@app.route('/ws')
+@app.route('/ws_status')
 def handle_ws():
     wsock = get_websocket_from_request()
     log.info("websocket opened")
-    websockets_manager.add_socket(wsock)
+    wsock_mgr_status.add_socket(wsock)
+    log.info("baz")
+    while True:
+        try:
+            message = wsock.receive()
+            if message is None:
+                raise WebSocketError
+            log.info("Received : %s" % message)            
+        except WebSocketError:
+            break
+    log.info("websocket closed")
+
+@app.route('/ws_ticks')
+def handle_ws():
+    wsock = get_websocket_from_request()
+    log.info("websocket opened")
+    wsock_mgr_ticks.add_socket(wsock)
     log.info("baz")
     while True:
         try:

@@ -7,7 +7,8 @@ var selected_profile = 0;
 var selected_profile_name = "leadfree";
 
 var host = "ws://" + window.location.hostname + ":8080";
-var ws = new WebSocket(host+"/ws");
+var ws_status = new WebSocket(host+"/ws_status");
+var ws_ticks = null;
 var snd = new Audio("assets/tock.wav");
 
 var audio = 0;
@@ -42,12 +43,27 @@ function toggleAudio()
     $('#audio-icon').html('<span class="glyphicon glyphicon-volume-up"></span>');
     $('#audio-status').html('<span class="ds-unit">ON</span>');
     audio=1;
+    ws_ticks = new WebSocket(host+"/ws_ticks");
+    ws_ticks.onmessage = function(e)
+    {
+        x = JSON.parse(e.data);
+       console.log(x);
+       switch(x.type)
+       {
+           case "tick":
+                if (audio == 1) snd.play();
+                break;
+           default:
+           
+        }
+    }
   }
   else
   {
     $('#audio-icon').html('<span class="glyphicon glyphicon-volume-off"></span>');
     $('#audio-status').html('<span class="ds-unit">OFF</span>');
     audio=0;
+    ws_ticks.close();
   }
 }
 
@@ -78,12 +94,12 @@ $(document).ready(function()
     else
     {
 
-        ws.onopen = function()
+        ws_status.onopen = function()
         {
-            ws.send("weofewfo");
+            ws_status.send("weofewfo");
         };
 
-        ws.onmessage = function(e)
+        ws_status.onmessage = function(e)
         {
             x = JSON.parse(e.data);
            console.log(x);
@@ -104,7 +120,7 @@ $(document).ready(function()
             }
         }
 
-        ws.onclose = function()
+        ws_status.onclose = function()
         {   
           $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>ERROR 1:</b><br/>Status Websocket not available", {
           ele: 'body', // which element to append to
@@ -117,6 +133,7 @@ $(document).ready(function()
           stackup_spacing: 10 // spacing between consecutively stacked growls.
           });
         };
+
 
         $("#e2").select2(
         {

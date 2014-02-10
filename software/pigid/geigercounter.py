@@ -19,14 +19,18 @@ except ImportError:
     log.warning(msg)
     gpio_available = False
 
-class WebSocketsManager():
-    def __init__(self):
+class WebSocketsManager(threading.Thread):
+    def __init__(self,geiger):
         self.sockets = []
+        self.geiger = geiger
+        threading.Thread.__init__(self)
+        self.daemon = True
+        self.start()
         
     def add_socket(self,socket):
         self.sockets.append(socket)
         log.info("added socket %s"%socket)
-        
+
     def send(self,msg_dict):
         msg_json = json.dumps(msg_dict)
         for socket in self.sockets:
@@ -35,8 +39,25 @@ class WebSocketsManager():
             except WebSocketError:
                 self.sockets.remove(socket)
                 log.error("could not write to socket %s"%socket)
-            except NotImplementedError:
-                pass
+            except NotImplementedError, e:
+                log.error(e)
+    
+class StatusWebSocketsManager(WebSocketsManager):
+    def run(self):
+        while True:
+            self.send(self.geiger.get_state())
+            time.sleep(1)
+            
+class TicksWebSocketsManager(WebSocketsManager):
+    def run(self):
+        last_ticks = self.geiger.totalcount
+        while True:
+            ticks = self.geiger.totalcount-last_ticks
+            last_ticks = self.geiger.totalcount
+            if ticks > 0:
+                self.send({"type":"tick", "count":ticks})
+            time.sleep(0.2)
+            
 
 class TickSimulator (threading.Thread):
     def __init__(self, geiger):
@@ -50,15 +71,13 @@ class TickSimulator (threading.Thread):
             self.geiger.tick()
                 
 class Geigercounter (threading.Thread):
-    def __init__(self, ws_mgr, simulate=False):
+    def __init__(self, simulate=False):
         threading.Thread.__init__(self)
         self.daemon = True
         self.socket = None
         
-        self.ws_mgr = ws_mgr
         self.simulate = simulate
 
-        
         self.last_tick = None
         self.reset()
         self.start()
@@ -73,7 +92,7 @@ class Geigercounter (threading.Thread):
     def tick(self, pin=None):
         self.count += 1
         self.totalcount += 1
-        self.ws_mgr.send({"type":"tick"})
+        #self.ws_mgr.send({"type":"tick"})
     
     def run(self):
         if gpio_available:
@@ -100,7 +119,7 @@ class Geigercounter (threading.Thread):
             self.count = 0
             
             log.debug(self.get_state())
-            self.ws_mgr.send(self.get_state())
+            #self.ws_mgr.send(self.get_state())
 
     def get_state(self):
         msg = {

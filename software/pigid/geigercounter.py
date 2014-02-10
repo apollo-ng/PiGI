@@ -78,7 +78,8 @@ class LogWebSocketsManager(WebSocketsManager):
             self.send(state)
             
     def add_socket(self,socket):
-        history = dict(self.db.RangeIter())
+        fifteen_minutes_ago = (datetime.datetime.now() - datetime.timedelta(minutes=15)).strftime("%s")
+        history = dict(self.db.RangeIter(key_from=fifteen_minutes_ago))
         socket.send(json.dumps({"type":"history","log":history}))
         WebSocketsManager.add_socket(self,socket)
         

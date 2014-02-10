@@ -4,6 +4,7 @@ import random
 import datetime
 import logging
 import json
+import leveldb
 from collections import deque
 from geventwebsocket import WebSocketError
 
@@ -18,7 +19,7 @@ except ImportError:
     msg = "Could not initialize GPIOs, geigercounter operation will only be simulated!"
     log.warning(msg)
     gpio_available = False
-
+            
 class WebSocketsManager(threading.Thread):
     def __init__(self,geiger):
         self.sockets = []
@@ -57,8 +58,31 @@ class TicksWebSocketsManager(WebSocketsManager):
             if ticks > 0:
                 self.send({"type":"tick", "count":ticks})
             time.sleep(0.2)
-            
 
+class LogWebSocketsManager(WebSocketsManager):
+    def __init__(self,geiger):
+        try:
+            self.db = leveldb.LevelDB('./log/geiger_log.db')
+        except Exception, e:
+            log.critical("Could not open logging database: %s"%e)
+        WebSocketsManager.__init__(self,geiger)
+    def run(self):
+        while True:
+            key = datetime.datetime.now().strftime("%s")
+            state = self.geiger.get_state()
+            value = json.dumps(state)
+            self.db.Put(key, value)
+            print "%s : %s"%(key,value)
+            self.send(state)
+            time.sleep(10)
+    
+    def add_socket(self,socket):
+        history = dict(self.db.RangeIter())
+        history["type"] = "history"
+        socket.send(json.dumps(history))
+        WebSocketsManager.add_socket(self,socket)
+        
+        
 class TickSimulator (threading.Thread):
     def __init__(self, geiger):
         threading.Thread.__init__(self)

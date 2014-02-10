@@ -9,3 +9,4 @@ storage/profiles
 config.py
 *.b#*
 *.s#*
+*.db

@@ -495,17 +495,17 @@ $(document).ready(function()
         ws.onmessage = function(e)
         {
             x = JSON.parse(e.data);
-           
+           console.log(x);
            switch(x.type)
            {
                case "tick":
-                    console.log(e.data);
+                    
                     snd.play();
-                   break;
+                    break;
                case "status":
-                   $('#act_cpm').html(parseInt(x.cpm));    
-                    $('#act_eqd').html(parseFloat(x.cps));
-                   break;
+                    $('#act_cpm').html(parseInt(x.cpm));    
+                    $('#act_eqd').html(parseFloat(x.doserate).toFixed(2));
+                    break;
                default:
                
            }

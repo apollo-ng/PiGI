@@ -24,6 +24,8 @@ listening_port = 8080
 gpio_pigi = 4  # Geiger-Counter input
                # we expect a falling edge for every event
 
+tube_rate_factor = 0.00233 #cpm to microsievert/h
+
 ########################################################################
 #
 #   Simulation parameters

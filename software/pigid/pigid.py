@@ -8,7 +8,9 @@ from geventwebsocket import WebSocketHandler, WebSocketError
 
 #import counterd
 import geigercounter
-geiger = geigercounter.Geigercounter()
+
+websockets_manager = geigercounter.WebSocketsManager()
+geiger = geigercounter.Geigercounter(websockets_manager)
 
 try:
     import config
@@ -22,9 +24,8 @@ log = logging.getLogger("pigid")
 log.info("Starting pigid")
 
 app = bottle.Bottle()
-
-
 script_dir = os.path.dirname(os.path.realpath(__file__))
+
 
 @app.route('/')
 def index():
@@ -49,14 +50,14 @@ def get_websocket_from_request():
 def handle_ws():
     wsock = get_websocket_from_request()
     log.info("websocket opened")
+    websockets_manager.add_socket(wsock)
+    log.info("baz")
     while True:
         try:
             message = wsock.receive()
             if message is None:
                 raise WebSocketError
-            log.info("Received : %s" % message)
-            #counterd.counter_start(wsock)
-            geiger.socket = wsock
+            log.info("Received : %s" % message)            
         except WebSocketError:
             break
     log.info("websocket closed")

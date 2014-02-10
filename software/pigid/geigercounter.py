@@ -5,13 +5,11 @@ import datetime
 import logging
 import json
 from collections import deque
+from geventwebsocket import WebSocketError
 
 import config
 
 log = logging.getLogger(__name__)
-
-
-GPIO_PIGI = 4
 
 try:
     import RPi.GPIO as GPIO
@@ -21,6 +19,24 @@ except ImportError:
     log.warning(msg)
     gpio_available = False
 
+class WebSocketsManager():
+    def __init__(self):
+        self.sockets = []
+        
+    def add_socket(self,socket):
+        self.sockets.append(socket)
+        log.info("added socket %s"%socket)
+        
+    def send(self,msg_dict):
+        msg_json = json.dumps(msg_dict)
+        for socket in self.sockets:
+            try:
+                socket.send(msg_json)
+            except WebSocketError:
+                self.sockets.remove(socket)
+                log.error("could not write to socket %s"%socket)
+            except NotImplementedError:
+                pass
 
 class TickSimulator (threading.Thread):
     def __init__(self, geiger):
@@ -30,42 +46,36 @@ class TickSimulator (threading.Thread):
     
     def run(self):
         while True:
-            time.sleep(random.random()*1)
+            time.sleep(random.random()/1)
             self.geiger.tick()
                 
 class Geigercounter (threading.Thread):
-    def __init__(self, simulate=False):
+    def __init__(self, ws_mgr, simulate=False):
         threading.Thread.__init__(self)
         self.daemon = True
         self.socket = None
-        self.last_tick = None
+        
+        self.ws_mgr = ws_mgr
         self.simulate = simulate
+
+        
+        self.last_tick = None
         self.reset()
         self.start()
 
     def reset(self):
         self.count=0
+        self.totalcount=0
     
     def tick(self, pin=None):
         self.count += 1
-        now = datetime.datetime.now()
-        
-        if self.last_tick is not None:
-            time_delta = (now - self.last_tick ).total_seconds()
-            cpm = 60.0/time_delta
-            #print "cpm: %.2f"%cpm
-        #print "Ticks: %d"%self.count
-        if self.socket:
-            try:
-                self.socket.send(json.dumps({"type":"tick"}))
-            except:
-                print "SOCKET ERROR"
-        self.last_tick = now
+        self.totalcount += 1
+        self.ws_mgr.send({"type":"tick"})
     
     def run(self):
         if gpio_available:
             GPIO.setmode(GPIO.BCM)
-            GPIO.setup(GPIO_PIGI,GPIO.IN)
+            GPIO.setup(config.gpio_pigi,GPIO.IN)
             GPIO.add_event_detect(GPIO_PIGI,GPIO.FALLING)
             GPIO.add_event_callback(GPIO_PIGI,self.tick)
         else:
@@ -90,20 +100,17 @@ class Geigercounter (threading.Thread):
             #print "cpm: %.2f"%(r*60)
             print "cpm: %d"%sum(cpm_fifo)
             print
+            cpm = sum(cpm_fifo)
+            
             msg = {
                 "type": "status",
                 "cps": self.count,
-                #"cpm": round(r*60,2),
-                "cpm": sum(cpm_fifo),
+                "cpm": cpm,
+                "total": self.totalcount,
+                "doserate": round(cpm * config.tube_rate_factor,2)
             }
             self.count = 0
-            if self.socket:
-                try:
-                    self.socket.send(json.dumps(msg))
-                except:
-                    print "SOCKET ERROR"
-            
-        
+            self.ws_mgr.send(msg)
 
     def get_state(self):
         state = {

@@ -172,7 +172,7 @@ $(document).ready(function()
 
         ws_status.onopen = function()
         {
-            ws_status.send("weofewfo");
+            console.log('Status Update socket opened');
         };
 
         ws_status.onmessage = function(e)
@@ -181,15 +181,57 @@ $(document).ready(function()
            console.log(x);
            switch(x.type)
            {
-               case "tick":
-
-                    snd.play();
-                    break;
                case "status":
                     if(count_unit=="CPM") $('#act_count').html(parseInt(x.cpm));
                     if(count_unit=="CPS") $('#act_count').html(parseInt(x.cps));
-                    $('#act_eqd').html(parseFloat(x.doserate).toFixed(2));
-                    break;
+
+
+                    // INES class identification
+                    var doserate = parseFloat(x.doserate);
+
+                    if(doserate < 0.1)
+                    {
+                        console.log("ebola");
+                        // Level 0 Local Background
+                        $('#radcon').html('0');
+                        $('#radcon_name').html('LDR');
+                        $('#eqd_unit').html('&micro;Sv/h');
+
+                    }
+                    else if (doserate < 10)
+                    {
+                        // Level 1 Anomaly
+                        $('#radcon').html('1');
+                        $('#radcon_name').html('Jet');
+                        $('#eqd_unit').html('&micro;Sv/h');
+                    }
+                    else if (doserate < 1000)
+                    {
+                        // Level 2 Incident
+                    }
+                    else if (doserate < 100000)
+                    {
+                        // Level 3
+                    }
+                    else if (doserate < 1000000)
+                    {
+                        // Level 4
+                    }
+                    else if (doserate < 10000000)
+                    {
+                        // Level 5
+                    }
+                    else if (doserate < 100000000)
+                    {
+                        // Level 6
+                    }
+                    else
+                    {
+                        // Level 7
+                    }
+
+                    $('#act_eqd').html(doserate.toFixed(2));
+               break;
 
                default:
 

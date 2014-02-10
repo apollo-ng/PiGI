@@ -31,21 +31,24 @@
     <div class="ds-title">Counter</div>
     <div class="ds-title">Equivalent Dose</div>
     <div class="ds-title">Class</div>
+    <div class="ds-title ds-title-r ds-action pull-right" style="width: 75px;" onClick="toggleAudio()">AudiAudioo</div>
    </div>
    <div class="ds-panel">
-    <div class="display ds-num"><span id="act_cpm">00000</span></div>
+    <div class="display ds-num" onClick="toggleCounter()"><span id="act_count">00000</span></div>
     <div class="display ds-num ds-target"><span id="act_eqd">00000</span></div>
-    <div class="display ds-num"><span class="glyphicon glyphicon-tree-deciduous"></span></div>
-    <div class="display pull-right">
-        <span class="glyphicon glyphicon-volume-off"></span>
-        <span class="glyphicon glyphicon-volume-up"></span>
+    <div class="display ds-num radcon-1">5<span class="radcon-icon glyphicon glyphicon-tree-deciduous"></span></div>
+    <div class="display ds-action pull-right" id="audio-icon" onClick="toggleAudio()">
+     <span class="glyphicon glyphicon-volume-off"></span>
     </div>
    </div>
    <div class="clearfix"></div>
-    <div class="ds-bottom-panel">
-        <div class="ds-bottom"><span class="ds-unit">CPM</span></div>
-        <div class="ds-bottom"><span class="ds-unit">&micro;Sv/h</span></div>
-        <div class="ds-bottom"><span class="ds-unit">Natural LDR</span></div>
+   <div class="ds-bottom-panel">
+    <div class="ds-bottom"><span class="ds-unit" id="count_unit">CPM</span></div>
+    <div class="ds-bottom"><span class="ds-unit">&micro;Sv/h</span></div>
+    <div class="ds-bottom"><span class="ds-unit">Natural LDR</span></div>
+    <div class="ds-bottom ds-action ds-bottom-r pull-right" style="width: 75px;" id="audio-status" onClick="toggleAudio()">
+     <span class="ds-unit">OFF</span>
+    </div>
    </div>
   </div>
   <div class="panel panel-default">

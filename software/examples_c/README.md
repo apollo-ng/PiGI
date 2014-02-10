@@ -1,5 +1,9 @@
 # Software
 
+This is only examples/prove-of-concept code which is
+only left here as an example. The current softfware
+implementation is found in ../pigid
+
 ![Image](software-overview.png)
 
 This is how it should look like :)

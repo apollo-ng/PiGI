@@ -37,6 +37,81 @@ graph.live =
 };
 
 
+function getOptions()
+{
+
+  var options =
+  {
+
+    series:
+    {
+        lines:
+        {
+            show: true
+        },
+
+        points:
+        {
+            show: true,
+            radius: 5,
+            symbol: "circle"
+        },
+
+        shadowSize: 3
+
+    },
+
+	xaxis:
+    {
+      //tickSize: 30,
+      mode: 'time',
+      tickColor: 'rgba(216, 211, 197, 0.2)',
+      font:
+      {
+        size: 14,
+        lineHeight: 14,        weight: "normal",
+        family: "Digi",
+        variant: "small-caps",
+        color: "rgba(216, 211, 197, 0.85)"
+      }
+	},
+
+	yaxis:
+    {
+  	  tickSize: 0.1,
+      tickDecimals: 1,
+      draggable: false,
+      tickColor: 'rgba(216, 211, 197, 0.2)',
+      font:
+      {
+        size: 14,
+        lineHeight: 14,
+        weight: "normal",
+        family: "Digi",
+        variant: "small-caps",
+        color: "rgba(216, 211, 197, 0.85)"
+      }
+	},
+
+	grid:
+    {
+	  color: 'rgba(216, 211, 197, 0.55)',
+      borderWidth: 1,
+      labelMargin: 10,
+      mouseActiveRadius: 50
+	},
+
+    legend:
+    {
+      show: false
+    }
+  }
+
+  return options;
+
+}
+
+
 function toggleAudio()
 {
   if (audio==0)
@@ -55,7 +130,7 @@ function toggleAudio()
                 if (audio == 1) snd.play();
                 break;
            default:
-           
+
         }
     }
   }
@@ -107,22 +182,22 @@ $(document).ready(function()
            switch(x.type)
            {
                case "tick":
-                    
+
                     snd.play();
                     break;
                case "status":
-                    if(count_unit=="CPM") $('#act_count').html(parseInt(x.cpm));    
+                    if(count_unit=="CPM") $('#act_count').html(parseInt(x.cpm));
                     if(count_unit=="CPS") $('#act_count').html(parseInt(x.cps));
                     $('#act_eqd').html(parseFloat(x.doserate).toFixed(2));
                     break;
-        
+
                default:
-               
+
             }
         }
 
         ws_status.onclose = function()
-        {   
+        {
           $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>ERROR 1:</b><br/>Status Websocket not available", {
           ele: 'body', // which element to append to
           type: 'error', // (null, 'info', 'error', 'success')
@@ -137,15 +212,24 @@ $(document).ready(function()
 
         ws_log.onmessage = function(e)
         {
-            x = JSON.parse(e.data);
+           var x = JSON.parse(e.data);
            console.log(x);
            switch(x.type)
            {
                case "history":
-                    console.log("HISTORY")
+               console.log("HISTORY");
+               $.each(x.log, function(i,v_json)
+               {
+                    var v = JSON.parse(v_json);
+                    graph.live.data.push([i*1000, v.doserate]);
+                    graph.plot = $.plot("#graph_container", [ graph.profile, graph.live ] , getOptions());
+               });
+
                     break;
                case "status":
                     console.log("UPDATE")
+                    graph.live.data.push([x.timestamp*1000, x.doserate]);
+                    graph.plot = $.plot("#graph_container", [ graph.profile, graph.live ] , getOptions());
                     break;
                default:
             }

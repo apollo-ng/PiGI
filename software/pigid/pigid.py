@@ -34,6 +34,10 @@ script_dir = os.path.dirname(os.path.realpath(__file__))
 def index():
     return bottle.redirect('/pigi/index.html')
 
+@app.route('/favicon.ico')
+def favicon():
+    return bottle.static_file("favicon.ico", root='./public/')
+
 
 @app.route('/pigi/:filename#.*#')
 def send_static(filename):

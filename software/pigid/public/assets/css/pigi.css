@@ -35,8 +35,7 @@ body {
 .display {
     display: inline-block;
     text-align: right;
-    padding-right: 5px;
-    font-size: 40px;
+    font-size: 38px;
     font-weight: normal;
     height: 45px;
     line-height: 45px;
@@ -77,7 +76,7 @@ body {
     -moz-border-radius-bottomright: 6px;
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
-    height: 23px;
+    height: 24px;
     background: rgb(56,56,56);
     background: -moz-linear-gradient(top, rgba(56,56,56,1) 0%, rgba(14,14,14,1) 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(56,56,56,1)), color-stop(100%,rgba(14,14,14,1)));
@@ -102,6 +101,11 @@ body {
     text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.75);
 }
 
+.ds-title-r {
+    border-right: none;
+    border-left: 1px solid #b9b6af;
+}
+
 .ds-bottom {
     display: inline-block;
     font-size: 10px;
@@ -115,6 +119,11 @@ body {
     text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.75);
 }
 
+.ds-bottom-r {
+    border-left: 1px solid #69665f;
+    border-right: none;
+}
+
 .ds-num {
     width: 110px;
     font-family: "Digi";
@@ -122,6 +131,7 @@ body {
     white-space: nowrap;
     text-align: center;
     text-shadow: 0 0 25px rgba(0, 0, 0, 1);
+    padding-right: 5px;
 }
 
 .ds-input {
@@ -141,30 +151,52 @@ body {
 
 .ds-unit {
     position: relative;
-    top: -1px;
+    top: 0px;
     font-family: "Arial";
     font-size: 14px;
     vertical-align: top;
     line-height: 14px;
-    background: rgb(39,38,36);
-    background: -moz-linear-gradient(top, rgba(39,38,36,1) 0%, rgba(56,56,56,1) 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(39,38,36,1)), color-stop(100%,rgba(56,56,56,1)));
-    background: -webkit-linear-gradient(top, rgba(39,38,36,1) 0%,rgba(56,56,56,1) 100%);
-    background: -o-linear-gradient(top, rgba(39,38,36,1) 0%,rgba(56,56,56,1) 100%);
-    background: -ms-linear-gradient(top, rgba(39,38,36,1) 0%,rgba(56,56,56,1) 100%);
-    background: linear-gradient(to bottom, rgba(39,38,36,1) 0%,rgba(56,56,56,1) 100%);
-    -webkit-border-bottom-left-radius: 3px;
-    -webkit-border-bottom-right-radius: 3px;
-    -moz-border-radius-bottomleft: 3px;
-    -moz-border-radius-bottomright: 3px;
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
+    background: rgb(24,23,20);
+    background: -moz-linear-gradient(top, rgba(24,23,20,1) 0%, rgba(56,55,52,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(24,23,20,1)), color-stop(100%,rgba(56,55,52,1)));
+    background: -webkit-linear-gradient(top, rgba(24,23,20,1) 0%,rgba(56,55,52,1) 100%);
+    background: -o-linear-gradient(top, rgba(24,23,20,1) 0%,rgba(56,55,52,1) 100%);
+    background: -ms-linear-gradient(top, rgba(24,23,20,1) 0%,rgba(56,55,52,1) 100%);
+    background: linear-gradient(to bottom, rgba(24,23,20,1) 0%,rgba(56,55,52,1) 100%);
+    -webkit-border-bottom-left-radius: 4px;
+    -webkit-border-bottom-right-radius: 4px;
+    -moz-border-radius-bottomleft: 4px;
+    -moz-border-radius-bottomright: 4px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
     padding-left: 7px;
     padding-right: 7px;
     padding-bottom: 2px;
-    border-left: 1px solid #111;
+    border-left: 1px solid #222;
     border-right: 1px solid #555;
     border-bottom: 1px solid #555;
+}
+
+.radcon-icon {
+    font-size: 30px;
+}
+
+.radcon-1 {
+    color: #75890c;     
+}
+
+
+#audio-icon  {
+    border-left: 1px solid #b9b6af; 
+    width: 75px;
+    text-align: center;
+    font-size: 35px;
+    line-height: 45px;
+    height: 45px;
+}
+
+.ds-action {
+    cursor: pointer;
 }
 
 .ds-led {

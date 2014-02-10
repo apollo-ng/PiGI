@@ -32,6 +32,53 @@ body {
     box-shadow: 0 0 1.1em 0 rgba(0,0,0,0.55);
 }
 
+#mfd  {
+    margin-top: 15px;
+    color: #d8d3c5;
+    font-weight: normal;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+    border: 1px solid #ddd;
+    height: 90px;
+    -moz-box-shadow: 0 0 1.1em 0 rgba(0,0,0,0.55);
+    -webkit-box-shadow: 0 0 1.5em 0 rgba(0,0,0,0.55);
+    background: #3F3E3A url('../images/panel_bg.png') repeat;
+}
+
+.mfd-block {
+    float: left;
+    width: 110px;
+    text-align: center;
+    border-right: 1px solid #69665f;
+}
+
+.mfd-title {
+    font-size: 10px;
+    height: 18px;
+    line-height: 18px;
+    width: 110px;
+    border-right: 1px solid #b9b6af;
+    vertical-align: top;
+    text-align: center;
+    color: #8B8989;
+    text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.75);
+    background-image: -webkit-gradient(linear,left 0,left 100%,from(#f5f5f5),to(#e8e8e8));
+    background-image: -webkit-linear-gradient(top,#f5f5f5 0,#e8e8e8 100%);
+    background-image: -moz-linear-gradient(top,#f5f5f5 0,#e8e8e8 100%);
+    background-image: linear-gradient(to bottom,#f5f5f5 0,#e8e8e8 100%);
+}
+
+.mfd-display {
+    font-family: "Digi";
+    font-size: 38px;
+    font-weight: normal;
+    height: 45px;
+    line-height: 45px;
+    vertical-align: middle;
+    color: #d8d3c5;
+}
+
 .display {
     display: inline-block;
     text-align: right;
@@ -131,7 +178,6 @@ body {
     white-space: nowrap;
     text-align: center;
     text-shadow: 0 0 25px rgba(0, 0, 0, 1);
-    padding-right: 5px;
 }
 
 .ds-input {

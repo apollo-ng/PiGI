@@ -78,8 +78,7 @@ class LogWebSocketsManager(WebSocketsManager):
     
     def add_socket(self,socket):
         history = dict(self.db.RangeIter())
-        history["type"] = "history"
-        socket.send(json.dumps(history))
+        socket.send(json.dumps({"type":"history","log":history}))
         WebSocketsManager.add_socket(self,socket)
         
         

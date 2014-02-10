@@ -66,6 +66,9 @@ class Geigercounter (threading.Thread):
     def reset(self):
         self.count=0
         self.totalcount=0
+        self.cps=0
+        self.cpm=0
+        self.eqd=0
     
     def tick(self, pin=None):
         self.count += 1
@@ -85,35 +88,26 @@ class Geigercounter (threading.Thread):
         rate_step = 1
         
         cpm_fifo = deque([],60*rate_step)
-        rate_fifo = deque([],rate_length)
-        r2_fifo = deque([],rate_length)
         while True:
             time.sleep(rate_step)
+            
             cpm_fifo.appendleft(self.count)
-            #rate_fifo.appendleft(self.count)
-            print "cps: %d"%(self.count)
+
+            self.cpm = int(sum(cpm_fifo)*60.0/len(cpm_fifo))
+            self.cps = self.count
+            self.eqd = round(self.cpm * config.tube_rate_factor,2)
             
-            #rate = float(sum(rate_fifo))/float(len(rate_fifo))/float(rate_step)
-            
-            #r2_fifo.appendleft(rate)
-            #r = sum(r2_fifo)/float(len(rate_fifo))
-            #print "cpm: %.2f"%(r*60)
-            print "cpm: %d"%sum(cpm_fifo)
-            print
-            cpm = sum(cpm_fifo)
-            
-            msg = {
-                "type": "status",
-                "cps": self.count,
-                "cpm": cpm,
-                "total": self.totalcount,
-                "doserate": round(cpm * config.tube_rate_factor,2)
-            }
             self.count = 0
-            self.ws_mgr.send(msg)
+            
+            log.debug(self.get_state())
+            self.ws_mgr.send(self.get_state())
 
     def get_state(self):
-        state = {
-            'count': self.counts,
-        }
-        return state
+        msg = {
+                "type": "status",
+                "cps": self.cps,
+                "cpm": self.cpm,
+                "total": self.totalcount,
+                "doserate": self.eqd
+            }
+        return msg

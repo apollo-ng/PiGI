@@ -8,6 +8,7 @@ var selected_profile_name = "leadfree";
 
 var host = "ws://" + window.location.hostname + ":8080";
 var ws_status = new WebSocket(host+"/ws_status");
+var ws_log = new WebSocket(host+"/ws_log");
 var ws_ticks = null;
 var snd = new Audio("assets/tock.wav");
 
@@ -134,6 +135,21 @@ $(document).ready(function()
           });
         };
 
+        ws_log.onmessage = function(e)
+        {
+            x = JSON.parse(e.data);
+           console.log(x);
+           switch(x.type)
+           {
+               case "history":
+                    console.log("HISTORY")
+                    break;
+               case "status":
+                    console.log("UPDATE")
+                    break;
+               default:
+            }
+        }
 
         $("#e2").select2(
         {

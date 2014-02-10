@@ -13,6 +13,7 @@ import geigercounter
 geiger = geigercounter.Geigercounter()
 wsock_mgr_status = geigercounter.StatusWebSocketsManager(geiger)
 wsock_mgr_ticks = geigercounter.TicksWebSocketsManager(geiger)
+wsock_mgr_log = geigercounter.LogWebSocketsManager(geiger)
 
 try:
     import config
@@ -49,11 +50,10 @@ def get_websocket_from_request():
 
 
 @app.route('/ws_status')
-def handle_ws():
+def handle_ws_status():
     wsock = get_websocket_from_request()
     log.info("websocket opened")
     wsock_mgr_status.add_socket(wsock)
-    log.info("baz")
     while True:
         try:
             message = wsock.receive()
@@ -65,11 +65,10 @@ def handle_ws():
     log.info("websocket closed")
 
 @app.route('/ws_ticks')
-def handle_ws():
+def handle_ws_ticks():
     wsock = get_websocket_from_request()
     log.info("websocket opened")
     wsock_mgr_ticks.add_socket(wsock)
-    log.info("baz")
     while True:
         try:
             message = wsock.receive()
@@ -80,6 +79,20 @@ def handle_ws():
             break
     log.info("websocket closed")
 
+@app.route('/ws_log')
+def handle_ws_log():
+    wsock = get_websocket_from_request()
+    log.info("websocket opened")
+    wsock_mgr_log.add_socket(wsock)
+    while True:
+        try:
+            message = wsock.receive()
+            if message is None:
+                raise WebSocketError
+            log.info("Received : %s" % message)            
+        except WebSocketError:
+            break
+    log.info("websocket closed")
 
 def main():
     ip = config.listening_ip

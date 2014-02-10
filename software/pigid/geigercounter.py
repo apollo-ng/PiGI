@@ -70,6 +70,7 @@ class LogWebSocketsManager(WebSocketsManager):
         while True:
             key = datetime.datetime.now().strftime("%s")
             state = self.geiger.get_state()
+            state["timestamp"] = key
             value = json.dumps(state)
             self.db.Put(key, value)
             print "%s : %s"%(key,value)

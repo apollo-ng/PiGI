@@ -76,8 +76,8 @@ class Geigercounter (threading.Thread):
         if gpio_available:
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(config.gpio_pigi,GPIO.IN)
-            GPIO.add_event_detect(GPIO_PIGI,GPIO.FALLING)
-            GPIO.add_event_callback(GPIO_PIGI,self.tick)
+            GPIO.add_event_detect(config.gpio_pigi,GPIO.FALLING)
+            GPIO.add_event_callback(config.gpio_pigi,self.tick)
         else:
             TickSimulator(self).start()
         

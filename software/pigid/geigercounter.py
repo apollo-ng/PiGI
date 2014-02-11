@@ -19,7 +19,8 @@ except ImportError:
     msg = "Could not initialize GPIOs, geigercounter operation will only be simulated!"
     log.warning(msg)
     gpio_available = False
-            
+
+
 class WebSocketsManager(threading.Thread):
     def __init__(self,geiger):
         self.sockets = []
@@ -42,12 +43,14 @@ class WebSocketsManager(threading.Thread):
                 log.error("could not write to socket %s"%socket)
             except NotImplementedError, e:
                 log.error(e)
+
     
 class StatusWebSocketsManager(WebSocketsManager):
     def run(self):
         while True:
             self.send(self.geiger.get_state())
             time.sleep(1)
+
             
 class TicksWebSocketsManager(WebSocketsManager):
     def run(self):
@@ -58,6 +61,7 @@ class TicksWebSocketsManager(WebSocketsManager):
             if ticks > 0:
                 self.send({"type":"tick", "count":ticks})
             time.sleep(0.2)
+
 
 class LogWebSocketsManager(WebSocketsManager):
     def __init__(self,geiger):
@@ -74,7 +78,7 @@ class LogWebSocketsManager(WebSocketsManager):
             state["timestamp"] = key
             value = json.dumps(state)
             self.db.Put(key, value)
-            print "%s : %s"%(key,value)
+            log.debug("Logging: %s : %s"%(key,value))
             self.send(state)
             
     def add_socket(self,socket):
@@ -82,8 +86,8 @@ class LogWebSocketsManager(WebSocketsManager):
         history = dict(self.db.RangeIter(key_from=fifteen_minutes_ago))
         socket.send(json.dumps({"type":"history","log":history}))
         WebSocketsManager.add_socket(self,socket)
-        
-        
+
+
 class TickSimulator (threading.Thread):
     def __init__(self, geiger):
         threading.Thread.__init__(self)
@@ -94,16 +98,13 @@ class TickSimulator (threading.Thread):
         while True:
             time.sleep(random.random()/1)
             self.geiger.tick()
-                
+
+
 class Geigercounter (threading.Thread):
-    def __init__(self, simulate=False):
+    def __init__(self):
         threading.Thread.__init__(self)
         self.daemon = True
         self.socket = None
-        
-        self.simulate = simulate
-
-        self.last_tick = None
         self.reset()
         self.start()
 
@@ -117,7 +118,6 @@ class Geigercounter (threading.Thread):
     def tick(self, pin=None):
         self.count += 1
         self.totalcount += 1
-        #self.ws_mgr.send({"type":"tick"})
     
     def run(self):
         if gpio_available:
@@ -128,12 +128,9 @@ class Geigercounter (threading.Thread):
         else:
             TickSimulator(self).start()
         
-        rate_length = 5
-        rate_step = 1
-        
-        cpm_fifo = deque([],60*rate_step)
+        cpm_fifo = deque([],60)
         while True:
-            time.sleep(rate_step)
+            time.sleep(1)
             
             cpm_fifo.appendleft(self.count)
 
@@ -142,9 +139,7 @@ class Geigercounter (threading.Thread):
             self.eqd = round(self.cpm * config.tube_rate_factor,2)
             
             self.count = 0
-            
             log.debug(self.get_state())
-            #self.ws_mgr.send(self.get_state())
 
     def get_state(self):
         msg = {

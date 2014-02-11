@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import os
 import logging
 import json
@@ -26,7 +28,7 @@ wsock_mgr_log = geigercounter.LogWebSocketsManager(geiger)
 
 app = bottle.Bottle()
 script_dir = os.path.dirname(os.path.realpath(__file__))
-
+public_dir = os.path.join(script_dir,"public")
 
 @app.route('/')
 def index():
@@ -34,12 +36,12 @@ def index():
 
 @app.route('/favicon.ico')
 def favicon():
-    return bottle.static_file("favicon.ico", root='./public/')
+    return bottle.static_file("favicon.ico", root=public_dir)
 
 @app.route('/pigi/:filename#.*#')
 def send_static(filename):
     log.debug("serving %s" % filename)
-    return bottle.static_file(filename, root='./public/')
+    return bottle.static_file(filename, root=public_dir)
 
 def get_websocket_from_request():
     env = bottle.request.environ

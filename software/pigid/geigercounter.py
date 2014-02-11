@@ -1,4 +1,5 @@
 import threading
+import os
 import time
 import random
 import datetime
@@ -65,8 +66,11 @@ class TicksWebSocketsManager(WebSocketsManager):
 
 class LogWebSocketsManager(WebSocketsManager):
     def __init__(self,geiger):
-        try:
-            self.db = leveldb.LevelDB('./log/geiger_log.db')
+        script_dir = os.path.dirname(os.path.realpath(__file__))
+        log_dir = os.path.join(script_dir,"log","geiger_log.db")
+	
+	try:
+            self.db = leveldb.LevelDB(log_dir)
         except Exception, e:
             log.critical("Could not open logging database: %s"%e)
         WebSocketsManager.__init__(self,geiger)

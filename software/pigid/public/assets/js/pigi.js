@@ -120,7 +120,7 @@ $(document).ready(function()
                 animationEnabled: false,
                 backgroundColor: "rgba(13,12,8,0.25)",
                 title:{ text: "" },
-                axisY:{ labelFontFamily: "Digi", gridThickness: 0, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
+                axisY:{ minimum: 0, labelFontFamily: "Digi", gridThickness: 0, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
                 axisX:{ valueFormatString: "HH:mm", labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
                 data: [{ type: "column", color: "rgba(117,137,12,0.8)", dataPoints: points }]
               });

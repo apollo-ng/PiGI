@@ -14,149 +14,69 @@ var snd = new Audio("assets/tock.wav");
 
 var audio = 0;
 var count_unit = "CPM";
+var chart = null;
+var points= [];
+
+var jQT = new $.jQTouch({    // `new` keyword is optional.
+    icon: 'jqtouch.png',
+    statusBar: 'black-translucent',
+    preloadImages: []
+});
+
+  // Some sample Javascript functions:
+            $(function(){
+
+                // Show a swipe event on swipe test
+                $('#swipeme').swipe(function(evt, data) {
+                    var details = !data ? '': '<strong>' + data.direction + '/' + data.deltaX +':' + data.deltaY + '</strong>!';
+                    $(this).html('You swiped ' + details );
+                    $(this).parent().after('<li>swiped!</li>')
+                });
+
+                $('#tapme').tap(function(){
+                    $(this).parent().after('<li>tapped!</li>')
+                });
+
+                $('a[target="_blank"]').bind('click', function() {
+                    if (confirm('This link opens in a new window.')) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                });
+
+                // Page animation callback events
+                $('#pageevents').
+                    bind('pageAnimationStart', function(e, info){
+                        $(this).find('.info').append('Started animating ' + info.direction + '&hellip;  And the link ' +
+                            'had this custom data: ' + $(this).data('referrer').data('custom') + '<br>');
+                    }).
+                    bind('pageAnimationEnd', function(e, info){
+                        $(this).find('.info').append('Finished animating ' + info.direction + '.<br><br>');
+
+                    });
+
+                // Page animations end with AJAX callback event, example 1 (load remote HTML only first time)
+                $('#callback').bind('pageAnimationEnd', function(e, info){
+                    // Make sure the data hasn't already been loaded (we'll set 'loaded' to true a couple lines further down)
+                    if (!$(this).data('loaded')) {
+                        // Append a placeholder in case the remote HTML takes its sweet time making it back
+                        // Then, overwrite the "Loading" placeholder text with the remote HTML
+                        $(this).append($('<div>Loading</div>').load('ajax.html .info', function() {
+                            // Set the 'loaded' var to true so we know not to reload
+                            // the HTML next time the #callback div animation ends
+                            $(this).parent().data('loaded', true);
+                        }));
+                    }
+                });
+                // Orientation callback event
+                $('#jqt').bind('turn', function(e, data){
+                    $('#orient').html('Orientation: ' + data.orientation);
+                });
+
+            });
 
 
-if(window.webkitRequestAnimationFrame) window.requestAnimationFrame = window.webkitRequestAnimationFrame;
-
-graph.profile =
-{
-    label: "Profile",
-    data: [],
-    points: { show: false },
-    color: "#75890c",
-    draggable: false
-};
-
-graph.live =
-{
-    label: "Live",
-    data: [],
-    points: { show: false },
-    color: "#d8d3c5",
-    draggable: false
-};
-
-
-function getOptions()
-{
-
-  var options =
-  {
-
-    series:
-    {
-        lines:
-        {
-            show: true
-        },
-
-        points:
-        {
-            show: true,
-            radius: 5,
-            symbol: "circle"
-        },
-
-        shadowSize: 3
-
-    },
-
-	xaxis:
-    {
-      //tickSize: 30,
-      mode: 'time',
-      tickColor: 'rgba(216, 211, 197, 0.2)',
-      font:
-      {
-        size: 14,
-        lineHeight: 14,        weight: "normal",
-        family: "Digi",
-        variant: "small-caps",
-        color: "rgba(216, 211, 197, 0.85)"
-      }
-	},
-
-	yaxis:
-    {
-  	  tickSize: 0.1,
-      tickDecimals: 1,
-      draggable: false,
-      tickColor: 'rgba(216, 211, 197, 0.2)',
-      font:
-      {
-        size: 14,
-        lineHeight: 14,
-        weight: "normal",
-        family: "Digi",
-        variant: "small-caps",
-        color: "rgba(216, 211, 197, 0.85)"
-      }
-	},
-
-	grid:
-    {
-	  color: 'rgba(216, 211, 197, 0.55)',
-      borderWidth: 1,
-      labelMargin: 10,
-      mouseActiveRadius: 50
-	},
-
-    legend:
-    {
-      show: false
-    }
-  }
-
-  return options;
-
-}
-
-
-function toggleAudio()
-{
-  if (audio==0)
-  {
-    $('#audio-icon').html('<span class="glyphicon glyphicon-volume-up"></span>');
-    $('#audio-status').html('<span class="ds-unit">ON</span>');
-    audio=1;
-    ws_ticks = new WebSocket(host+"/ws_ticks");
-    ws_ticks.onmessage = function(e)
-    {
-        x = JSON.parse(e.data);
-       console.log(x);
-       switch(x.type)
-       {
-           case "tick":
-                if (audio == 1) snd.play();
-                break;
-           default:
-
-        }
-    }
-  }
-  else
-  {
-    $('#audio-icon').html('<span class="glyphicon glyphicon-volume-off"></span>');
-    $('#audio-status').html('<span class="ds-unit">OFF</span>');
-    audio=0;
-    ws_ticks.close();
-  }
-}
-
-function toggleCounter()
-{
-  if(count_unit=="CPM")
-  {
-     $('#count_unit').html('CPS');
-     count_unit = "CPS";
-  }
-  else
-  {
-      $('#count_unit').html('CPM');
-      count_unit = "CPM";
-
-  }
-}
 
 
 $(document).ready(function()
@@ -260,37 +180,53 @@ $(document).ready(function()
            {
                case "history":
                console.log("HISTORY");
+
+
+
+
+
                $.each(x.log, function(i,v_json)
                {
                     var v = JSON.parse(v_json);
-                    graph.live.data.push([i*1000, v.doserate]);
-                    graph.plot = $.plot("#graph_container", [ graph.profile, graph.live ] , getOptions());
+                    points.push({ "x": new Date(i*1000), "y":v.doserate});
+                    //graph.live.data.push([i*1000, v.doserate]);
+                    //graph.plot = $.plot("#graph_container", [ graph.profile, graph.live ] , getOptions());
                });
+
+                chart = new CanvasJS.Chart("chartContainer",
+    {
+
+      title:{
+      text: ""
+      },
+       data: [
+      {
+        type: "line",
+
+        dataPoints: points
+      }
+      ]
+    });
+               chart.render();
 
                     break;
                case "status":
                     console.log("UPDATE")
-                    graph.live.data.push([x.timestamp*1000, x.doserate]);
-                    while(graph.live.data[0][0] < (x.timestamp - 15*60)*1000) graph.live.data.shift();
-                    
-                    graph.plot = $.plot("#graph_container", [ graph.profile, graph.live ] , getOptions());
+
+
+                    points.push({ "x": new Date(x.timestamp*1000), "y":x.doserate});
+
+                    while(points[0].x < new Date((x.timestamp-15*60)*1000))
+                    {
+                      points.shift();
+                    }
+
+                    chart.render();
+                    //graph.live.data.push([x.timestamp*1000, x.doserate]);
+                    //graph.plot = $.plot("#graph_container", [ graph.profile, graph.live ] , getOptions());
                     break;
                default:
             }
         }
-
-        $("#e2").select2(
-        {
-            placeholder: "Select Profile",
-            allowClear: false,
-            minimumResultsForSearch: -1
-        });
-
-
-        $("#e2").on("change", function(e)
-        {
-            updateProfile(e.val);
-        });
-
     }
 });

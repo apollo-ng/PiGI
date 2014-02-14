@@ -1,7 +1,7 @@
 # pigid - Raspberry Pi Geiger Interface Daemon
 
 Python/HTML5/websocket software suite for analyzing, collecting,
-distributing and showing radiation data.
+distributing and monitoring radiation data registered by the PiGI-Module.
 
 ## Screenshot in Action
 

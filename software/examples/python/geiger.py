@@ -27,7 +27,7 @@ class GeigerCounter():
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(GPIO_PIGI,GPIO.IN)
             GPIO.add_event_detect(GPIO_PIGI,GPIO.FALLING)
-            GPIO.add_event_callback(GPIO_PIGI,gc.tick)
+            GPIO.add_event_callback(GPIO_PIGI,self.tick)
     
     def simulate_ticking(self):
         while True:

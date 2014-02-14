@@ -7,20 +7,31 @@
 }
 
 .mfd-display {
+    display: inline-block;
     font-family: "Digi";
     font-size: 38px;
     font-weight: normal;
-    height: 45px;
-    line-height: 45px;
+    height: 40px;
+    width: 100px;
+    line-height: 40px;
     vertical-align: middle;
+    text-align: center;
     color: #d8d3c5;
     border: 1px solid #000;
+    background: rgba(13,12,8,0.25);
+    -moz-box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55);
+    -webkit-box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55);
+    box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55);
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
 }
 
 #chartContainer {
-    margin: 20px;
+    margin: 10px;
+    margin-bottom: 0;
     width: auto;
-    height: 300px;
+    height: 400px;
     overflow: hidden;
     -moz-box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55);
     -webkit-box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55);
@@ -35,3 +46,14 @@
 .canvasjs-chart-credit {
     display: none;
 }
+
+ div#jqt .floaty {
+                -webkit-border-radius: 10px;
+                -webkit-box-shadow: rgba(0,0,0, .5) 0px 1px 1px;
+                width: 90%;
+                margin: 0 5%;
+                padding: 5px 10px;
+                background: rgba(255,255,255,.7);
+                color: #000;
+                z-index:20;
+            }

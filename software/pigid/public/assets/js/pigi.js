@@ -1,8 +1,3 @@
-var state = "IDLE";
-var state_last = "";
-var graph = [ 'profile', 'live'];
-
-
 var host = "ws://" + window.location.hostname + ":8080";
 var ws_status = new WebSocket(host+"/ws_status");
 var ws_log = new WebSocket(host+"/ws_log");
@@ -20,13 +15,66 @@ var jQT = new $.jQTouch({    // `new` keyword is optional.
     preloadImages: []
 });
 
-  // Some sample Javascript functions:
-            $(function(){
+$(function(){
+
+             $('#togglefloaty').click(function(){
+                    $('.floaty').toggleFloaty();
+                    $(this).removeClass('active');
+                    return false;
+                });
+
+                $('#hidefloaty').click(function(){
+                    $('.floaty').hideFloaty();
+                    $(this).removeClass('active');
+                    return false;
+                });
+
+                $('.floaty').makeFloaty({
+                    spacing: 20,
+                    time: '0.5s'
+                });
 
                // Orientation callback event
                 $('#jqt').bind('turn', function(e, data){
                     $('#orient').html('Orientation: ' + data.orientation);
                 });
+
+     $('input[type="checkbox"]').bind('click',function() {
+                        if($(this).is(':checked')) {
+
+
+
+                           $('#audio-icon').html('<span class="glyphicon glyphicon-volume-up"></span>');
+    $('#audio-status').html('<span class="ds-unit">ON</span>');
+    audio=1;
+    ws_ticks = new WebSocket(host+"/ws_ticks");
+    ws_ticks.onmessage = function(e)
+    {
+        x = JSON.parse(e.data);
+       //console.log(x);
+       switch(x.type)
+       {
+           case "tick":
+                if (audio == 1) snd.play();
+                break;
+           default:
+
+        }
+    }
+
+
+                        }
+                        else
+                        {
+              $('#audio-icon').html('<span class="glyphicon glyphicon-volume-off"></span>');
+    $('#audio-status').html('<span class="ds-unit">OFF</span>');
+    audio=0;
+    ws_ticks.close();
+                        }
+
+                        });
+
+
 
             });
 
@@ -120,7 +168,7 @@ $(document).ready(function()
         ws_log.onmessage = function(e)
         {
           var x = JSON.parse(e.data);
-          console.log(x);
+          //console.log(x);
           switch(x.type)
           {
             case "history":
@@ -134,14 +182,13 @@ $(document).ready(function()
 
               chart = new CanvasJS.Chart("chartContainer",
               {
-                backgroundColor: "rgba(63,62,58,0.2)",
+                backgroundColor: "rgba(13,12,8,0.25)",
                 title:{ text: "" },
-                axisY:{ labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.55)", lineThickness: 1, tickThickness: 0 },
-                axisX:{ valueFormatString: "HH:mm", labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.55)", lineThickness: 1, tickThickness: 1 },
+                axisY:{ labelFontFamily: "Digi", gridThickness: 0, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
+                axisX:{ valueFormatString: "HH:mm", labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
                 data: [{ type: "line", color: "#75890c", dataPoints: points }]
               });
 
-console.log("renernnernernerner");
               chart.render();
 
             break;
@@ -153,7 +200,7 @@ console.log("renernnernernerner");
               {
                 points.shift();
               }
-console.log("renernnernernerner");
+
               chart.render();
             break;
             default:
@@ -162,37 +209,6 @@ console.log("renernnernernerner");
     }
 });
 
-
-function toggleAudio()
-{
-  if (audio==0)
-  {
-    $('#audio-icon').html('<span class="glyphicon glyphicon-volume-up"></span>');
-    $('#audio-status').html('<span class="ds-unit">ON</span>');
-    audio=1;
-    ws_ticks = new WebSocket(host+"/ws_ticks");
-    ws_ticks.onmessage = function(e)
-    {
-        x = JSON.parse(e.data);
-       console.log(x);
-       switch(x.type)
-       {
-           case "tick":
-                if (audio == 1) snd.play();
-                break;
-           default:
-
-        }
-    }
-  }
-  else
-  {
-    $('#audio-icon').html('<span class="glyphicon glyphicon-volume-off"></span>');
-    $('#audio-status').html('<span class="ds-unit">OFF</span>');
-    audio=0;
-    ws_ticks.close();
-  }
-}
 
 function toggleCounter()
 {

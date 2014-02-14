@@ -13,6 +13,7 @@
   <script src="assets/js/jqtouch.min.js" type="text/javascript" charset="utf-8"></script>
   <!--<script src="assets/js/jqt.floaty.min.js" type="text/javascript" charset="utf-8"></script>-->
   <script src="assets/js/canvasjs.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="assets/js/gauge.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/pigi.js" type="text/javascript" charset="utf-8"></script>
  </head>
  <body>
@@ -30,8 +31,9 @@
      <a href="#" id="live15m" class="whiteButton chartControl">15 Minutes</a>
      <a href="#" id="live16m" class="whiteButton chartControl">60 Minutes</a>
      <a href="#" id="live24h" class="whiteButton chartControl">24 Hours</a>
+     <a href="#analog" class="whiteButton chartControl fade">Analog Meter</a>
 
-    <div id="chartContainer"></div>
+    <div id="chartContainer" class="mainDisplay"></div>
 
 <ul class="rounded">
     <li>
@@ -46,6 +48,15 @@
                 </ul>
 
 </div>
+
+   <div id="analog" class="selectable">
+    <div class="toolbar">
+             <a href="#home" class="back active">Back</a>
+     </div>
+     <div class="mainDisplay">
+    <canvas id="gauge1" style="width: 100%"></canvas>
+      </div>
+   </div>
            <div id="info" class="selectable">
             <div class="toolbar">
              <a href="#home" class="back active">Back</a>

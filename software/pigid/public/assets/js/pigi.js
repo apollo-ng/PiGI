@@ -8,12 +8,15 @@ var audio = 0;
 var count_unit = "CPM";
 var chart = null;
 var points= [];
+var gauge = null;
 
 var jQT = new $.jQTouch({    // `new` keyword is optional.
     icon: 'jqtouch.png',
     statusBar: 'black-translucent',
     preloadImages: []
 });
+
+
 
 
 $(document).ready(function()
@@ -61,6 +64,7 @@ $(document).ready(function()
                         $('#radcon').html('1');
                         $('#radcon_name').html('Jet');
                         $('#eqd_unit').html('&micro;Sv/h');
+
                     }
                     else if (doserate < 1000)
                     {
@@ -86,6 +90,8 @@ $(document).ready(function()
                     {
                         // Level 7
                     }
+
+                    gauge.set(doserate);
 
                     $('#act_eqd').html(doserate.toFixed(2));
                break;
@@ -119,9 +125,9 @@ $(document).ready(function()
               {
                 animationEnabled: false,
                 backgroundColor: "rgba(13,12,8,0.25)",
-                title:{ text: "" },
-                axisY:{ minimum: 0, labelFontFamily: "Digi", gridThickness: 0, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
-                axisX:{ valueFormatString: "HH:mm", labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
+                title:{ text: "uSv/h", fontSize: 14, horizontalAlign: "right", fontColor: "rgba(117,137,12,0.8)", margin: 8 },
+                axisY:{ minimum: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
+                axisX:{ valueFormatString: "HH:mm", labelAngle: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
                 data: [{ type: "column", color: "rgba(117,137,12,0.8)", dataPoints: points }]
               });
 
@@ -190,11 +196,6 @@ $('#act_count').bind('click',function() {
 
 
 
-
-
-
-
-
 });
 
 
@@ -212,3 +213,26 @@ function toggleCounter()
 
   }
 }
+
+   document.addEventListener("DOMContentLoaded", function() {
+
+        var opts = {
+          lines: 12, // The number of lines to draw
+          angle: 0.15, // The length of each line
+          lineWidth: 0.24, // The line thickness
+          pointer: {
+            length: 0.9, // The radius of the inner circle
+            strokeWidth: 0.035 // The rotation offset
+          },
+          colorStart: '#6FADCF',   // Colors
+          colorStop: '#8FC0DA',    // just experiment with them
+          strokeColor: '#E0E0E0'   // to see which ones work best for you
+        };
+        var target = document.getElementById('gauge1'); // your canvas element
+        gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+
+        //gauge.setTextField(document.getElementById("output"));
+        gauge.maxValue = 1; // set max gauge value
+        gauge.animationSpeed = 64; // set animation speed (32 is default value)
+        gauge.set(0);
+    })

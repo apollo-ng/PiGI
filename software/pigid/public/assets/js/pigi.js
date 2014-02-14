@@ -103,7 +103,7 @@ $(document).ready(function()
         ws_log.onmessage = function(e)
         {
           var x = JSON.parse(e.data);
-          console.log(x);
+          //console.log(x);
           switch(x.type)
           {
             case "history":
@@ -111,7 +111,6 @@ $(document).ready(function()
             
               $.each(x.log, function(i,v)
               {
-                console.log(v);
                 //var v = JSON.parse(v_json);
                 points.push({ "x": new Date(v.timestamp*1000), "y": v.doserate});
               });

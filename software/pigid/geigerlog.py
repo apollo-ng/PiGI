@@ -32,8 +32,6 @@ class GeigerLog(threading.Thread):
             log.info("Logging: %s : %s"%(key,value))
 
     def get_log_entries(self,start,end=dt2unix(datetime.now()),amount=500):
-        print start
-        print end
         delta_total = end - start
         delta_step = delta_total / amount
         values = []
@@ -51,12 +49,10 @@ class GeigerLog(threading.Thread):
                 values.append(x)
             else:
                 continue
-        print len(values)
         return values
     
     
 if __name__ == "__main__":
     log = GeigerLog()
     start = dt2unix(datetime.now() - timedelta(days=100))
-    
     print log.get_log_entries(start)

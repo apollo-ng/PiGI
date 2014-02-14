@@ -10,6 +10,7 @@ from gevent.pywsgi import WSGIServer
 from geventwebsocket import WebSocketHandler, WebSocketError
 
 import geigercounter
+import geigersocket
 import geigerlog
 
 try:
@@ -24,8 +25,8 @@ log = logging.getLogger("pigid")
 log.info("Starting pigid")
 
 geiger = geigercounter.Geigercounter()
-wsock_mgr_status = geigercounter.StatusWebSocketsManager(geiger)
-wsock_mgr_ticks = geigercounter.TicksWebSocketsManager(geiger)
+wsock_mgr_status = geigersocket.StatusWebSocketsManager(geiger)
+wsock_mgr_ticks = geigersocket.TicksWebSocketsManager(geiger)
 geigerlog = geigerlog.GeigerLog(geiger)
 #wsock_mgr_log = geigercounter.LogWebSocketsManager(geiger)
 
@@ -84,7 +85,7 @@ def handle_ws_log():
     log.info("websocket opened")
     now = int(datetime.datetime.now().strftime("%s"))
     fifteen_minutes_ago = int((datetime.datetime.now() - datetime.timedelta(minutes=15)).strftime("%s"))
-    log_mgr = geigercounter.LogWebSocketManager(geiger,geigerlog,wsock)
+    log_mgr = geigersocket.LogWebSocketManager(geiger,geigerlog,wsock)
     log_mgr.send_log(fifteen_minutes_ago,now,amount=15*6)
     print fifteen_minutes_ago
     #wsock_mgr_log.add_socket(wsock)

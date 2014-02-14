@@ -10,6 +10,7 @@ from collections import deque
 from geventwebsocket import WebSocketError
 
 import config
+import geigerlog
 
 log = logging.getLogger(__name__)
 
@@ -64,32 +65,43 @@ class TicksWebSocketsManager(WebSocketsManager):
             time.sleep(0.2)
 
 
-class LogWebSocketsManager(WebSocketsManager):
-    def __init__(self,geiger):
-        script_dir = os.path.dirname(os.path.realpath(__file__))
-        log_dir = os.path.join(script_dir,"log","geiger_log.db")
-	
-	try:
-            self.db = leveldb.LevelDB(log_dir)
-        except Exception, e:
-            log.critical("Could not open logging database: %s"%e)
-        WebSocketsManager.__init__(self,geiger)
+class LogWebSocketManager(threading.Thread):
+    def __init__(self,geiger,geigerlog,socket):
+        self.geiger = geiger
+        self.socket = socket
+        print socket
+        print "############"
+        self.geigerlog = geigerlog
+        threading.Thread.__init__(self)
+        self.daemon = True
+        self.active = True
+        
+    def send(self,msg_dict):
+        msg_json = json.dumps(msg_dict)
+        try:
+            self.socket.send(msg_json)
+        except WebSocketError:
+            self.active = False
+            log.error("could not write to socket %s"%self.socket)
+        except NotImplementedError, e:
+            log.error(e)
+    
+    def send_log(self,time_from,time_to=None,amount=500):
+        history = self.geigerlog.get_log_entries(time_from,amount=amount)
+        hdict = [h[1] for h in history]
+        self.socket.send(json.dumps({"type":"history","log":hdict}))
+        print history
+        if not time_to:
+            self.start()
+        
     def run(self):
-        while True:
+        while self.active:
             time.sleep(10)
             key = datetime.datetime.now().strftime("%s")
             state = self.geiger.get_state()
             state["timestamp"] = key
-            value = json.dumps(state)
-            self.db.Put(key, value)
-            log.debug("Logging: %s : %s"%(key,value))
+            print "LOGGG"
             self.send(state)
-            
-    def add_socket(self,socket):
-        fifteen_minutes_ago = (datetime.datetime.now() - datetime.timedelta(minutes=15)).strftime("%s")
-        history = dict(self.db.RangeIter(key_from=fifteen_minutes_ago))
-        socket.send(json.dumps({"type":"history","log":history}))
-        WebSocketsManager.add_socket(self,socket)
 
 
 class TickSimulator (threading.Thread):

@@ -3,12 +3,14 @@
 import os
 import logging
 import json
+import datetime
 
 import bottle
 from gevent.pywsgi import WSGIServer
 from geventwebsocket import WebSocketHandler, WebSocketError
 
 import geigercounter
+import geigerlog
 
 try:
     import config
@@ -24,7 +26,8 @@ log.info("Starting pigid")
 geiger = geigercounter.Geigercounter()
 wsock_mgr_status = geigercounter.StatusWebSocketsManager(geiger)
 wsock_mgr_ticks = geigercounter.TicksWebSocketsManager(geiger)
-wsock_mgr_log = geigercounter.LogWebSocketsManager(geiger)
+geigerlog = geigerlog.GeigerLog(geiger)
+#wsock_mgr_log = geigercounter.LogWebSocketsManager(geiger)
 
 app = bottle.Bottle()
 script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -79,7 +82,10 @@ def handle_ws_ticks():
 def handle_ws_log():
     wsock = get_websocket_from_request()
     log.info("websocket opened")
-    wsock_mgr_log.add_socket(wsock)
+    fifteen_minutes_ago = int((datetime.datetime.now() - datetime.timedelta(days=100)).strftime("%s"))
+    log_mgr = geigercounter.LogWebSocketManager(geiger,geigerlog,wsock)
+    log_mgr.send_log(fifteen_minutes_ago)
+    #wsock_mgr_log.add_socket(wsock)
     keep_socket_open(wsock)
 
 def main():

@@ -18,73 +18,20 @@
 }
 
 #chartContainer {
-    margin: 10px;
+    margin: 20px;
     width: auto;
     height: 300px;
     overflow: hidden;
-    -moz-box-shadow: inset 0 0 42px 0 #000;
-    -webkit-box-shadow: inset 0 0 42px 0 #000;
-    box-shadow: inset 0 0 42px 0 #000;
-    -webkit-border-radius: 7px;
-    -moz-border-radius: 7px;
-    border-radius: 7px;
+    -moz-box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55);
+    -webkit-box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55);
+    box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55);
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
+    border: 1px solid #3F3E3A;
     background: #3F3E3A url('../img/panel_bg.png') repeat;
 }
 
-.tabbar
-{
-    position: absolute;
-    bottom:0px;
-    width:100%;
-    height:48px;
-    border-top:1px solid #444;
-    overflow:hidden;
-    padding: 0;
-    margin: 0;
-    background-image:-webkit-gradient(linear, 0 0, 0 100%, color-stop(0, #999), color-stop(0.02, #666), color-stop(1, #222));
+.canvasjs-chart-credit {
+    display: none;
 }
-
-.tabbar li
-{
-    float: left;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: smaller;
-    display: block;
-    text-align: center;
-    border-right:1px solid #333;
-    border-left:1px solid #6a6a6a;
-}
-
-.tabbar li:first-child
-{
-    border-right:1px solid #333;
-    border-left:0;
-}
-
-.tabbar li:last-child
-{
-    border-right:0;
-    border-left:1px solid #6a6a6a;
-}
-
-.tabbar ul
-{
-    border: 0;
-    margin: 0;
-    list-style: none;
-}
-
-.tabbar a
-{
-    padding: 0;
-    margin: 0;
-    display:block;
-    text-decoration:none;
-    font-size: 0.8em;
-    color:#eee;
-    line-height:1.6em;
-}
-
-.tabbar li.two      {width: 50%;}

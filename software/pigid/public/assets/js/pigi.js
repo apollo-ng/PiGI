@@ -1,10 +1,7 @@
 var state = "IDLE";
 var state_last = "";
 var graph = [ 'profile', 'live'];
-var points = [];
-var profiles = [];
-var selected_profile = 0;
-var selected_profile_name = "leadfree";
+
 
 var host = "ws://" + window.location.hostname + ":8080";
 var ws_status = new WebSocket(host+"/ws_status");
@@ -26,50 +23,7 @@ var jQT = new $.jQTouch({    // `new` keyword is optional.
   // Some sample Javascript functions:
             $(function(){
 
-                // Show a swipe event on swipe test
-                $('#swipeme').swipe(function(evt, data) {
-                    var details = !data ? '': '<strong>' + data.direction + '/' + data.deltaX +':' + data.deltaY + '</strong>!';
-                    $(this).html('You swiped ' + details );
-                    $(this).parent().after('<li>swiped!</li>')
-                });
-
-                $('#tapme').tap(function(){
-                    $(this).parent().after('<li>tapped!</li>')
-                });
-
-                $('a[target="_blank"]').bind('click', function() {
-                    if (confirm('This link opens in a new window.')) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                });
-
-                // Page animation callback events
-                $('#pageevents').
-                    bind('pageAnimationStart', function(e, info){
-                        $(this).find('.info').append('Started animating ' + info.direction + '&hellip;  And the link ' +
-                            'had this custom data: ' + $(this).data('referrer').data('custom') + '<br>');
-                    }).
-                    bind('pageAnimationEnd', function(e, info){
-                        $(this).find('.info').append('Finished animating ' + info.direction + '.<br><br>');
-
-                    });
-
-                // Page animations end with AJAX callback event, example 1 (load remote HTML only first time)
-                $('#callback').bind('pageAnimationEnd', function(e, info){
-                    // Make sure the data hasn't already been loaded (we'll set 'loaded' to true a couple lines further down)
-                    if (!$(this).data('loaded')) {
-                        // Append a placeholder in case the remote HTML takes its sweet time making it back
-                        // Then, overwrite the "Loading" placeholder text with the remote HTML
-                        $(this).append($('<div>Loading</div>').load('ajax.html .info', function() {
-                            // Set the 'loaded' var to true so we know not to reload
-                            // the HTML next time the #callback div animation ends
-                            $(this).parent().data('loaded', true);
-                        }));
-                    }
-                });
-                // Orientation callback event
+               // Orientation callback event
                 $('#jqt').bind('turn', function(e, data){
                     $('#orient').html('Orientation: ' + data.orientation);
                 });
@@ -98,7 +52,7 @@ $(document).ready(function()
         ws_status.onmessage = function(e)
         {
             x = JSON.parse(e.data);
-           console.log(x);
+           //console.log(x);
            switch(x.type)
            {
                case "status":
@@ -160,73 +114,97 @@ $(document).ready(function()
 
         ws_status.onclose = function()
         {
-          $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>ERROR 1:</b><br/>Status Websocket not available", {
-          ele: 'body', // which element to append to
-          type: 'error', // (null, 'info', 'error', 'success')
-          offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
-          align: 'center', // ('left', 'right', or 'center')
-          width: 385, // (integer, or 'auto')
-          delay: 5000,
-          allow_dismiss: true,
-          stackup_spacing: 10 // spacing between consecutively stacked growls.
-          });
+            console.log("Status socket closed");
         };
 
         ws_log.onmessage = function(e)
         {
-           var x = JSON.parse(e.data);
-           console.log(x);
-           switch(x.type)
-           {
-               case "history":
-               console.log("HISTORY");
+          var x = JSON.parse(e.data);
+          console.log(x);
+          switch(x.type)
+          {
+            case "history":
+              console.log("HISTORY");
 
+              $.each(x.log, function(i,v_json)
+              {
+                var v = JSON.parse(v_json);
+                points.push({ "x": new Date(i*1000), "y": v.doserate});
+              });
 
+              chart = new CanvasJS.Chart("chartContainer",
+              {
+                backgroundColor: "rgba(63,62,58,0.2)",
+                title:{ text: "" },
+                axisY:{ labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.55)", lineThickness: 1, tickThickness: 0 },
+                axisX:{ valueFormatString: "HH:mm", labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.55)", lineThickness: 1, tickThickness: 1 },
+                data: [{ type: "line", color: "#75890c", dataPoints: points }]
+              });
 
+console.log("renernnernernerner");
+              chart.render();
 
+            break;
+            case "status":
+              console.log("UPDATE")
+              points.push({ "x": new Date(x.timestamp*1000), "y": x.doserate});
 
-               $.each(x.log, function(i,v_json)
-               {
-                    var v = JSON.parse(v_json);
-                    points.push({ "x": new Date(i*1000), "y":v.doserate});
-                    //graph.live.data.push([i*1000, v.doserate]);
-                    //graph.plot = $.plot("#graph_container", [ graph.profile, graph.live ] , getOptions());
-               });
-
-                chart = new CanvasJS.Chart("chartContainer",
-    {
-
-      title:{
-      text: ""
-      },
-       data: [
-      {
-        type: "line",
-
-        dataPoints: points
-      }
-      ]
-    });
-               chart.render();
-
-                    break;
-               case "status":
-                    console.log("UPDATE")
-
-
-                    points.push({ "x": new Date(x.timestamp*1000), "y":x.doserate});
-
-                    while(points[0].x < new Date((x.timestamp-15*60)*1000))
-                    {
-                      points.shift();
-                    }
-
-                    chart.render();
-                    //graph.live.data.push([x.timestamp*1000, x.doserate]);
-                    //graph.plot = $.plot("#graph_container", [ graph.profile, graph.live ] , getOptions());
-                    break;
-               default:
-            }
+              while(points[0].x < new Date((x.timestamp-15*60)*1000))
+              {
+                points.shift();
+              }
+console.log("renernnernernerner");
+              chart.render();
+            break;
+            default:
+          }
         }
     }
 });
+
+
+function toggleAudio()
+{
+  if (audio==0)
+  {
+    $('#audio-icon').html('<span class="glyphicon glyphicon-volume-up"></span>');
+    $('#audio-status').html('<span class="ds-unit">ON</span>');
+    audio=1;
+    ws_ticks = new WebSocket(host+"/ws_ticks");
+    ws_ticks.onmessage = function(e)
+    {
+        x = JSON.parse(e.data);
+       console.log(x);
+       switch(x.type)
+       {
+           case "tick":
+                if (audio == 1) snd.play();
+                break;
+           default:
+
+        }
+    }
+  }
+  else
+  {
+    $('#audio-icon').html('<span class="glyphicon glyphicon-volume-off"></span>');
+    $('#audio-status').html('<span class="ds-unit">OFF</span>');
+    audio=0;
+    ws_ticks.close();
+  }
+}
+
+function toggleCounter()
+{
+  if(count_unit=="CPM")
+  {
+     $('#count_unit').html('CPS');
+     count_unit = "CPS";
+  }
+  else
+  {
+      $('#count_unit').html('CPM');
+      count_unit = "CPM";
+
+  }
+}

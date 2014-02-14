@@ -10,3 +10,4 @@ config.py
 *.b#*
 *.s#*
 *.db
+entropy.bin

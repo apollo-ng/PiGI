@@ -114,11 +114,11 @@ $(document).ready(function()
           {
             case "history":
               console.log("HISTORY");
-
-              $.each(x.log, function(i,v_json)
+            
+              $.each(x.log, function(i,v)
               {
-                var v = JSON.parse(v_json);
-                points.push({ "x": new Date(i*1000), "y": v.doserate});
+                //var v = JSON.parse(v_json);
+                points.push({ "x": new Date(v.timestamp*1000), "y": v.doserate});
               });
 
               chart = new CanvasJS.Chart("chartContainer",

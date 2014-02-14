@@ -15,71 +15,6 @@ var jQT = new $.jQTouch({    // `new` keyword is optional.
     preloadImages: []
 });
 
-$(function(){
-
-             $('#togglefloaty').click(function(){
-                    $('.floaty').toggleFloaty();
-                    $(this).removeClass('active');
-                    return false;
-                });
-
-                $('#hidefloaty').click(function(){
-                    $('.floaty').hideFloaty();
-                    $(this).removeClass('active');
-                    return false;
-                });
-
-                $('.floaty').makeFloaty({
-                    spacing: 20,
-                    time: '0.5s'
-                });
-
-               // Orientation callback event
-                $('#jqt').bind('turn', function(e, data){
-                    $('#orient').html('Orientation: ' + data.orientation);
-                });
-
-     $('input[type="checkbox"]').bind('click',function() {
-                        if($(this).is(':checked')) {
-
-
-
-                           $('#audio-icon').html('<span class="glyphicon glyphicon-volume-up"></span>');
-    $('#audio-status').html('<span class="ds-unit">ON</span>');
-    audio=1;
-    ws_ticks = new WebSocket(host+"/ws_ticks");
-    ws_ticks.onmessage = function(e)
-    {
-        x = JSON.parse(e.data);
-       //console.log(x);
-       switch(x.type)
-       {
-           case "tick":
-                if (audio == 1) snd.play();
-                break;
-           default:
-
-        }
-    }
-
-
-                        }
-                        else
-                        {
-              $('#audio-icon').html('<span class="glyphicon glyphicon-volume-off"></span>');
-    $('#audio-status').html('<span class="ds-unit">OFF</span>');
-    audio=0;
-    ws_ticks.close();
-                        }
-
-                        });
-
-
-
-            });
-
-
-
 
 $(document).ready(function()
 {
@@ -182,11 +117,12 @@ $(document).ready(function()
 
               chart = new CanvasJS.Chart("chartContainer",
               {
+                animationEnabled: false,
                 backgroundColor: "rgba(13,12,8,0.25)",
                 title:{ text: "" },
                 axisY:{ labelFontFamily: "Digi", gridThickness: 0, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
                 axisX:{ valueFormatString: "HH:mm", labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
-                data: [{ type: "line", color: "#75890c", dataPoints: points }]
+                data: [{ type: "column", color: "rgba(117,137,12,0.8)", dataPoints: points }]
               });
 
               chart.render();
@@ -207,6 +143,58 @@ $(document).ready(function()
           }
         }
     }
+
+// Bind UI events
+
+// CPS/CPM Toggle
+$('#act_count').bind('click',function() {
+    toggleCounter();
+});
+
+// Audio
+    $('input[type="checkbox"]').bind('click',function() {
+                        if($(this).is(':checked')) {
+
+
+
+                           $('#audio-icon').html('<span class="glyphicon glyphicon-volume-up"></span>');
+    $('#audio-status').html('<span class="ds-unit">ON</span>');
+    audio=1;
+    ws_ticks = new WebSocket(host+"/ws_ticks");
+    ws_ticks.onmessage = function(e)
+    {
+        x = JSON.parse(e.data);
+       //console.log(x);
+       switch(x.type)
+       {
+           case "tick":
+                if (audio == 1) snd.play();
+                break;
+           default:
+
+        }
+    }
+
+
+                        }
+                        else
+                        {
+              $('#audio-icon').html('<span class="glyphicon glyphicon-volume-off"></span>');
+    $('#audio-status').html('<span class="ds-unit">OFF</span>');
+    audio=0;
+    ws_ticks.close();
+                        }
+
+                        });
+
+
+
+
+
+
+
+
+
 });
 
 

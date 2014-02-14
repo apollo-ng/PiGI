@@ -6,6 +6,10 @@
     url('../font/digital-7-webfont.ttf') format("truetype");
 }
 
+body {
+    background: #323230;
+}
+
 .mfd-display {
     display: inline-block;
     font-family: "Digi";
@@ -45,6 +49,12 @@
 
 .canvasjs-chart-credit {
     display: none;
+}
+
+.chartControl {
+    display: inline-block !important;
+    font-size: 14px !important;
+    margin: 15px 0 5px 15px !important;
 }
 
  div#jqt .floaty {

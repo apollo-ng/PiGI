@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="assets/css/pigi.css">
   <script src="assets/js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/jqtouch.min.js" type="text/javascript" charset="utf-8"></script>
-  <script src="assets/js/jqt.floaty.min.js" type="text/javascript" charset="utf-8"></script>
+  <!--<script src="assets/js/jqt.floaty.min.js" type="text/javascript" charset="utf-8"></script>-->
   <script src="assets/js/canvasjs.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/pigi.js" type="text/javascript" charset="utf-8"></script>
  </head>
@@ -27,12 +27,9 @@
       <a href="#info" class="button rightButton fade">?</a>
      </div>
 
-     <div class="rounded individual">
-      <a href="#" id="live15m">15 Minutes</a>
-      <a href="#" id="live1h">1 Hour</a>
-      <a href="#" id="live1d">24 Hours</a>
-
-     </div>
+     <a href="#" id="live15m" class="whiteButton chartControl">15 Minutes</a>
+     <a href="#" id="live16m" class="whiteButton chartControl">60 Minutes</a>
+     <a href="#" id="live24h" class="whiteButton chartControl">24 Hours</a>
 
     <div id="chartContainer"></div>
 
@@ -54,6 +51,7 @@
              <a href="#home" class="back active">Back</a>
      </div>
                     <ul class="rounded post">
+                    <img src="assets/img/apollo-badge.png" border="0" />
                      <h1><strong>PiGI</strong><br>Version 1.0 &alpha;</h1>
                      <li>zepto.js</li>
                      <li>jqtouch</li>
@@ -64,13 +62,14 @@
                     <p><br><br><a href="#" class="grayButton goback">Close</a></p>
           </div>
 
+<!--
             <div class="floaty">
                 I&#8217;m the Floaty bar!<br />
                 Testing multiple lines<br />
                 Should be flexible.
                 <a href="#" id="togglefloaty">Close</a>
             </div>
-
+-->
   </div>
  </body>
 </html>

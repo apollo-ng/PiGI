@@ -69,8 +69,6 @@ class LogWebSocketManager(threading.Thread):
     def __init__(self,geiger,geigerlog,socket):
         self.geiger = geiger
         self.socket = socket
-        print socket
-        print "############"
         self.geigerlog = geigerlog
         threading.Thread.__init__(self)
         self.daemon = True
@@ -86,12 +84,12 @@ class LogWebSocketManager(threading.Thread):
         except NotImplementedError, e:
             log.error(e)
     
-    def send_log(self,time_from,time_to=None,amount=500):
-        history = self.geigerlog.get_log_entries(time_from,amount=amount)
-        hdict = [h[1] for h in history]
-        self.socket.send(json.dumps({"type":"history","log":hdict}))
-        print history
-        if not time_to:
+    def send_log(self,time_from,time_to=None,amount=10,update=True):
+        history = self.geigerlog.get_log_entries(time_from,time_to,amount=amount)
+        hdict = [json.loads(h[1]) for h in history]
+        lj = json.dumps({"type":"history","log":hdict})
+        self.socket.send(lj)
+        if update:
             self.start()
         
     def run(self):

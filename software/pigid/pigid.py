@@ -82,9 +82,11 @@ def handle_ws_ticks():
 def handle_ws_log():
     wsock = get_websocket_from_request()
     log.info("websocket opened")
-    fifteen_minutes_ago = int((datetime.datetime.now() - datetime.timedelta(days=100)).strftime("%s"))
+    now = int(datetime.datetime.now().strftime("%s"))
+    fifteen_minutes_ago = int((datetime.datetime.now() - datetime.timedelta(minutes=15)).strftime("%s"))
     log_mgr = geigercounter.LogWebSocketManager(geiger,geigerlog,wsock)
-    log_mgr.send_log(fifteen_minutes_ago)
+    log_mgr.send_log(fifteen_minutes_ago,now,amount=15*6)
+    print fifteen_minutes_ago
     #wsock_mgr_log.add_socket(wsock)
     keep_socket_open(wsock)
 

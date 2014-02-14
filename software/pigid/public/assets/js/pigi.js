@@ -103,16 +103,17 @@ $(document).ready(function()
         ws_log.onmessage = function(e)
         {
           var x = JSON.parse(e.data);
-          //console.log(x);
+          console.log(x);
           switch(x.type)
           {
             case "history":
               console.log("HISTORY");
-
-              $.each(x.log, function(i,v_json)
+            
+              $.each(x.log, function(i,v)
               {
-                var v = JSON.parse(v_json);
-                points.push({ "x": new Date(i*1000), "y": v.doserate});
+                console.log(v);
+                //var v = JSON.parse(v_json);
+                points.push({ "x": new Date(v.timestamp*1000), "y": v.doserate});
               });
 
               chart = new CanvasJS.Chart("chartContainer",

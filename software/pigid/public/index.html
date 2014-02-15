@@ -2,11 +2,11 @@
 <html class="no-js">
  <head>
   <meta charset="utf-8">
-  <title>PiGI &alpha;</title>
+  <title>PiGI</title>
   <meta name="description" content="">
   <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="MobileOptimized" content="480">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, target-densitydpi=device-dpi">
   <link rel="stylesheet" href="assets/css/jqtouch.css" title="jQTouch">
   <link rel="stylesheet" href="assets/css/pigi.css">
   <script src="assets/js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
@@ -22,19 +22,18 @@
 
    <div id="home">
     <div class="toolbar">
-      <div class="mfd">
-     <span class="mfd-unit" id="count_unit">CPM</span>
+     <a href="#settings" class="button leftButton slideright">Settings</a>
+     <a href="#info" class="button rightButton slideleft">About</a>
+     <div class="mfd">
      <span class="mfd-display" id="count_val">00000</span>
-     <span class="mfd-unit" id="eqd_unit">&micro;Sv/h</span>
+     <span class="mfd-unit" id="count_unit">CPM</span>
      <span class="mfd-display" id="eqd_val">00000</span>
-     <span class="mfd-unit" id="lvl_unit">INES</span>
+     <span class="mfd-unit" id="eqd_unit">uSv</span>
      <span class="mfd-display" id="lvl_val">0</span>
-    </div>
-     <a href="#settings" class="button leftButton slideright">S</a>
-     <a href="#info" class="button rightButton slideleft">?</a>
+     <span class="mfd-unit" id="lvl_unit">INES</span>
     </div>
 
-
+    </div>
 
     <div id="chartContainer" class="mainDisplay"></div>
 

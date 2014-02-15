@@ -43,6 +43,17 @@ class GeigerLog(threading.Thread):
             except StopIteration:
                 break;
             
+            if int(x[0])-int(t)>25:
+                gap = json.loads(x[1])
+                gap["timestamp"] = str(t)
+                gap["cps"] = 0
+                gap["cpm"] = 0
+                gap["doserate"] = 0
+                new_x = (t,json.dumps(gap))
+                values.append(new_x)
+                continue
+            else:
+                pass
             if not values:
                 values.append(x)
             elif values[-1] != x:

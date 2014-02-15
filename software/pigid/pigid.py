@@ -97,7 +97,7 @@ def handle_ws_log():
                 age_seconds = msg.get("age",60*60);
                 start = int((datetime.datetime.now() - datetime.timedelta(seconds=age_seconds)).strftime("%s"))
                 now = int(datetime.datetime.now().strftime("%s"))
-                log_mgr.send_log(start,now,amount=age_seconds/10)
+                log_mgr.send_log(start,now,amount=15*6)
         except WebSocketError:
             break
     log.info("websocket closed")

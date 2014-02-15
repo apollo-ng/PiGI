@@ -83,13 +83,24 @@ def handle_ws_ticks():
 def handle_ws_log():
     wsock = get_websocket_from_request()
     log.info("websocket opened")
-    now = int(datetime.datetime.now().strftime("%s"))
-    fifteen_minutes_ago = int((datetime.datetime.now() - datetime.timedelta(minutes=15)).strftime("%s"))
+    
     log_mgr = geigersocket.LogWebSocketManager(geiger,geigerlog,wsock)
-    log_mgr.send_log(fifteen_minutes_ago,now,amount=15*6)
-    print fifteen_minutes_ago
     #wsock_mgr_log.add_socket(wsock)
-    keep_socket_open(wsock)
+    while True:
+        try:
+            message = wsock.receive()
+            if message is None:
+                raise WebSocketError
+            log.info("Received : %s" % message)
+            msg = json.loads(message)
+            if msg.get("cmd") == "read":
+                age_seconds = msg.get("age",60*60);
+                start = int((datetime.datetime.now() - datetime.timedelta(seconds=age_seconds)).strftime("%s"))
+                now = int(datetime.datetime.now().strftime("%s"))
+                log_mgr.send_log(start,now,amount=age_seconds/10)
+        except WebSocketError:
+            break
+    log.info("websocket closed")
 
 def main():
     ip = config.listening_ip

@@ -57,6 +57,7 @@ class LogWebSocketManager(threading.Thread):
         threading.Thread.__init__(self)
         self.daemon = True
         self.active = True
+        self.start()
         
     def send(self,msg_dict):
         msg_json = json.dumps(msg_dict)
@@ -67,14 +68,14 @@ class LogWebSocketManager(threading.Thread):
             log.error("could not write to socket %s"%self.socket)
         except NotImplementedError, e:
             log.error(e)
+            log.error("THREAD ERROR!!!!")
     
-    def send_log(self,time_from,time_to=None,amount=10,update=True):
+    def send_log(self,time_from,time_to=None,amount=10):
         history = self.geigerlog.get_log_entries(time_from,time_to,amount=amount)
         hdict = [json.loads(h[1]) for h in history]
         lj = json.dumps({"type":"history","log":hdict})
         self.socket.send(lj)
-        if update:
-            self.start()
+            
         
     def run(self):
         while self.active:
@@ -83,3 +84,4 @@ class LogWebSocketManager(threading.Thread):
             state = self.geiger.get_state()
             state["timestamp"] = key
             self.send(state)
+            

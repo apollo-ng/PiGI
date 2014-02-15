@@ -3,6 +3,7 @@ var ws_status = new WebSocket(host+"/ws_status");
 var ws_log = new WebSocket(host+"/ws_log");
 var ws_ticks = null;
 var snd = new Audio("assets/tock.wav");
+var backlog_seconds = 60 * 15;
 
 var audio = 0;
 var count_unit = "CPM";
@@ -105,6 +106,22 @@ $(document).ready(function()
         {
             console.log("Status socket closed");
         };
+        
+        ws_log.onopen = function()
+        {
+            var cmd = {
+                "cmd" : "read",
+                "age" : backlog_seconds
+            }
+            ws_log.send(JSON.stringify(cmd));
+            console.log ("Requesting log (age " +backlog_seconds +" )");
+        };
+        
+        ws_log.onclose = function()
+        {
+            ws_log = new WebSocket(host+"/ws_log");
+            console.log ("Log socket rest");
+        };
 
         ws_log.onmessage = function(e)
         {
@@ -114,7 +131,7 @@ $(document).ready(function()
           {
             case "history":
               console.log("HISTORY");
-            
+              points = [];
               $.each(x.log, function(i,v)
               {
                 //var v = JSON.parse(v_json);
@@ -138,7 +155,7 @@ $(document).ready(function()
               console.log("UPDATE")
               points.push({ "x": new Date(x.timestamp*1000), "y": x.doserate});
 
-              while(points[0].x < new Date((x.timestamp-15*60)*1000))
+              while(points[0].x < new Date((x.timestamp-backlog_seconds)*1000))
               {
                 points.shift();
               }
@@ -151,6 +168,35 @@ $(document).ready(function()
     }
 
 // Bind UI events
+
+// Backlog
+$('#live15m').bind('click',function() {
+    console.log("DFEOEH");
+    backlog_seconds = 15 * 60;
+    var cmd = {
+                "cmd" : "read",
+                "age" : backlog_seconds
+            }
+            ws_log.send(JSON.stringify(cmd));
+});
+
+$('#live60m').bind('click',function() {
+    backlog_seconds = 60 * 60;
+    var cmd = {
+                "cmd" : "read",
+                "age" : backlog_seconds
+            }
+            ws_log.send(JSON.stringify(cmd));
+});
+
+$('#live24h').bind('click',function() {
+    backlog_seconds = 60 * 60 * 24;
+    var cmd = {
+                "cmd" : "read",
+                "age" : backlog_seconds
+            }
+            ws_log.send(JSON.stringify(cmd));
+});
 
 // CPS/CPM Toggle
 $('#act_count').bind('click',function() {

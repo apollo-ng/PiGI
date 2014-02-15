@@ -3,7 +3,6 @@
 import os
 import logging
 import json
-import datetime
 
 import bottle
 from gevent.pywsgi import WSGIServer
@@ -24,7 +23,8 @@ logging.basicConfig(level=config.log_level, format=config.log_format)
 log = logging.getLogger("pigid")
 log.info("Starting pigid")
 
-geiger = geigercounter.Geigercounter()
+last_total = geigerlog.get_last_totalcount()
+geiger = geigercounter.Geigercounter(total = last_total)
 wsock_mgr_status = geigersocket.StatusWebSocketsManager(geiger)
 wsock_mgr_ticks = geigersocket.TicksWebSocketsManager(geiger)
 geigerlog = geigerlog.GeigerLog(geiger)
@@ -95,9 +95,11 @@ def handle_ws_log():
             msg = json.loads(message)
             if msg.get("cmd") == "read":
                 age_seconds = msg.get("age",60*60);
-                start = int((datetime.datetime.now() - datetime.timedelta(seconds=age_seconds)).strftime("%s"))
-                now = int(datetime.datetime.now().strftime("%s"))
-                log_mgr.send_log(start,now,amount=15*6)
+                if age_seconds <= 15*6:
+                    amount = 15*6
+                else:
+                    amount = 15*6*3
+                log_mgr.send_log(age=age_seconds,amount=amount)
         except WebSocketError:
             break
     log.info("websocket closed")

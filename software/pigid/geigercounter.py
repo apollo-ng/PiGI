@@ -32,16 +32,16 @@ class TickSimulator (threading.Thread):
 
 
 class Geigercounter (threading.Thread):
-    def __init__(self):
+    def __init__(self,total=0):
         threading.Thread.__init__(self)
         self.daemon = True
         self.socket = None
+        self.totalcount=total
         self.reset()
         self.start()
 
     def reset(self):
         self.count=0
-        self.totalcount=0
         self.cps=0
         self.cpm=0
         self.eqd=0
@@ -78,6 +78,7 @@ class Geigercounter (threading.Thread):
                 "cps": self.cps,
                 "cpm": self.cpm,
                 "total": self.totalcount,
-                "doserate": self.eqd
+                "doserate": self.eqd,
+                "timestamp": int(datetime.datetime.now().strftime("%s"))
             }
         return msg

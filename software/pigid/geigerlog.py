@@ -8,9 +8,51 @@ import logging
 
 log = logging.getLogger(__name__)
 
+import config
+
 def dt2unix(dt):
     return int(dt.strftime("%s"))
 
+def get_last_totalcount():
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+    log_dir = os.path.join(script_dir,"log","geiger_log.db")
+    db = leveldb.LevelDB(log_dir)
+    now = dt2unix(datetime.now())
+    d = 1
+    last_entries_keys = []
+    i = 0
+    while not last_entries_keys:
+        last_entries_keys = list(db.RangeIter(key_from=str(now-d),include_value=False))
+        d = d*2
+        i = i+1
+    last_key = last_entries_keys[-1]
+    entry_json = db.Get(last_key)
+    entry = json.loads(entry_json)
+    return entry['total']
+
+def average_log_entries(entries):
+    result = []
+    previous_entry = None
+    for entry in entries:
+        if not previous_entry:
+            previous_entry = entry
+            result.append(entry)
+            continue
+        
+        seconds = float(entry["timestamp"]) - int(previous_entry["timestamp"])
+        counts = float(entry["total"]) - int(previous_entry["total"])
+        if counts < 0: counts=0
+        cps = counts/seconds
+        cpm = cps * 60
+        eqd = round(cpm * config.tube_rate_factor,2)
+        
+        entry["cps"] = int(cps)
+        entry["cpm"] = int(cpm)
+        entry["doserate"] = eqd
+        result.append(entry)
+        previous_entry = entry
+    return result
+    
 class GeigerLog(threading.Thread):
     def __init__(self,geiger):
         script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -24,46 +66,44 @@ class GeigerLog(threading.Thread):
     def run(self):
         while True:
             time.sleep(10)
-            key = datetime.now().strftime("%s")
             state = self.geiger.get_state()
-            state["timestamp"] = key
+            key = str(state["timestamp"])
             value = json.dumps(state)
             self.db.Put(key, value)
             log.info("Logging: %s : %s"%(key,value))
 
-    def get_log_entries(self,start,end=dt2unix(datetime.now()),amount=500):
+    def get_log_entries(self,start=None,end=None,age=None,amount=500):
+        if end is None:
+            end = dt2unix(datetime.now())
+        if age:
+            start = end - age
         delta_total = end - start
         delta_step = delta_total / amount
-        values = []
+        result = []
         for step in range(amount):
             t = start + delta_step * step
             db_iter = self.db.RangeIter(key_from=str(t))
             try:
-                x = db_iter.next()
+                (timestamp,entry_json) = db_iter.next()
             except StopIteration:
                 break;
             
-            if int(x[0])-int(t)>25:
-                gap = json.loads(x[1])
-                gap["timestamp"] = str(t)
-                gap["cps"] = 0
-                gap["cpm"] = 0
-                gap["doserate"] = 0
-                new_x = (t,json.dumps(gap))
-                values.append(new_x)
-                continue
-            else:
-                pass
-            if not values:
-                values.append(x)
-            elif values[-1] != x:
-                values.append(x)
+            entry = json.loads(entry_json)
+            
+            if int(timestamp)-t>25:
+                entry["timestamp"] = str(t)
+                entry["cps"] = 0
+                entry["cpm"] = 0
+                entry["doserate"] = 0
+
+            if not result:
+                result.append(entry)
+            elif result[-1] != entry:
+                result.append(entry)
             else:
                 continue
-        return values
+        return average_log_entries(result)
     
     
 if __name__ == "__main__":
-    log = GeigerLog()
-    start = dt2unix(datetime.now() - timedelta(days=100))
-    print log.get_log_entries(start)
+    print get_last_totalcount()

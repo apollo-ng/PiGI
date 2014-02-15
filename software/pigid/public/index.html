@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="assets/css/jqtouch.css" title="jQTouch">
   <link rel="stylesheet" href="assets/css/pigi.css">
   <script src="assets/js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
-  <script src="assets/js/jqtouch.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="assets/js/jqtouch.js" type="text/javascript" charset="utf-8"></script>
   <!--<script src="assets/js/jqt.floaty.min.js" type="text/javascript" charset="utf-8"></script>-->
   <script src="assets/js/canvasjs.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/gauge.js" type="text/javascript" charset="utf-8"></script>
@@ -22,65 +22,60 @@
 
    <div id="home">
     <div class="toolbar">
-     <span class="mfd-display" id="act_count">00000</span>
-     <span class="mfd-display" id="act_eqd">00000</span>
-     <span class="mfd-display" id="radcon">0</span>
-      <a href="#info" class="button rightButton fade">?</a>
-     </div>
+      <div class="mfd">
+     <span class="mfd-unit" id="count_unit">CPM</span>
+     <span class="mfd-display" id="count_val">00000</span>
+     <span class="mfd-unit" id="eqd_unit">&micro;Sv/h</span>
+     <span class="mfd-display" id="eqd_val">00000</span>
+     <span class="mfd-unit" id="lvl_unit">INES</span>
+     <span class="mfd-display" id="lvl_val">0</span>
+    </div>
+     <a href="#settings" class="button leftButton slideright">S</a>
+     <a href="#info" class="button rightButton slideleft">?</a>
+    </div>
 
-     <a href="#" id="live15m" class="whiteButton chartControl">15 Minutes</a>
-     <a href="#" id="live60m" class="whiteButton chartControl">60 Minutes</a>
-     <a href="#" id="live24h" class="whiteButton chartControl">24 Hours</a>
-     <a href="#analog" class="whiteButton chartControl fade">Analog Meter</a>
+
 
     <div id="chartContainer" class="mainDisplay"></div>
 
-<ul class="rounded">
-    <li>
-      Audio <span class="toggle rounded"><input id="myCheckbox" type="checkbox"/></span>
-    </li>
-</ul>
+    <a href="#" id="live15m" class="whiteButton chartControl fade">15 Min</a>
+    <a href="#" id="live60m" class="whiteButton chartControl fade">60 Min</a>
+    <a href="#" id="live24h" class="whiteButton chartControl fade">24 Hrs</a>
+    <a href="#analog" class="whiteButton chartControl fade">Gauge</a>
 
-
-  <ul class="individual">
-                    <li><a href="#" id="hidefloaty">Hide Floaty</a></li>
-                    <li><a href="#" id="togglefloaty">Toggle Floaty</a></li>
-                </ul>
-
-</div>
+    <ul class="rounded">
+     <li>
+      Audio <span class="toggle rounded"><input id="myCheckbox" type="checkbox" /></span>
+     </li>
+    </ul>
+   </div>
 
    <div id="analog" class="selectable">
-    <div class="toolbar">
-             <a href="#home" class="back active">Back</a>
-     </div>
-     <div class="mainDisplay">
-    <canvas id="gauge1" style="width: 100%"></canvas>
-      </div>
+    <div class="toolbar"><a href="#home" class="back active">Back</a></div>
+    <div class="mainDisplay">
+     <canvas id="gauge1" width="1000" height="300"></canvas>
+    </div>
    </div>
-           <div id="info" class="selectable">
-            <div class="toolbar">
-             <a href="#home" class="back active">Back</a>
-     </div>
-                    <ul class="rounded post">
-                    <img src="assets/img/apollo-badge.png" border="0" />
-                     <h1><strong>PiGI</strong><br>Version 1.0 &alpha;</h1>
-                     <li>zepto.js</li>
-                     <li>jqtouch</li>
-                     <li>CanvasJs</li>
-                     <li>python</li>
-                     </ul>
-                     </p>
-                    <p><br><br><a href="#" class="grayButton goback">Close</a></p>
-          </div>
 
-<!--
-            <div class="floaty">
-                I&#8217;m the Floaty bar!<br />
-                Testing multiple lines<br />
-                Should be flexible.
-                <a href="#" id="togglefloaty">Close</a>
-            </div>
--->
+   <div id="info" class="selectable">
+    <div class="toolbar"><a href="#home" class="back active">Back</a></div>
+    <ul class="rounded post">
+     <img src="assets/img/apollo-badge.png" border="0" />
+     <h1><strong>PiGI</strong><br>Version 1.0 &alpha;</h1>
+     <li>zepto.js</li>
+     <li>jqtouch</li>
+     <li>CanvasJs</li>
+     <li>python</li>
+    </ul>
+    <a href="#" class="grayButton goback">Close</a>
+   </div>
+
+   <div id="settings" class="selectable">
+    <div class="toolbar"><a href="#home" class="back rightButton active">Back</a></div>
+    <a href="#" class="grayButton goback">Close</a>
+   </div>
+
+
   </div>
  </body>
 </html>

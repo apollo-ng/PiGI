@@ -33,7 +33,7 @@ $(document).ready(function()
 
         ws_status.onopen = function()
         {
-            console.log('Status Update socket opened');
+            //console.log('Status Update socket opened');
         };
 
         ws_status.onmessage = function(e)
@@ -43,8 +43,8 @@ $(document).ready(function()
            switch(x.type)
            {
                case "status":
-                    if(count_unit=="CPM") $('#act_count').html(parseInt(x.cpm));
-                    if(count_unit=="CPS") $('#act_count').html(parseInt(x.cps));
+                    if(count_unit=="CPM") $('#count_val').html(parseInt(x.cpm));
+                    if(count_unit=="CPS") $('#count_val').html(parseInt(x.cps));
 
 
                     // INES class identification
@@ -54,16 +54,16 @@ $(document).ready(function()
                     {
                         console.log("ebola");
                         // Level 0 Local Background
-                        $('#radcon').html('0');
-                        $('#radcon_name').html('LDR');
+                        $('#lvl_val').html('0');
+                        $('#lvl_unit').html('LDR');
                         $('#eqd_unit').html('&micro;Sv/h');
 
                     }
                     else if (doserate < 10)
                     {
                         // Level 1 Anomaly
-                        $('#radcon').html('1');
-                        $('#radcon_name').html('Jet');
+                        $('#lvl_val').html('1');
+                        $('#lvl_unit').html('Jet');
                         $('#eqd_unit').html('&micro;Sv/h');
 
                     }
@@ -94,7 +94,7 @@ $(document).ready(function()
 
                     gauge.set(doserate);
 
-                    $('#act_eqd').html(doserate.toFixed(2));
+                    $('#eqd_val').html(doserate.toFixed(2));
                break;
 
                default:
@@ -104,9 +104,9 @@ $(document).ready(function()
 
         ws_status.onclose = function()
         {
-            console.log("Status socket closed");
+            //console.log("Status socket closed");
         };
-        
+
         ws_log.onopen = function()
         {
             var cmd = {
@@ -116,7 +116,7 @@ $(document).ready(function()
             ws_log.send(JSON.stringify(cmd));
             console.log ("Requesting log (age " +backlog_seconds +" )");
         };
-        
+
         ws_log.onclose = function()
         {
             ws_log = new WebSocket(host+"/ws_log");
@@ -199,7 +199,7 @@ $('#live24h').bind('click',function() {
 });
 
 // CPS/CPM Toggle
-$('#act_count').bind('click',function() {
+$('#count_val').bind('click',function() {
     toggleCounter();
 });
 
@@ -254,7 +254,7 @@ function toggleCounter()
   }
   else
   {
-      $('#count_unit').html('CPM');
+      $('#count').html('CPM');
       count_unit = "CPM";
 
   }

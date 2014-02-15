@@ -3,7 +3,6 @@
 import os
 import logging
 import json
-import datetime
 
 import bottle
 from gevent.pywsgi import WSGIServer
@@ -95,9 +94,7 @@ def handle_ws_log():
             msg = json.loads(message)
             if msg.get("cmd") == "read":
                 age_seconds = msg.get("age",60*60);
-                start = int((datetime.datetime.now() - datetime.timedelta(seconds=age_seconds)).strftime("%s"))
-                now = int(datetime.datetime.now().strftime("%s"))
-                log_mgr.send_log(start,now,amount=15*6)
+                log_mgr.send_log(age=age_seconds,amount=15*6)
         except WebSocketError:
             break
     log.info("websocket closed")

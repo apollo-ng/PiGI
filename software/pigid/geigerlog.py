@@ -31,36 +31,37 @@ class GeigerLog(threading.Thread):
             self.db.Put(key, value)
             log.info("Logging: %s : %s"%(key,value))
 
-    def get_log_entries(self,start,end=dt2unix(datetime.now()),amount=500):
+    def get_log_entries(self,start=None,end=None,age=None,amount=500):
+        if end is None:
+            end = dt2unix(datetime.now())
+        if age:
+            start = end - age
         delta_total = end - start
         delta_step = delta_total / amount
-        values = []
+        result = []
         for step in range(amount):
             t = start + delta_step * step
             db_iter = self.db.RangeIter(key_from=str(t))
             try:
-                x = db_iter.next()
+                (timestamp,entry_json) = db_iter.next()
             except StopIteration:
                 break;
             
-            if int(x[0])-int(t)>25:
-                gap = json.loads(x[1])
-                gap["timestamp"] = str(t)
-                gap["cps"] = 0
-                gap["cpm"] = 0
-                gap["doserate"] = 0
-                new_x = (t,json.dumps(gap))
-                values.append(new_x)
-                continue
-            else:
-                pass
-            if not values:
-                values.append(x)
-            elif values[-1] != x:
-                values.append(x)
+            entry = json.loads(entry_json)
+            
+            if int(timestamp)-t>25:
+                entry["timestamp"] = str(t)
+                entry["cps"] = 0
+                entry["cpm"] = 0
+                entry["doserate"] = 0
+
+            if not result:
+                result.append(entry)
+            elif result[-1] != entry:
+                result.append(entry)
             else:
                 continue
-        return values
+        return result
     
     
 if __name__ == "__main__":

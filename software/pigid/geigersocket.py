@@ -70,10 +70,9 @@ class LogWebSocketManager(threading.Thread):
             log.error(e)
             log.error("THREAD ERROR!!!!")
     
-    def send_log(self,time_from,time_to=None,amount=10):
-        history = self.geigerlog.get_log_entries(time_from,time_to,amount=amount)
-        hdict = [json.loads(h[1]) for h in history]
-        lj = json.dumps({"type":"history","log":hdict})
+    def send_log(self,start=None,end=None,age=None,amount=10):
+        history = self.geigerlog.get_log_entries(start=start,end=end,age=age,amount=amount)
+        lj = json.dumps({"type":"history","log":history})
         self.socket.send(lj)
             
         

@@ -114,8 +114,8 @@ class GeigerLog(threading.Thread):
         
         delta_total = end - start
         delta_step = delta_total / amount
-        
-        for step in range(amount):
+        step = 0
+        while True:
             t = start + delta_step * step
             db_iter = self.db.RangeIter(key_from=str(t))
             try:
@@ -137,6 +137,7 @@ class GeigerLog(threading.Thread):
                 result.append(entry)
             else:
                 continue
+            step += 1
         return average_log_entries(result)
     
     

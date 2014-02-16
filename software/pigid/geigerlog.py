@@ -5,6 +5,7 @@ import os
 import time
 import json
 import logging
+from collections import deque
 
 log = logging.getLogger(__name__)
 
@@ -68,9 +69,21 @@ class GeigerLog(threading.Thread):
         self.last_log = None
     
     def run(self):
+        avg_age = dt2unix(datetime.now() - timedelta(minutes=15))
+        avg_list = deque()
+        entries_list = list(self.db.RangeIter(key_from=str(avg_age)))
+        for e in entries_list: avg_list.append(json.loads(e[1]))
         while True:
             time.sleep(LOG_WRITE_RATE)
+            avg_age = dt2unix(datetime.now() - timedelta(minutes=15))
+            if avg_list:
+                while avg_list[0]["timestamp"] < avg_age:
+                    avg_list.popleft()
+            
             state = self.geiger.get_state()
+            avg_list.append(state)
+            avg = round(sum([e["doserate"] for e in avg_list])/len(avg_list),3)
+            state["doserate_avg"] = avg
             key = str(state["timestamp"])
             value = json.dumps(state)
             self.db.Put(key, value)

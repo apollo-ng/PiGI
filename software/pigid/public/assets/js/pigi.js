@@ -9,6 +9,7 @@ var audio = 0;
 var count_unit = "CPM";
 var chart = null;
 var points= [];
+var points_avg= [];
 var gauge = null;
 var geoWatch = null;
 
@@ -118,7 +119,8 @@ $(document).ready(function()
 
         ws_status.onclose = function()
         {
-            //console.log("Status socket closed");
+            ws_status = new WebSocket(host+"/ws_status");
+            console.log ("Status socket rest");
         };
 
         ws_log.onopen = function()
@@ -146,10 +148,13 @@ $(document).ready(function()
             case "history":
               console.log("HISTORY");
               points = [];
+              points_avg = [];
               $.each(x.log, function(i,v)
               {
                 //var v = JSON.parse(v_json);
-                points.push({ "x": new Date(v.timestamp*1000), "y": v.doserate});
+                var ts = new Date(v.timestamp*1000)
+                points.push({ "x": ts, "y": v.doserate});
+                points_avg.push({ "x": ts, "y": v.doserate_avg});
               });
 
               chart = new CanvasJS.Chart("chartContainer",
@@ -159,7 +164,8 @@ $(document).ready(function()
                 title:{ text: "EAR: $$ uSv/h (AVG) - EAD: $$ uSv (Total)", fontSize: 14, horizontalAlign: "right", fontColor: "rgba(117,137,12,0.8)", margin: 8 },
                 axisY:{ minimum: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
                 axisX:{ valueFormatString: "HH:mm", labelAngle: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
-                data: [{ type: "area", color: "rgba(117,137,12,0.8)", dataPoints: points }]
+                data: [{ type: "area", color: "rgba(117,137,12,0.8)", dataPoints: points },
+                       { type: "line", color: "white", dataPoints: points_avg} ]
               });
 
               chart.render();
@@ -167,13 +173,18 @@ $(document).ready(function()
             break;
             case "status":
               console.log("UPDATE")
-              points.push({ "x": new Date(x.timestamp*1000), "y": x.doserate});
-
-              while(points[0].x < new Date((x.timestamp-backlog_seconds)*1000))
+              var ts = new Date(x.timestamp*1000);
+              points.push({ "x": ts, "y": x.doserate});
+              points_avg.push({ "x": ts, "y": x.doserate_avg});
+              var left_end = new Date((x.timestamp-backlog_seconds)*1000)
+              while(points[0].x < left_end)
               {
                 points.shift();
               }
-
+              while(points_avg[0].x < left_end)
+              {
+                points_avg.shift();
+              }
               chart.render();
             break;
             default:

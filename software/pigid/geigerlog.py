@@ -10,6 +10,9 @@ log = logging.getLogger(__name__)
 
 import config
 
+LOG_WRITE_RATE = 5
+MAX_ENTRY_DIST = 30
+
 def dt2unix(dt):
     return int(dt.strftime("%s"))
 
@@ -62,24 +65,56 @@ class GeigerLog(threading.Thread):
         threading.Thread.__init__(self) 
         self.daemon = True
         self.start()
+        self.last_log = None
     
     def run(self):
         while True:
-            time.sleep(10)
+            time.sleep(LOG_WRITE_RATE)
             state = self.geiger.get_state()
             key = str(state["timestamp"])
             value = json.dumps(state)
             self.db.Put(key, value)
+            self.last_log = state
             log.info("Logging: %s : %s"%(key,value))
 
     def get_log_entries(self,start=None,end=None,age=None,amount=500):
+        
         if end is None:
             end = dt2unix(datetime.now())
         if age:
             start = end - age
+        
+        result = []
+        
+        if amount is None:
+            entries_list = list(self.db.RangeIter(key_from=str(start)))
+            last_time = start
+            for e in entries_list:
+                entry = json.loads(e[1])
+                if int(entry["timestamp"])-last_time > MAX_ENTRY_DIST:
+                    insert_time = last_time + LOG_WRITE_RATE
+                    record_insert = {"cps":0,"cpm":0,"doserate":0.0,"total":entry["total"],"timestamp":insert_time}
+                    while insert_time < int(entry["timestamp"]):
+                        result.append(record_insert.copy())
+                        insert_time += 10
+                        record_insert["timestamp"]=insert_time
+                last_time = int(entry["timestamp"])
+                result.append(entry)
+                
+            if result:
+                last = result[-1]
+                if end - int(last["timestamp"]) > MAX_ENTRY_DIST:
+                    insert_time = int(last["timestamp"]) + LOG_WRITE_RATE
+                    record_insert = {"cps":0,"cpm":0,"doserate":0.0,"total":last["total"],"timestamp":insert_time}
+                    while insert_time < end:
+                        result.append(record_insert.copy())
+                        insert_time += 10
+                        record_insert["timestamp"]=insert_time
+            return result
+        
         delta_total = end - start
         delta_step = delta_total / amount
-        result = []
+        
         for step in range(amount):
             t = start + delta_step * step
             db_iter = self.db.RangeIter(key_from=str(t))
@@ -90,7 +125,7 @@ class GeigerLog(threading.Thread):
             
             entry = json.loads(entry_json)
             
-            if int(timestamp)-t>25:
+            if int(timestamp)-t>MAX_ENTRY_DIST:
                 entry["timestamp"] = str(t)
                 entry["cps"] = 0
                 entry["cpm"] = 0

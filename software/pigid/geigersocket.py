@@ -7,6 +7,8 @@ import logging
 
 log = logging.getLogger(__name__)
 
+LOG_UPDATE_RATE = 5
+
 class WebSocketsManager(threading.Thread):
     def __init__(self,geiger):
         self.sockets = []
@@ -71,16 +73,26 @@ class LogWebSocketManager(threading.Thread):
             log.error("THREAD ERROR!!!!")
     
     def send_log(self,start=None,end=None,age=None,amount=10):
+        if age and age<60*60*2: #2hours
+            amount = None
         history = self.geigerlog.get_log_entries(start=start,end=end,age=age,amount=amount)
         lj = json.dumps({"type":"history","log":history})
         self.socket.send(lj)
             
         
     def run(self):
+        my_last_log = None
         while self.active:
-            time.sleep(10)
-            key = datetime.datetime.now().strftime("%s")
-            state = self.geiger.get_state()
-            state["timestamp"] = key
-            self.send(state)
+            time.sleep(1)
+            log_last_log = self.geigerlog.last_log
+            if log_last_log:
+                if my_last_log != log_last_log:
+                    self.send(log_last_log)
+                my_last_log = log_last_log
+                    
+                
+            #key = datetime.datetime.now().strftime("%s")
+            #state = self.geiger.get_state()
+            #state["timestamp"] = key
+            #self.send(state)
             

@@ -65,6 +65,7 @@ class GeigerLog(threading.Thread):
         threading.Thread.__init__(self) 
         self.daemon = True
         self.start()
+        self.last_log = None
     
     def run(self):
         while True:
@@ -73,6 +74,7 @@ class GeigerLog(threading.Thread):
             key = str(state["timestamp"])
             value = json.dumps(state)
             self.db.Put(key, value)
+            self.last_log = state
             log.info("Logging: %s : %s"%(key,value))
 
     def get_log_entries(self,start=None,end=None,age=None,amount=500):
@@ -108,7 +110,6 @@ class GeigerLog(threading.Thread):
                         result.append(record_insert.copy())
                         insert_time += 10
                         record_insert["timestamp"]=insert_time
-            for line in result: print line
             return result
         
         delta_total = end - start

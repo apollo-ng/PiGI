@@ -96,9 +96,9 @@ def handle_ws_log():
             if msg.get("cmd") == "read":
                 age_seconds = msg.get("age",60*60);
                 if age_seconds <= 15*6:
-                    amount = 15*6
+                    amount = 15*6#this is irrelevant anyways...
                 else:
-                    amount = 15*6*3
+                    amount = 24 * 30
                 log_mgr.send_log(age=age_seconds,amount=amount)
         except WebSocketError:
             break

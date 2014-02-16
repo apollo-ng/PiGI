@@ -81,10 +81,18 @@ class LogWebSocketManager(threading.Thread):
             
         
     def run(self):
+        my_last_log = None
         while self.active:
-            time.sleep(LOG_UPDATE_RATE)
-            key = datetime.datetime.now().strftime("%s")
-            state = self.geiger.get_state()
-            state["timestamp"] = key
-            self.send(state)
+            time.sleep(1)
+            log_last_log = self.geigerlog.last_log
+            if log_last_log:
+                if my_last_log != log_last_log:
+                    self.send(log_last_log)
+                my_last_log = log_last_log
+                    
+                
+            #key = datetime.datetime.now().strftime("%s")
+            #state = self.geiger.get_state()
+            #state["timestamp"] = key
+            #self.send(state)
             

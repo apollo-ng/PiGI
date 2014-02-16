@@ -171,7 +171,7 @@ $(document).ready(function()
                 axisY:{ minimum: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
                 axisX:{ valueFormatString: "HH:mm", labelAngle: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
                 data: [{ type: "area", color: "rgba(117,137,12,0.8)", dataPoints: points },
-                       { type: "line", color: "white", dataPoints: points_avg} ]
+                       { type: "line", color: "rgba(210,242,30,0.6)", dataPoints: points_avg} ]
               });
 
               chart.render();

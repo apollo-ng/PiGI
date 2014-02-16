@@ -106,7 +106,7 @@ class GeigerLog(threading.Thread):
                 entry = json.loads(e[1])
                 if int(entry["timestamp"])-last_time > MAX_ENTRY_DIST:
                     insert_time = last_time + LOG_WRITE_RATE
-                    record_insert = {"cps":0,"cpm":0,"doserate":0.0,"total":entry["total"],"timestamp":insert_time}
+                    record_insert = {"cps":0,"cpm":0,"doserate":0.0,"doserate_avg":0.0,"total":entry["total"],"timestamp":insert_time}
                     while insert_time < int(entry["timestamp"]):
                         result.append(record_insert.copy())
                         insert_time += 10
@@ -118,7 +118,7 @@ class GeigerLog(threading.Thread):
                 last = result[-1]
                 if end - int(last["timestamp"]) > MAX_ENTRY_DIST:
                     insert_time = int(last["timestamp"]) + LOG_WRITE_RATE
-                    record_insert = {"cps":0,"cpm":0,"doserate":0.0,"total":last["total"],"timestamp":insert_time}
+                    record_insert = {"cps":0,"cpm":0,"doserate":0.0,"doserate_avg":0.0,"total":last["total"],"timestamp":insert_time}
                     while insert_time < end:
                         result.append(record_insert.copy())
                         insert_time += 10
@@ -143,6 +143,7 @@ class GeigerLog(threading.Thread):
                 entry["cps"] = 0
                 entry["cpm"] = 0
                 entry["doserate"] = 0
+                entry["doserate_avg"] = 0
 
             if not result:
                 result.append(entry)

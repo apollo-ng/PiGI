@@ -10,6 +10,7 @@ var count_unit = "CPM";
 var chart = null;
 var points= [];
 var gauge = null;
+var geoWatch = null;
 
 var jQT = new $.jQTouch({    // `new` keyword is optional.
     icon: 'jqtouch.png',
@@ -203,6 +204,16 @@ $('#count_val').bind('click',function() {
     toggleCounter();
 });
 
+$('#count_unit').bind('click',function() {
+    toggleCounter();
+});
+
+$('#userGeoStatus').bind('click',function() {
+    geoToggle();
+});
+
+
+
 // Audio
     $('input[type="checkbox"]').bind('click',function() {
                         if($(this).is(':checked')) {
@@ -239,28 +250,8 @@ $('#count_val').bind('click',function() {
 
                         });
 
+// Gauge Init
 
-
-
-});
-
-
-function toggleCounter()
-{
-  if(count_unit=="CPM")
-  {
-     $('#count_unit').html('CPS');
-     count_unit = "CPS";
-  }
-  else
-  {
-      $('#count').html('CPM');
-      count_unit = "CPM";
-
-  }
-}
-
-   document.addEventListener("DOMContentLoaded", function() {
 
         var opts = {
           lines: 12, // The number of lines to draw
@@ -281,4 +272,90 @@ function toggleCounter()
         gauge.maxValue = 1; // set max gauge value
         gauge.animationSpeed = 64; // set animation speed (32 is default value)
         gauge.set(0);
-    })
+
+
+// Init geolocation
+geoToggle();
+
+
+});
+
+//
+//
+//
+//
+//
+
+// Geolocation
+
+function geoToggle()
+{
+  if (navigator.geolocation)
+  {
+    if(geoWatch)
+    {
+      navigator.geolocation.clearWatch(geoWatch);
+      geoWatch = null;
+      $('#userGeoStatus').removeClass('enabled');
+      console.log("geoWatch disabled");
+    }
+    else
+    {
+      $('#userGeoStatus').addClass('init-blinker');
+      var timeoutVal = 10 * 1000 * 1000;
+      geoWatch = navigator.geolocation.watchPosition(
+        geoUpdate,
+        geoError,
+        { enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 }
+      );
+      console.log("geoWatch enabled");
+    }
+  }
+  else
+  {
+    console.log("Geolocation is not supported by this browser");
+  }
+}
+
+function geoUpdate(position)
+{
+  $('#userGeoStatus').removeClass('init-blinker');
+  $('#userGeoStatus').addClass('enabled');
+  var contentString = "<b>Timestamp:</b> " + position.timestamp + "<br/><b>User location:</b> lat " + position.coords.latitude + ", long " + position.coords.longitude + ", accuracy " + position.coords.accuracy;
+  console.log(contentString)
+}
+
+function geoError(error)
+{
+  var errors = {
+    1: 'Permission denied',
+    2: 'Position unavailable',
+    3: 'Request timeout',
+    4: 'Unknown Error'
+  };
+  $('#userGeoStatus').removeClass('init-blinker');
+  $('#userGeoStatus').removeClass('enabled');
+  navigator.geolocation.clearWatch(geoWatch);
+  console.log("Error: " + errors[error.code]);
+}
+
+
+
+
+function toggleCounter()
+{
+  if(count_unit=="CPM")
+  {
+     $('#count_unit').html('CPS');
+     count_unit = "CPS";
+  }
+  else
+  {
+      $('#count_unit').html('CPM');
+      count_unit = "CPM";
+
+  }
+}
+
+
+

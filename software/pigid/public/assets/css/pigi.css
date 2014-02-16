@@ -25,7 +25,7 @@ body {
 .mfd {
     position: relative;
     top: -11px;
-    width: 70%;
+    width: 60%;
     margin: 0 auto;
     height: 37px;
     overflow: hidden;
@@ -64,6 +64,7 @@ body {
     color: #d8d3c5;
     font-size: 10px;
     text-align: center;
+    padding-bottom: 3px;
     border-bottom: 1px solid #4F4E4A;
     -moz-transform: rotate(-90deg);
     -webkit-transform: rotate(-90deg);
@@ -74,6 +75,11 @@ body {
 #eqd_val {
     color: #75890c;
 }
+
+#eqd_unit {
+    color: #75890c;
+}
+
 
 .mainDisplay {
     margin: 15px;
@@ -105,6 +111,45 @@ body {
     line-height: 14px;
 }
 
+.finput {
+background-color: #555658;
+-webkit-box-shadow: rgba(255, 255, 255, 0.15) 0 1px 0;
+box-shadow: rgba(255, 255, 255, 0.15) 0 1px 0;
+border: 1px solid #2f3031;
+padding: 10px;
+-webkit-transform: translate3d(0, 0, 0);
+margin: 10px 10px 10px 10px;
+-webkit-margin-collapse: separate;
+-webkit-border-radius: 8px;
+border-radius: 8px;
+}
+
+
+.enabled {
+background: green;
+}
+
+
+@-webkit-keyframes blinker {
+  from { opacity: 1.0; }
+  to { opacity: 0.2; }
+  0% { color: black; }
+  100% { color: green; }
+}
+
+keyframes blinker {
+  from { opacity: 1.0; }
+  to { opacity: 0.2; }
+  0% { color: black; }
+  100% { color: green; }
+}
+
+.init-blinker {
+  -webkit-animation-name: blinker;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: cubic-bezier(1.0,0,0,1.0);
+  -webkit-animation-duration: 1.3s;
+}
 
 
 

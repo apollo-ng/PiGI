@@ -10,15 +10,6 @@ body {
     background: #323128;
 }
 
-@media only screen and (-webkit-min-device-pixel-ratio: 1.3),
-  only screen and (min-device-pixel-ratio: 1.3) {
-
-.toolbar {
-    height: 23px !important;
-    overflow: hidden !important;
-}
-}
-
 
 .mfd {
     position: relative;
@@ -52,6 +43,7 @@ body {
     text-align: center;
     color: #d8d3c5;
     padding-left: 5px;
+    cursor: pointer;
 }
 
 .mfd-unit {
@@ -67,6 +59,7 @@ body {
     -moz-transform: rotate(-90deg);
     -webkit-transform: rotate(-90deg);
     transform: rotate(-90deg);
+    cursor: pointer;
 
 }
 
@@ -79,11 +72,11 @@ body {
 }
 
 
-.mainDisplay {
+.md {
     margin: 15px;
     margin-bottom: 0;
     width: auto;
-    height: 55%;
+    height: 100%;
     overflow: hidden;
     -moz-box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.2) 0 0px 0 4px;
     -webkit-box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.2) 0 0px 0 4px;
@@ -103,10 +96,22 @@ body {
 
 .chartControl {
     display: inline-block !important;
-    font-size: 14px !important;
-    margin: 15px 0 5px 15px !important;
-    height: 14px;
-    line-height: 14px;
+    font-size: 16px !important;
+    text-align: center;
+    margin: 0 !important;
+    height: 50px;
+    min-width: 50px;
+    line-height: 50px;
+    color: #d8d3c5;
+    border-right: 1px solid #3F3E3A;
+    text-decoration: none;
+    cursor: pointer;
+    padding-left:5px;
+    padding-right: 8px;
+}
+
+#chartContainer {
+    width: 100%;
 }
 
 .finput {
@@ -124,7 +129,7 @@ border-radius: 8px;
 
 
 .enabled {
-background: green;
+background: rgba(117,137,12,0.8) !important;
 }
 
 

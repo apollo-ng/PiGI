@@ -24,6 +24,19 @@ var jQT = new $.jQTouch({    // `new` keyword is optional.
 $(document).ready(function()
 {
 
+    // FIXME: Nasty hack to keep chart fluid
+    $(function(){
+    var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    $('.md') .css({'height': h-100+'px'});
+    $('#chartContainer') .css({'height': h-150+'px'});
+    $(window).resize(function(){
+        var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+        $('.md') .css({'height': h-100+'px'});
+        $('#chartContainer') .css({'height': h-150+'px'});
+    });
+    });
+
+
     if(!("WebSocket" in window))
     {
         //$('#chatLog, input, button, #examples').fadeOut("fast");
@@ -143,7 +156,7 @@ $(document).ready(function()
               {
                 animationEnabled: false,
                 backgroundColor: "rgba(13,12,8,0.25)",
-                title:{ text: "uSv/h", fontSize: 14, horizontalAlign: "right", fontColor: "rgba(117,137,12,0.8)", margin: 8 },
+                title:{ text: "EAR: $$ uSv/h (AVG) - EAD: $$ uSv (Total)", fontSize: 14, horizontalAlign: "right", fontColor: "rgba(117,137,12,0.8)", margin: 8 },
                 axisY:{ minimum: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
                 axisX:{ valueFormatString: "HH:mm", labelAngle: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
                 data: [{ type: "area", color: "rgba(117,137,12,0.8)", dataPoints: points }]
@@ -173,6 +186,9 @@ $(document).ready(function()
 // Backlog
 $('#live15m').bind('click',function() {
     console.log("DFEOEH");
+    $('#live15m').addClass('enabled');
+    $('#live60m').removeClass('enabled');
+    $('#live24h').removeClass('enabled');
     backlog_seconds = 15 * 60;
     var cmd = {
                 "cmd" : "read",
@@ -182,6 +198,9 @@ $('#live15m').bind('click',function() {
 });
 
 $('#live60m').bind('click',function() {
+    $('#live15m').removeClass('enabled');
+    $('#live60m').addClass('enabled');
+    $('#live24h').removeClass('enabled');
     backlog_seconds = 60 * 60;
     var cmd = {
                 "cmd" : "read",
@@ -191,6 +210,9 @@ $('#live60m').bind('click',function() {
 });
 
 $('#live24h').bind('click',function() {
+    $('#live15m').removeClass('enabled');
+    $('#live60m').removeClass('enabled');
+    $('#live24h').addClass('enabled');
     backlog_seconds = 60 * 60 * 24;
     var cmd = {
                 "cmd" : "read",
@@ -215,13 +237,10 @@ $('#userGeoStatus').bind('click',function() {
 
 
 // Audio
-    $('input[type="checkbox"]').bind('click',function() {
-                        if($(this).is(':checked')) {
-
-
-
-                           $('#audio-icon').html('<span class="glyphicon glyphicon-volume-up"></span>');
-    $('#audio-status').html('<span class="ds-unit">ON</span>');
+$('#toggleAudio').bind('click',function() {
+    if(audio==0)
+    {
+    $('#toggleAudio').addClass('enabled');
     audio=1;
     ws_ticks = new WebSocket(host+"/ws_ticks");
     ws_ticks.onmessage = function(e)
@@ -246,6 +265,7 @@ $('#userGeoStatus').bind('click',function() {
     $('#audio-status').html('<span class="ds-unit">OFF</span>');
     audio=0;
     ws_ticks.close();
+    $('#toggleAudio').removeClass('enabled');
                         }
 
                         });
@@ -321,7 +341,7 @@ function geoUpdate(position)
 {
   $('#userGeoStatus').removeClass('init-blinker');
   $('#userGeoStatus').addClass('enabled');
-  var contentString = "<b>Timestamp:</b> " + position.timestamp + "<br/><b>User location:</b> lat " + position.coords.latitude + ", long " + position.coords.longitude + ", accuracy " + position.coords.accuracy;
+  var contentString = "Timestamp: " + position.timestamp + " User location: lat " + position.coords.latitude + ", long " + position.coords.longitude + ", accuracy " + position.coords.accuracy;
   console.log(contentString)
 }
 

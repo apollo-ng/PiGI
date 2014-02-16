@@ -29,10 +29,16 @@ $(document).ready(function()
     var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
     $('.md') .css({'height': h-100+'px'});
     $('#chartContainer') .css({'height': h-150+'px'});
+    $('#gauge1') .css({'height': h-150+'px'});
+    $('#gauge1').attr('height',h-150);
+    $('#gauge1').attr('width',Math.max(document.documentElement.clientWidth, window.innerWidth || 0));
     $(window).resize(function(){
         var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
         $('.md') .css({'height': h-100+'px'});
         $('#chartContainer') .css({'height': h-150+'px'});
+        $('#gauge1') .css({'height': h-150+'px'});
+        $('#gauge1').attr('height',h-150);
+        $('#gauge1').attr('width',Math.max(document.documentElement.clientWidth, window.innerWidth || 0));
     });
     });
 
@@ -185,10 +191,12 @@ $(document).ready(function()
 
 // Backlog
 $('#live15m').bind('click',function() {
-    console.log("DFEOEH");
+    $('#gauge1').hide();
+    $('#chartContainer').show();
     $('#live15m').addClass('enabled');
     $('#live60m').removeClass('enabled');
     $('#live24h').removeClass('enabled');
+    $('#toggleGauge').removeClass('enabled');
     backlog_seconds = 15 * 60;
     var cmd = {
                 "cmd" : "read",
@@ -198,9 +206,12 @@ $('#live15m').bind('click',function() {
 });
 
 $('#live60m').bind('click',function() {
+    $('#gauge1').hide();
+    $('#chartContainer').show();
     $('#live15m').removeClass('enabled');
     $('#live60m').addClass('enabled');
     $('#live24h').removeClass('enabled');
+    $('#toggleGauge').removeClass('enabled');
     backlog_seconds = 60 * 60;
     var cmd = {
                 "cmd" : "read",
@@ -210,9 +221,12 @@ $('#live60m').bind('click',function() {
 });
 
 $('#live24h').bind('click',function() {
+    $('#gauge1').hide();
+    $('#chartContainer').show();
     $('#live15m').removeClass('enabled');
     $('#live60m').removeClass('enabled');
     $('#live24h').addClass('enabled');
+    $('#toggleGauge').removeClass('enabled');
     backlog_seconds = 60 * 60 * 24;
     var cmd = {
                 "cmd" : "read",
@@ -234,6 +248,19 @@ $('#userGeoStatus').bind('click',function() {
     geoToggle();
 });
 
+$('#toggleModal').bind('click',function() {
+    $('#modal-1').addClass('md-show');
+});
+
+$('#toggleGauge').bind('click',function() {
+   $('#chartContainer').hide();
+   $('#gauge1').show();
+   $('#toggleGauge').addClass('enabled');
+   $('#live15m').removeClass('enabled');
+   $('#live60m').removeClass('enabled');
+   $('#live24h').removeClass('enabled');
+
+});
 
 
 // Audio

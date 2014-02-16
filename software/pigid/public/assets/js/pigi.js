@@ -340,8 +340,6 @@ function geoError(error)
 }
 
 
-
-
 function toggleCounter()
 {
   if(count_unit=="CPM")
@@ -353,7 +351,6 @@ function toggleCounter()
   {
       $('#count_unit').html('CPM');
       count_unit = "CPM";
-
   }
 }
 

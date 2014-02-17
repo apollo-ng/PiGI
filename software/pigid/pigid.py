@@ -94,7 +94,7 @@ def handle_ws_log():
             log.info("Received : %s" % message)
             msg = json.loads(message)
             if msg.get("cmd") == "read":
-                age_seconds = msg.get("age",60*60);
+                age_seconds = int(msg.get("age",60*60));
                 if age_seconds <= 15*6:
                     amount = 15*6#this is irrelevant anyways...
                 else:

@@ -1,359 +1,317 @@
-var host = "ws://" + window.location.hostname + ":8080";
-var ws_status = new WebSocket(host+"/ws_status");
-var ws_log = new WebSocket(host+"/ws_log");
-var ws_ticks = null;
-var snd = new Audio("assets/tock.wav");
-var backlog_seconds = 60 * 15;
+var pigi = {
+    websockets : {},
+    log : {
+        chart : null,
+        data : {
+            doserate : [],
+            doserate_avg : [],
+        },
+        chart_age : 60*15,
+        gauge : null,
+        
+    },
+    conf : {
+        websocket_host : "ws://" + window.location.hostname + ":8080",
+        audio : 0,
+        tick_snd : new Audio("assets/tock.wav"),
+        count_unit : "CPM"
+    },
+    geoWatch : null,
+    jQT : new $.jQTouch({ 
+        icon: 'jqtouch.png',
+        statusBar: 'black-translucent',
+        preloadImages: []
+    })
+};
 
-var audio = 0;
-var count_unit = "CPM";
-var chart = null;
-var points= [];
-var points_avg= [];
-var gauge = null;
-var geoWatch = null;
+function initWebsockets() {
+    if(!("WebSocket" in window))
+    {
+        //$('#chatLog, input, button, #examples').fadeOut("fast");
+        $('<p>Oh no, you need a browser that supports WebSockets. How about <a href="http://www.google.com/chrome">Google Chrome</a>?</p>').appendTo('#container');
+        return;
+    }
+    
+    pigi.websockets.status = new WebSocket(pigi.conf.websocket_host+"/ws_status");
+    pigi.websockets.log = new WebSocket(pigi.conf.websocket_host+"/ws_log");
 
-var jQT = new $.jQTouch({    // `new` keyword is optional.
-    icon: 'jqtouch.png',
-    statusBar: 'black-translucent',
-    preloadImages: []
-});
+    
+    pigi.websockets.status.onopen = function()
+    {
+        //console.log('Status Update socket opened');
+    };
 
+    pigi.websockets.status.onmessage = function(e)
+    {
+        x = JSON.parse(e.data);
+       //console.log(x);
+       switch(x.type)
+       {
+           case "status":
+                updateStatus(x);
+           break;
 
+           default:
 
+        }
+    }
 
-$(document).ready(function()
-{
+    pigi.websockets.status.onclose = function()
+    {
+        pigi.websockets.status = new WebSocket(pigi.conf.websocket_host+"/ws_status");
+        console.log ("Status socket rest");
+    };
 
+    pigi.websockets.log.onopen = function()
+    {
+        requestLog();
+    };
+
+    pigi.websockets.log.onclose = function()
+    {
+        pigi.websockets.log = new WebSocket(pigi.conf.websocket_host+"/ws_log");
+        console.log ("Log socket rest");
+    };
+
+    pigi.websockets.log.onmessage = function(e)
+    {
+      var x = JSON.parse(e.data);
+      //console.log(x);
+      switch(x.type)
+      {
+        case "history":
+          updateLogHistory(x);
+
+        break;
+        case "status":
+          updateLogStatus(x);
+        break;
+        default:
+      }
+    }
+}
+
+function initUI() {
+    // Bind UI events
+
+    // Backlog
+    $('.liveControl').bind('click',function(event) {
+        $('#gauge1').hide();
+        $('#chartContainer').show();
+        $('.liveControl').removeClass('enabled');
+        $('#toggleGauge').removeClass('enabled');
+        $(event.target).addClass('enabled');
+        pigi.log.chart_age = parseInt($(event.target).attr("seconds"))
+        requestLog();
+    });
+
+    // CPS/CPM Toggle
+    $('#count_val, #count_unit').bind('click',function() {
+        toggleCounterUnit();
+    });
+
+    $('#userGeoStatus').bind('click',function() {
+        geoToggle();
+    });
+
+    $('#toggleModal').bind('click',function() {
+        $('#modal-1').addClass('md-show');
+    });
+
+    $('#toggleGauge').bind('click',function() {
+       $('#chartContainer').hide();
+       $('#gauge1').show();
+       $('#toggleGauge').addClass('enabled');
+       $('.liveControl').removeClass('enabled');
+    });
+
+    // Audio
+    $('#toggleAudio').bind('click',function() {
+        toggleAudio();
+    });
+}
+
+function initGauge() {
+    var opts = {
+      lines: 12, // The number of lines to draw
+      angle: 0.15, // The length of each line
+      lineWidth: 0.24, // The line thickness
+      pointer: {
+        length: 0.9, // The radius of the inner circle
+        strokeWidth: 0.035 // The rotation offset
+      },
+      colorStart: '#6FADCF',   // Colors
+      colorStop: '#8FC0DA',    // just experiment with them
+      strokeColor: '#E0E0E0'   // to see which ones work best for you
+    };
+    var target = document.getElementById('gauge1'); // your canvas element
+    pigi.log.gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+
+    //gauge.setTextField(document.getElementById("output"));
+    pigi.log.gauge.maxValue = 1; // set max gauge value
+    pigi.log.gauge.animationSpeed = 64; // set animation speed (32 is default value)
+    pigi.log.gauge.set(0);
+}
+
+function updateLayout() {
+    // This is called on DOMReady and on resize
     // FIXME: Nasty hack to keep chart fluid
-    $(function(){
     var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
     $('.md') .css({'height': h-100+'px'});
     $('#chartContainer') .css({'height': h-150+'px'});
     $('#gauge1') .css({'height': h-150+'px'});
     $('#gauge1').attr('height',h-150);
     $('#gauge1').attr('width',Math.max(document.documentElement.clientWidth, window.innerWidth || 0));
-    $(window).resize(function(){
-        var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-        $('.md') .css({'height': h-100+'px'});
-        $('#chartContainer') .css({'height': h-150+'px'});
-        $('#gauge1') .css({'height': h-150+'px'});
-        $('#gauge1').attr('height',h-150);
-        $('#gauge1').attr('width',Math.max(document.documentElement.clientWidth, window.innerWidth || 0));
-    });
-    });
+}
+
+function updateStatus(data) {
+    if(pigi.conf.count_unit=="CPM") $('#count_val').html(parseInt(x.cpm));
+    if(pigi.conf.count_unit=="CPS") $('#count_val').html(parseInt(x.cps));
 
 
-    if(!("WebSocket" in window))
+    // INES class identification
+    var doserate = parseFloat(x.doserate);
+
+    if(doserate < 0.1)
     {
-        //$('#chatLog, input, button, #examples').fadeOut("fast");
-        $('<p>Oh no, you need a browser that supports WebSockets. How about <a href="http://www.google.com/chrome">Google Chrome</a>?</p>').appendTo('#container');
+        console.log("ebola");
+        // Level 0 Local Background
+        $('#lvl_val').html('0');
+        $('#lvl_unit').html('LDR');
+        $('#eqd_unit').html('&micro;Sv/h');
+
+    }
+    else if (doserate < 10)
+    {
+        // Level 1 Anomaly
+        $('#lvl_val').html('1');
+        $('#lvl_unit').html('Jet');
+        $('#eqd_unit').html('&micro;Sv/h');
+
+    }
+    else if (doserate < 1000)
+    {
+        // Level 2 Incident
+    }
+    else if (doserate < 100000)
+    {
+        // Level 3
+    }
+    else if (doserate < 1000000)
+    {
+        // Level 4
+    }
+    else if (doserate < 10000000)
+    {
+        // Level 5
+    }
+    else if (doserate < 100000000)
+    {
+        // Level 6
     }
     else
     {
+        // Level 7
+    }
 
-        ws_status.onopen = function()
-        {
-            //console.log('Status Update socket opened');
-        };
+    pigi.log.gauge.set(doserate);
 
-        ws_status.onmessage = function(e)
+    $('#eqd_val').html(doserate.toFixed(2));
+}
+
+function requestLog() {
+    var cmd = {
+        "cmd" : "read",
+        "age" : pigi.log.chart_age
+    }
+    pigi.websockets.log.send(JSON.stringify(cmd));
+    console.log ("Requesting log (age " +pigi.log.chart_age +" )");
+}
+
+function updateLogHistory(data) {
+    console.log("HISTORY");
+    pigi.log.data.doserate = [];
+    pigi.log.data.doserate_avg = [];
+    $.each(data.log, function(i,v){
+        //var v = JSON.parse(v_json);
+        var ts = new Date(v.timestamp*1000)
+        pigi.log.data.doserate.push({ "x": ts, "y": v.doserate});
+        pigi.log.data.doserate_avg.push({ "x": ts, "y": v.doserate_avg});
+    });
+
+    pigi.log.chart = new CanvasJS.Chart("chartContainer",{
+        animationEnabled: false,
+        backgroundColor: "rgba(13,12,8,0.25)",
+        title:{ text: "EAR: $$ uSv/h (AVG) - EAD: $$ uSv (Total)", fontSize: 14, horizontalAlign: "right", fontColor: "rgba(117,137,12,0.8)", margin: 8 },
+        axisY:{ minimum: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
+        axisX:{ valueFormatString: "HH:mm", labelAngle: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
+        data: [{ type: "area", color: "rgba(117,137,12,0.8)", dataPoints: pigi.log.data.doserate },
+               { type: "line", color: "rgba(210,242,30,0.6)", dataPoints: pigi.log.data.doserate_avg }]
+    });
+
+    pigi.log.chart.render();
+}
+
+function updateLogStatus(data) {
+    console.log("UPDATE")
+    var ts = new Date(data.timestamp*1000);
+    pigi.log.data.doserate.push({ "x": ts, "y": data.doserate});
+    pigi.log.data.doserate_avg.push({ "x": ts, "y": data.doserate_avg});
+    var left_end = new Date((data.timestamp-pigi.log.chart_age)*1000)
+    while(pigi.log.data.doserate[0].x < left_end) pigi.log.data.doserate.shift();
+    while(pigi.log.data.doserate_avg[0].x < left_end) pigi.log.data.doserate_avg.shift();
+    pigi.log.chart.render();
+}
+
+function toggleCounterUnit() {
+  if(pigi.conf.count_unit=="CPM")
+  {
+     $('#count_unit').html('CPS');
+     pigi.conf.count_unit = "CPS";
+  }
+  else
+  {
+      $('#count_unit').html('CPM');
+      pigi.conf.count_unit = "CPM";
+  }
+}
+
+function toggleAudio() {
+    if(pigi.conf.audio==0) {
+        $('#toggleAudio').addClass('enabled');
+        pigi.conf.audio=1;
+        pigi.websockets.ticks = new WebSocket(pigi.conf.websocket_host+"/ws_ticks");
+        pigi.websockets.ticks.onmessage = function(e)
         {
             x = JSON.parse(e.data);
            //console.log(x);
            switch(x.type)
            {
-               case "status":
-                    if(count_unit=="CPM") $('#count_val').html(parseInt(x.cpm));
-                    if(count_unit=="CPS") $('#count_val').html(parseInt(x.cps));
-
-
-                    // INES class identification
-                    var doserate = parseFloat(x.doserate);
-
-                    if(doserate < 0.1)
-                    {
-                        console.log("ebola");
-                        // Level 0 Local Background
-                        $('#lvl_val').html('0');
-                        $('#lvl_unit').html('LDR');
-                        $('#eqd_unit').html('&micro;Sv/h');
-
-                    }
-                    else if (doserate < 10)
-                    {
-                        // Level 1 Anomaly
-                        $('#lvl_val').html('1');
-                        $('#lvl_unit').html('Jet');
-                        $('#eqd_unit').html('&micro;Sv/h');
-
-                    }
-                    else if (doserate < 1000)
-                    {
-                        // Level 2 Incident
-                    }
-                    else if (doserate < 100000)
-                    {
-                        // Level 3
-                    }
-                    else if (doserate < 1000000)
-                    {
-                        // Level 4
-                    }
-                    else if (doserate < 10000000)
-                    {
-                        // Level 5
-                    }
-                    else if (doserate < 100000000)
-                    {
-                        // Level 6
-                    }
-                    else
-                    {
-                        // Level 7
-                    }
-
-                    gauge.set(doserate);
-
-                    $('#eqd_val').html(doserate.toFixed(2));
-               break;
-
+               case "tick":
+                    if (pigi.conf.audio == 1) pigi.conf.tick_snd.play();
+                    break;
                default:
 
             }
         }
-
-        ws_status.onclose = function()
-        {
-            ws_status = new WebSocket(host+"/ws_status");
-            console.log ("Status socket rest");
-        };
-
-        ws_log.onopen = function()
-        {
-            var cmd = {
-                "cmd" : "read",
-                "age" : backlog_seconds
-            }
-            ws_log.send(JSON.stringify(cmd));
-            console.log ("Requesting log (age " +backlog_seconds +" )");
-        };
-
-        ws_log.onclose = function()
-        {
-            ws_log = new WebSocket(host+"/ws_log");
-            console.log ("Log socket rest");
-        };
-
-        ws_log.onmessage = function(e)
-        {
-          var x = JSON.parse(e.data);
-          //console.log(x);
-          switch(x.type)
-          {
-            case "history":
-              console.log("HISTORY");
-              points = [];
-              points_avg = [];
-              $.each(x.log, function(i,v)
-              {
-                //var v = JSON.parse(v_json);
-                var ts = new Date(v.timestamp*1000)
-                points.push({ "x": ts, "y": v.doserate});
-                points_avg.push({ "x": ts, "y": v.doserate_avg});
-              });
-
-              chart = new CanvasJS.Chart("chartContainer",
-              {
-                animationEnabled: false,
-                backgroundColor: "rgba(13,12,8,0.25)",
-                title:{ text: "EAR: $$ uSv/h (AVG) - EAD: $$ uSv (Total)", fontSize: 14, horizontalAlign: "right", fontColor: "rgba(117,137,12,0.8)", margin: 8 },
-                axisY:{ minimum: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
-                axisX:{ valueFormatString: "HH:mm", labelAngle: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
-                data: [{ type: "area", color: "rgba(117,137,12,0.8)", dataPoints: points },
-                       { type: "line", color: "rgba(210,242,30,0.6)", dataPoints: points_avg} ]
-              });
-
-              chart.render();
-
-            break;
-            case "status":
-              console.log("UPDATE")
-              var ts = new Date(x.timestamp*1000);
-              points.push({ "x": ts, "y": x.doserate});
-              points_avg.push({ "x": ts, "y": x.doserate_avg});
-              var left_end = new Date((x.timestamp-backlog_seconds)*1000)
-              while(points[0].x < left_end)
-              {
-                points.shift();
-              }
-              while(points_avg[0].x < left_end)
-              {
-                points_avg.shift();
-              }
-              chart.render();
-            break;
-            default:
-          }
-        }
+    } else {
+        $('#audio-icon').html('<span class="glyphicon glyphicon-volume-off"></span>');
+        $('#audio-status').html('<span class="ds-unit">OFF</span>');
+        pigi.conf.audio=0;
+        pigi.websockets.ticks.close();
+        $('#toggleAudio').removeClass('enabled');
     }
-
-// Bind UI events
-
-// Backlog
-$('#live15m').bind('click',function() {
-    $('#gauge1').hide();
-    $('#chartContainer').show();
-    $('#live15m').addClass('enabled');
-    $('#live60m').removeClass('enabled');
-    $('#live24h').removeClass('enabled');
-    $('#toggleGauge').removeClass('enabled');
-    backlog_seconds = 15 * 60;
-    var cmd = {
-                "cmd" : "read",
-                "age" : backlog_seconds
-            }
-            ws_log.send(JSON.stringify(cmd));
-});
-
-$('#live60m').bind('click',function() {
-    $('#gauge1').hide();
-    $('#chartContainer').show();
-    $('#live15m').removeClass('enabled');
-    $('#live60m').addClass('enabled');
-    $('#live24h').removeClass('enabled');
-    $('#toggleGauge').removeClass('enabled');
-    backlog_seconds = 60 * 60;
-    var cmd = {
-                "cmd" : "read",
-                "age" : backlog_seconds
-            }
-            ws_log.send(JSON.stringify(cmd));
-});
-
-$('#live24h').bind('click',function() {
-    $('#gauge1').hide();
-    $('#chartContainer').show();
-    $('#live15m').removeClass('enabled');
-    $('#live60m').removeClass('enabled');
-    $('#live24h').addClass('enabled');
-    $('#toggleGauge').removeClass('enabled');
-    backlog_seconds = 60 * 60 * 24;
-    var cmd = {
-                "cmd" : "read",
-                "age" : backlog_seconds
-            }
-            ws_log.send(JSON.stringify(cmd));
-});
-
-// CPS/CPM Toggle
-$('#count_val').bind('click',function() {
-    toggleCounter();
-});
-
-$('#count_unit').bind('click',function() {
-    toggleCounter();
-});
-
-$('#userGeoStatus').bind('click',function() {
-    geoToggle();
-});
-
-$('#toggleModal').bind('click',function() {
-    $('#modal-1').addClass('md-show');
-});
-
-$('#toggleGauge').bind('click',function() {
-   $('#chartContainer').hide();
-   $('#gauge1').show();
-   $('#toggleGauge').addClass('enabled');
-   $('#live15m').removeClass('enabled');
-   $('#live60m').removeClass('enabled');
-   $('#live24h').removeClass('enabled');
-
-});
-
-
-// Audio
-$('#toggleAudio').bind('click',function() {
-    if(audio==0)
-    {
-    $('#toggleAudio').addClass('enabled');
-    audio=1;
-    ws_ticks = new WebSocket(host+"/ws_ticks");
-    ws_ticks.onmessage = function(e)
-    {
-        x = JSON.parse(e.data);
-       //console.log(x);
-       switch(x.type)
-       {
-           case "tick":
-                if (audio == 1) snd.play();
-                break;
-           default:
-
-        }
-    }
-
-
-                        }
-                        else
-                        {
-              $('#audio-icon').html('<span class="glyphicon glyphicon-volume-off"></span>');
-    $('#audio-status').html('<span class="ds-unit">OFF</span>');
-    audio=0;
-    ws_ticks.close();
-    $('#toggleAudio').removeClass('enabled');
-                        }
-
-                        });
-
-// Gauge Init
-
-
-        var opts = {
-          lines: 12, // The number of lines to draw
-          angle: 0.15, // The length of each line
-          lineWidth: 0.24, // The line thickness
-          pointer: {
-            length: 0.9, // The radius of the inner circle
-            strokeWidth: 0.035 // The rotation offset
-          },
-          colorStart: '#6FADCF',   // Colors
-          colorStop: '#8FC0DA',    // just experiment with them
-          strokeColor: '#E0E0E0'   // to see which ones work best for you
-        };
-        var target = document.getElementById('gauge1'); // your canvas element
-        gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
-
-        //gauge.setTextField(document.getElementById("output"));
-        gauge.maxValue = 1; // set max gauge value
-        gauge.animationSpeed = 64; // set animation speed (32 is default value)
-        gauge.set(0);
-
-
-// Init geolocation
-geoToggle();
-
-
-});
-
-//
-//
-//
-//
-//
+}
 
 // Geolocation
 
-function geoToggle()
-{
+function geoToggle() {
   if (navigator.geolocation)
   {
-    if(geoWatch)
+    if(pigi.geoWatch)
     {
-      navigator.geolocation.clearWatch(geoWatch);
-      geoWatch = null;
+      navigator.geolocation.clearWatch(pigi.geoWatch);
+      pigi.geoWatch = null;
       $('#userGeoStatus').removeClass('enabled');
       console.log("geoWatch disabled");
     }
@@ -361,7 +319,7 @@ function geoToggle()
     {
       $('#userGeoStatus').addClass('init-blinker');
       var timeoutVal = 10 * 1000 * 1000;
-      geoWatch = navigator.geolocation.watchPosition(
+      pigi.geoWatch = navigator.geolocation.watchPosition(
         geoUpdate,
         geoError,
         { enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 }
@@ -375,16 +333,14 @@ function geoToggle()
   }
 }
 
-function geoUpdate(position)
-{
+function geoUpdate(position) {
   $('#userGeoStatus').removeClass('init-blinker');
   $('#userGeoStatus').addClass('enabled');
   var contentString = "Timestamp: " + position.timestamp + " User location: lat " + position.coords.latitude + ", long " + position.coords.longitude + ", accuracy " + position.coords.accuracy;
   console.log(contentString)
 }
 
-function geoError(error)
-{
+function geoError(error) {
   var errors = {
     1: 'Permission denied',
     2: 'Position unavailable',
@@ -393,24 +349,25 @@ function geoError(error)
   };
   $('#userGeoStatus').removeClass('init-blinker');
   $('#userGeoStatus').removeClass('enabled');
-  navigator.geolocation.clearWatch(geoWatch);
+  navigator.geolocation.clearWatch(pigi.geoWatch);
   console.log("Error: " + errors[error.code]);
 }
 
+$(document).ready(function() {
+    initWebsockets();
+    initUI();
+    initGauge();
+    geoToggle();  // Init geolocation
+    
+    updateLayout();
+    $(window).resize(updateLayout)
+});
 
-function toggleCounter()
-{
-  if(count_unit=="CPM")
-  {
-     $('#count_unit').html('CPS');
-     count_unit = "CPS";
-  }
-  else
-  {
-      $('#count_unit').html('CPM');
-      count_unit = "CPM";
-  }
-}
+
+
+
+
+
 
 
 

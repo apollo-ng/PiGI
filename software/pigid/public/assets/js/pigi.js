@@ -21,7 +21,13 @@ var pigi = {
         icon: 'jqtouch.png',
         statusBar: 'black-translucent',
         preloadImages: []
-    })
+    }),
+    trace : {
+        canvas : null,
+        particles : {},
+        active : false,
+        drawInterval : null
+    }
 };
 
 function initWebsockets() {
@@ -99,8 +105,9 @@ function initUI() {
         $('#gauge1').hide();
         $('#chartContainer').show();
         $('.liveControl').removeClass('enabled');
-        $('#toggleGauge').removeClass('enabled');
+        $('#toggleGauge,#toggleTrace').removeClass('enabled');
         $(event.target).addClass('enabled');
+        traceStop();
         pigi.log.chart_age = parseInt($(event.target).attr("seconds"))
         requestLog();
     });
@@ -122,16 +129,17 @@ function initUI() {
        $('#chartContainer').hide();
        $('#toggleTrace').hide();
        $('#gauge1').show();
+       traceStop();
        $('#toggleGauge').addClass('enabled');
-       $('.liveControl').removeClass('enabled');
+       $('.liveControl, #toggleTrace').removeClass('enabled');
     });
 
     $('#toggleTrace').bind('click',function() {
        $('#chartContainer').hide();
        $('#gauge1').hide();
-       $('#traceContainer').show();
        $('#toggleTrace').addClass('enabled');
-       $('.liveControl').removeClass('enabled');
+       $('.liveControl, #toggleGauge').removeClass('enabled');
+       traceStart();
     });
 
     // Audio
@@ -184,7 +192,12 @@ function updateStatus(data) {
     if(pigi.conf.count_unit=="CPM") $('#count_val').html(parseInt(x.cpm));
     if(pigi.conf.count_unit=="CPS") $('#count_val').html(parseInt(x.cps));
 
-
+    if(pigi.trace.active) {
+        for(var i = 0; i < parseInt(x.cps); i++)
+        {
+            pigi.trace.particles[Math.random()]=new traceCreateParticle();
+        }
+    }
     // INES class identification
     var doserate = parseFloat(x.doserate);
 
@@ -367,6 +380,81 @@ function geoError(error) {
   $('#userGeoStatus').removeClass('enabled');
   navigator.geolocation.clearWatch(pigi.geoWatch);
   console.log("Error: " + errors[error.code]);
+}
+
+
+function traceCreateParticle()
+{
+	this.x = Math.random()*pigi.trace.canvas.width;
+	this.y = -Math.random()*10;
+	
+	this.vx = 0;
+	this.vy = Math.random()+0.5;
+	
+	var b = Math.random()*255>>0;
+	this.color = "rgba("+b+","+b+","+b+",0.5)";
+}
+
+function traceStart()
+{
+    $('#traceContainer').show();
+    pigi.trace.active = true;
+    pigi.trace.canvas = document.getElementById("traceContainer");
+    //pigi.trace.width = $(pigi.trace).width();
+    
+    var ctx = pigi.trace.canvas.getContext("2d");
+    //for(var i = 0; i < 300; i++)
+    //{
+        //This will add 50 particles to the array with random positions
+    //    pigi.trace_particles[Math.random()]=new traceCreateParticle();
+    //}
+    pigi.trace.draw_interval = setInterval(traceDraw, 33);
+}
+
+function traceStop()
+{
+    $('#traceContainer').hide();
+    pigi.trace.particles = {};
+    if (pigi.trace.draw_interval !== null) clearInterval(pigi.trace.draw_interval);
+}
+
+function traceDraw()
+{
+    var W = pigi.trace.canvas.width;
+    var H = pigi.trace.canvas.height;
+    var ctx = pigi.trace.canvas.getContext("2d");
+    
+	ctx.globalCompositeOperation = "source-over";
+	ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+	ctx.fillRect(0, 0, W, H);
+	ctx.globalCompositeOperation = "lighter";
+	
+	//Lets draw particles from the array now
+	$.each(pigi.trace.particles, function(t,p)
+    {
+    //for(var t = 0; t < pigi.trace_particles.length; t++)
+	//{
+		//var p = pigi.trace_particles[t];
+		
+		ctx.beginPath();
+		
+		ctx.fillStyle = p.color;
+		ctx.fillRect(p.x, p.y, 1,1.1*p.vy);
+
+		p.x += p.vx;
+		p.y += p.vy;
+		p.vy += Math.random()*p.y/50;
+		//To prevent the balls from moving out of the canvas
+		if(p.x < -50) p.x = W+50;
+		if(p.y < -50) p.y = H+50;
+		if(p.x > W) p.x = -50;
+		if(p.y > H) {
+            delete pigi.trace.particles[t]
+			//p.y = Math.random()*25-50;
+			//p.x = Math.random()*W;
+			//p.vy = Math.random()*2+6;
+		}
+	});
 }
 
 $(document).ready(function() {

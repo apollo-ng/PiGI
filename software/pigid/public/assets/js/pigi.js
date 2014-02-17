@@ -8,7 +8,7 @@ var pigi = {
         },
         chart_age : 60*15,
         gauge : null,
-        
+
     },
     conf : {
         websocket_host : "ws://" + window.location.hostname + ":8080",
@@ -17,7 +17,7 @@ var pigi = {
         count_unit : "CPM"
     },
     geoWatch : null,
-    jQT : new $.jQTouch({ 
+    jQT : new $.jQTouch({
         icon: 'jqtouch.png',
         statusBar: 'black-translucent',
         preloadImages: []
@@ -31,11 +31,11 @@ function initWebsockets() {
         $('<p>Oh no, you need a browser that supports WebSockets. How about <a href="http://www.google.com/chrome">Google Chrome</a>?</p>').appendTo('#container');
         return;
     }
-    
+
     pigi.websockets.status = new WebSocket(pigi.conf.websocket_host+"/ws_status");
     pigi.websockets.log = new WebSocket(pigi.conf.websocket_host+"/ws_log");
 
-    
+
     pigi.websockets.status.onopen = function()
     {
         //console.log('Status Update socket opened');
@@ -120,8 +120,17 @@ function initUI() {
 
     $('#toggleGauge').bind('click',function() {
        $('#chartContainer').hide();
+       $('#toggleTrace').hide();
        $('#gauge1').show();
        $('#toggleGauge').addClass('enabled');
+       $('.liveControl').removeClass('enabled');
+    });
+
+    $('#toggleTrace').bind('click',function() {
+       $('#chartContainer').hide();
+       $('#gauge1').hide();
+       $('#traceContainer').show();
+       $('#toggleTrace').addClass('enabled');
        $('.liveControl').removeClass('enabled');
     });
 
@@ -129,7 +138,7 @@ function initUI() {
     $('#toggleAudio').bind('click',function() {
         toggleAudio();
     });
-    
+
     // Init Gauge
     initGauge()
 }
@@ -160,11 +169,14 @@ function updateLayout() {
     // This is called on DOMReady and on resize
     // FIXME: Nasty hack to keep chart fluid
     var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+
     $('.md') .css({'height': h-100+'px'});
     $('#chartContainer') .css({'height': h-150+'px'});
     $('#gauge1') .css({'height': h-150+'px'});
+    $('#gauge1') .css({'width': w+'px'});
     $('#gauge1').attr('height',h-150);
-    $('#gauge1').attr('width',Math.max(document.documentElement.clientWidth, window.innerWidth || 0));
+    $('#gauge1').attr('width', w);
 }
 
 function updateStatus(data) {
@@ -360,7 +372,7 @@ $(document).ready(function() {
     initWebsockets();
     initUI();
     geoToggle();  // Init geolocation
-    
+
     updateLayout();
     $(window).resize(updateLayout)
 });

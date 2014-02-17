@@ -172,6 +172,7 @@ function updateLayout() {
     var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 
     $('.md') .css({'height': h-100+'px'});
+    $('#traceContainer') .css({'height': h-150+'px'});
     $('#chartContainer') .css({'height': h-150+'px'});
     $('#gauge1') .css({'height': h-150+'px'});
     $('#gauge1') .css({'width': w+'px'});

@@ -129,6 +129,9 @@ function initUI() {
     $('#toggleAudio').bind('click',function() {
         toggleAudio();
     });
+    
+    // Init Gauge
+    initGauge()
 }
 
 function initGauge() {
@@ -356,18 +359,8 @@ function geoError(error) {
 $(document).ready(function() {
     initWebsockets();
     initUI();
-    initGauge();
     geoToggle();  // Init geolocation
     
     updateLayout();
     $(window).resize(updateLayout)
 });
-
-
-
-
-
-
-
-
-

@@ -180,7 +180,7 @@ function updateLayout() {
     var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 
     $('.md') .css({'height': h-100+'px'});
-    $('#traceContainer') .css({'height': h-150+'px'});
+    $('#traceContainer') .css({'height': h-150+'px', 'width': w+'px'}).attr('height',h-150).attr('width',w);
     $('#chartContainer') .css({'height': h-150+'px'});
     $('#gauge1') .css({'height': h-150+'px'});
     $('#gauge1') .css({'width': w+'px'});
@@ -389,9 +389,9 @@ function traceCreateParticle()
 	this.y = -Math.random()*10;
 	
 	this.vx = 0;
-	this.vy = Math.random()+0.5;
+	this.vy = Math.random()*4+2;
 	
-	var b = Math.random()*255>>0;
+	var b = Math.random()*128+128>>0;
 	this.color = "rgba("+b+","+b+","+b+",0.5)";
 }
 
@@ -439,11 +439,11 @@ function traceDraw()
 		ctx.beginPath();
 		
 		ctx.fillStyle = p.color;
-		ctx.fillRect(p.x, p.y, 1,1.1*p.vy);
+		ctx.fillRect(p.x, p.y, 1,p.vy);
 
 		p.x += p.vx;
 		p.y += p.vy;
-		p.vy += Math.random()*p.y/50;
+		p.vy += Math.random()*p.y/25;
 		//To prevent the balls from moving out of the canvas
 		if(p.x < -50) p.x = W+50;
 		if(p.y < -50) p.y = H+50;

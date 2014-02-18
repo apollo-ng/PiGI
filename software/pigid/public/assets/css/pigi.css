@@ -42,10 +42,10 @@
   margin-left: .2em;
 
   /* you can be more comfortable with increased icons size */
-  font-size: 120%;
+  /*font-size: 120%; */
 
   /* Uncomment for 3D effect */
-  text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3);
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
 
 .icon-eye:before { content: '\e800'; } /* 'î €' */
@@ -67,6 +67,13 @@
 .icon-eye-1:before { content: '\e809'; } /* 'î ‰' */
 .icon-target-1:before { content: '\e808'; } /* 'î ˆ' */
 
+.big-icon {
+    font-size: 150% !important;
+}
+
+.mfd-icon {
+    font-size: 120% !important;
+}
 
 body {
     background: #323128;
@@ -158,13 +165,14 @@ body {
 
 .chartControl {
     display: inline-block !important;
-    font-size: 16px !important;
+    font-size: 16px;
     font-weight: bold !important;
     text-align: center;
     margin: 0 !important;
     height: 50px;
     min-width: 50px;
     line-height: 50px;
+    overflow: hidden;
     color: #d8d3c5;
     border-right: 1px solid #3F3E3A;
     text-decoration: none;

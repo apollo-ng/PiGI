@@ -324,8 +324,6 @@ function toggleAudio() {
             }
         }
     } else {
-        $('#audio-icon').html('<span class="glyphicon glyphicon-volume-off"></span>');
-        $('#audio-status').html('<span class="ds-unit">OFF</span>');
         pigi.conf.audio=0;
         pigi.websockets.ticks.close();
         $('#toggleAudio').removeClass('enabled');
@@ -341,9 +339,9 @@ function geoToggle() {
     {
       navigator.geolocation.clearWatch(pigi.geoWatch);
       pigi.geoWatch = null;
-      $('#userGeoStatus').removeClass('init-blinker');
-      $('#userGeoStatus').removeClass('icon-dot-circled');
+      $('#userGeoStatus').removeClass('init-blinker icon-dot-circled lock-green lock-yellow lock-red');
       $('#userGeoStatus').addClass('icon-target-1');
+      $('#userGeoLoc').html('');
       console.log("geoWatch disabled");
     }
     else
@@ -360,16 +358,33 @@ function geoToggle() {
   }
   else
   {
+    $('#userGeoLoc').html('');
     console.log("Geolocation is not supported by this browser");
   }
 }
 
 function geoUpdate(position) {
-  $('#userGeoStatus').removeClass('init-blinker');
-  $('#userGeoStatus').removeClass('icon-target-1');
+  $('#userGeoStatus').removeClass('init-blinker icon-target-1');
   $('#userGeoStatus').addClass('icon-dot-circled');
-  var contentString = "Timestamp: " + position.timestamp + " User location: lat " + position.coords.latitude + ", long " + position.coords.longitude + ", accuracy " + position.coords.accuracy;
-  console.log(contentString)
+
+  // Update lock circle to indicate GeoLocation accuracy
+  if (position.coords.accuracy < 10)
+  {
+    $('#userGeoStatus').removeClass('lock-red lock-yellow');
+    $('#userGeoStatus').addClass('lock-green');
+  }
+  else if (position.coords.accuracy < 25)
+  {
+    $('#userGeoStatus').removeClass('lock-red lock-green');
+    $('#userGeoStatus').addClass('lock-yellow');
+  }
+  else
+  {
+    $('#userGeoStatus').removeClass('lock-yellow lock-green');
+    $('#userGeoStatus').addClass('lock-red');
+  }
+
+  $('#userGeoLoc').html(position.coords.latitude.toString().substr(0,8) + ' ' + position.coords.longitude.toString().substr(0,8))
 }
 
 function geoError(error) {
@@ -379,9 +394,9 @@ function geoError(error) {
     3: 'Request timeout',
     4: 'Unknown Error'
   };
-  $('#userGeoStatus').removeClass('init-blinker');
-  $('#userGeoStatus').removeClass('icon-dot-circled');
+  $('#userGeoStatus').removeClass('init-blinker icon-dot-circled lock-green lock-yellow lock-red');
   $('#userGeoStatus').addClass('icon-target-1');
+  $('#userGeoLoc').html('');
   navigator.geolocation.clearWatch(pigi.geoWatch);
   console.log("Error: " + errors[error.code]);
 }
@@ -429,7 +444,7 @@ function traceDraw()
     var ctx = pigi.trace.canvas.getContext("2d");
 
 	ctx.globalCompositeOperation = "source-over";
-	ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+	ctx.fillStyle = "rgba(52,51,48, 0.5)";
 	ctx.fillRect(0, 0, W, H);
 	ctx.globalCompositeOperation = "lighter";
 

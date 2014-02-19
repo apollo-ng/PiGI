@@ -118,18 +118,25 @@ body {
 .mfd-unit {
     display: inline-block;
     line-height: 15px;
-    width: 37px;
+    width: 36px;
     height: 15px;
-    color: #d8d3c5;
+    color: #232218;
     font-size: 10px;
+    font-weight: bold;
     text-align: center;
-    padding-bottom: 3px;
+    padding-bottom: 1px;
     border-bottom: 1px solid #4F4E4A;
+    transform-origin: 50% 50%;
     -moz-transform: rotate(-90deg);
     -webkit-transform: rotate(-90deg);
     transform: rotate(-90deg);
+    background: rgba(216, 211, 197, 0.7);
     cursor: pointer;
+    border: 0px solid red;
+}
 
+#count_val {
+    min-width: 55px !important;
 }
 
 #eqd_val {
@@ -137,7 +144,41 @@ body {
 }
 
 #eqd_unit {
+    color: #fff;
+    background: #75890c;
+}
+
+#lvl_val {
+    width: 14px;
+}
+
+#userGeoStatus {
+    font-size: 140% !important;
+}
+
+.lock-red {
+    color: red;
+}
+
+.lock-yellow {
+    color: yellow;
+}
+
+.lock-green {
     color: #75890c;
+}
+
+#userGeoLoc {
+    font-size: 10px;
+    white-space: pre-wrap;
+    width: 80px;
+    line-height: 12px;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+    height: 30px;
+    max-height: 30px;
+    text-align: left;
 }
 
 
@@ -163,7 +204,17 @@ body {
     visibility: hidden;
 }
 
-.chartControl {
+#chartContainer {
+    width: 100%;
+}
+
+.md-control-container {
+    border-top: 1px solid #000;
+    background: rgba(17,16,12,0.6);
+    height: 50px !important;
+    min-height: 50px !important;
+}
+.md-control {
     display: inline-block !important;
     font-size: 16px;
     font-weight: bold !important;
@@ -171,9 +222,10 @@ body {
     margin: 0 !important;
     height: 50px;
     min-width: 50px;
-    line-height: 50px;
+    line-height: 50px !important;
     overflow: hidden;
     color: #d8d3c5;
+    border-top: 1px solid #5F5E5A;
     border-right: 1px solid #3F3E3A;
     text-decoration: none;
     cursor: pointer;
@@ -187,9 +239,7 @@ body {
     background: linear-gradient(to bottom, rgba(146,145,136,0.25) 0%,rgba(146,145,136,0.29) 16%,rgba(82,81,72,0.36) 42%,rgba(82,81,72,0.5) 100%);
 }
 
-#chartContainer {
-    width: 100%;
-}
+
 
 .finput {
     background-color: #555658;
@@ -238,7 +288,7 @@ keyframes blinker {
     top: 50% !important;
     left: 50% !important;
     width: 50% !important;
-    max-width: 630px !important;
+    max-width: 430px !important;
     min-width: 320px !important;
     height: auto !important;
     z-index: 2000 !important;

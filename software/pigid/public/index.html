@@ -24,38 +24,36 @@
      <a href="#settings" class="button leftButton slideright big-icon icon-menu"></a>
      <a href="#about" class="button rightButton slideleft">AB</a>
      <div class="mfd">
-     <span class="mfd-display" id="count_val">00000</span>
-     <span class="mfd-unit" id="count_unit">CPM</span>
-     <span class="mfd-display" id="eqd_val">00000</span>
-     <span class="mfd-unit" id="eqd_unit">uSv</span>
-     <span class="mfd-display" id="lvl_val">0</span>
-     <span class="mfd-unit" id="lvl_unit">INES</span>
-     <span class="mfd-display mfd-icon icon-target-1" id="userGeoStatus"></span>
-    </div>
-
+      <span class="mfd-display" id="count_val">00000</span>
+      <span class="mfd-unit" id="count_unit">CPM</span>
+      <span class="mfd-display" id="eqd_val">00000</span>
+      <span class="mfd-unit" id="eqd_unit">uSv</span>
+      <span class="mfd-display" id="lvl_val">0</span>
+      <span class="mfd-unit" id="lvl_unit">INES</span>
+      <span class="mfd-display mfd-icon icon-target-1" id="userGeoStatus"></span>
+      <span class="mfd-display" id="userGeoLoc" style="font-size: 10px; white-space: pre-wrap;">00.00000 00.00000</span>
+     </div>
     </div>
 
     <div class="md">
      <div id="chartContainer"></div>
      <canvas id="gauge1" style="display: none" width="1000" height="300"></canvas>
      <canvas id="traceContainer" style="display: none" width="1000" height="300"></canvas>
-     <div style="background: rgba(17,16,12,0.6); height: 50px !important; min-height: 50px !important;">
-      <a href="#" id="live15m" class="liveControl chartControl enabled icon-chart-bar" seconds=900>15M</a>
-      <a href="#" id="live60m" class="liveControl chartControl icon-chart-bar" seconds=3600>60M</a>
-      <a href="#" id="live24h" class="liveControl chartControl icon-chart-bar" seconds=86400>24H</a>
-      <a href="#" id="toggleGauge" class="viewableControl chartControl fade big-icon icon-gauge"></a>
-      <a href="#" id="toggleTrace" class="chartControl big-icon icon-eye-1"></a>
-      <a href="#" id="toggleAudio" class="chartControl big-icon icon-volume-down-1"></a>
-      <a href="#" id="toggleModal" class="chartControl big-icon icon-attention"></a>
+     <div class="md-control-container">
+      <a href="#" id="live15m" class="liveControl md-control enabled icon-chart-bar" seconds=900>15M</a>
+      <a href="#" id="live60m" class="liveControl md-control icon-chart-bar" seconds=3600>60M</a>
+      <a href="#" id="live24h" class="liveControl md-control icon-chart-bar" seconds=86400>24H</a>
+      <a href="#" id="toggleGauge" class="viewableControl md-control fade big-icon icon-gauge"></a>
+      <a href="#" id="toggleTrace" class="md-control big-icon icon-eye-1"></a>
+      <a href="#" id="toggleAudio" class="md-control big-icon icon-volume-down-1"></a>
+      <a href="#" id="toggleModal" class="md-control big-icon icon-attention"></a>
      </div>
     </div>
    </div>
 
    <div id="analog" class="selectable">
     <div class="toolbar"><a href="#home" class="back active">Back</a></div>
-    <div class="mainDisplay">
-
-    </div>
+    <div class="mainDisplay"></div>
    </div>
 
    <div id="about" class="selectable">

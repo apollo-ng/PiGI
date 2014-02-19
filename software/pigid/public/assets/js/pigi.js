@@ -341,7 +341,9 @@ function geoToggle() {
     {
       navigator.geolocation.clearWatch(pigi.geoWatch);
       pigi.geoWatch = null;
-      $('#userGeoStatus').removeClass('enabled');
+      $('#userGeoStatus').removeClass('init-blinker');
+      $('#userGeoStatus').removeClass('icon-dot-circled');
+      $('#userGeoStatus').addClass('icon-target-1');
       console.log("geoWatch disabled");
     }
     else
@@ -364,7 +366,8 @@ function geoToggle() {
 
 function geoUpdate(position) {
   $('#userGeoStatus').removeClass('init-blinker');
-  $('#userGeoStatus').addClass('enabled');
+  $('#userGeoStatus').removeClass('icon-target-1');
+  $('#userGeoStatus').addClass('icon-dot-circled');
   var contentString = "Timestamp: " + position.timestamp + " User location: lat " + position.coords.latitude + ", long " + position.coords.longitude + ", accuracy " + position.coords.accuracy;
   console.log(contentString)
 }
@@ -377,7 +380,8 @@ function geoError(error) {
     4: 'Unknown Error'
   };
   $('#userGeoStatus').removeClass('init-blinker');
-  $('#userGeoStatus').removeClass('enabled');
+  $('#userGeoStatus').removeClass('icon-dot-circled');
+  $('#userGeoStatus').addClass('icon-target-1');
   navigator.geolocation.clearWatch(pigi.geoWatch);
   console.log("Error: " + errors[error.code]);
 }
@@ -387,10 +391,10 @@ function traceCreateParticle()
 {
 	this.x = Math.random()*pigi.trace.canvas.width;
 	this.y = -Math.random()*10;
-	
+
 	this.vx = 0;
 	this.vy = Math.random()*4+2;
-	
+
 	var b = Math.random()*128+128>>0;
 	this.color = "rgba("+b+","+b+","+b+",0.5)";
 }
@@ -401,7 +405,7 @@ function traceStart()
     pigi.trace.active = true;
     pigi.trace.canvas = document.getElementById("traceContainer");
     //pigi.trace.width = $(pigi.trace).width();
-    
+
     var ctx = pigi.trace.canvas.getContext("2d");
     //for(var i = 0; i < 300; i++)
     //{
@@ -423,21 +427,21 @@ function traceDraw()
     var W = pigi.trace.canvas.width;
     var H = pigi.trace.canvas.height;
     var ctx = pigi.trace.canvas.getContext("2d");
-    
+
 	ctx.globalCompositeOperation = "source-over";
 	ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
 	ctx.fillRect(0, 0, W, H);
 	ctx.globalCompositeOperation = "lighter";
-	
+
 	//Lets draw particles from the array now
 	$.each(pigi.trace.particles, function(t,p)
     {
     //for(var t = 0; t < pigi.trace_particles.length; t++)
 	//{
 		//var p = pigi.trace_particles[t];
-		
+
 		ctx.beginPath();
-		
+
 		ctx.fillStyle = p.color;
 		ctx.fillRect(p.x, p.y, 1,p.vy);
 

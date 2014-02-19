@@ -1,51 +1,51 @@
 @font-face{
     font-family: "Digi";
-    src: url('../font/digital-7-webfont.eot');
-    src: local("Digital 7"),
-    url('../font/digital-7-webfont.woff') format("woff"),
-    url('../font/digital-7-webfont.ttf') format("truetype");
+    src:  url('../font/digital-7-webfont.eot');
+    src:  local("Digital 7"),
+          url('../font/digital-7-webfont.woff') format("woff"),
+          url('../font/digital-7-webfont.ttf') format("truetype");
 }
 
 @font-face {
-  font-family: 'pigi';
-  src: url('../font/pigi.eot?4489260');
-  src: url('../font/pigi.eot?4489260#iefix') format('embedded-opentype'),
-       url('../font/pigi.woff?4489260') format('woff'),
-       url('../font/pigi.ttf?4489260') format('truetype'),
-       url('../font/pigi.svg?4489260#pigi') format('svg');
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'pigi';
+    src:  url('../font/pigi.eot?4489260');
+    src:  url('../font/pigi.eot?4489260#iefix') format('embedded-opentype'),
+          url('../font/pigi.woff?4489260') format('woff'),
+          url('../font/pigi.ttf?4489260') format('truetype'),
+          url('../font/pigi.svg?4489260#pigi') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
- [class^="icon-"]:before, [class*=" icon-"]:before {
-  font-family: "pigi";
-  font-style: normal;
-  font-weight: normal;
-  speak: none;
+[class^="icon-"]:before, [class*=" icon-"]:before {
+    font-family: "pigi";
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
 
-  display: inline-block;
-  text-decoration: inherit;
-  width: 1em;
-  margin-right: .2em;
-  text-align: center;
-  /* opacity: .8; */
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    margin-right: .2em;
+    text-align: center;
+    /* opacity: .8; */
 
-  /* For safety - reset parent styles, that can break glyph codes*/
-  font-variant: normal;
-  text-transform: none;
+    /* For safety - reset parent styles, that can break glyph codes*/
+    font-variant: normal;
+    text-transform: none;
 
-  /* fix buttons height, for twitter bootstrap */
-  line-height: 1em;
+    /* fix buttons height, for twitter bootstrap */
+    line-height: 1em;
 
-  /* Animation center compensation - margins should be symmetric */
-  /* remove if not needed */
-  margin-left: .2em;
+    /* Animation center compensation - margins should be symmetric */
+    /* remove if not needed */
+    margin-left: .2em;
 
-  /* you can be more comfortable with increased icons size */
-  /*font-size: 120%; */
+    /* you can be more comfortable with increased icons size */
+    /*font-size: 120%; */
 
-  /* Uncomment for 3D effect */
-  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+    /* Uncomment for 3D effect */
+    /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
 
 .icon-eye:before { content: '\e800'; } /* 'î €' */
@@ -179,12 +179,12 @@ body {
     cursor: pointer;
     padding-left:5px;
     padding-right: 8px;
-background: -moz-linear-gradient(top, rgba(146,145,136,0.25) 0%, rgba(146,145,136,0.29) 16%, rgba(82,81,72,0.36) 42%, rgba(82,81,72,0.5) 100%);
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(146,145,136,0.25)), color-stop(16%,rgba(146,145,136,0.29)), color-stop(42%,rgba(82,81,72,0.36)), color-stop(100%,rgba(82,81,72,0.5)));
-background: -webkit-linear-gradient(top, rgba(146,145,136,0.25) 0%,rgba(146,145,136,0.29) 16%,rgba(82,81,72,0.36) 42%,rgba(82,81,72,0.5) 100%);
-background: -o-linear-gradient(top, rgba(146,145,136,0.25) 0%,rgba(146,145,136,0.29) 16%,rgba(82,81,72,0.36) 42%,rgba(82,81,72,0.5) 100%);
-background: -ms-linear-gradient(top, rgba(146,145,136,0.25) 0%,rgba(146,145,136,0.29) 16%,rgba(82,81,72,0.36) 42%,rgba(82,81,72,0.5) 100%);
-background: linear-gradient(to bottom, rgba(146,145,136,0.25) 0%,rgba(146,145,136,0.29) 16%,rgba(82,81,72,0.36) 42%,rgba(82,81,72,0.5) 100%);
+    background: -moz-linear-gradient(top, rgba(146,145,136,0.25) 0%, rgba(146,145,136,0.29) 16%, rgba(82,81,72,0.36) 42%, rgba(82,81,72,0.5) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(146,145,136,0.25)), color-stop(16%,rgba(146,145,136,0.29)), color-stop(42%,rgba(82,81,72,0.36)), color-stop(100%,rgba(82,81,72,0.5)));
+    background: -webkit-linear-gradient(top, rgba(146,145,136,0.25) 0%,rgba(146,145,136,0.29) 16%,rgba(82,81,72,0.36) 42%,rgba(82,81,72,0.5) 100%);
+    background: -o-linear-gradient(top, rgba(146,145,136,0.25) 0%,rgba(146,145,136,0.29) 16%,rgba(82,81,72,0.36) 42%,rgba(82,81,72,0.5) 100%);
+    background: -ms-linear-gradient(top, rgba(146,145,136,0.25) 0%,rgba(146,145,136,0.29) 16%,rgba(82,81,72,0.36) 42%,rgba(82,81,72,0.5) 100%);
+    background: linear-gradient(to bottom, rgba(146,145,136,0.25) 0%,rgba(146,145,136,0.29) 16%,rgba(82,81,72,0.36) 42%,rgba(82,81,72,0.5) 100%);
 }
 
 #chartContainer {
@@ -192,50 +192,45 @@ background: linear-gradient(to bottom, rgba(146,145,136,0.25) 0%,rgba(146,145,13
 }
 
 .finput {
-background-color: #555658;
--webkit-box-shadow: rgba(255, 255, 255, 0.15) 0 1px 0;
-box-shadow: rgba(255, 255, 255, 0.15) 0 1px 0;
-border: 1px solid #2f3031;
-padding: 10px;
--webkit-transform: translate3d(0, 0, 0);
-margin: 10px 10px 10px 10px;
--webkit-margin-collapse: separate;
--webkit-border-radius: 8px;
-border-radius: 8px;
+    background-color: #555658;
+    -webkit-box-shadow: rgba(255, 255, 255, 0.15) 0 1px 0;
+    box-shadow: rgba(255, 255, 255, 0.15) 0 1px 0;
+    border: 1px solid #2f3031;
+    padding: 10px;
+    -webkit-transform: translate3d(0, 0, 0);
+    margin: 10px 10px 10px 10px;
+    -webkit-margin-collapse: separate;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
 }
 
 
 .enabled {
-color: rgba(52,51,62,1);
-background: rgb(103,119,18);
-background: -moz-linear-gradient(top, rgba(103,119,18,0.8) 0%, rgba(162,183,58,1) 100%) !important;
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(103,119,18,0.8)), color-stop(100%,rgba(162,183,58,0.8))) !important;
-background: -webkit-linear-gradient(top, rgba(103,119,18,0.8) 0%,rgba(162,183,58,1) 100%) !important;
-background: -o-linear-gradient(top, rgba(103,119,18,0.8) 0%,rgba(162,183,58,1) 100%) !important;
-background: -ms-linear-gradient(top, rgba(103,119,18,1) 0%,rgba(162,183,58,1) 100%) !important;
-background: linear-gradient(to bottom, rgba(103,119,18,0.8) 0%,rgba(162,183,58,0.8) 100%) !important;
-
+    color: rgba(52,51,62,1);
+    background: rgb(103,119,18);
+    background: -moz-linear-gradient(top, rgba(103,119,18,0.8) 0%, rgba(162,183,58,1) 100%) !important;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(103,119,18,0.8)), color-stop(100%,rgba(162,183,58,0.8))) !important;
+    background: -webkit-linear-gradient(top, rgba(103,119,18,0.8) 0%,rgba(162,183,58,1) 100%) !important;
+    background: -o-linear-gradient(top, rgba(103,119,18,0.8) 0%,rgba(162,183,58,1) 100%) !important;
+    background: -ms-linear-gradient(top, rgba(103,119,18,1) 0%,rgba(162,183,58,1) 100%) !important;
+    background: linear-gradient(to bottom, rgba(103,119,18,0.8) 0%,rgba(162,183,58,0.8) 100%) !important;
 }
 
 @-webkit-keyframes blinker {
-  from { opacity: 1.0; }
-  to { opacity: 0.2; }
-  0% { color: black; }
-  100% { color: green; }
+    0% { color: black; opacity: 0.5 }
+    100% { color: #75890c; opacity: 1}
 }
 
 keyframes blinker {
-  from { opacity: 1.0; }
-  to { opacity: 0.2; }
-  0% { color: black; }
-  100% { color: green; }
+    0% { color: black; opacity: 0.5 }
+    100% { color: #75890c; opacity: 1 }
 }
 
 .init-blinker {
-  -webkit-animation-name: blinker;
-  -webkit-animation-iteration-count: infinite;
-  -webkit-animation-timing-function: cubic-bezier(1.0,0,0,1.0);
-  -webkit-animation-duration: 1.3s;
+    -webkit-animation-name: blinker;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: cubic-bezier(1.0,0,0,1.0);
+    -webkit-animation-duration: 1.3s;
 }
 
 .md-modal {
@@ -275,67 +270,67 @@ keyframes blinker {
 }
 
 .md-effect-1 .md-content {
-	-webkit-transform: scale(0.7);
-	-moz-transform: scale(0.7);
-	-ms-transform: scale(0.7);
-	transform: scale(0.7);
-	opacity: 0;
-	-webkit-transition: all 0.3s;
-	-moz-transition: all 0.3s;
-	transition: all 0.3s;
+    -webkit-transform: scale(0.7);
+    -moz-transform: scale(0.7);
+    -ms-transform: scale(0.7);
+    transform: scale(0.7);
+    opacity: 0;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
 }
 
 .md-show.md-effect-1 .md-content {
-	-webkit-transform: scale(1);
-	-moz-transform: scale(1);
-	-ms-transform: scale(1);
-	transform: scale(1);
-	opacity: 1;
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+    opacity: 1;
 }
 
 /* Content styles */
 .md-content {
-	color: #fff;
-	background: #e74c3c;
-	position: relative;
-	border-radius: 3px;
-	margin: 0 auto;
+    color: #fff;
+    background: #e74c3c;
+    position: relative;
+    border-radius: 3px;
+    margin: 0 auto;
 }
 
 .md-content h3 {
-	margin: 0;
-	padding: 0.4em;
-	text-align: center;
-	font-size: 2.4em;
-	font-weight: 300;
-	opacity: 0.8;
-	background: rgba(0,0,0,0.1);
-	border-radius: 3px 3px 0 0;
+    margin: 0;
+    padding: 0.4em;
+    text-align: center;
+    font-size: 2.4em;
+    font-weight: 300;
+    opacity: 0.8;
+    background: rgba(0,0,0,0.1);
+    border-radius: 3px 3px 0 0;
 }
 
 .md-content > div {
-	padding: 15px 40px 30px;
-	margin: 0;
-	font-weight: 300;
-	font-size: 1.15em;
+    padding: 15px 40px 30px;
+    margin: 0;
+    font-weight: 300;
+    font-size: 1.15em;
 }
 
 .md-content > div p {
-	margin: 0;
-	padding: 10px 0;
+    margin: 0;
+    padding: 10px 0;
 }
 
 .md-content > div ul {
-	margin: 0;
-	padding: 0 0 30px 20px;
+    margin: 0;
+    padding: 0 0 30px 20px;
 }
 
 .md-content > div ul li {
-	padding: 5px 0;
+    padding: 5px 0;
 }
 
 .md-content button {
-	display: block;
-	margin: 0 auto;
-	font-size: 0.8em;
+    display: block;
+    margin: 0 auto;
+    font-size: 0.8em;
 }

@@ -22,7 +22,7 @@
    <div id="home">
     <div class="toolbar">
      <a href="#settings" class="button leftButton slideright big-icon icon-menu"></a>
-     <a href="#about" class="button rightButton slideleft">AB</a>
+     <a href="#about" class="button rightButton slideleft big-icon icon-database"></a>
      <div class="mfd">
       <span class="mfd-display" id="count_val">00000</span>
       <span class="mfd-unit" id="count_unit">CPM</span>
@@ -40,10 +40,10 @@
      <canvas id="gauge1" style="display: none" width="1000" height="300"></canvas>
      <canvas id="traceContainer" style="display: none" width="1000" height="300"></canvas>
      <div class="md-control-container">
-      <a href="#" id="live15m" class="liveControl md-control enabled icon-chart-bar" seconds=900>15M</a>
-      <a href="#" id="live60m" class="liveControl md-control icon-chart-bar" seconds=3600>60M</a>
-      <a href="#" id="live24h" class="liveControl md-control icon-chart-bar" seconds=86400>24H</a>
-      <a href="#" id="toggleGauge" class="viewableControl md-control fade big-icon icon-gauge"></a>
+      <a href="#" id="live15m" class="liveControl md-control enabled icon-chart-area" seconds=900>15M</a>
+      <a href="#" id="live60m" class="liveControl md-control icon-chart-area" seconds=3600>60M</a>
+      <a href="#" id="live24h" class="liveControl md-control icon-chart-area" seconds=86400>24H</a>
+      <a href="#" id="toggleGauge" class="viewableControl md-control fade big-icon icon-gauge-1"></a>
       <a href="#" id="toggleTrace" class="md-control big-icon icon-eye-1"></a>
       <a href="#" id="toggleAudio" class="md-control big-icon icon-volume-down-1"></a>
       <a href="#" id="toggleModal" class="md-control big-icon icon-attention"></a>
@@ -77,8 +77,6 @@
 
  </div>
 
- <div class="md-overlay"></div>
-
  <div class="md-modal md-effect-1" id="modal-1">
   <div class="md-content">
    <h3>Modal Dialog</h3>
@@ -93,6 +91,8 @@
    </div>
   </div>
  </div>
+
+  <div class="md-overlay"></div>
 
  </body>
 </html>

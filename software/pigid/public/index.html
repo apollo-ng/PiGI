@@ -22,7 +22,7 @@
    <div id="home">
     <div class="toolbar">
      <a href="#settings" class="button leftButton slideright big-icon icon-menu"></a>
-     <a href="#about" class="button rightButton slideleft big-icon icon-database"></a>
+     <a href="#history" class="button rightButton slideleft big-icon icon-database"></a>
      <div class="mfd">
       <span class="mfd-display" id="count_val">00000</span>
       <span class="mfd-unit" id="count_unit">CPM</span>
@@ -51,10 +51,16 @@
     </div>
    </div>
 
-   <div id="analog" class="selectable">
-    <div class="toolbar"><a href="#home" class="back active">Back</a></div>
-    <div class="mainDisplay"></div>
+   <div id="history" class="selectable">
+    <div class="toolbar"><a href="#home" class="back">Live</a></div>
+     <div class="md">
+     <div id="historyContainer"></div>
+     <div class="md-control-container">
+      <a href="#" id="live15m" class="liveControl md-control enabled icon-chart-area">Action Button</a>
+      </div>
+    </div>
    </div>
+
 
    <div id="about" class="selectable">
     <div class="toolbar"><a href="#home" class="back active">Back</a></div>
@@ -73,6 +79,7 @@
     <div class="toolbar"><a href="#home" class="back rightButton active">Back</a></div>
     <div class="finput rounded"><label>Websocket URL</label><input type="text" id="ws_url" length="255" /></div>
     <a href="#" class="grayButton goback">Save Settings</a>
+     <a href="#about" class="grayButton">About</a>
    </div>
 
  </div>

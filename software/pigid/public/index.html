@@ -21,7 +21,7 @@
 
    <div id="home">
     <div class="toolbar">
-     <a href="#settings" class="button leftButton slideright big-icon icon-menu"></a>
+     <a href="#menu" class="button leftButton slideright big-icon icon-menu"></a>
      <a href="#history" class="button rightButton slideleft big-icon icon-database"></a>
      <div class="mfd">
       <span class="mfd-display" id="count_val">00000</span>
@@ -37,8 +37,8 @@
 
     <div class="md">
      <div id="chartContainer"></div>
-     <canvas id="gauge1" style="display: none" width="1000" height="300"></canvas>
-     <canvas id="traceContainer" style="display: none" width="1000" height="300"></canvas>
+     <canvas id="gauge1" style="display: none" width="1000" height="1000"></canvas>
+     <canvas id="traceContainer" style="display: none" width="1000" height="1000"></canvas>
      <div class="md-control-container">
       <a href="#" id="live15m" class="liveControl md-control enabled icon-chart-area" seconds=900>15M</a>
       <a href="#" id="live60m" class="liveControl md-control icon-chart-area" seconds=3600>60M</a>
@@ -52,7 +52,7 @@
    </div>
 
    <div id="history" class="selectable">
-    <div class="toolbar"><a href="#home" class="back">Live</a></div>
+    <div class="toolbar"><h1>Historical Radiation Data</h1><a href="#home" class="back">Live</a></div>
      <div class="md">
      <div id="historyContainer"></div>
      <div class="md-control-container">
@@ -63,7 +63,7 @@
 
 
    <div id="about" class="selectable">
-    <div class="toolbar"><a href="#home" class="back active">Back</a></div>
+    <div class="toolbar"><a href="#home" class="back">Back</a></div>
     <ul class="rounded post">
      <img src="assets/img/apollo-badge.png" border="0" />
      <h1><strong>PiGI</strong><br>Version 1.0 &alpha;</h1>
@@ -75,11 +75,20 @@
     <a href="#" class="grayButton goback">Close</a>
    </div>
 
-   <div id="settings" class="selectable">
-    <div class="toolbar"><a href="#home" class="back rightButton active">Back</a></div>
-    <div class="finput rounded"><label>Websocket URL</label><input type="text" id="ws_url" length="255" /></div>
-    <a href="#" class="grayButton goback">Save Settings</a>
-     <a href="#about" class="grayButton">About</a>
+   <div id="menu" class="selectable">
+    <div class="toolbar"><h1>Main Menu</h1><a href="#home" class="back rightButton">Back</a></div>
+    <div class="scroll">
+     <h2>General</h2>
+     <ul class="rounded">
+      <li class="arrow"><a href="#settings" style="">Settings</a> </li>
+      <li class="arrow"><a href="#about" style="">About</a></li>
+     </ul>
+     <h2>Other</h2>
+      <ul class="individual">
+       <li><a href="mailto:dk@morfunk.com" style="">Email</a></li>
+       <li><a target="_blank" href="http://tinyurl.com/support-jqt" style="">Donate</a></li>
+      </ul>
+    </div>
    </div>
 
  </div>

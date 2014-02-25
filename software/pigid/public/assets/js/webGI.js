@@ -10,6 +10,14 @@ var pigi = {
         gauge : null,
 
     },
+    history : {
+        chart : null,
+        data : {
+            doserate : [],
+            doserate_avg : [],
+        },
+        chart_age : 60*60*24*7,
+    },
     conf : {
         websocket_host : "ws://" + window.location.hostname + ":8080",
         audio : 0,
@@ -108,6 +116,7 @@ function initUI() {
         $('#toggleGauge,#toggleTrace').removeClass('enabled');
         $(event.target).addClass('enabled');
         traceStop();
+        updateLayout();
         pigi.log.chart_age = parseInt($(event.target).attr("seconds"))
         requestLog();
     });
@@ -148,7 +157,8 @@ function initUI() {
     });
 
     // Init Gauge
-    initGauge()
+    initGauge();
+    initHistory();
 }
 
 function initGauge() {
@@ -180,12 +190,11 @@ function updateLayout() {
     var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 
     $('.md') .css({'height': h-100+'px'});
-    $('#traceContainer') .css({'height': h-150+'px', 'width': w+'px'}).attr('height',h-150).attr('width',w);
-    $('#chartContainer') .css({'height': h-150+'px'});
-    $('#gauge1') .css({'height': h-150+'px'});
-    $('#gauge1') .css({'width': w+'px'});
-    $('#gauge1').attr('height',h-150);
-    $('#gauge1').attr('width', w);
+    $('.canvasjs-chart-canvas') .css({'height': h-150+'px', 'width': w-30+'px'}).attr('height',h-150).attr('width',w-30);
+    $('#traceContainer') .css({'height': h-150+'px', 'width': w-30+'px'}).attr('height',h-150).attr('width',w-30);
+    $('#chartContainer') .css({'height': h-150+'px', 'width': w-30+'px'}).attr('height',h-150).attr('width',w-30);
+    $('#historyContainer') .css({'height': h-150+'px', 'width': w-30+'px'}).attr('height',h-150).attr('width',w-30);
+    $('#gauge1') .css({'height': h-150+'px', 'width': w-30+'px'}).attr('height',h-150).attr('width',w-30);
 }
 
 function updateStatus(data) {
@@ -291,6 +300,25 @@ function updateLogStatus(data) {
     while(pigi.log.data.doserate_avg[0].x < left_end) pigi.log.data.doserate_avg.shift();
     pigi.log.chart.render();
 }
+
+
+function initHistory() {
+
+   pigi.history.chart = new CanvasJS.Chart("historyContainer",{
+        animationEnabled: false,
+        backgroundColor: "rgba(13,12,8,0.25)",
+        title:{ text: "EAR: $$ uSv/h (AVG) - EAD: $$ uSv (Total)", fontSize: 14, horizontalAlign: "right", fontColor: "rgba(117,137,12,0.8)", margin: 8 },
+        axisY:{ minimum: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
+        axisX:{ valueFormatString: "HH:mm", labelAngle: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
+        data: [{ type: "area", color: "rgba(117,137,12,0.8)", dataPoints: pigi.history.data.doserate },
+               { type: "line", color: "rgba(210,242,30,0.6)", dataPoints: pigi.history.data.doserate_avg }]
+    });
+
+    pigi.history.chart.render();
+
+}
+
+
 
 function toggleCounterUnit() {
   if(pigi.conf.count_unit=="CPM")
@@ -481,6 +509,7 @@ $(document).ready(function() {
     initUI();
     geoToggle();  // Init geolocation
 
-    updateLayout();
     $(window).resize(updateLayout)
+    updateLayout();
+
 });

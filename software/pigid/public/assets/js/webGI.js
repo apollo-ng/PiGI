@@ -173,9 +173,7 @@ function initUI() {
         toggleAudio();
     });
 
-    // Init Gauge
-    initGauge();
-    initHistory();
+    updateLayout();
 }
 
 function initGauge() {
@@ -189,18 +187,35 @@ function initGauge() {
 function updateLayout() {
     // This is called on DOMReady and on resize
     // FIXME: Nasty hack to keep chart fluid
+    console.log("Updating Layout");
     var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
     var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 
     var h_offset = 152;
-    var w_offset = 32;
+    var w_offset = 48;
 
     $('.md') .css({'height': h-100+'px'});
+    
+    var new_h = h-h_offset;
+    //var new_w = w-w_offset;
+    var new_w = $('#md-home').width();
+    
+    
     $('.canvasjs-chart-canvas') .css({'height': h-h_offset+'px', 'width': w-w_offset+'px'}).attr('height',h-h_offset).attr('width',w-w_offset);
-    $('#traceContainer') .css({'height': h-h_offset-4+'px', 'width': w-w_offset+'px'}).attr('height',h-h_offset-4).attr('width',w-w_offset);
-    $('#chartContainer') .css({'height': h-h_offset+'px', 'width': w-w_offset+'px'}).attr('height',h-h_offset).attr('width',w-w_offset);
-    $('#historyContainer') .css({'height': h-h_offset+'px', 'width': w-w_offset+'px'}).attr('height',h-h_offset).attr('width',w-w_offset);
-    $('#gaugeContainer') .css({'height': h-h_offset-4+'px', 'width': w-w_offset+'px'}).attr('height',h-h_offset-4).attr('width',w-w_offset);
+    
+    //$('.instrumentContainer').css({'height': new_h+'px', 'width': new_w+'px'}).attr('height',new_h).attr('width',new_w);
+    $('#traceContainer') .css({'height': new_h-4+'px', 'width': new_w+'px'}).attr('height',new_h-4).attr('width',new_w);
+    $('#chartContainer') .css({'height': new_h+'px', 'width': new_w+'px'}).attr('height',new_h).attr('width',new_w);
+    $('#gaugeContainer') .css({'height': new_h-4+'px', 'width': new_w+'px'}).attr('height',new_h-4).attr('width',new_w);
+    
+    new_w = $('#md-history').width();
+    $('#historyContainer') .css({'height': new_h+'px', 'width': new_w+'px'}).attr('height',new_h).attr('width',new_w);
+    
+    initLog();
+    initHistory();
+    initGauge();
+    //if (webGI.log.chart != null) webGI.log.chart.render();
+    //if (webGI.history.chart != null) webGI.history.chart.render();
 }
 
 function updateConfig() {
@@ -299,17 +314,7 @@ function updateHistory(data) {
         webGI.history.data.doserate_avg.push({ "x": ts, "y": v.doserate_avg});
     });
 
-    webGI.history.chart = new CanvasJS.Chart("historyContainer",{
-        animationEnabled: false,
-        backgroundColor: "rgba(13,12,8,0.25)",
-        title:{ text: "All time uSv/h", fontSize: 14, horizontalAlign: "right", fontColor: "rgba(117,137,12,0.8)", margin: 8 },
-        axisY:{ minimum: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 0, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
-        axisX:{ valueFormatString: "MM-DD", labelAngle: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
-        data: [{ type: "area", color: "rgba(117,137,12,0.8)", dataPoints: webGI.history.data.doserate },
-               { type: "line", color: "rgba(210,242,30,0.6)", dataPoints: webGI.history.data.doserate_avg }]
-    });
-
-    webGI.history.chart.render();
+    initHistory();
 }
 
 function updateLogHistory(data) {
@@ -322,18 +327,7 @@ function updateLogHistory(data) {
         webGI.log.data.doserate.push({ "x": ts, "y": v.doserate});
         webGI.log.data.doserate_avg.push({ "x": ts, "y": v.doserate_avg});
     });
-
-    webGI.log.chart = new CanvasJS.Chart("chartContainer",{
-        animationEnabled: false,
-        backgroundColor: "rgba(13,12,8,0.25)",
-        title:{ text: "uSv/h", fontSize: 14, horizontalAlign: "right", fontColor: "rgba(117,137,12,0.8)", margin: 8 },
-        axisY:{ minimum: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 0, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
-        axisX:{ valueFormatString: "HH:mm", labelAngle: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
-        data: [{ type: "area", color: "rgba(117,137,12,0.8)", dataPoints: webGI.log.data.doserate },
-               { type: "line", color: "rgba(210,242,30,0.6)", dataPoints: webGI.log.data.doserate_avg }]
-    });
-
-    webGI.log.chart.render();
+    initLog();
 }
 
 function updateLogStatus(data) {
@@ -344,23 +338,38 @@ function updateLogStatus(data) {
     var left_end = new Date((data.timestamp-webGI.log.chart_age)*1000)
     while(webGI.log.data.doserate[0].x < left_end) webGI.log.data.doserate.shift();
     while(webGI.log.data.doserate_avg[0].x < left_end) webGI.log.data.doserate_avg.shift();
+//    updateLayout();
     webGI.log.chart.render();
 }
 
 
 function initHistory() {
-   //webGI.history.chart = new CanvasJS.Chart("historyContainer",{
-        //animationEnabled: false,
-        //backgroundColor: "rgba(13,12,8,0.25)",
-        //title:{ text: "EAR: $$ uSv/h (AVG) - EAD: $$ uSv (Total)", fontSize: 14, horizontalAlign: "right", fontColor: "rgba(117,137,12,0.8)", margin: 8 },
-        //axisY:{ minimum: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 0, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
-        //axisX:{ valueFormatString: "HH:mm", labelAngle: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
-        //data: [{ type: "area", color: "rgba(117,137,12,0.8)", dataPoints: webGI.history.data.doserate },
-               //{ type: "line", color: "rgba(210,242,30,0.6)", dataPoints: webGI.history.data.doserate_avg }]
-    //});
     console.log("Init history");
+    webGI.history.chart = new CanvasJS.Chart("historyContainer",{
+        animationEnabled: false,
+        backgroundColor: "rgba(13,12,8,0.25)",
+        title:{ text: "All time uSv/h", fontSize: 14, horizontalAlign: "right", fontColor: "rgba(117,137,12,0.8)", margin: 8 },
+        axisY:{ minimum: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 0, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
+        axisX:{ valueFormatString: "MM-DD", labelAngle: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
+        data: [{ type: "area", color: "rgba(117,137,12,0.8)", dataPoints: webGI.history.data.doserate },
+               { type: "line", color: "rgba(210,242,30,0.6)", dataPoints: webGI.history.data.doserate_avg }]
+    });
+    webGI.history.chart.render();
 }
 
+function initLog() {
+    console.log("Init log");
+    webGI.log.chart = new CanvasJS.Chart("chartContainer",{
+        animationEnabled: false,
+        backgroundColor: "rgba(13,12,8,0.25)",
+        title:{ text: "uSv/h", fontSize: 14, horizontalAlign: "right", fontColor: "rgba(117,137,12,0.8)", margin: 8 },
+        axisY:{ minimum: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 0, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
+        axisX:{ valueFormatString: "HH:mm", labelAngle: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
+        data: [{ type: "area", color: "rgba(117,137,12,0.8)", dataPoints: webGI.log.data.doserate },
+               { type: "line", color: "rgba(210,242,30,0.6)", dataPoints: webGI.log.data.doserate_avg }]
+    });
+    webGI.log.chart.render();
+}
 
 
 function toggleCounterUnit() {
@@ -544,9 +553,9 @@ function traceDraw()
 }
 
 $(document).ready(function() {
-    $(window).resize(updateLayout)
+    $(window).resize(updateLayout);
     updateLayout();
-
+    window.onhashchange = updateLayout;
     // Switch UI click/tap event handler action for stupid apple browsers
     if ($.support.touch) { webGI.ui_action = 'touchend'; }
     else { webGI.ui_action  = 'click'; }

@@ -36,10 +36,10 @@
      </div>
     </div>
 
-    <div class="md">
-     <div id="chartContainer"></div>
-     <canvas id="gaugeContainer" style="display: none"></canvas>
-     <canvas id="traceContainer" style="display: none"></canvas>
+    <div class="md" id="md-home">
+     <div id="chartContainer" class="instrumentContainer"></div>
+     <canvas id="gaugeContainer" class="instrumentContainer" style="display: none"></canvas>
+     <canvas id="traceContainer" class="instrumentContainer" style="display: none"></canvas>
      <div class="md-control-container">
       <a href="#" id="live15m" class="liveControl md-control enabled" seconds=900>15M</a>
       <a href="#" id="live60m" class="liveControl md-control" seconds=3600>60M</a>
@@ -55,8 +55,8 @@
    <!-- History Panel -->
    <div id="history" class="selectable">
     <div class="toolbar"><h1>Historical Radiation Data</h1><a href="#home" class="back">Live</a></div>
-     <div class="md">
-     <div id="historyContainer"></div>
+     <div class="md" id="md-history">
+     <div id="historyContainer" class="instrumentContainer"></div>
      <div class="md-control-container">
       <a href="#" id="no-action" class="liveControl md-control enabled icon-chart-area">Action Button</a>
      </div>

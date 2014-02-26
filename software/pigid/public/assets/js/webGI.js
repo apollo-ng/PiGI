@@ -33,7 +33,7 @@ var webGI = {
         chart_age : 60*60*24*7,
     },
     conf : {
-        websocket_host : "ws://" + window.location.hostname + ":8080",
+        websocket_host : "ws://" + window.location.hostname + ":" +window.location.port,
         audio : 0,
         tick_snd : new Audio("assets/tock.wav"),
         count_unit : "CPM"

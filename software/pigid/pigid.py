@@ -100,6 +100,11 @@ def handle_ws_log():
                 else:
                     amount = 24 * 30
                 log_mgr.send_log(age=age_seconds,amount=amount)
+            elif msg.get("cmd") == "history":
+                age_from = msg.get("from")
+                age_to = msg.get("to")
+                log.info("From %s to %s"%(str(age_from),str(age_to)))
+                log_mgr.send_log(start=age_from,end=age_to,amount=1000,static=True)
         except WebSocketError:
             break
     log.info("websocket closed")

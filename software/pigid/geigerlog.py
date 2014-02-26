@@ -43,16 +43,18 @@ def average_log_entries(entries):
             result.append(entry)
             continue
         
-        seconds = float(entry["timestamp"]) - int(previous_entry["timestamp"])
-        counts = float(entry["total"]) - int(previous_entry["total"])
+        seconds = float(entry.get("timestamp",0)) - int(previous_entry.get("timestamp",0))
+        counts = float(entry.get("total",0)) - int(previous_entry.get("total",0))
+    
         if counts < 0: counts=0
         cps = counts/seconds
         cpm = cps * 60
         eqd = round(cpm * config.tube_rate_factor,2)
-        
+    
         entry["cps"] = int(cps)
         entry["cpm"] = int(cpm)
         entry["doserate"] = eqd
+
         result.append(entry)
         previous_entry = entry
     return result
@@ -96,6 +98,8 @@ class GeigerLog(threading.Thread):
             end = dt2unix(datetime.now())
         if age:
             start = end - age
+        elif start is None:
+            start = int(self.db.RangeIter(key_from="0",include_value=False).next())
         
         result = []
         

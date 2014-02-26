@@ -29,7 +29,7 @@ class WebSocketsManager(threading.Thread):
             except Exception, e:
                 self.sockets.remove(socket)
                 log.error("could not write to socket %s"%socket)
-                log.error("e")
+                log.error(e)
     
 class StatusWebSocketsManager(WebSocketsManager):
     def run(self):
@@ -70,11 +70,13 @@ class LogWebSocketManager(threading.Thread):
             log.error(e)
             log.error("THREAD ERROR!!!!")
     
-    def send_log(self,start=None,end=None,age=None,amount=10):
+    def send_log(self,start=None,end=None,age=None,amount=10,static=False):
         if age and age<60*60*2: #2hours
             amount = None
         history = self.geigerlog.get_log_entries(start=start,end=end,age=age,amount=amount)
-        lj = json.dumps({"type":"history","log":history})
+        logtype = "static_history" if static else "history"
+        
+        lj = json.dumps({"type":logtype,"log":history})
         self.socket.send(lj)
             
         

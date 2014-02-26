@@ -93,6 +93,7 @@ function initWebsockets() {
     webGI.websockets.log.onopen = function()
     {
         requestLog();
+        requestHistory(null,null);
     };
 
     webGI.websockets.log.onclose = function()
@@ -109,10 +110,12 @@ function initWebsockets() {
       {
         case "history":
           updateLogHistory(x);
-
         break;
         case "status":
           updateLogStatus(x);
+        break;
+        case "static_history":
+          updateHistory(x);
         break;
         default:
       }
@@ -275,8 +278,42 @@ function requestLog() {
     console.log ("Requesting log (age " +webGI.log.chart_age +" )");
 }
 
-function updateLogHistory(data) {
+function requestHistory(from,to) {
+    var cmd = {
+        "cmd" : "history",
+        "from" : from,
+        "to" : to
+    }
+    webGI.websockets.log.send(JSON.stringify(cmd));
+    console.log ("Requesting history");
+}
+
+function updateHistory(data) {
     console.log("HISTORY");
+    webGI.history.data.doserate = [];
+    webGI.history.data.doserate_avg = [];
+    $.each(data.log, function(i,v){
+        //var v = JSON.parse(v_json);
+        var ts = new Date(v.timestamp*1000)
+        webGI.history.data.doserate.push({ "x": ts, "y": v.doserate});
+        webGI.history.data.doserate_avg.push({ "x": ts, "y": v.doserate_avg});
+    });
+
+    webGI.history.chart = new CanvasJS.Chart("historyContainer",{
+        animationEnabled: false,
+        backgroundColor: "rgba(13,12,8,0.25)",
+        title:{ text: "All time uSv/h", fontSize: 14, horizontalAlign: "right", fontColor: "rgba(117,137,12,0.8)", margin: 8 },
+        axisY:{ minimum: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 0, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
+        axisX:{ valueFormatString: "HH:mm", labelAngle: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
+        data: [{ type: "area", color: "rgba(117,137,12,0.8)", dataPoints: webGI.history.data.doserate },
+               { type: "line", color: "rgba(210,242,30,0.6)", dataPoints: webGI.history.data.doserate_avg }]
+    });
+
+    webGI.history.chart.render();
+}
+
+function updateLogHistory(data) {
+    console.log("LOGHISTORY");
     webGI.log.data.doserate = [];
     webGI.log.data.doserate_avg = [];
     $.each(data.log, function(i,v){
@@ -289,7 +326,7 @@ function updateLogHistory(data) {
     webGI.log.chart = new CanvasJS.Chart("chartContainer",{
         animationEnabled: false,
         backgroundColor: "rgba(13,12,8,0.25)",
-        title:{ text: "EAR: $$ uSv/h (AVG) - EAD: $$ uSv (Total)", fontSize: 14, horizontalAlign: "right", fontColor: "rgba(117,137,12,0.8)", margin: 8 },
+        title:{ text: "uSv/h", fontSize: 14, horizontalAlign: "right", fontColor: "rgba(117,137,12,0.8)", margin: 8 },
         axisY:{ minimum: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 0, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
         axisX:{ valueFormatString: "HH:mm", labelAngle: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
         data: [{ type: "area", color: "rgba(117,137,12,0.8)", dataPoints: webGI.log.data.doserate },
@@ -312,19 +349,16 @@ function updateLogStatus(data) {
 
 
 function initHistory() {
-
-   webGI.history.chart = new CanvasJS.Chart("historyContainer",{
-        animationEnabled: false,
-        backgroundColor: "rgba(13,12,8,0.25)",
-        title:{ text: "EAR: $$ uSv/h (AVG) - EAD: $$ uSv (Total)", fontSize: 14, horizontalAlign: "right", fontColor: "rgba(117,137,12,0.8)", margin: 8 },
-        axisY:{ minimum: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 0, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
-        axisX:{ valueFormatString: "HH:mm", labelAngle: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
-        data: [{ type: "area", color: "rgba(117,137,12,0.8)", dataPoints: webGI.history.data.doserate },
-               { type: "line", color: "rgba(210,242,30,0.6)", dataPoints: webGI.history.data.doserate_avg }]
-    });
-
-    webGI.history.chart.render();
-
+   //webGI.history.chart = new CanvasJS.Chart("historyContainer",{
+        //animationEnabled: false,
+        //backgroundColor: "rgba(13,12,8,0.25)",
+        //title:{ text: "EAR: $$ uSv/h (AVG) - EAD: $$ uSv (Total)", fontSize: 14, horizontalAlign: "right", fontColor: "rgba(117,137,12,0.8)", margin: 8 },
+        //axisY:{ minimum: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 0, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
+        //axisX:{ valueFormatString: "HH:mm", labelAngle: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
+        //data: [{ type: "area", color: "rgba(117,137,12,0.8)", dataPoints: webGI.history.data.doserate },
+               //{ type: "line", color: "rgba(210,242,30,0.6)", dataPoints: webGI.history.data.doserate_avg }]
+    //});
+    console.log("Init history");
 }
 
 

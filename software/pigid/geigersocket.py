@@ -26,12 +26,10 @@ class WebSocketsManager(threading.Thread):
         for socket in self.sockets:
             try:
                 socket.send(msg_json)
-            except WebSocketError:
+            except Exception, e:
                 self.sockets.remove(socket)
                 log.error("could not write to socket %s"%socket)
-            except NotImplementedError, e:
-                log.error(e)
-
+                log.error("e")
     
 class StatusWebSocketsManager(WebSocketsManager):
     def run(self):

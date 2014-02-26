@@ -41,13 +41,13 @@
      <canvas id="gaugeContainer" style="display: none"></canvas>
      <canvas id="traceContainer" style="display: none"></canvas>
      <div class="md-control-container">
-      <a href="#" id="live15m" class="liveControl md-control enabled icon-chart-area" seconds=900>15M</a>
-      <a href="#" id="live60m" class="liveControl md-control icon-chart-area" seconds=3600>60M</a>
-      <a href="#" id="live24h" class="liveControl md-control icon-chart-area" seconds=86400>24H</a>
+      <a href="#" id="live15m" class="liveControl md-control enabled" seconds=900>15M</a>
+      <a href="#" id="live60m" class="liveControl md-control" seconds=3600>60M</a>
+      <a href="#" id="live24h" class="liveControl md-control" seconds=86400>24H</a>
       <a href="#" id="toggleGauge" class="viewableControl md-control fade big-icon icon-gauge-1"></a>
       <a href="#" id="toggleTrace" class="md-control big-icon icon-eye-1"></a>
       <a href="#" id="toggleAudio" class="md-control big-icon icon-volume-down-1"></a>
-      <a href="#" id="toggleModal" class="md-control big-icon icon-attention"></a>
+      <!-- <a href="#" id="toggleModal" class="md-control big-icon icon-attention"></a> -->
      </div>
     </div>
    </div>
@@ -67,35 +67,17 @@
 
    <!-- Main Menu -->
    <div id="menu" class="selectable">
-    <div class="toolbar"><h1>Main Menu</h1><a href="#home" class="back leftButton">Back</a><a href="#home" class="button rightButton slideLeft">Live</a></div>
-     <ul class="rounded scroll">
+    <div class="toolbar"><h1>Options</h1><a href="#home" class="back leftButton">Back</a><a href="#home" class="button rightButton slideLeft">Live</a></div>
+     <div class="scroll">
+     <ul class="rounded">
       <li><label for="cnf_ws_url">Websocket URL</label><input type="url" placeholder="http://host:port/" id="websocket_url" /></li>
       <li class="">Geolocation</li>
-      <li><input type="checkbox" id="cnf_gps_acc" value="on" checked="checked" title="Enable GPS High Accuracy" /></li>
+      <li><input type="checkbox" name="audio" value="on" checked="checked" title="" id="testr1"/><label for="testr1" style="display: inline-block; border: 1px solid red; width: 100%">Play Audio Ticks</label></li>
       <li><input type="radio" name="geoMode" value="mobile" title="Mobile" /></li>
       <li><input type="radio" name="geoMode" value="static" title="Stationary" /></li>
-     </ul>
-
-     <h2>Other</h2>
-     <ul class="individual">
       <li><a href="#about" class="dissolve">About</a></li>
-      <li><a target="_blank" href="https://apollo.open-resource.org/support:start" style="">Contribute & Donate</a></li>
      </ul>
-   </div>
-
-   <!-- My Settings -->
-   <div id="settings" class="selectable">
-    <div class="toolbar"><h1>Preferences</h1><a href="#home" class="back leftButton">Back</a><a href="#home" class="button rightButton slideLeft">Live</a></div>
-    <form class="scroll">
-     <ul class="edit rounded">
-      <li><label for="cnf_ws_url">Websocket URL</label><input type="url" placeholder="http://host:port/" id="websocket_url" /></li>
-      <h2>Geolocation</h2>
-      <li><input type="checkbox" name="audio" value="on" checked="checked" title="Play Audio Ticks" /></li>
-      <li><input type="radio" name="geoMode" value="mobile" title="Mobile" /></li>
-      <li><input type="radio" name="geoMode" value="static" title="Stationary" /></li>
-     </ul>
-     <a href="#home" class="grayButton goback">Save Settings</a>
-    </form>
+    </div>
    </div>
 
    <!-- About -->

@@ -398,12 +398,3 @@ keyframes blinker {
 }
 
 
-#jqt ul li label {
-  width: 20% !important;
-  min-width: 150px !important;
-  display: inline-block;
-}
-
-#jqt ul li input {
-  width: 65% !important;
-}

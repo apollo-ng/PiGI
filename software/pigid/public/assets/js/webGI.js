@@ -160,7 +160,7 @@ function initUI() {
        $('.liveControl, #toggleTrace').removeClass('enabled');
     });
 
-    $('#toggleTrace').bind('click',function() {
+    $('#toggleTrace').bind(webGI.ui_action,function() {
        $('#chartContainer').hide();
        $('#gaugeContainer').hide();
        $('#toggleTrace').addClass('enabled');

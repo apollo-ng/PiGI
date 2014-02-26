@@ -31,14 +31,14 @@
       <span class="mfd-display" id="lvl_val">0</span>
       <span class="mfd-unit" id="lvl_unit">INES</span>
       <span class="mfd-display mfd-icon icon-target-1" id="userGeoStatus"></span>
-      <span class="mfd-display" id="userGeoLoc" style="font-size: 10px; white-space: pre-wrap;">00.00000 00.00000</span>
+      <span class="mfd-display" id="userGeoLoc">00.00000 00.00000</span>
      </div>
     </div>
 
     <div class="md">
      <div id="chartContainer"></div>
-     <canvas id="gauge1" style="display: none" width="1000" height="1000"></canvas>
-     <canvas id="traceContainer" style="display: none" width="1000" height="1000"></canvas>
+     <canvas id="gaugeContainer" style="display: none"></canvas>
+     <canvas id="traceContainer" style="display: none"></canvas>
      <div class="md-control-container">
       <a href="#" id="live15m" class="liveControl md-control enabled icon-chart-area" seconds=900>15M</a>
       <a href="#" id="live60m" class="liveControl md-control icon-chart-area" seconds=3600>60M</a>
@@ -61,35 +61,53 @@
     </div>
    </div>
 
-
-   <div id="about" class="selectable">
-    <div class="toolbar"><a href="#home" class="back">Back</a></div>
-    <ul class="rounded post">
-     <img src="assets/img/apollo-badge.png" border="0" />
-     <h1><strong>PiGI</strong><br>Version 1.0 &alpha;</h1>
-     <li>zepto.js</li>
-     <li>jqtouch</li>
-     <li>CanvasJs</li>
-     <li>python</li>
-    </ul>
-    <a href="#" class="grayButton goback">Close</a>
-   </div>
-
    <div id="menu" class="selectable">
-    <div class="toolbar"><h1>Main Menu</h1><a href="#home" class="back rightButton">Back</a></div>
+    <div class="toolbar"><h1>Main Menu</h1><a href="#home" class="back leftButton">Back</a><a href="#home" class="button rightButton slideLeft">Live</a></div>
     <div class="scroll">
-     <h2>General</h2>
+     <h2>webGI Client Preferences</h2>
      <ul class="rounded">
-      <li class="arrow"><a href="#settings" style="">Settings</a> </li>
-      <li class="arrow"><a href="#about" style="">About</a></li>
+      <li class="arrow"><a href="#settings" class="dissolve">Network</a> </li>
+      <li class="arrow"><a href="#about" class="dissolve">Privacy</a></li>
+     </ul>
+     <h2>pyGI Server Preferences</h2>
+     <ul class="rounded">
+      <li class="arrow"><a href="#settings" class="dissolve">Network</a> </li>
+      <li class="arrow"><a href="#about" class="dissolve">Privacy</a></li>
      </ul>
      <h2>Other</h2>
       <ul class="individual">
-       <li><a href="mailto:dk@morfunk.com" style="">Email</a></li>
-       <li><a target="_blank" href="http://tinyurl.com/support-jqt" style="">Donate</a></li>
+       <li><a href="#about" class="dissolve">About</a></li>
+       <li><a target="_blank" href="https://apollo.open-resource.org/support:start" style="">Contribute & Donate</a></li>
       </ul>
     </div>
    </div>
+
+  <div id="about" class="selectable">
+   <div class="toolbar"><<h1>About this oftfware</h1><a href="#home" class="back leftButton">Back</a><a href="#home" class="button rightButton slideLeft">Live</a></div>
+   <ul class="rounded post">
+    <img src="assets/img/apollo-badge.png" border="0" />
+    <h1><strong>PiGI</strong><br>Version 1.0 &alpha;</h1>
+    <li>zepto.js</li>
+    <li>jqtouch</li>
+    <li>CanvasJs</li>
+    <li>python</li>
+   </ul>
+   <a href="#" class="grayButton goback">Close</a>
+  </div>
+
+  <div id="settings" class="selectable">
+   <div class="toolbar"><<h1>Preferences</h1><a href="#home" class="back leftButton">Back</a><a href="#home" class="button rightButton slideLeft">Live</a></div>
+   <form class="scroll">
+    <ul class="edit rounded">
+     <li><label for="cnf_ws_url">Websocket URL</label><input type="url" placeholder="http://host:port/" id="websocket_url" /></li>
+     <li><label for="cnf_orm_url">ORM API URL</label><input type="url" placeholder="http://host:port/" id="cnf_orm_url" /></li>
+     <li><input type="checkbox" name="audio" value="on" checked="checked" title="Play Audio Ticks" /></li>
+     <li><input type="radio" name="geoMode" value="mobile" title="Mobile" /></li>
+     <li><input type="radio" name="geoMode" value="static" title="Stationary" /></li>
+    </ul>
+    <a href="#home" class="grayButton goback">Save Settings</a>
+   </form>
+  </div>
 
  </div>
 

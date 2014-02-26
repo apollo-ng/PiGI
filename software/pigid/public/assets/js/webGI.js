@@ -1,4 +1,5 @@
-var pigi = {
+var webGI = {
+    ui_action : 'click',
     websockets : {},
     log : {
         chart : null,
@@ -8,7 +9,20 @@ var pigi = {
         },
         chart_age : 60*15,
         gauge : null,
-
+        gauge_opts : {
+            lines: 1,
+            angle: 0.15,
+            lineWidth: 0.05,
+            pointer: {
+                length: 0.9,
+                strokeWidth: 0.015,
+                color: '#d8d3c5'
+            },
+            limitmMax: 'true',
+            colorStart: '#75890c',
+            colorStop: '#75890c',
+            strokeColor: '#000000'
+        }
     },
     history : {
         chart : null,
@@ -46,16 +60,16 @@ function initWebsockets() {
         return;
     }
 
-    pigi.websockets.status = new WebSocket(pigi.conf.websocket_host+"/ws_status");
-    pigi.websockets.log = new WebSocket(pigi.conf.websocket_host+"/ws_log");
+    webGI.websockets.status = new WebSocket(webGI.conf.websocket_host+"/ws_status");
+    webGI.websockets.log = new WebSocket(webGI.conf.websocket_host+"/ws_log");
 
 
-    pigi.websockets.status.onopen = function()
+    webGI.websockets.status.onopen = function()
     {
         //console.log('Status Update socket opened');
     };
 
-    pigi.websockets.status.onmessage = function(e)
+    webGI.websockets.status.onmessage = function(e)
     {
         x = JSON.parse(e.data);
        //console.log(x);
@@ -70,24 +84,24 @@ function initWebsockets() {
         }
     }
 
-    pigi.websockets.status.onclose = function()
+    webGI.websockets.status.onclose = function()
     {
-        pigi.websockets.status = new WebSocket(pigi.conf.websocket_host+"/ws_status");
+        webGI.websockets.status = new WebSocket(webGI.conf.websocket_host+"/ws_status");
         console.log ("Status socket rest");
     };
 
-    pigi.websockets.log.onopen = function()
+    webGI.websockets.log.onopen = function()
     {
         requestLog();
     };
 
-    pigi.websockets.log.onclose = function()
+    webGI.websockets.log.onclose = function()
     {
-        pigi.websockets.log = new WebSocket(pigi.conf.websocket_host+"/ws_log");
+        webGI.websockets.log = new WebSocket(webGI.conf.websocket_host+"/ws_log");
         console.log ("Log socket rest");
     };
 
-    pigi.websockets.log.onmessage = function(e)
+    webGI.websockets.log.onmessage = function(e)
     {
       var x = JSON.parse(e.data);
       //console.log(x);
@@ -109,35 +123,35 @@ function initUI() {
     // Bind UI events
 
     // Backlog
-    $('.liveControl').bind('click',function(event) {
-        $('#gauge1').hide();
+    $('.liveControl').bind(webGI.ui_action,function(event) {
+        $('#gaugeContainer').hide();
         $('#chartContainer').show();
         $('.liveControl').removeClass('enabled');
         $('#toggleGauge,#toggleTrace').removeClass('enabled');
         $(event.target).addClass('enabled');
         traceStop();
         updateLayout();
-        pigi.log.chart_age = parseInt($(event.target).attr("seconds"))
+        webGI.log.chart_age = parseInt($(event.target).attr("seconds"))
         requestLog();
     });
 
     // CPS/CPM Toggle
-    $('#count_val, #count_unit').bind('click',function() {
+    $('#count_val, #count_unit').bind(webGI.ui_action,function() {
         toggleCounterUnit();
     });
 
-    $('#userGeoStatus').bind('click',function() {
+    $('#userGeoStatus').bind(webGI.ui_action,function() {
         geoToggle();
     });
 
-    $('#toggleModal').bind('click',function() {
+    $('#toggleModal').bind(webGI.ui_action,function() {
         $('#modal-1').addClass('md-show');
     });
 
-    $('#toggleGauge').bind('click',function() {
+    $('#toggleGauge').bind(webGI.ui_action,function() {
        $('#chartContainer').hide();
        $('#toggleTrace').hide();
-       $('#gauge1').show();
+       $('#gaugeContainer').show();
        traceStop();
        $('#toggleGauge').addClass('enabled');
        $('.liveControl, #toggleTrace').removeClass('enabled');
@@ -145,14 +159,14 @@ function initUI() {
 
     $('#toggleTrace').bind('click',function() {
        $('#chartContainer').hide();
-       $('#gauge1').hide();
+       $('#gaugeContainer').hide();
        $('#toggleTrace').addClass('enabled');
        $('.liveControl, #toggleGauge').removeClass('enabled');
        traceStart();
     });
 
     // Audio
-    $('#toggleAudio').bind('click',function() {
+    $('#toggleAudio').bind(webGI.ui_action,function() {
         toggleAudio();
     });
 
@@ -162,25 +176,11 @@ function initUI() {
 }
 
 function initGauge() {
-    var opts = {
-      lines: 12, // The number of lines to draw
-      angle: 0.15, // The length of each line
-      lineWidth: 0.24, // The line thickness
-      pointer: {
-        length: 0.9, // The radius of the inner circle
-        strokeWidth: 0.035 // The rotation offset
-      },
-      colorStart: '#6FADCF',   // Colors
-      colorStop: '#8FC0DA',    // just experiment with them
-      strokeColor: '#E0E0E0'   // to see which ones work best for you
-    };
-    var target = document.getElementById('gauge1'); // your canvas element
-    pigi.log.gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
-
-    //gauge.setTextField(document.getElementById("output"));
-    pigi.log.gauge.maxValue = 1; // set max gauge value
-    pigi.log.gauge.animationSpeed = 64; // set animation speed (32 is default value)
-    pigi.log.gauge.set(0);
+    var target = document.getElementById('gaugeContainer');
+    webGI.log.gauge = new Gauge(target).setOptions(webGI.log.gauge_opts);
+    webGI.log.gauge.maxValue = 1;
+    webGI.log.gauge.animationSpeed = 64;
+    webGI.log.gauge.set(0);
 }
 
 function updateLayout() {
@@ -189,22 +189,31 @@ function updateLayout() {
     var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
     var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 
+    var h_offset = 152;
+    var w_offset = 32;
+
     $('.md') .css({'height': h-100+'px'});
-    $('.canvasjs-chart-canvas') .css({'height': h-150+'px', 'width': w-30+'px'}).attr('height',h-150).attr('width',w-30);
-    $('#traceContainer') .css({'height': h-150+'px', 'width': w-30+'px'}).attr('height',h-150).attr('width',w-30);
-    $('#chartContainer') .css({'height': h-150+'px', 'width': w-30+'px'}).attr('height',h-150).attr('width',w-30);
-    $('#historyContainer') .css({'height': h-150+'px', 'width': w-30+'px'}).attr('height',h-150).attr('width',w-30);
-    $('#gauge1') .css({'height': h-150+'px', 'width': w-30+'px'}).attr('height',h-150).attr('width',w-30);
+    $('.canvasjs-chart-canvas') .css({'height': h-h_offset+'px', 'width': w-w_offset+'px'}).attr('height',h-h_offset).attr('width',w-w_offset);
+    $('#traceContainer') .css({'height': h-h_offset-4+'px', 'width': w-w_offset+'px'}).attr('height',h-h_offset-4).attr('width',w-w_offset);
+    $('#chartContainer') .css({'height': h-h_offset+'px', 'width': w-w_offset+'px'}).attr('height',h-h_offset).attr('width',w-w_offset);
+    $('#historyContainer') .css({'height': h-h_offset+'px', 'width': w-w_offset+'px'}).attr('height',h-h_offset).attr('width',w-w_offset);
+    $('#gaugeContainer') .css({'height': h-h_offset-4+'px', 'width': w-w_offset+'px'}).attr('height',h-h_offset-4).attr('width',w-w_offset);
 }
 
-function updateStatus(data) {
-    if(pigi.conf.count_unit=="CPM") $('#count_val').html(parseInt(x.cpm));
-    if(pigi.conf.count_unit=="CPS") $('#count_val').html(parseInt(x.cps));
+function updateConfig() {
+    console.log("Writing config to local storage")
 
-    if(pigi.trace.active) {
+}
+
+
+function updateStatus(data) {
+    if(webGI.conf.count_unit=="CPM") $('#count_val').html(parseInt(x.cpm));
+    if(webGI.conf.count_unit=="CPS") $('#count_val').html(parseInt(x.cps));
+
+    if(webGI.trace.active) {
         for(var i = 0; i < parseInt(x.cps); i++)
         {
-            pigi.trace.particles[Math.random()]=new traceCreateParticle();
+            webGI.trace.particles[Math.random()]=new traceCreateParticle();
         }
     }
     // INES class identification
@@ -252,7 +261,7 @@ function updateStatus(data) {
         // Level 7
     }
 
-    pigi.log.gauge.set(doserate);
+    webGI.log.gauge.set(doserate);
 
     $('#eqd_val').html(doserate.toFixed(2));
 }
@@ -260,100 +269,100 @@ function updateStatus(data) {
 function requestLog() {
     var cmd = {
         "cmd" : "read",
-        "age" : pigi.log.chart_age
+        "age" : webGI.log.chart_age
     }
-    pigi.websockets.log.send(JSON.stringify(cmd));
-    console.log ("Requesting log (age " +pigi.log.chart_age +" )");
+    webGI.websockets.log.send(JSON.stringify(cmd));
+    console.log ("Requesting log (age " +webGI.log.chart_age +" )");
 }
 
 function updateLogHistory(data) {
     console.log("HISTORY");
-    pigi.log.data.doserate = [];
-    pigi.log.data.doserate_avg = [];
+    webGI.log.data.doserate = [];
+    webGI.log.data.doserate_avg = [];
     $.each(data.log, function(i,v){
         //var v = JSON.parse(v_json);
         var ts = new Date(v.timestamp*1000)
-        pigi.log.data.doserate.push({ "x": ts, "y": v.doserate});
-        pigi.log.data.doserate_avg.push({ "x": ts, "y": v.doserate_avg});
+        webGI.log.data.doserate.push({ "x": ts, "y": v.doserate});
+        webGI.log.data.doserate_avg.push({ "x": ts, "y": v.doserate_avg});
     });
 
-    pigi.log.chart = new CanvasJS.Chart("chartContainer",{
+    webGI.log.chart = new CanvasJS.Chart("chartContainer",{
         animationEnabled: false,
         backgroundColor: "rgba(13,12,8,0.25)",
         title:{ text: "EAR: $$ uSv/h (AVG) - EAD: $$ uSv (Total)", fontSize: 14, horizontalAlign: "right", fontColor: "rgba(117,137,12,0.8)", margin: 8 },
-        axisY:{ minimum: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
+        axisY:{ minimum: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 0, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
         axisX:{ valueFormatString: "HH:mm", labelAngle: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
-        data: [{ type: "area", color: "rgba(117,137,12,0.8)", dataPoints: pigi.log.data.doserate },
-               { type: "line", color: "rgba(210,242,30,0.6)", dataPoints: pigi.log.data.doserate_avg }]
+        data: [{ type: "area", color: "rgba(117,137,12,0.8)", dataPoints: webGI.log.data.doserate },
+               { type: "line", color: "rgba(210,242,30,0.6)", dataPoints: webGI.log.data.doserate_avg }]
     });
 
-    pigi.log.chart.render();
+    webGI.log.chart.render();
 }
 
 function updateLogStatus(data) {
     console.log("UPDATE")
     var ts = new Date(data.timestamp*1000);
-    pigi.log.data.doserate.push({ "x": ts, "y": data.doserate});
-    pigi.log.data.doserate_avg.push({ "x": ts, "y": data.doserate_avg});
-    var left_end = new Date((data.timestamp-pigi.log.chart_age)*1000)
-    while(pigi.log.data.doserate[0].x < left_end) pigi.log.data.doserate.shift();
-    while(pigi.log.data.doserate_avg[0].x < left_end) pigi.log.data.doserate_avg.shift();
-    pigi.log.chart.render();
+    webGI.log.data.doserate.push({ "x": ts, "y": data.doserate});
+    webGI.log.data.doserate_avg.push({ "x": ts, "y": data.doserate_avg});
+    var left_end = new Date((data.timestamp-webGI.log.chart_age)*1000)
+    while(webGI.log.data.doserate[0].x < left_end) webGI.log.data.doserate.shift();
+    while(webGI.log.data.doserate_avg[0].x < left_end) webGI.log.data.doserate_avg.shift();
+    webGI.log.chart.render();
 }
 
 
 function initHistory() {
 
-   pigi.history.chart = new CanvasJS.Chart("historyContainer",{
+   webGI.history.chart = new CanvasJS.Chart("historyContainer",{
         animationEnabled: false,
         backgroundColor: "rgba(13,12,8,0.25)",
         title:{ text: "EAR: $$ uSv/h (AVG) - EAD: $$ uSv (Total)", fontSize: 14, horizontalAlign: "right", fontColor: "rgba(117,137,12,0.8)", margin: 8 },
-        axisY:{ minimum: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
+        axisY:{ minimum: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 0, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
         axisX:{ valueFormatString: "HH:mm", labelAngle: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
-        data: [{ type: "area", color: "rgba(117,137,12,0.8)", dataPoints: pigi.history.data.doserate },
-               { type: "line", color: "rgba(210,242,30,0.6)", dataPoints: pigi.history.data.doserate_avg }]
+        data: [{ type: "area", color: "rgba(117,137,12,0.8)", dataPoints: webGI.history.data.doserate },
+               { type: "line", color: "rgba(210,242,30,0.6)", dataPoints: webGI.history.data.doserate_avg }]
     });
 
-    pigi.history.chart.render();
+    webGI.history.chart.render();
 
 }
 
 
 
 function toggleCounterUnit() {
-  if(pigi.conf.count_unit=="CPM")
+  if(webGI.conf.count_unit=="CPM")
   {
      $('#count_unit').html('CPS');
-     pigi.conf.count_unit = "CPS";
+     webGI.conf.count_unit = "CPS";
   }
   else
   {
       $('#count_unit').html('CPM');
-      pigi.conf.count_unit = "CPM";
+      webGI.conf.count_unit = "CPM";
   }
 }
 
 function toggleAudio() {
-    if(pigi.conf.audio==0) {
+    if(webGI.conf.audio==0) {
         $('#toggleAudio').addClass('enabled');
-        pigi.conf.audio=1;
-        pigi.websockets.ticks = new WebSocket(pigi.conf.websocket_host+"/ws_ticks");
-        pigi.websockets.ticks.onmessage = function(e)
+        webGI.conf.audio=1;
+        webGI.websockets.ticks = new WebSocket(webGI.conf.websocket_host+"/ws_ticks");
+        webGI.websockets.ticks.onmessage = function(e)
         {
             x = JSON.parse(e.data);
            //console.log(x);
            switch(x.type)
            {
                case "tick":
-                    if (pigi.conf.audio == 1) pigi.conf.tick_snd.play();
+                    if (webGI.conf.audio == 1) webGI.conf.tick_snd.play();
                     break;
                default:
 
             }
         }
     } else {
-        pigi.conf.audio=0;
-        pigi.websockets.ticks.close();
+        webGI.conf.audio=0;
+        webGI.websockets.ticks.close();
         $('#toggleAudio').removeClass('enabled');
     }
 }
@@ -363,10 +372,10 @@ function toggleAudio() {
 function geoToggle() {
   if (navigator.geolocation)
   {
-    if(pigi.geoWatch)
+    if(webGI.geoWatch)
     {
-      navigator.geolocation.clearWatch(pigi.geoWatch);
-      pigi.geoWatch = null;
+      navigator.geolocation.clearWatch(webGI.geoWatch);
+      webGI.geoWatch = null;
       $('#userGeoStatus').removeClass('init-blinker icon-dot-circled lock-green lock-yellow lock-red');
       $('#userGeoStatus').addClass('icon-target-1');
       $('#userGeoLoc').html('');
@@ -376,7 +385,7 @@ function geoToggle() {
     {
       $('#userGeoStatus').addClass('init-blinker');
       var timeoutVal = 10 * 1000 * 1000;
-      pigi.geoWatch = navigator.geolocation.watchPosition(
+      webGI.geoWatch = navigator.geolocation.watchPosition(
         geoUpdate,
         geoError,
         { enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 }
@@ -425,14 +434,14 @@ function geoError(error) {
   $('#userGeoStatus').removeClass('init-blinker icon-dot-circled lock-green lock-yellow lock-red');
   $('#userGeoStatus').addClass('icon-target-1');
   $('#userGeoLoc').html('');
-  navigator.geolocation.clearWatch(pigi.geoWatch);
+  navigator.geolocation.clearWatch(webGI.geoWatch);
   console.log("Error: " + errors[error.code]);
 }
 
 
 function traceCreateParticle()
 {
-	this.x = Math.random()*pigi.trace.canvas.width;
+	this.x = Math.random()*webGI.trace.canvas.width;
 	this.y = -Math.random()*10;
 
 	this.vx = 0;
@@ -445,31 +454,27 @@ function traceCreateParticle()
 function traceStart()
 {
     $('#traceContainer').show();
-    pigi.trace.active = true;
-    pigi.trace.canvas = document.getElementById("traceContainer");
-    //pigi.trace.width = $(pigi.trace).width();
+    webGI.trace.active = true;
+    webGI.trace.canvas = document.getElementById("traceContainer");
+    //webGI.trace.width = $(webGI.trace).width();
 
-    var ctx = pigi.trace.canvas.getContext("2d");
-    //for(var i = 0; i < 300; i++)
-    //{
-        //This will add 50 particles to the array with random positions
-    //    pigi.trace_particles[Math.random()]=new traceCreateParticle();
-    //}
-    pigi.trace.draw_interval = setInterval(traceDraw, 33);
+    var ctx = webGI.trace.canvas.getContext("2d");
+
+    webGI.trace.draw_interval = setInterval(traceDraw, 33);
 }
 
 function traceStop()
 {
     $('#traceContainer').hide();
-    pigi.trace.particles = {};
-    if (pigi.trace.draw_interval !== null) clearInterval(pigi.trace.draw_interval);
+    webGI.trace.particles = {};
+    if (webGI.trace.draw_interval !== null) clearInterval(webGI.trace.draw_interval);
 }
 
 function traceDraw()
 {
-    var W = pigi.trace.canvas.width;
-    var H = pigi.trace.canvas.height;
-    var ctx = pigi.trace.canvas.getContext("2d");
+    var W = webGI.trace.canvas.width;
+    var H = webGI.trace.canvas.height;
+    var ctx = webGI.trace.canvas.getContext("2d");
 
 	ctx.globalCompositeOperation = "source-over";
 	ctx.fillStyle = "rgba(52,51,48, 0.5)";
@@ -477,11 +482,11 @@ function traceDraw()
 	ctx.globalCompositeOperation = "lighter";
 
 	//Lets draw particles from the array now
-	$.each(pigi.trace.particles, function(t,p)
+	$.each(webGI.trace.particles, function(t,p)
     {
-    //for(var t = 0; t < pigi.trace_particles.length; t++)
+    //for(var t = 0; t < webGI.trace_particles.length; t++)
 	//{
-		//var p = pigi.trace_particles[t];
+		//var p = webGI.trace_particles[t];
 
 		ctx.beginPath();
 
@@ -496,7 +501,7 @@ function traceDraw()
 		if(p.y < -50) p.y = H+50;
 		if(p.x > W) p.x = -50;
 		if(p.y > H) {
-            delete pigi.trace.particles[t]
+            delete webGI.trace.particles[t]
 			//p.y = Math.random()*25-50;
 			//p.x = Math.random()*W;
 			//p.vy = Math.random()*2+6;
@@ -505,11 +510,14 @@ function traceDraw()
 }
 
 $(document).ready(function() {
-    initWebsockets();
-    initUI();
-    geoToggle();  // Init geolocation
-
     $(window).resize(updateLayout)
     updateLayout();
 
+    // Switch UI click/tap event handler action for stupid apple browsers
+    if ($.support.touch) { webGI.ui_action = 'touchend'; }
+    else { webGI.ui_action  = 'click'; }
+
+    initWebsockets();
+    initUI();
+    geoToggle();  // Init geolocation
 });

@@ -24,7 +24,7 @@
     speak: none;
 
     display: inline-block;
-    text-decoration: inherit;
+    text-decoration: none;
     width: 1em;
     margin-right: .2em;
     text-align: center;
@@ -45,7 +45,7 @@
     /*font-size: 120%; */
 
     /* Uncomment for 3D effect */
-    /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+    text-shadow: rgba(0,0,0,0.5) 0px 1px 1px;
 }
 
 .icon-eye:before { content: '\e800'; } /* '' */
@@ -75,11 +75,12 @@
 
 
 .big-icon {
-    font-size: 150% !important;
+    font-size: 1.1em !important;
 }
 
 .mfd-icon {
-    font-size: 120% !important;
+    font-size: 2em !important;
+    color: #d8d3c5 !important;
 }
 
 body {
@@ -160,19 +161,20 @@ body {
 }
 
 #userGeoStatus {
-    font-size: 140% !important;
+    font-size: 1.5em !important;
+    line-height: 1.7em !important;
 }
 
 .lock-red {
-    color: red;
+    color: red !important;
 }
 
 .lock-yellow {
-    color: yellow;
+    color: yellow !important;
 }
 
 .lock-green {
-    color: #75890c;
+    color: #75890c !important;
 }
 
 #userGeoLoc {
@@ -393,4 +395,15 @@ keyframes blinker {
     display: block;
     margin: 0 auto;
     font-size: 0.8em;
+}
+
+
+#jqt ul li label {
+  width: 20% !important;
+  min-width: 150px !important;
+  display: inline-block;
+}
+
+#jqt ul li input {
+  width: 65% !important;
 }

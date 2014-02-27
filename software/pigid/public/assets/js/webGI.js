@@ -348,6 +348,7 @@ function updateLogStatus(data) {
 function initHistory() {
     console.log("Init history");
     webGI.history.chart = new CanvasJS.Chart("historyContainer",{
+        zoomEnabled: true,
         animationEnabled: false,
         backgroundColor: "rgba(13,12,8,0.25)",
         title:{ text: "All time uSv/h", fontSize: 14, horizontalAlign: "right", fontColor: "rgba(117,137,12,0.8)", margin: 8 },

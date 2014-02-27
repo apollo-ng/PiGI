@@ -53,8 +53,8 @@
    </div>
 
    <!-- History Panel -->
-   <div id="history" class="selectable">
-    <div class="toolbar"><h1>Historical Radiation Data</h1><a href="#home" class="back">Live</a></div>
+   <div id="history">
+    <div class="toolbar"><h1>Historical Radiation Data</h1><a href="#home" class="goback button leftButton">Live</a></div>
      <div class="md" id="md-history">
      <div id="historyContainer" class="instrumentContainer"></div>
      <div class="md-control-container">
@@ -64,24 +64,29 @@
    </div>
 
    <!-- Main Menu -->
-   <div id="menu" class="selectable">
-    <div class="toolbar"><h1>Options</h1><a href="#home" class="back leftButton">Back</a><a href="#home" class="button rightButton slideleft">Live</a></div>
+   <div id="menu">
+    <div class="toolbar"><h1>Options</h1><a href="#home" class="goback button leftButton">Back</a><a href="#home" class="button rightButton slideleft">Live</a></div>
      <div class="scroll">
+     <h2>Websocket URL</h2>
      <ul class="rounded">
-      <li><label for="cnf_ws_url">Websocket URL</label><input type="url" placeholder="http://host:port/" id="websocket_url" /></li>
+      <li><input type="url" placeholder="http://host:port/" id="websocket_url" /></li>
+      </ul>
       <h2>Geolocation</h2>
+      <ul class="rounded">
       <li><input type="checkbox" value="on" checked="checked" title="" id="cnf_gps_hacc"/><label for="cnf_gps_hacc" class="input-action-label">Enable GPS High Accuracy Mode</label></li>
       <li><input type="radio" name="geoMode" value="mobile" title="" id="cnf_gps_mode_mobile" checked="checked" /><label for="cnf_gps_mode_mobile" class="input-action-label">Mobile</label></li>
       <li><input type="radio" name="geoMode" value="static" title="" id="cnf_gps_mode_static" /><label for="cnf_gps_mode_static" class="input-action-label">Stationary</label></li>
-      <li class="arrow"><a href="#about" class="dissolve">Server Settings</a></li>
+      </ul>
+      <ul class="rounded">
+      <li class="arrow"><a href="#" id="modalAuth" class="dissolve">Server Settings</a></li>
       <li class="arrow"><a href="#about" class="dissolve">About</a></li>
      </ul>
     </div>
    </div>
 
    <!-- About -->
-   <div id="about" class="selectable" style="top: 0px">
-    <div class="toolbar"><<h1>About this oftfware</h1><a href="#home" class="back leftButton">Back</a><a href="#home" class="button rightButton slideleft">Live</a></div>
+   <div id="about">
+    <div class="toolbar"><h1>About</h1><a href="#home" class="goback button leftButton">Back</a><a href="#home" class="button rightButton slideleft">Live</a></div>
     <div class="info view scroll" style="text-align: justify;">
         <img src="assets/img/apollo-badge.png" border="0" />
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lacinia
@@ -99,19 +104,8 @@
      <li>CanvasJs</li>
      <li>python</li>
 </ul>
-        <p>Duis vel imperdiet risus. Cras vestibulum consequat mauris, vulputate
-        iaculis enim sagittis ac. Morbi imperdiet, sapien nec condimentum sagittis,
-        lacus ligula luctus nulla, a commodo est mi quis elit. Maecenas eu nisl
-        risus. Vivamus sed est nisi, gravida adipiscing sem. Curabitur quis
-        porttitor lorem. Suspendisse non mauris leo, a euismod dolor. Donec eget
-        condimentum dui. Maecenas rutrum sem eu nulla auctor consequat. Suspendisse
-        id sapien ut lacus hendrerit vulputate. Donec euismod tellus sed elit
-        consequat vestibulum faucibus nisi tincidunt. Donec libero nunc, lacinia ut
-        euismod id, sagittis sit amet massa. Aliquam ullamcorper tellus urna. Nam a
-        sem ac est dignissim aliquet a eu urna. Curabitur sit amet justo velit, sit
-        amet pulvinar dolor. Vivamus sapien orci, congue at feugiat sed, dignissim
-        nec lacus. Nunc eleifend sem id risus condimentum non gravida mi bibendum.
-        Fusce et elementum arcu.</p>
+
+        <a class="donateLink" href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@domain.net&item_name=Donation">Donate</a>
     </div>
    </div>
 
@@ -133,6 +127,18 @@
     </div>
    </div>
   </div>
+
+  <div class="md-modal md-effect-1" id="modal-auth">
+   <div class="md-content red">
+    <h3 class="icon-attention md-alert">Authorization required</h3>
+    <div>
+     <p>Please enter your password:</p>
+     <input type="password" id="pygi_password" />
+     <button class="md-close grayButton" onclick="$('#modal-auth').removeClass('md-show');">Unlock</button>
+    </div>
+   </div>
+  </div>
+
 
   <div class="md-overlay"></div>
 

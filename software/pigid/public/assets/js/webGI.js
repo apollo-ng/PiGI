@@ -155,6 +155,11 @@ function initUI() {
         $('#modal-1').addClass('md-show');
     });
 
+    $('#modalAuth').bind(webGI.ui_action,function()
+    {
+        $('#modal-auth').addClass('md-show');
+    });
+
     $('#toggleGauge').bind(webGI.ui_action,function()
     {
        $('#chartContainer').hide();

@@ -302,7 +302,6 @@ keyframes blinker {
 .md-modal {
     position: relative !important;
     margin: 0 auto !important;
-    margin-top: 15% !important;
     width: 50% !important;
     max-width: 430px !important;
     min-width: 320px !important;
@@ -314,6 +313,7 @@ keyframes blinker {
     -webkit-border-radius: 9px !important;
     -moz-border-radius: 9px !important;
     border-radius: 9px !important;
+
 }
 
 .md-show {
@@ -360,10 +360,17 @@ keyframes blinker {
 /* Content styles */
 .md-content {
     color: #fff;
-    background: #3F3E3A url('../img/panel_bg.png') repeat;
+    font-family: "Helvetica Neue",Helvetica;
+    font-size: 0.8em;
     position: relative;
-    border-radius: 3px;
+    -webkit-border-radius: 9px !important;
+    -moz-border-radius: 9px !important;
+    border-radius: 9px !important;
     margin: 0 auto;
+    background: #3F3E3A url('../img/panel_bg.png') repeat;
+    -moz-box-shadow: 0 0 .9em rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 0 .9em rgba(0,0,0,0.5);
+    box-shadow: 0 0 .9em rgba(0,0,0,0.5);
 }
 
 .md-content h3 {
@@ -374,7 +381,7 @@ keyframes blinker {
     font-weight: 300;
     opacity: 0.8;
     background: rgba(0,0,0,0.1);
-    border-radius: 3px 3px 0 0;
+    border-radius: 9px 9px 0 0;
 }
 
 .md-content > div {
@@ -404,9 +411,15 @@ keyframes blinker {
     font-size: 0.8em;
 }
 
+.md-alert {
+    background: rgba(255,30,0,0.5) !important;
+}
+
 .input-action-label {
     display: inline-block;
     font-weight: normal;
     width: 90%;
     margin-left: 15px;
 }
+
+

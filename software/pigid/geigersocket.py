@@ -18,6 +18,8 @@ class WebSocketsManager(threading.Thread):
         self.start()
         
     def add_socket(self,socket):
+        if socket in self.sockets:
+            self.sockets.remove(socket)
         self.sockets.append(socket)
         log.info("added socket %s"%socket)
 

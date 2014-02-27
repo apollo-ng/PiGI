@@ -13,9 +13,10 @@
   <script src="assets/js/jqtouch.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/canvasjs.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/gauge.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="assets/js/spin.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/webGI.js" type="text/javascript" charset="utf-8"></script>
  </head>
- <body>
+ <body id="body">
 
   <div id="jqt">
 
@@ -130,15 +131,28 @@
 
   <div class="md-modal md-effect-1" id="modal-auth">
    <div class="md-content red">
-    <h3 class="icon-attention md-alert">Authorization required</h3>
+    <h3 class="icon-attention md-red"> &nbsp;Authorization required</h3>
     <div>
      <p>Please enter your password:</p>
      <input type="password" id="pygi_password" />
-     <button class="md-close grayButton" onclick="$('#modal-auth').removeClass('md-show');">Unlock</button>
     </div>
+   <div class="md-footer">
+    <a href="#menu" class="md-close" onclick="$('#modal-auth').removeClass('md-show');">Cancel</a>
+    <a href="#" class="md-close md-green" onclick="">OK</a>
+   </div>
    </div>
   </div>
 
+  <div class="md-modal md-effect-1" id="modal-error">
+   <div class="md-content red">
+    <h3 class="icon-attention md-alert"> &nbsp;Websocket Error</h3>
+    <div>
+     <p>The Websocket is gone, trying to reconnect</p>
+     <input type="password" id="pygi_password" />
+     <button class="md-close grayButton" onclick="$('#modal-error').removeClass('md-show');">OK</button>
+    </div>
+   </div>
+  </div>
 
   <div class="md-overlay"></div>
 

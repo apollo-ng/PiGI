@@ -1,6 +1,7 @@
 var webGI = {
     ui_action : 'click',
     websockets : {},
+    spinner : null,
     log : {
         chart : null,
         data : {
@@ -66,6 +67,7 @@ function initWebsockets() {
 
     webGI.websockets.status.onopen = function()
     {
+        $('#modal-error').removeClass('md-show');
         //console.log('Status Update socket opened');
     };
 
@@ -87,11 +89,13 @@ function initWebsockets() {
     webGI.websockets.status.onclose = function()
     {
         webGI.websockets.status = new WebSocket(webGI.conf.websocket_host+"/ws_status");
+        $('#modal-error').addClass('md-show');
         console.log ("Status socket rest");
     };
 
     webGI.websockets.log.onopen = function()
     {
+        $('#modal-error').removeClass('md-show');
         requestLog();
         requestHistory(null,null);
     };
@@ -99,6 +103,7 @@ function initWebsockets() {
     webGI.websockets.log.onclose = function()
     {
         webGI.websockets.log = new WebSocket(webGI.conf.websocket_host+"/ws_log");
+        $('#modal-error').addClass('md-show');
         console.log ("Log socket rest");
     };
 
@@ -185,6 +190,19 @@ function initUI() {
         toggleAudio();
     });
 
+    // Page animation callback events
+    $('#jqt').bind('pageAnimationStart', function(e, info)
+    {
+        //console.log('Page animation started');
+    });
+
+    $('#jqt').bind('pageAnimationEnd', function(e, info)
+    {
+        //console.log('Page animation finished');
+        updateLayout();
+    });
+
+/*
     // Orientation change callback event
     $('#jqt').bind('turn', function(e, data)
     {
@@ -192,12 +210,7 @@ function initUI() {
         updateLayout();
     });
 
-    // Page animation callback events
-    $('#jqt').bind('pageAnimationEnd', function(e, info)
-    {
-        console.log('Page animation finished');
-        updateLayout();
-    });
+
 
     // Swipe handler
     $('#jqt').swipe(function(evt, data) {
@@ -205,8 +218,41 @@ function initUI() {
                     $(this).html('You swiped ' + details );
                     $(this).parent().after('<li>swiped!</li>')
                 });
-
+*/
     updateLayout();
+}
+
+
+function initSpinner()
+{
+    var opts = {
+        lines: 15, // The number of lines to draw
+        length: 30, // The length of each line
+        width: 12, // The line thickness
+        radius: 45, // The radius of the inner circle
+        corners: 1, // Corner roundness (0..1)
+        rotate: 0, // The rotation offset
+        direction: 1, // 1: clockwise, -1: counterclockwise
+        color: 'rgba(216, 211, 197, 0.9)', // #rgb or #rrggbb or array of colors
+        speed: 1, // Rounds per second
+        trail: 60, // Afterglow percentage
+        shadow: true, // Whether to render a shadow
+        hwaccel: true, // Whether to use hardware acceleration
+        className: 'spinner', // The CSS class to assign to the spinner
+        zIndex: 2e9, // The z-index (defaults to 2000000000)
+        top: 'auto', // Top position relative to parent in px
+        left: 'auto' // Left position relative to parent in px
+    };
+
+    webGI.spinner = new Spinner(opts).spin(document.getElementById('body'));
+}
+
+function startSpinner(){
+    webGI.spinner.spin(document.getElementById('body'));
+}
+
+function stopSpinner(){
+    webGI.spinner.stop();
 }
 
 function initGauge() {
@@ -399,8 +445,8 @@ function initLog() {
         animationEnabled: false,
         backgroundColor: "rgba(13,12,8,0.25)",
         title:{ text: "uSv/h", fontSize: 14, horizontalAlign: "right", fontColor: "rgba(117,137,12,0.8)", margin: 8 },
-        axisY:{ minimum: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 0, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
-        axisX:{ valueFormatString: "HH:mm", labelAngle: 0, labelFontFamily: "Digi", gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
+        axisY:{ minimum: 0, margin: 5, labelFontFamily: "Digi", labelFontSize: 22, gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 0, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
+        axisX:{ valueFormatString: "HH:mm", labelAngle: 0, labelFontFamily: "Digi", labelFontSize: 22, gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
         data: [{ type: "area", color: "rgba(117,137,12,0.8)", dataPoints: webGI.log.data.doserate },
                { type: "line", color: "rgba(210,242,30,0.6)", dataPoints: webGI.log.data.doserate_avg }]
     });
@@ -597,15 +643,16 @@ function traceDraw()
 }
 
 $(document).ready(function() {
+    initSpinner();
     $(window).resize(updateLayout);
     updateLayout();
-    window.onhashchange = updateLayout;
+    //window.onhashchange = updateLayout; // has been replaced by pageAnimationEnd event
     // Switch UI click/tap event handler action for stupid apple browsers
     if ($.support.touch) { webGI.ui_action = 'touchend'; }
     else { webGI.ui_action  = 'click'; }
 
-    initWebsockets();
     initUI();
+    initWebsockets();
     geoToggle();  // Init geolocation
-
+    stopSpinner();
 });

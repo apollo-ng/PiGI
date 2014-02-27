@@ -376,7 +376,6 @@ keyframes blinker {
 .md-content h3 {
     margin: 0;
     padding: 0.4em;
-    text-align: center;
     font-size: 2.4em;
     font-weight: 300;
     opacity: 0.8;
@@ -411,8 +410,44 @@ keyframes blinker {
     font-size: 0.8em;
 }
 
-.md-alert {
+.md-footer {
+    padding: 9px !important;
+    margin: 0 !important;
+	width: 100% !important;
+	text-align: justify !important;
+}
+
+.md-footer:after {
+	content: "";
+	display: inline-block !important;
+}
+
+.md-footer a {
+    display: inline-block !important;
+    overflow: hidden !important;
+    border: 1px solid #000;
+    font-weight: 300;
+    margin-right: 9px !important;
+    width: 45%;
+    font-size: 1.15em !important;
+    height: 45px;
+    line-height: 45px;
+    color: #fff;
+    -webkit-border-radius: 7px !important;
+    -moz-border-radius: 7px !important;
+    border-radius: 7px !important;
+    text-align: center;
+    background: #424128;
+    text-decoration: none !important;
+
+}
+
+.md-red {
     background: rgba(255,30,0,0.5) !important;
+}
+
+.md-green {
+    background: rgba(30,255,10,0.5) !important;
 }
 
 .input-action-label {
@@ -422,4 +457,27 @@ keyframes blinker {
     margin-left: 15px;
 }
 
+div#jqt #about {
+text-shadow: rgba(0, 0, 0, 0.3) 0px -1px 0;
+color: #999;
+font-size: 13px;
+text-align: center;
+background: rgb(216,211,197) !important;
+background: -moz-linear-gradient(top, rgb(216,211,197) 0%, rgb(221,217,204) 25%, rgb(165,163,152) 100%) !important;
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(216,211,197)), color-stop(25%,rgb(221,217,204)), color-stop(100%,rgb(165,163,152))) !important;
+background: -webkit-linear-gradient(top, rgb(216,211,197) 0%,rgb(221,217,204) 25%,rgb(165,163,152) 100%) !important;
+background: -o-linear-gradient(top, rgb(216,211,197) 0%,rgb(221,217,204) 25%,rgb(165,163,152) 100%) !important;
+background: -ms-linear-gradient(top, rgb(216,211,197) 0%,rgb(221,217,204) 25%,rgb(165,163,152) 100%) !important;
+background: linear-gradient(to bottom, rgb(216,211,197) 0%,rgb(221,217,204) 25%,rgb(165,163,152) 100%) !important;
+}
+
+div#jqt #about p {
+margin-bottom: 8px;
+}
+
+div#jqt #about a {
+color: #fff;
+font-weight: bold;
+text-decoration: none;
+}
 

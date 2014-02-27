@@ -154,8 +154,8 @@ function initUI() {
     $('#toggleGauge').bind(webGI.ui_action,function() {
        $('#chartContainer').hide();
        $('#toggleTrace').hide();
-       $('#gaugeContainer').show();
        traceStop();
+       $('#gaugeContainer').show();
        $('#toggleGauge').addClass('enabled');
        $('.liveControl, #toggleTrace').removeClass('enabled');
     });
@@ -231,7 +231,9 @@ function updateStatus(data) {
     if(webGI.trace.active) {
         for(var i = 0; i < parseInt(x.cps); i++)
         {
-            webGI.trace.particles[Math.random()]=new traceCreateParticle();
+            setTimeout(function() {
+                webGI.trace.particles[Math.random()]=new traceCreateParticle();
+            }, Math.random()*1000);
         }
     }
     // INES class identification
@@ -485,7 +487,7 @@ function geoError(error) {
 function traceCreateParticle()
 {
 	this.x = Math.random()*webGI.trace.canvas.width;
-	this.y = -Math.random()*10;
+	this.y = 0; //-Math.random()*webGI.trace.canvas.height;
 
 	this.vx = 0;
 	this.vy = Math.random()*4+2;
@@ -502,7 +504,7 @@ function traceStart()
     //webGI.trace.width = $(webGI.trace).width();
 
     var ctx = webGI.trace.canvas.getContext("2d");
-
+    webGI.trace.particles = {};
     webGI.trace.draw_interval = setInterval(traceDraw, 33);
 }
 
@@ -520,7 +522,7 @@ function traceDraw()
     var ctx = webGI.trace.canvas.getContext("2d");
 
 	ctx.globalCompositeOperation = "source-over";
-	ctx.fillStyle = "rgba(52,51,48, 0.5)";
+	ctx.fillStyle = "rgba(52,51,48, 0.6)";
 	ctx.fillRect(0, 0, W, H);
 	ctx.globalCompositeOperation = "lighter";
 

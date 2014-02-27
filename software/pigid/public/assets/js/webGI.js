@@ -399,7 +399,15 @@ function toggleAudio() {
            switch(x.type)
            {
                case "tick":
-                    if (webGI.conf.audio == 1) webGI.conf.tick_snd.play();
+                    if (webGI.conf.audio == 1) {
+                        console.log(x)
+                        for(var i = 0; i < parseInt(x.count); i++)
+                        {
+                            setTimeout(function() {
+                                webGI.conf.tick_snd.play();
+                            }, Math.random()*200);
+                        }
+                    }
                     break;
                default:
 

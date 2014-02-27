@@ -63,35 +63,56 @@
     </div>
    </div>
 
-   <!-- Menus -->
-
    <!-- Main Menu -->
    <div id="menu" class="selectable">
-    <div class="toolbar"><h1>Options</h1><a href="#home" class="back leftButton">Back</a><a href="#home" class="button rightButton slideLeft">Live</a></div>
+    <div class="toolbar"><h1>Options</h1><a href="#home" class="back leftButton">Back</a><a href="#home" class="button rightButton slideleft">Live</a></div>
      <div class="scroll">
      <ul class="rounded">
       <li><label for="cnf_ws_url">Websocket URL</label><input type="url" placeholder="http://host:port/" id="websocket_url" /></li>
-      <li class="">Geolocation</li>
-      <li><input type="checkbox" name="audio" value="on" checked="checked" title="" id="testr1"/><label for="testr1" style="display: inline-block; border: 1px solid red; width: 100%">Play Audio Ticks</label></li>
-      <li><input type="radio" name="geoMode" value="mobile" title="Mobile" /></li>
-      <li><input type="radio" name="geoMode" value="static" title="Stationary" /></li>
-      <li><a href="#about" class="dissolve">About</a></li>
+      <h2>Geolocation</h2>
+      <li><input type="checkbox" value="on" checked="checked" title="" id="cnf_gps_hacc"/><label for="cnf_gps_hacc" class="input-action-label">Enable GPS High Accuracy Mode</label></li>
+      <li><input type="radio" name="geoMode" value="mobile" title="" id="cnf_gps_mode_mobile" checked="checked" /><label for="cnf_gps_mode_mobile" class="input-action-label">Mobile</label></li>
+      <li><input type="radio" name="geoMode" value="static" title="" id="cnf_gps_mode_static" /><label for="cnf_gps_mode_static" class="input-action-label">Stationary</label></li>
+      <li class="arrow"><a href="#about" class="dissolve">Server Settings</a></li>
+      <li class="arrow"><a href="#about" class="dissolve">About</a></li>
      </ul>
     </div>
    </div>
 
    <!-- About -->
-   <div id="about" class="selectable">
-    <div class="toolbar"><<h1>About this oftfware</h1><a href="#home" class="back leftButton">Back</a><a href="#home" class="button rightButton slideLeft">Live</a></div>
-    <ul class="rounded post">
-     <img src="assets/img/apollo-badge.png" border="0" />
-     <h1><strong>PiGI</strong><br>Version 1.0 &alpha;</h1>
-     <li>zepto.js</li>
+   <div id="about" class="selectable" style="top: 0px">
+    <div class="toolbar"><<h1>About this oftfware</h1><a href="#home" class="back leftButton">Back</a><a href="#home" class="button rightButton slideleft">Live</a></div>
+    <div class="info view scroll" style="text-align: justify;">
+        <img src="assets/img/apollo-badge.png" border="0" />
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lacinia
+        varius odio, vel lobortis neque luctus vel. Etiam euismod turpis a augue
+        laoreet eu rutrum lectus vehicula. Integer elementum tellus non erat
+        dapibus et venenatis augue condimentum. Nullam pretium scelerisque purus
+        sed auctor. Proin id augue quis massa dictum tempus in a magna. Morbi vitae
+        bibendum orci. Curabitur quis orci tellus, id dignissim erat. Sed eros
+        elit, dapibus eu tincidunt quis, sagittis ut nulla. Vivamus ornare ultrices
+        fermentum. Cras ornare tempor lacus, eget scelerisque lacus pretium sit
+        amet.</p>
+        <ul class="info scroll">
+             <li>zepto.js</li>
      <li>jqtouch</li>
      <li>CanvasJs</li>
      <li>python</li>
-    </ul>
-    <a href="#" class="grayButton goback">Close</a>
+</ul>
+        <p>Duis vel imperdiet risus. Cras vestibulum consequat mauris, vulputate
+        iaculis enim sagittis ac. Morbi imperdiet, sapien nec condimentum sagittis,
+        lacus ligula luctus nulla, a commodo est mi quis elit. Maecenas eu nisl
+        risus. Vivamus sed est nisi, gravida adipiscing sem. Curabitur quis
+        porttitor lorem. Suspendisse non mauris leo, a euismod dolor. Donec eget
+        condimentum dui. Maecenas rutrum sem eu nulla auctor consequat. Suspendisse
+        id sapien ut lacus hendrerit vulputate. Donec euismod tellus sed elit
+        consequat vestibulum faucibus nisi tincidunt. Donec libero nunc, lacinia ut
+        euismod id, sagittis sit amet massa. Aliquam ullamcorper tellus urna. Nam a
+        sem ac est dignissim aliquet a eu urna. Curabitur sit amet justo velit, sit
+        amet pulvinar dolor. Vivamus sapien orci, congue at feugiat sed, dignissim
+        nec lacus. Nunc eleifend sem id risus condimentum non gravida mi bibendum.
+        Fusce et elementum arcu.</p>
+    </div>
    </div>
 
   </div>

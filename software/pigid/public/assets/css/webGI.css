@@ -404,4 +404,9 @@ keyframes blinker {
     font-size: 0.8em;
 }
 
-
+.input-action-label {
+    display: inline-block;
+    font-weight: normal;
+    width: 90%;
+    margin-left: 15px;
+}

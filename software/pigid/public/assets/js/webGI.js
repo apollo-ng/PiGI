@@ -126,7 +126,8 @@ function initUI() {
     // Bind UI events
 
     // Backlog
-    $('.liveControl').bind(webGI.ui_action,function(event) {
+    $('.liveControl').bind(webGI.ui_action,function(event)
+    {
         $('#gaugeContainer').hide();
         $('#chartContainer').show();
         $('.liveControl').removeClass('enabled');
@@ -139,19 +140,23 @@ function initUI() {
     });
 
     // CPS/CPM Toggle
-    $('#count_val, #count_unit').bind(webGI.ui_action,function() {
+    $('#count_val, #count_unit').bind(webGI.ui_action,function()
+    {
         toggleCounterUnit();
     });
 
-    $('#userGeoStatus').bind(webGI.ui_action,function() {
+    $('#userGeoStatus').bind(webGI.ui_action,function()
+    {
         geoToggle();
     });
 
-    $('#toggleModal').bind(webGI.ui_action,function() {
+    $('#toggleModal').bind(webGI.ui_action,function()
+    {
         $('#modal-1').addClass('md-show');
     });
 
-    $('#toggleGauge').bind(webGI.ui_action,function() {
+    $('#toggleGauge').bind(webGI.ui_action,function()
+    {
        $('#chartContainer').hide();
        $('#toggleTrace').hide();
        traceStop();
@@ -160,7 +165,8 @@ function initUI() {
        $('.liveControl, #toggleTrace').removeClass('enabled');
     });
 
-    $('#toggleTrace').bind(webGI.ui_action,function() {
+    $('#toggleTrace').bind(webGI.ui_action,function()
+    {
        $('#chartContainer').hide();
        $('#gaugeContainer').hide();
        $('#toggleTrace').addClass('enabled');
@@ -169,9 +175,31 @@ function initUI() {
     });
 
     // Audio
-    $('#toggleAudio').bind(webGI.ui_action,function() {
+    $('#toggleAudio').bind(webGI.ui_action,function()
+    {
         toggleAudio();
     });
+
+    // Orientation change callback event
+    $('#jqt').bind('turn', function(e, data)
+    {
+        console.log('Orientation changed to: ' + data.orientation);
+        updateLayout();
+    });
+
+    // Page animation callback events
+    $('#jqt').bind('pageAnimationEnd', function(e, info)
+    {
+        console.log('Page animation finished');
+        updateLayout();
+    });
+
+    // Swipe handler
+    $('#jqt').swipe(function(evt, data) {
+                    var details = !data ? '': '<strong>' + data.direction + '/' + data.deltaX +':' + data.deltaY + '</strong>!';
+                    $(this).html('You swiped ' + details );
+                    $(this).parent().after('<li>swiped!</li>')
+                });
 
     updateLayout();
 }
@@ -195,22 +223,22 @@ function updateLayout() {
     var w_offset = 48;
 
     $('.md') .css({'height': h-100+'px'});
-    
+
     var new_h = h-h_offset;
     //var new_w = w-w_offset;
     var new_w = $('#md-home').width();
-    
-    
+
+
     $('.canvasjs-chart-canvas') .css({'height': h-h_offset+'px', 'width': w-w_offset+'px'}).attr('height',h-h_offset).attr('width',w-w_offset);
-    
+
     //$('.instrumentContainer').css({'height': new_h+'px', 'width': new_w+'px'}).attr('height',new_h).attr('width',new_w);
     $('#traceContainer') .css({'height': new_h-4+'px', 'width': new_w+'px'}).attr('height',new_h-4).attr('width',new_w);
     $('#chartContainer') .css({'height': new_h+'px', 'width': new_w+'px'}).attr('height',new_h).attr('width',new_w);
     $('#gaugeContainer') .css({'height': new_h-4+'px', 'width': new_w+'px'}).attr('height',new_h-4).attr('width',new_w);
-    
+
     new_w = $('#md-history').width();
     $('#historyContainer') .css({'height': new_h+'px', 'width': new_w+'px'}).attr('height',new_h).attr('width',new_w);
-    
+
     initLog();
     initHistory();
     initGauge();
@@ -574,4 +602,5 @@ $(document).ready(function() {
     initWebsockets();
     initUI();
     geoToggle();  // Init geolocation
+
 });

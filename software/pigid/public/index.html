@@ -133,8 +133,7 @@
    <div class="md-content red">
     <h3 class="icon-attention md-red"> &nbsp;Authorization required</h3>
     <div>
-     <p>Please enter your password:</p>
-     <input type="password" id="pygi_password" />
+     <input type="password" placeholder="Password">
     </div>
    <div class="md-footer">
     <a href="#menu" class="md-close" onclick="$('#modal-auth').removeClass('md-show');">Cancel</a>
@@ -145,12 +144,14 @@
 
   <div class="md-modal md-effect-1" id="modal-error">
    <div class="md-content red">
-    <h3 class="icon-attention md-alert"> &nbsp;Websocket Error</h3>
+    <h3 class="icon-attention md-red"> &nbsp;Network Error</h3>
     <div>
-     <p>The Websocket is gone, trying to reconnect</p>
-     <input type="password" id="pygi_password" />
-     <button class="md-close grayButton" onclick="$('#modal-error').removeClass('md-show');">OK</button>
+     I lost the connection to the server but I should be able to reconnect automatically. If not, please fix the issue and click on reconnect.
     </div>
+   <div class="md-footer">
+    <a href="#menu" class="md-close" onclick="$('#modal-error').removeClass('md-show');">Cancel</a>
+    <a href="#" class="md-close md-green" onclick="">Reconnent now</a>
+   </div>
    </div>
   </div>
 

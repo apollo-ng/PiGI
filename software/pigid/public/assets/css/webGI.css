@@ -222,14 +222,14 @@ body {
     background: rgba(17,16,12,0.6);
     height: 50px !important;
     min-height: 50px !important;
-	width: 100% !important;
-	text-align: justify !important;
+    width: 100% !important;
+    text-align: justify !important;
 }
 
 .md-control-container:after {
-	content: "";
-	width: 100% !important;
-	display: inline-block !important;
+    content: "";
+    width: 100% !important;
+    display: inline-block !important;
 }
 
 
@@ -313,7 +313,6 @@ keyframes blinker {
     -webkit-border-radius: 9px !important;
     -moz-border-radius: 9px !important;
     border-radius: 9px !important;
-
 }
 
 .md-show {
@@ -363,14 +362,16 @@ keyframes blinker {
     font-family: "Helvetica Neue",Helvetica;
     font-size: 0.8em;
     position: relative;
+    border: 1px solid #222;
     -webkit-border-radius: 9px !important;
     -moz-border-radius: 9px !important;
     border-radius: 9px !important;
     margin: 0 auto;
     background: #3F3E3A url('../img/panel_bg.png') repeat;
-    -moz-box-shadow: 0 0 .9em rgba(0,0,0,0.5);
-    -webkit-box-shadow: 0 0 .9em rgba(0,0,0,0.5);
-    box-shadow: 0 0 .9em rgba(0,0,0,0.5);
+    -moz-box-shadow: 0 0 2.5em rgba(0,0,0,0.7);
+    -webkit-box-shadow: 0 0 2.5em rgba(0,0,0,0.7);
+    box-shadow: 0 0 2.5em rgba(0,0,0,0.7);
+    overflow: hidden;
 }
 
 .md-content h3 {
@@ -381,6 +382,7 @@ keyframes blinker {
     opacity: 0.8;
     background: rgba(0,0,0,0.1);
     border-radius: 9px 9px 0 0;
+    border-bottom: 1px solid #222;
 }
 
 .md-content > div {
@@ -410,16 +412,48 @@ keyframes blinker {
     font-size: 0.8em;
 }
 
+.md-content input[type=password]{
+    background: url(../img/keyIcon.png) 12px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+    border-radius: 3px;
+    border: none;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2) inset, 0 -1px 0 rgba(0,0,0,0.05) inset;
+    transition: all 0.2s linear;
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 13px;
+    color: #222222;
+    position: relative;
+    height: 36px;
+    width: 300px;
+    padding-left: 30px;
+
+    &::-webkit-input-placeholder {
+       color: #999999;
+    }
+
+    &:-moz-placeholder {
+       color: #999999;
+    }
+
+    &:focus{
+        box-shadow: 0 1px 0 #2392F3 inset, 0 -1px 0 #2392F3 inset, 1px 0 0 #2392F3 inset, -1px 0 0 #2392F3 inset, 0 0 4px rgba(35,146,243,0.5);
+        outline: none;
+        background: url(../img/keyIcon.png) 12px 11px no-repeat, #FFF;
+    }
+}
+
+
 .md-footer {
+    border-top: 1px solid #222;
     padding: 9px !important;
     margin: 0 !important;
-	width: 100% !important;
-	text-align: justify !important;
+    width: 100% !important;
+    text-align: justify !important;
+    background: rgba(0,0,0,0.3);
 }
 
 .md-footer:after {
-	content: "";
-	display: inline-block !important;
+    content: "";
+    display: inline-block !important;
 }
 
 .md-footer a {
@@ -439,7 +473,11 @@ keyframes blinker {
     text-align: center;
     background: #424128;
     text-decoration: none !important;
-
+    background-image: none;
+    background-color: rgba(85,86,88,.2);
+    background-image: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,rgba(123,124,127,.2)),color-stop(3%,rgba(98,99,101,.2)),color-stop(100%,rgba(72,73,75,.2)));
+    background-image: -webkit-linear-gradient(top,rgba(123,124,127,.2),rgba(98,99,101,.2) 3%,rgba(72,73,75,.2));
+    background-image: linear-gradient(top,rgba(123,124,127,.2),rgba(98,99,101,.2) 3%,rgba(72,73,75,.2));
 }
 
 .md-red {
@@ -458,26 +496,26 @@ keyframes blinker {
 }
 
 div#jqt #about {
-text-shadow: rgba(0, 0, 0, 0.3) 0px -1px 0;
-color: #999;
-font-size: 13px;
-text-align: center;
-background: rgb(216,211,197) !important;
-background: -moz-linear-gradient(top, rgb(216,211,197) 0%, rgb(221,217,204) 25%, rgb(165,163,152) 100%) !important;
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(216,211,197)), color-stop(25%,rgb(221,217,204)), color-stop(100%,rgb(165,163,152))) !important;
-background: -webkit-linear-gradient(top, rgb(216,211,197) 0%,rgb(221,217,204) 25%,rgb(165,163,152) 100%) !important;
-background: -o-linear-gradient(top, rgb(216,211,197) 0%,rgb(221,217,204) 25%,rgb(165,163,152) 100%) !important;
-background: -ms-linear-gradient(top, rgb(216,211,197) 0%,rgb(221,217,204) 25%,rgb(165,163,152) 100%) !important;
-background: linear-gradient(to bottom, rgb(216,211,197) 0%,rgb(221,217,204) 25%,rgb(165,163,152) 100%) !important;
+    text-shadow: rgba(0, 0, 0, 0.3) 0px -1px 0;
+    color: #999;
+    font-size: 13px;
+    text-align: center;
+    background: rgb(216,211,197) !important;
+    background: -moz-linear-gradient(top, rgb(216,211,197) 0%, rgb(221,217,204) 25%, rgb(165,163,152) 100%) !important;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(216,211,197)), color-stop(25%,rgb(221,217,204)), color-stop(100%,rgb(165,163,152))) !important;
+    background: -webkit-linear-gradient(top, rgb(216,211,197) 0%,rgb(221,217,204) 25%,rgb(165,163,152) 100%) !important;
+    background: -o-linear-gradient(top, rgb(216,211,197) 0%,rgb(221,217,204) 25%,rgb(165,163,152) 100%) !important;
+    background: -ms-linear-gradient(top, rgb(216,211,197) 0%,rgb(221,217,204) 25%,rgb(165,163,152) 100%) !important;
+    background: linear-gradient(to bottom, rgb(216,211,197) 0%,rgb(221,217,204) 25%,rgb(165,163,152) 100%) !important;
 }
 
 div#jqt #about p {
-margin-bottom: 8px;
+    margin-bottom: 8px;
 }
 
 div#jqt #about a {
-color: #fff;
-font-weight: bold;
-text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
 }
 

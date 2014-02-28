@@ -90,6 +90,7 @@ function initWebsockets() {
     {
         webGI.websockets.status = new WebSocket(webGI.conf.websocket_host+"/ws_status");
         $('#modal-error').addClass('md-show');
+        setTimeout(function(){initWebsockets()}, 5000);
         console.log ("Status socket rest");
     };
 
@@ -104,6 +105,7 @@ function initWebsockets() {
     {
         webGI.websockets.log = new WebSocket(webGI.conf.websocket_host+"/ws_log");
         $('#modal-error').addClass('md-show');
+        setTimeout(function(){initWebsockets()}, 5000);
         console.log ("Log socket rest");
     };
 
@@ -196,21 +198,19 @@ function initUI() {
         //console.log('Page animation started');
     });
 
-    $('#jqt').bind('pageAnimationEnd', function(e, info)
-    {
-        //console.log('Page animation finished');
-        updateLayout();
-    });
-
-/*
-    // Orientation change callback event
+   // Orientation change callback event
     $('#jqt').bind('turn', function(e, data)
     {
         console.log('Orientation changed to: ' + data.orientation);
         updateLayout();
     });
 
-
+/*
+    $('#jqt').bind('pageAnimationEnd', function(e, info)
+    {
+        //console.log('Page animation finished');
+       // updateLayout();
+    });
 
     // Swipe handler
     $('#jqt').swipe(function(evt, data) {
@@ -646,7 +646,7 @@ $(document).ready(function() {
     initSpinner();
     $(window).resize(updateLayout);
     updateLayout();
-    //window.onhashchange = updateLayout; // has been replaced by pageAnimationEnd event
+    window.onhashchange = updateLayout; // should have been replaced by pageAnimationEnd event but doesn't work as well
     // Switch UI click/tap event handler action for stupid apple browsers
     if ($.support.touch) { webGI.ui_action = 'touchend'; }
     else { webGI.ui_action  = 'click'; }

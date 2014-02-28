@@ -13,6 +13,7 @@
   <script src="assets/js/jqtouch.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/canvasjs.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/gauge.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="assets/js/dygraph-combined.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/spin.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/webGI.js" type="text/javascript" charset="utf-8"></script>
  </head>
@@ -133,7 +134,7 @@
    <div class="md-content red">
     <h3 class="icon-attention md-red"> &nbsp;Authorization required</h3>
     <div>
-     <input type="password" placeholder="Password">
+     <input type="password" placeholder="Please enter your password as stored in pyGI conf">
     </div>
    <div class="md-footer">
     <a href="#menu" class="md-close" onclick="$('#modal-auth').removeClass('md-show');">Cancel</a>
@@ -146,11 +147,11 @@
    <div class="md-content red">
     <h3 class="icon-attention md-red"> &nbsp;Network Error</h3>
     <div>
-     I lost the connection to the server but I should be able to reconnect automatically. If not, please fix the issue and click on reconnect.
+     I'm sorry but I have lost the connection to the WebSocket. Either the pyGI server has gone down or the network connection is unreliable. I should be able to reconnect automatically but in case I fail please fix the issue and reconnect manually.
     </div>
    <div class="md-footer">
     <a href="#menu" class="md-close" onclick="$('#modal-error').removeClass('md-show');">Cancel</a>
-    <a href="#" class="md-close md-green" onclick="">Reconnent now</a>
+    <a href="" class="md-close md-green" onclick="initWebsockets()">Reconnent now</a>
    </div>
    </div>
   </div>

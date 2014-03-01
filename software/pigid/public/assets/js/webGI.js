@@ -85,7 +85,7 @@ function initWebsockets() {
     {
         webGI.websockets.log = new WebSocket(webGI.conf.websocket_host+"/ws_log");
         $('#modal-error').addClass('md-show');
-        setTimeout(function(){initWebsockets()}, 5000);
+        //setTimeout(function(){initWebsockets()}, 5000);
         console.log ("Log socket rest");
     };
 
@@ -141,7 +141,14 @@ function initUI() {
     {
         $('#modal-1').addClass('md-show');
     });
-
+    
+    $('#toggleCalendar').bind(webGI.ui_action,function()
+    {
+    
+        $('#modal-calendar').addClass('md-show');
+        $('#calendarContainer').dateRangePicker();
+    });
+    
     $('#modalAuth').bind(webGI.ui_action,function()
     {
         $('#modal-auth').addClass('md-show');

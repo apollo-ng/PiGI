@@ -400,7 +400,21 @@ function initHistory() {
         fillAlpha: 0.8,
         showRoller: true,
         valueRange: [0.01,null],
-        includeZero: true,
+        //yRangePad: 10,
+        drawCallback: function(dygraph, initial) {
+            var range = dygraph.yAxisRange()
+            if (range[0] != 0.01){
+                console.log("Fixing range",range);
+                range[0] = 0.01;
+                range[1] = null//;range[1]*2;
+                dygraph.updateOptions({valueRange: range});
+            }
+        },
+        //zoomCallback: function(min,max,y) {
+        //    webGI.history.chart.updateOptions({valueRange: [0.01, null]});
+        //},
+
+        //includeZero: true,
         labels: ['time','µSv/h'],
         colors: ['#677712']
     });

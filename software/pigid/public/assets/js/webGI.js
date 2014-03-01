@@ -480,6 +480,7 @@ function initLog() {
         //valueRange: [0,null],
         includeZero: true,
         labels: ['time','µSv/h','µSv/h (15m avg)'],
+        xlabel: 'time',
         colors: ['#677712','yellow'],
         'µSv/h': {
             fillGraph: true,

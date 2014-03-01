@@ -25,7 +25,6 @@ class TickSimulator (threading.Thread):
         self.daemon = True
         self.geiger = geiger
         self.rate = (config.sim_dose_rate/config.tube_rate_factor)/120.0
-        self.active = True
 
     def run(self):
         while True:
@@ -66,7 +65,7 @@ class Geigercounter (threading.Thread):
             time.sleep(1)
 
             # Statistical correction of tube dead-time
-            if not TickSimulator(self).active:
+            if gpio_available:
                 self.count = int(self.count/(1-(self.count*config.tube_dead_time)))
 
             cpm_fifo.appendleft(self.count)

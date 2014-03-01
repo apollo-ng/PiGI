@@ -4,10 +4,7 @@ var webGI = {
     spinner : null,
     log : {
         chart : null,
-        data : {
-            doserate : [],
-            doserate_avg : [],
-        },
+        data : [],
         chart_age : 60*15,
         gauge : null,
         gauge_opts : {
@@ -210,8 +207,8 @@ function initUI() {
 /*
     $('#jqt').bind('pageAnimationEnd', function(e, info)
     {
-        //console.log('Page animation finished');
-       // updateLayout();
+        console.log('Page animation finished');
+        updateLayout();
     });
 
     // Swipe handler
@@ -292,12 +289,14 @@ function updateLayout() {
     new_w = $('#md-history').width();
     $('#historyContainer') .css({'height': new_h+'px', 'width': new_w+'px'}).attr('height',new_h).attr('width',new_w);
 
+    //ugly, but we seem to need it
     initLog();
-    //initHistory();
-    //initHistory();
+    initHistory();
+    
+    
     initGauge();
-    //if (webGI.log.chart != null) webGI.log.chart.render();
-    //if (webGI.history.chart != null) webGI.history.chart.render();
+    //if (webGI.log.chart != null) webGI.log.chart.updateOptions({file: webGI.log.data});
+    //if (webGI.history.chart != null) webGI.history.chart.updateOptions({file: webGI.history.data});
 }
 
 function updateConfig() {
@@ -392,18 +391,19 @@ function initHistory() {
     if (webGI.history.data.length==0) {
         return;
     }
-    console.log("bar")
     webGI.history.chart = new Dygraph("historyContainer", webGI.history.data, 
-        {
-            showRangeSelector: true,
-            rangeSelectorPlotFillColor: '',
-            rangeSelectorPlotStrokeColor: '#677712',
-            fillGraph: true,
-            fillAlpha: 0.8,
-            showRoller: true,
-            labels: ['time','µSv/h'],
-            colors: ['#677712']
-        });
+    {
+        showRangeSelector: true,
+        rangeSelectorPlotFillColor: '',
+        rangeSelectorPlotStrokeColor: '#677712',
+        fillGraph: true,
+        fillAlpha: 0.8,
+        showRoller: true,
+        //valueRange: [0,null],
+        includeZero: true,
+        labels: ['time','µSv/h'],
+        colors: ['#677712']
+    });
 }
 
 function updateHistory(data) {
@@ -424,44 +424,52 @@ function updateHistory(data) {
     }
 }
 
+function initLog() {
+    console.log("Init log");
+    if (webGI.log.data.length==0) {
+        return;
+    }
+    webGI.log.chart = new Dygraph("chartContainer", webGI.log.data, 
+    {
+        fillGraph: true, //we want the error bars
+        fillAlpha: 0.8,
+        showRoller: true,
+        rollPeriod: 1,
+        //valueRange: [0,null],
+        includeZero: true,
+        labels: ['time','µSv/h'],
+        colors: ['#677712']
+    });
+}
+
 function updateLogHistory(data) {
     console.log("LOGHISTORY");
-    webGI.log.data.doserate = [];
-    webGI.log.data.doserate_avg = [];
+    webGI.log.data = [];
     $.each(data.log, function(i,v){
         //var v = JSON.parse(v_json);
         var ts = new Date(v.timestamp*1000)
-        webGI.log.data.doserate.push({ "x": ts, "y": v.doserate});
-        webGI.log.data.doserate_avg.push({ "x": ts, "y": v.doserate_avg});
+        if (isNaN(ts.getTime())) {
+            return;
+        }
+        webGI.log.data.push([ts,v.doserate]);    
     });
-    initLog();
+    if (webGI.log.chart == null) {
+        initLog();
+    } else {
+        webGI.log.chart.updateOptions({ file: webGI.log.data });
+    }
 }
 
 function updateLogStatus(data) {
     console.log("UPDATE")
     var ts = new Date(data.timestamp*1000);
-    webGI.log.data.doserate.push({ "x": ts, "y": data.doserate});
-    webGI.log.data.doserate_avg.push({ "x": ts, "y": data.doserate_avg});
+    webGI.log.data.push([ts,data.doserate]);
     var left_end = new Date((data.timestamp-webGI.log.chart_age)*1000)
-    while(webGI.log.data.doserate[0].x < left_end) webGI.log.data.doserate.shift();
-    while(webGI.log.data.doserate_avg[0].x < left_end) webGI.log.data.doserate_avg.shift();
-//    updateLayout();
-    webGI.log.chart.render();
+    while(webGI.log.data[0][0] < left_end) webGI.log.data.shift();
+    webGI.log.chart.updateOptions({ file: webGI.log.data });
 }
 
-function initLog() {
-    console.log("Init log");
-    webGI.log.chart = new CanvasJS.Chart("chartContainer",{
-        animationEnabled: false,
-        backgroundColor: "rgba(13,12,8,0.25)",
-        title:{ text: "uSv/h", fontSize: 14, horizontalAlign: "right", fontColor: "rgba(117,137,12,0.8)", margin: 8 },
-        axisY:{ minimum: 0, margin: 5, labelFontFamily: "Digi", labelFontSize: 22, gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 0, tickThickness: 0, interlacedColor: "rgba(216,211,197,0.05)"  },
-        axisX:{ valueFormatString: "HH:mm", labelAngle: 0, labelFontFamily: "Digi", labelFontSize: 22, gridThickness: 1, gridColor: "rgba(216,211,197,0.1)", lineThickness: 1, tickThickness: 1 },
-        data: [{ type: "area", color: "rgba(117,137,12,0.8)", dataPoints: webGI.log.data.doserate },
-               { type: "line", color: "rgba(210,242,30,0.6)", dataPoints: webGI.log.data.doserate_avg }]
-    });
-    webGI.log.chart.render();
-}
+
 
 
 function toggleCounterUnit() {

@@ -9,12 +9,16 @@
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
   <link rel="stylesheet" href="assets/css/jqtouch.min.css" title="jQTouch">
   <link rel="stylesheet" href="assets/css/webGI.css">
+  <link rel="stylesheet" href="assets/css/daterangepicker.css">
   <script src="assets/js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/jqtouch.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/dygraph-combined.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/gauge.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/spin.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/webGI.js" type="text/javascript" charset="utf-8"></script>
+  <script src="assets/js/moment.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="assets/js/daterangepicker.js" type="text/javascript" charset="utf-8"></script>
+
  </head>
  <body id="body">
 
@@ -63,6 +67,7 @@
      <div id="historyContainer" class="instrument-container"></div>
      <div class="instrument-control-container">
       <a href="#" id="no-action" class="instrument-control live-control icon-chart-area enabled ">Action Button</a>
+      <a href="#" id="toggleCalendar" class="instrument-control">CAL</a>
       <a href="#" id="toggleLogScale" class="instrument-control">LOG</a>
      </div>
     </div>
@@ -142,7 +147,17 @@
     </div>
    </div>
   </div>
-
+  
+  <div class="md-modal md-effect-1" id="modal-calendar">
+   <div class="md-content green">
+    <h3 class="icon-attention md-green"> &nbsp;Select date range</h3>
+    <div id="calendarContainer"></div>
+    <div class="md-footer">
+     <a href="#menu" class="md-close" onclick="$('#modal-calendar').removeClass('md-show');">Cancel</a>
+    </div>
+   </div>
+  </div>
+  
   <div class="md-overlay"></div>
 
  </body>

@@ -24,10 +24,12 @@ class TickSimulator (threading.Thread):
         threading.Thread.__init__(self)
         self.daemon = True
         self.geiger = geiger
-    
+        self.rate = (config.sim_dose_rate/config.tube_rate_factor)/120.0
+        self.active = True
+
     def run(self):
         while True:
-            time.sleep(random.random()/1)
+            time.sleep(random.random()/self.rate)
             self.geiger.tick()
 
 
@@ -45,11 +47,11 @@ class Geigercounter (threading.Thread):
         self.cps=0
         self.cpm=0
         self.eqd=0
-    
+
     def tick(self, pin=None):
         self.count += 1
         self.totalcount += 1
-    
+
     def run(self):
         if gpio_available:
             GPIO.setmode(GPIO.BCM)
@@ -58,17 +60,21 @@ class Geigercounter (threading.Thread):
             GPIO.add_event_callback(config.gpio_pigi,self.tick)
         else:
             TickSimulator(self).start()
-        
+
         cpm_fifo = deque([],60)
         while True:
             time.sleep(1)
-            
+
+            # Statistical correction of tube dead-time
+            if not TickSimulator(self).active:
+                self.count = int(self.count/(1-(self.count*config.tube_dead_time)))
+
             cpm_fifo.appendleft(self.count)
 
             self.cpm = int(sum(cpm_fifo)*60.0/len(cpm_fifo))
             self.cps = self.count
             self.eqd = round(self.cpm * config.tube_rate_factor,2)
-            
+
             self.count = 0
             log.debug(self.get_state())
 

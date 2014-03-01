@@ -24,7 +24,8 @@ listening_port = 8080
 gpio_pigi = 4  # Geiger-Counter input
                # we expect a falling edge for every event
 
-tube_rate_factor = 0.00233 #cpm to microsievert/h
+tube_rate_factor = 0.00233 # tube specific cpm to microsievert/h conversion factor
+tube_dead_time = 0.000150  # tube specific dead-time in seconds
 
 ########################################################################
 #

@@ -6,26 +6,12 @@ var webGI = {
         chart : null,
         data : [],
         chart_age : 60*15,
-        gauge : null,
-        gauge_opts : {
-            lines: 1,
-            angle: 0.15,
-            lineWidth: 0.05,
-            pointer: {
-                length: 0.9,
-                strokeWidth: 0.015,
-                color: '#d8d3c5'
-            },
-            limitmMax: 'true',
-            colorStart: '#75890c',
-            colorStop: '#75890c',
-            strokeColor: '#000000'
-        }
+        gauge : null
     },
     history : {
         chart : null,
         data : [],
-        log_scale : false,
+        log_scale : false
     },
     conf : {
         websocket_host : "ws://" + window.location.hostname + ":" +window.location.port,
@@ -51,7 +37,7 @@ function initWebsockets() {
     if(!("WebSocket" in window))
     {
         //$('#chatLog, input, button, #examples').fadeOut("fast");
-        $('<p>Oh no, you need a browser that supports WebSockets. How about <a href="http://www.google.com/chrome">Google Chrome</a>?</p>').appendTo('#container');
+        $('<p>Oh no, you need a modern browser that supports WebSockets. How about <a href="http://www.google.com/chrome">Google Chrome</a>?</p>').appendTo('#container');
         return;
     }
 
@@ -127,11 +113,11 @@ function initUI() {
     // Bind UI events
 
     // Backlog
-    $('.liveControl').bind(webGI.ui_action,function(event)
+    $('.live-control').bind(webGI.ui_action,function(event)
     {
         $('#gaugeContainer').hide();
         $('#chartContainer').show();
-        $('.liveControl').removeClass('enabled');
+        $('.live-control').removeClass('enabled');
         $('#toggleGauge,#toggleTrace').removeClass('enabled');
         $(event.target).addClass('enabled');
         traceStop();
@@ -168,7 +154,7 @@ function initUI() {
        traceStop();
        $('#gaugeContainer').show();
        $('#toggleGauge').addClass('enabled');
-       $('.liveControl, #toggleTrace').removeClass('enabled');
+       $('.live-control, #toggleTrace').removeClass('enabled');
     });
 
     $('#toggleTrace').bind(webGI.ui_action,function()
@@ -176,7 +162,7 @@ function initUI() {
        $('#chartContainer').hide();
        $('#gaugeContainer').hide();
        $('#toggleTrace').addClass('enabled');
-       $('.liveControl, #toggleGauge').removeClass('enabled');
+       $('.live-control, #toggleGauge').removeClass('enabled');
        traceStart();
     });
 
@@ -185,7 +171,7 @@ function initUI() {
     {
         toggleAudio();
     });
-    
+
     $('#toggleLogScale').bind(webGI.ui_action,function()
     {
         toggleLogScale();
@@ -218,6 +204,11 @@ function initUI() {
                     $(this).parent().after('<li>swiped!</li>')
                 });
 */
+       initLog();
+    initHistory();
+
+
+    initGauge();
     updateLayout();
 }
 
@@ -244,6 +235,7 @@ function initSpinner()
     };
 
     webGI.spinner = new Spinner(opts).spin(document.getElementById('body'));
+    webGI.spinner.stop();
 }
 
 function startSpinner(){
@@ -255,48 +247,63 @@ function stopSpinner(){
 }
 
 function initGauge() {
+
+    var opts = {
+        lines: 1,
+        angle: 0.15,
+        lineWidth: 0.05,
+        pointer: {
+            length: 0.9,
+            strokeWidth: 0.015,
+            color: '#d8d3c5'
+        },
+        limitmMax: 'true',
+        colorStart: '#75890c',
+        colorStop: '#75890c',
+        strokeColor: '#000000'
+    }
+
     var target = document.getElementById('gaugeContainer');
-    webGI.log.gauge = new Gauge(target).setOptions(webGI.log.gauge_opts);
+    webGI.log.gauge = new Gauge(target).setOptions(opts);
     webGI.log.gauge.maxValue = 1;
     webGI.log.gauge.animationSpeed = 64;
     webGI.log.gauge.set(0);
 }
 
 function updateLayout() {
-    // This is called on DOMReady and on resize
-    // FIXME: Nasty hack to keep chart fluid
-    console.log("Updating Layout");
+    // This is called on DOMReady and on resize/rotate
+    // FIXME: Nasty hack to keep everything in flux state :)
+    //console.log("Updating Layout");
+
     var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
     var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 
-    var h_offset = 152;
+    // Make the modals stack and sticky
+    $('.md-modal').css({'top': '100px', 'left': (w/2)-($('.md-modal').width/2)+'px'})
+
+    var h_offset = 150;
     var w_offset = 48;
 
-    $('.md') .css({'height': h-100+'px'});
+    $('.instrument') .css({'height': h-100+'px'});
 
     var new_h = h-h_offset;
-    //var new_w = w-w_offset;
-    var new_w = $('#md-home').width();
+    var new_w = $('#mainInstrument').width();
 
+    $('.instrument-container').css({'height': new_h+'px', 'width': new_w+'px'}).attr('height',new_h).attr('width',new_w);
+    //$('#traceContainer') .css({'height': new_h-4+'px', 'width': new_w+'px'}).attr('height',new_h-4).attr('width',new_w);
+    //$('#chartContainer') .css({'height': new_h+'px', 'width': new_w+'px'}).attr('height',new_h).attr('width',new_w);
+    //$('#gaugeContainer') .css({'height': new_h-4+'px', 'width': new_w+'px'}).attr('height',new_h-4).attr('width',new_w);
 
-    $('.canvasjs-chart-canvas') .css({'height': h-h_offset+'px', 'width': w-w_offset+'px'}).attr('height',h-h_offset).attr('width',w-w_offset);
-
-    //$('.instrumentContainer').css({'height': new_h+'px', 'width': new_w+'px'}).attr('height',new_h).attr('width',new_w);
-    $('#traceContainer') .css({'height': new_h-4+'px', 'width': new_w+'px'}).attr('height',new_h-4).attr('width',new_w);
-    $('#chartContainer') .css({'height': new_h+'px', 'width': new_w+'px'}).attr('height',new_h).attr('width',new_w);
-    $('#gaugeContainer') .css({'height': new_h-4+'px', 'width': new_w+'px'}).attr('height',new_h-4).attr('width',new_w);
-
-    new_w = $('#md-history').width();
-    $('#historyContainer') .css({'height': new_h+'px', 'width': new_w+'px'}).attr('height',new_h).attr('width',new_w);
+    new_w = $('#historyInstrument').width();
+    $('#historyContainer') .css({'height': new_h+'px', 'width': new_w-15+'px'}).attr('height',new_h).attr('width',new_w-15);
 
     //ugly, but we seem to need it
     initLog();
     initHistory();
-    
-    
     initGauge();
     //if (webGI.log.chart != null) webGI.log.chart.updateOptions({file: webGI.log.data});
     //if (webGI.history.chart != null) webGI.history.chart.updateOptions({file: webGI.history.data});
+
 }
 
 function updateConfig() {
@@ -391,13 +398,15 @@ function initHistory() {
     if (webGI.history.data.length==0) {
         return;
     }
-    webGI.history.chart = new Dygraph("historyContainer", webGI.history.data, 
+    webGI.history.chart = new Dygraph("historyContainer", webGI.history.data,
     {
         showRangeSelector: true,
-        rangeSelectorPlotFillColor: '',
+        rangeSelectorPlotFillColor: '#677712',
         rangeSelectorPlotStrokeColor: '#677712',
+        title: 'EAR: $$ uSv/h (AVG) - EAD: $$ uSv (Total)',
+        rightGap: 15,
+        fillAlpha: 0.7,
         fillGraph: true,
-        fillAlpha: 0.8,
         showRoller: true,
         valueRange: [0.01,null],
         //yRangePad: 10,
@@ -429,7 +438,7 @@ function updateHistory(data) {
         if (isNaN(ts.getTime())) {
             return;
         }
-        webGI.history.data.push([ts,v.doserate]);    
+        webGI.history.data.push([ts,v.doserate]);
     });
     if (webGI.history.chart == null) {
         initHistory();
@@ -443,15 +452,18 @@ function initLog() {
     if (webGI.log.data.length==0) {
         return;
     }
-    webGI.log.chart = new Dygraph("chartContainer", webGI.log.data, 
+    webGI.log.chart = new Dygraph("chartContainer", webGI.log.data,
     {
+        title: 'EAR: $$ uSv/h (AVG) - EAD: $$ uSv (Total)',
+        titleHeight: 25,
         fillGraph: true, //we want the error bars
-        fillAlpha: 0.8,
+        rightGap: 15,
+        fillAlpha: 0.7,
         showRoller: true,
         rollPeriod: 1,
         //valueRange: [0,null],
         includeZero: true,
-        labels: ['time','µSv/h'],
+        xlabel: 'time',
         colors: ['#677712']
     });
 }
@@ -465,7 +477,7 @@ function updateLogHistory(data) {
         if (isNaN(ts.getTime())) {
             return;
         }
-        webGI.log.data.push([ts,v.doserate]);    
+        webGI.log.data.push([ts,v.doserate]);
     });
     if (webGI.log.chart == null) {
         initLog();
@@ -507,7 +519,7 @@ function toggleLogScale() {
         webGI.history.log_scale = false;
         $('#toggleLogScale').removeClass('enabled');
     }
-    
+
     webGI.history.chart.updateOptions({ logscale: webGI.history.log_scale });
 }
 function toggleAudio() {
@@ -686,7 +698,6 @@ function traceDraw()
 }
 
 $(document).ready(function() {
-    initSpinner();
     $(window).resize(updateLayout);
     updateLayout();
     window.onhashchange = updateLayout; // should have been replaced by pageAnimationEnd event but doesn't work as well
@@ -695,7 +706,8 @@ $(document).ready(function() {
     else { webGI.ui_action  = 'click'; }
 
     initUI();
+    initSpinner();
     initWebsockets();
     geoToggle();  // Init geolocation
-    stopSpinner();
+
 });

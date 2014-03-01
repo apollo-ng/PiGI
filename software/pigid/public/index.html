@@ -11,9 +11,8 @@
   <link rel="stylesheet" href="assets/css/webGI.css">
   <script src="assets/js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/jqtouch.min.js" type="text/javascript" charset="utf-8"></script>
-  <script src="assets/js/canvasjs.min.js" type="text/javascript" charset="utf-8"></script>
-  <script src="assets/js/gauge.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/dygraph-combined.js" type="text/javascript" charset="utf-8"></script>
+  <script src="assets/js/gauge.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/spin.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/webGI.js" type="text/javascript" charset="utf-8"></script>
  </head>
@@ -22,54 +21,56 @@
   <div id="jqt">
 
    <!-- Live/Main Panel -->
-   <div id="home">
+   <div id="mainPanel">
+
+    <!-- Main Toolbar -->
     <div class="toolbar">
-     <a href="#menu" class="button leftButton slideright big-icon icon-menu"></a>
-     <a href="#history" class="button rightButton slideleft big-icon icon-database"></a>
+     <a href="#optionsPanel" class="button leftButton slideright big-icon icon-menu"></a>
+     <a href="#historyPanel" class="button rightButton slideleft big-icon icon-database"></a>
+     <!-- Multi Function Display -->
      <div class="mfd">
-      <span class="mfd-display" id="count_val">00000</span>
-      <span class="mfd-unit" id="count_unit">CPM</span>
-      <span class="mfd-display" id="eqd_val">00000</span>
-      <span class="mfd-unit" id="eqd_unit">uSv</span>
-      <span class="mfd-display" id="lvl_val">0</span>
-      <span class="mfd-unit" id="lvl_unit">INES</span>
-      <span class="mfd-display mfd-icon icon-target-1" id="userGeoStatus"></span>
-      <span class="mfd-display" id="userGeoLoc">00.00000 00.00000</span>
+      <span id="count_val" class="mfd-display">00000</span>
+      <span id="count_unit" class="mfd-unit">CPM</span>
+      <span id="eqd_val" class="mfd-display">00000</span>
+      <span id="eqd_unit" class="mfd-unit">uSv</span>
+      <span id="lvl_val" class="mfd-display">0</span>
+      <span id="lvl_unit" class="mfd-unit">INES</span>
+      <span id="userGeoStatus" class="mfd-display mfd-icon icon-target-1"></span>
+      <span id="userGeoLoc" class="mfd-display">00.00000 00.00000</span>
      </div>
     </div>
 
-    <div class="md" id="md-home">
-     <div id="chartContainer" class="instrumentContainer"></div>
-     <canvas id="gaugeContainer" class="instrumentContainer" style="display: none"></canvas>
-     <canvas id="traceContainer" class="instrumentContainer" style="display: none"></canvas>
-     <div class="md-control-container">
-      <a href="#" id="live15m" class="liveControl md-control enabled" seconds=900>15M</a>
-      <a href="#" id="live60m" class="liveControl md-control" seconds=3600>60M</a>
-      <a href="#" id="live24h" class="liveControl md-control" seconds=86400>24H</a>
-      <a href="#" id="toggleGauge" class="viewableControl md-control fade big-icon icon-gauge-1"></a>
-      <a href="#" id="toggleTrace" class="md-control big-icon icon-eye-1"></a>
-      <a href="#" id="toggleAudio" class="md-control big-icon icon-volume-down-1"></a>
-      <!-- <a href="#" id="toggleModal" class="md-control big-icon icon-attention"></a> -->
+    <!-- Main Instrument -->
+    <div id="mainInstrument" class="instrument">
+     <div id="chartContainer" class="instrument-container"></div>
+     <canvas id="gaugeContainer" class="instrument-container" style="display: none"></canvas>
+     <canvas id="traceContainer" class="instrument-container" style="display: none"></canvas>
+     <div class="instrument-control-container">
+      <a href="#" id="live15m" class="instrument-control live-control enabled" seconds=900>15M</a>
+      <a href="#" id="live60m" class="instrument-control live-control" seconds=3600>60M</a>
+      <a href="#" id="live24h" class="instrument-control live-control" seconds=86400>24H</a>
+      <a href="#" id="toggleGauge" class="instrument-control viewableControl big-icon icon-gauge-1"></a>
+      <a href="#" id="toggleTrace" class="instrument-control big-icon icon-eye-1"></a>
+      <a href="#" id="toggleAudio" class="instrument-control big-icon icon-volume-down-1"></a>
      </div>
     </div>
    </div>
 
    <!-- History Panel -->
-   <div id="history">
-    <div class="toolbar"><h1>Historical Radiation Data</h1><a href="#home" class="goback button leftButton">Live</a></div>
-     <div class="md" id="md-history">
-     <div id="historyContainer" class="instrumentContainer"></div>
-     <div class="md-control-container">
-      <a href="#" id="no-action" class="liveControl md-control enabled icon-chart-area">Action Button</a>
-      <a href="#" id="toggleLogScale" class="md-control">log</a>
-
+   <div id="historyPanel">
+    <div class="toolbar"><h1>Historical Radiation Data</h1><a href="#mainPanel" class="button leftButton slideright">Live</a></div>
+    <div id="historyInstrument" class="instrument">
+     <div id="historyContainer" class="instrument-container"></div>
+     <div class="instrument-control-container">
+      <a href="#" id="no-action" class="instrument-control live-control icon-chart-area enabled ">Action Button</a>
+      <a href="#" id="toggleLogScale" class="instrument-control">LOG</a>
      </div>
     </div>
    </div>
 
-   <!-- Main Menu -->
-   <div id="menu">
-    <div class="toolbar"><h1>Options</h1><a href="#home" class="goback button leftButton">Back</a><a href="#home" class="button rightButton slideleft">Live</a></div>
+   <!-- Options Panel -->
+   <div id="optionsPanel">
+    <div class="toolbar"><h1>Options</h1><a href="#" class="goback button leftButton">Back</a><a href="#mainPanel" class="button rightButton slideleft">Live</a></div>
      <div class="scroll">
      <h2>Websocket URL</h2>
      <ul class="rounded">
@@ -90,7 +91,7 @@
 
    <!-- About -->
    <div id="about">
-    <div class="toolbar"><h1>About</h1><a href="#home" class="goback button leftButton">Back</a><a href="#home" class="button rightButton slideleft">Live</a></div>
+    <div class="toolbar"><h1>About</h1><a href="#" class="goback button leftButton">Back</a><a href="#mainPanel" class="button rightButton slideleft">Live</a></div>
     <div class="info view scroll" style="text-align: justify;">
         <img src="assets/img/apollo-badge.png" border="0" />
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lacinia
@@ -102,13 +103,11 @@
         elit, dapibus eu tincidunt quis, sagittis ut nulla. Vivamus ornare ultrices
         fermentum. Cras ornare tempor lacus, eget scelerisque lacus pretium sit
         amet.</p>
-        <ul class="info scroll">
-             <li>zepto.js</li>
-     <li>jqtouch</li>
-     <li>CanvasJs</li>
-     <li>python</li>
-</ul>
-
+        <table>
+         <tr><td>zepto.js</td><td>Aerogel-weight jQuery-compatible JavaScript library</td><td>MIT</td></tr>
+         <tr><td>jqtouch</td><td>A Zepto/jQuery plugin focussed on mobile web development</td><td>MIT</td></tr>
+         <tr><td>dygraphs</td><td>Fast, flexible and lightweight JavaScript charting library</td><td>MIT</td></tr>
+        </table>
         <a class="donateLink" href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@domain.net&item_name=Donation">Donate</a>
     </div>
    </div>
@@ -117,20 +116,6 @@
   <!-- End Jqt control -->
 
   <!-- Modals -->
-  <div class="md-modal md-effect-1" id="modal-1">
-   <div class="md-content">
-    <h3>Modal Dialog</h3>
-    <div>
-     <p>This is a modal window. You can do the following things with it:</p>
-     <ul>
-      <li><strong>Read:</strong> Modal windows will probably tell you something important so don't forget to read what it says.</li>
-      <li><strong>Look:</strong> modal windows enjoy a certain kind of attention; just look at it and appreciate its presence.</li>
-      <li><strong>Close:</strong> click on the button below to close the modal.</li>
-     </ul>
-     <button class="md-close" onclick="$('#modal-1').removeClass('md-show');">Close me!</button>
-    </div>
-   </div>
-  </div>
 
   <div class="md-modal md-effect-1" id="modal-auth">
    <div class="md-content red">
@@ -138,10 +123,10 @@
     <div>
      <input type="password" placeholder="Please enter your password as stored in pyGI conf">
     </div>
-   <div class="md-footer">
-    <a href="#menu" class="md-close" onclick="$('#modal-auth').removeClass('md-show');">Cancel</a>
-    <a href="#" class="md-close md-green" onclick="">OK</a>
-   </div>
+    <div class="md-footer">
+     <a href="#menu" class="md-close" onclick="$('#modal-auth').removeClass('md-show');">Cancel</a>
+     <a href="#" class="md-close md-green" onclick="">OK</a>
+    </div>
    </div>
   </div>
 
@@ -151,10 +136,10 @@
     <div>
      I'm sorry but I have lost the connection to the WebSocket. Either the pyGI server has gone down or the network connection is unreliable. I should be able to reconnect automatically but in case I fail please fix the issue and reconnect manually.
     </div>
-   <div class="md-footer">
-    <a href="#menu" class="md-close" onclick="$('#modal-error').removeClass('md-show');">Cancel</a>
-    <a href="" class="md-close md-green" onclick="initWebsockets()">Reconnent now</a>
-   </div>
+    <div class="md-footer">
+     <a href="#menu" class="md-close" onclick="$('#modal-error').removeClass('md-show');">Cancel</a>
+     <a href="" class="md-close md-green" onclick="initWebsockets()">Reconnent now</a>
+    </div>
    </div>
   </div>
 

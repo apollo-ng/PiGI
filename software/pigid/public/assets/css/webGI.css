@@ -87,6 +87,7 @@ body {
     background: #323128;
 }
 
+/* Multi Function Display (Top) */
 
 .mfd {
     position: relative;
@@ -190,8 +191,26 @@ body {
     text-align: left;
 }
 
+@-webkit-keyframes blinker {
+    0% { color: black; opacity: 0.5 }
+    100% { color: #75890c; opacity: 1}
+}
 
-.md {
+keyframes blinker {
+    0% { color: black; opacity: 0.5 }
+    100% { color: #75890c; opacity: 1 }
+}
+
+.init-blinker {
+    -webkit-animation-name: blinker;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: cubic-bezier(1.0,0,0,1.0);
+    -webkit-animation-duration: 1.3s;
+}
+
+/* Main Instrument */
+
+.instrument {
     margin: 15px;
     margin-bottom: 0;
     width: auto;
@@ -208,16 +227,7 @@ body {
     background: #3F3E3A url('../img/panel_bg.png') repeat;
 }
 
-.canvasjs-chart-credit {
-    display: none;
-    visibility: hidden;
-}
-
-#chartContainer {
-    width: 100%;
-}
-
-.md-control-container {
+.instrument-control-container {
     border-top: 1px solid #000;
     background: rgba(17,16,12,0.6);
     height: 50px !important;
@@ -226,14 +236,13 @@ body {
     text-align: justify !important;
 }
 
-.md-control-container:after {
+.instrument-control-container:after {
     content: "";
     width: 100% !important;
     display: inline-block !important;
 }
 
-
-.md-control {
+.instrument-control {
     display: inline-block !important;
     font-size: 1.2em;
     font-weight: bold !important;
@@ -255,7 +264,6 @@ body {
     background: -ms-linear-gradient(top, rgba(146,145,136,0.25) 0%,rgba(146,145,136,0.29) 16%,rgba(82,81,72,0.36) 42%,rgba(82,81,72,0.5) 100%);
     background: linear-gradient(to bottom, rgba(146,145,136,0.25) 0%,rgba(146,145,136,0.29) 16%,rgba(82,81,72,0.36) 42%,rgba(82,81,72,0.5) 100%);
 }
-
 
 .finput {
     background-color: #555658;
@@ -282,30 +290,45 @@ body {
     background: linear-gradient(to bottom, rgba(103,119,18,0.8) 0%,rgba(162,183,58,0.8) 100%) !important;
 }
 
-@-webkit-keyframes blinker {
-    0% { color: black; opacity: 0.5 }
-    100% { color: #75890c; opacity: 1}
+
+.dygraph-axis-label-x,
+.dygraph-axis-label-y {
+    font-family: "Digi";
+    font-size: 1.3em;
+    color: #d8d3c5;
+}
+.dygraph-axis-label-x {
+    margin-top: 4px;
 }
 
-keyframes blinker {
-    0% { color: black; opacity: 0.5 }
-    100% { color: #75890c; opacity: 1 }
+.dygraph-rangesel-fgcanvas {
+    height: 40px !important;
+    border: 1px solid red;
 }
 
-.init-blinker {
-    -webkit-animation-name: blinker;
-    -webkit-animation-iteration-count: infinite;
-    -webkit-animation-timing-function: cubic-bezier(1.0,0,0,1.0);
-    -webkit-animation-duration: 1.3s;
+.dygraph-title {
+    color: #75890c;
+    font-size: 0.9em;
+    line-height: 25px;
+}
+
+.dygraph-xlabel {
+    border: 1px solid yellow;
+    opacity: 0;
+}
+
+.dygraph-xlabel {
+   display: none;
 }
 
 .md-modal {
-    position: relative !important;
-    margin: 0 auto !important;
+    position: absolute !important;
     width: 50% !important;
-    -webkit-transform: translateY(-90%);
-    -moz-transform: translateY(-90%);
-    transform: translateY(-90%);
+    /*
+     margin: 0 auto !important;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    transform: translateY(-50%); */
     max-width: 430px !important;
     min-width: 320px !important;
     z-index: 2000 !important;

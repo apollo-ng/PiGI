@@ -47,7 +47,7 @@ function initWebsockets() {
 
     webGI.websockets.status.onopen = function()
     {
-        $('#modal-error').removeClass('md-show');
+        $('#modalError').removeClass('md-show');
         //console.log('Status Update socket opened');
     };
 
@@ -69,14 +69,14 @@ function initWebsockets() {
     webGI.websockets.status.onclose = function()
     {
         webGI.websockets.status = new WebSocket(webGI.conf.websocket_host+"/ws_status");
-        $('#modal-error').addClass('md-show');
+        $('#modalError').addClass('md-show');
         setTimeout(function(){initWebsockets()}, 5000);
         console.log ("Status socket rest");
     };
 
     webGI.websockets.log.onopen = function()
     {
-        $('#modal-error').removeClass('md-show');
+        $('#modalError').removeClass('md-show');
         requestLog();
         requestHistory(null,null);
     };
@@ -84,7 +84,7 @@ function initWebsockets() {
     webGI.websockets.log.onclose = function()
     {
         webGI.websockets.log = new WebSocket(webGI.conf.websocket_host+"/ws_log");
-        $('#modal-error').addClass('md-show');
+        $('#modalError').addClass('md-show');
         //setTimeout(function(){initWebsockets()}, 5000);
         console.log ("Log socket rest");
     };
@@ -141,17 +141,17 @@ function initUI() {
     {
         $('#modal-1').addClass('md-show');
     });
-    
-    $('#toggleCalendar').bind(webGI.ui_action,function()
+
+    $('#showModalDateRanger').bind(webGI.ui_action,function()
     {
-    
-        $('#modal-calendar').addClass('md-show');
+
+        $('#modalDateRanger').addClass('md-show');
         $('#calendarContainer').dateRangePicker();
     });
-    
-    $('#modalAuth').bind(webGI.ui_action,function()
+
+    $('#showModalAuth').bind(webGI.ui_action,function()
     {
-        $('#modal-auth').addClass('md-show');
+        $('#modalAuth').addClass('md-show');
     });
 
     $('#toggleGauge').bind(webGI.ui_action,function()
@@ -286,7 +286,7 @@ function updateLayout() {
     var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 
     // Make the modals stack and sticky
-    $('.md-modal').css({'top': '100px', 'left': (w/2)-($('.md-modal').width/2)+'px'})
+    $('.md-modal').css({'top': '100px', 'left': (w/2)-($('#modalAuth').width()/2)+'px'})
 
     var h_offset = 150;
     var w_offset = 48;

@@ -67,7 +67,7 @@
      <div id="historyContainer" class="instrument-container"></div>
      <div class="instrument-control-container">
       <a href="#" id="no-action" class="instrument-control live-control icon-chart-area enabled ">Action Button</a>
-      <a href="#" id="toggleCalendar" class="instrument-control">CAL</a>
+      <a href="#" id="showModalDateRanger" class="instrument-control">CAL</a>
       <a href="#" id="toggleLogScale" class="instrument-control">LOG</a>
      </div>
     </div>
@@ -88,7 +88,7 @@
       <li><input type="radio" name="geoMode" value="static" title="" id="cnf_gps_mode_static" /><label for="cnf_gps_mode_static" class="input-action-label">Stationary</label></li>
       </ul>
       <ul class="rounded">
-      <li class="arrow"><a href="#" id="modalAuth" class="dissolve">Server Settings</a></li>
+      <li class="arrow"><a href="#" id="showModalAuth">Server Settings</a></li>
       <li class="arrow"><a href="#about" class="dissolve">About</a></li>
      </ul>
     </div>
@@ -122,42 +122,42 @@
 
   <!-- Modals -->
 
-  <div class="md-modal md-effect-1" id="modal-auth">
+  <div id="modalAuth" class="md-modal md-effect-1">
    <div class="md-content red">
     <h3 class="icon-attention md-red"> &nbsp;Authorization required</h3>
     <div>
      <input type="password" placeholder="Please enter your password as stored in pyGI conf">
     </div>
     <div class="md-footer">
-     <a href="#menu" class="md-close" onclick="$('#modal-auth').removeClass('md-show');">Cancel</a>
+     <a href="#menu" class="md-close" onclick="$('#modalAuth').removeClass('md-show');">Cancel</a>
      <a href="#" class="md-close md-green" onclick="">OK</a>
     </div>
    </div>
   </div>
 
-  <div class="md-modal md-effect-1" id="modal-error">
+  <div id="modalError" class="md-modal md-effect-1">
    <div class="md-content red">
     <h3 class="icon-attention md-red"> &nbsp;Network Error</h3>
     <div>
      I'm sorry but I have lost the connection to the WebSocket. Either the pyGI server has gone down or the network connection is unreliable. I should be able to reconnect automatically but in case I fail please fix the issue and reconnect manually.
     </div>
     <div class="md-footer">
-     <a href="#menu" class="md-close" onclick="$('#modal-error').removeClass('md-show');">Cancel</a>
+     <a href="#menu" class="md-close" onclick="$('#modalError').removeClass('md-show');">Cancel</a>
      <a href="" class="md-close md-green" onclick="initWebsockets()">Reconnent now</a>
     </div>
    </div>
   </div>
-  
-  <div class="md-modal md-effect-1" id="modal-calendar">
+
+  <div id="modalDateRanger" class="md-modal md-effect-1">
    <div class="md-content green">
     <h3 class="icon-attention md-green"> &nbsp;Select date range</h3>
     <div id="calendarContainer"></div>
     <div class="md-footer">
-     <a href="#menu" class="md-close" onclick="$('#modal-calendar').removeClass('md-show');">Cancel</a>
+     <a href="#menu" class="md-close" onclick="$('#modalDateRanger').removeClass('md-show');">Cancel</a>
     </div>
    </div>
   </div>
-  
+
   <div class="md-overlay"></div>
 
  </body>

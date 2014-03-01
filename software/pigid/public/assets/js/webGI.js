@@ -399,7 +399,7 @@ function initHistory() {
         fillGraph: true,
         fillAlpha: 0.8,
         showRoller: true,
-        //valueRange: [0,null],
+        valueRange: [0.01,null],
         includeZero: true,
         labels: ['time','µSv/h'],
         colors: ['#677712']

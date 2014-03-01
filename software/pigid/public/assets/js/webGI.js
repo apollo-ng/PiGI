@@ -431,8 +431,16 @@ function initHistory() {
         //},
 
         //includeZero: true,
-        labels: ['time','µSv/h'],
-        colors: ['#677712']
+        //connectSeparatedPoints: true,
+        labels: ['time','µSv/h','µSv/h (15m avg)'],
+        colors: ['#677712','yellow'],
+        'µSv/h': {
+            fillGraph: true,
+            stepPlot: true,
+        },
+        'µSv/h (15m avg)': {
+            fillGraph: false,
+        },
     });
 }
 
@@ -445,7 +453,7 @@ function updateHistory(data) {
         if (isNaN(ts.getTime())) {
             return;
         }
-        webGI.history.data.push([ts,v.doserate]);
+        webGI.history.data.push([ts,v.doserate,v.doserate_avg]);
     });
     if (webGI.history.chart == null) {
         initHistory();
@@ -466,12 +474,20 @@ function initLog() {
         fillGraph: true, //we want the error bars
         rightGap: 15,
         fillAlpha: 0.7,
-        showRoller: true,
+        showRoller: false,
         rollPeriod: 1,
+        interactionModel: {},
         //valueRange: [0,null],
         includeZero: true,
-        xlabel: 'time',
-        colors: ['#677712']
+        labels: ['time','µSv/h','µSv/h (15m avg)'],
+        colors: ['#677712','yellow'],
+        'µSv/h': {
+            fillGraph: true,
+            stepPlot: true,
+        },
+        'µSv/h (15m avg)': {
+            fillGraph: false,
+        },
     });
 }
 
@@ -484,7 +500,7 @@ function updateLogHistory(data) {
         if (isNaN(ts.getTime())) {
             return;
         }
-        webGI.log.data.push([ts,v.doserate]);
+        webGI.log.data.push([ts,v.doserate,v.doserate_avg]);
     });
     if (webGI.log.chart == null) {
         initLog();
@@ -496,7 +512,7 @@ function updateLogHistory(data) {
 function updateLogStatus(data) {
     console.log("UPDATE")
     var ts = new Date(data.timestamp*1000);
-    webGI.log.data.push([ts,data.doserate]);
+    webGI.log.data.push([ts,data.doserate,data.doserate_avg]);
     var left_end = new Date((data.timestamp-webGI.log.chart_age)*1000)
     while(webGI.log.data[0][0] < left_end) webGI.log.data.shift();
     webGI.log.chart.updateOptions({ file: webGI.log.data });

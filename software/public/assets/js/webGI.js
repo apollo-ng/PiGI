@@ -730,8 +730,8 @@ function traceDraw()
 
 		ctx.fillStyle = p.color;
 		ctx.fillRect(p.x, p.y, 1,p.vy);
-        ctx.fillStyle = "rgba(0,255,0,1)";
-        ctx.fillRect(p.x, p.y+p.vy+1, 1,1);
+        ctx.fillStyle = "rgba(117,137,12,1)";
+        ctx.fillRect(p.x, p.y+p.vy, 1,1);
 
 		p.x += p.vx;
 		p.y += p.vy;

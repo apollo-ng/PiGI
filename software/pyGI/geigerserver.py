@@ -24,13 +24,13 @@ geigerlog = None
 
 @app.route('/')
 def index():
-    return bottle.redirect('/pigi/index.html')
+    return bottle.redirect('/webGI/index.html')
 
 @app.route('/favicon.ico')
 def favicon():
     return bottle.static_file("favicon.ico", root=public_dir)
 
-@app.route('/pigi/:filename#.*#')
+@app.route('/webGI/:filename#.*#')
 def send_static(filename):
     log.debug("serving %s" % filename)
     return bottle.static_file(filename, root=public_dir)

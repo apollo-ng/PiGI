@@ -97,6 +97,7 @@ function initWebsockets()
         $('#modalError').removeClass('md-show');
         requestLog();
         requestHistory(null,null);
+        setTimeout(function(){$('.splash').addClass('splash-hidden'); console.log('Remove splash'); },500);
     };
 
     webGI.websockets.log.onclose = function()
@@ -332,22 +333,23 @@ function showErrorModal (title, msg, action)
 
 function initSpinner()
 {
-    var opts = {
-        lines: 15, // The number of lines to draw
+    var opts =
+    {
+        lines: 14, // The number of lines to draw
         length: 30, // The length of each line
-        width: 12, // The line thickness
+        width: 11, // The line thickness
         radius: 45, // The radius of the inner circle
         corners: 1, // Corner roundness (0..1)
         rotate: 0, // The rotation offset
         direction: 1, // 1: clockwise, -1: counterclockwise
         color: 'rgba(216, 211, 197, 0.9)', // #rgb or #rrggbb or array of colors
-        speed: 1, // Rounds per second
+        speed: 0.8, // Rounds per second
         trail: 60, // Afterglow percentage
         shadow: true, // Whether to render a shadow
         hwaccel: true, // Whether to use hardware acceleration
         className: 'spinner', // The CSS class to assign to the spinner
         zIndex: 2e9, // The z-index (defaults to 2000000000)
-        top: 'auto', // Top position relative to parent in px
+        top: '150px', // Top position relative to parent in px
         left: 'auto' // Left position relative to parent in px
     };
 
@@ -552,7 +554,8 @@ function initHistory()
         drawCallback: function(dygraph, initial)
         {
             var range = dygraph.yAxisRange()
-            if (range[0] != 0.01){
+            if (range[0] != 0.01)
+            {
                 console.log("Fixing range",range);
                 range[0] = 0.01;
                 range[1] = null//;range[1]*2;
@@ -856,6 +859,7 @@ $(document).ready(function()
     initUI();
     initSpinner();
     initWebsockets();
+
     setTimeout(function () { geoToggle(); },5000);
 
 });

@@ -586,3 +586,39 @@ div#jqt #about a {
     text-decoration: none;
 }
 
+
+.spinner {
+    margin-top: 100px !important;
+    transition: opacity .25s ease-in-out;
+   -moz-transition: opacity .25s ease-in-out;
+   -webkit-transition: opacity .25s ease-in-out;
+}
+
+.splash {
+    position: absolute !important;
+    width: 100% !important;
+    height: 100% !important;
+    visibility: visible;
+    display: block;
+    background: #3F3E3A url('../img/panel_bg.png') repeat !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 100000;
+    opacity: 1;
+    visibility: visible;
+    -webkit-transition: all 1s ease-in-out !important;
+    -moz-transition: all 1s ease-in-out !important;
+    transition: all 1s ease-in-out !important;
+}
+
+.splash-hidden {
+    opacity: 0 !important;
+    height: 0 !important;
+    visibility: hidden !important;
+}
+/*
+.splash:after {
+    display: none !important;
+    visibility: hidden !important;
+}
+*/

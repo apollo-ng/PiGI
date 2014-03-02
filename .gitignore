@@ -13,3 +13,4 @@ config.py
 entropy.bin
 local.cfg
 dynamic.cfg
+pyGI.log

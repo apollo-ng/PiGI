@@ -22,12 +22,14 @@ def dt2unix(dt):
     return int(dt.strftime("%s"))
 
 def get_last_totalcount():
+    log.info("Getting last totalcount")
     db = leveldb.LevelDB(log_dir)
     now = dt2unix(datetime.now())
     d = 1
     last_entries_keys = []
     i = 0
     while not last_entries_keys:
+        log.debug("Searching further (%d)..."%d)
         last_entries_keys = list(db.RangeIter(key_from=str(now-d),include_value=False))
         d = d*2
         i = i+1
@@ -102,7 +104,7 @@ class GeigerLog(threading.Thread):
             start = int(self.db.RangeIter(key_from="0",include_value=False).next())
         
         result = []
-        
+        log.info("retriving %s log entries from %d to %s"%(str(amount),start,end))
         if amount is None:
             entries_list = list(self.db.RangeIter(key_from=str(start)))
             last_time = start
@@ -153,8 +155,7 @@ class GeigerLog(threading.Thread):
                 result.append(entry)
             elif result[-1] != entry:
                 result.append(entry)
-            else:
-                continue
+            
             step += 1
         return average_log_entries(result,cfg.getfloat('geigercounter','tube_rate_factor'))
     

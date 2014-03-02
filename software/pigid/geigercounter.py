@@ -6,8 +6,7 @@ import datetime
 import logging
 
 from collections import deque
-
-import config
+from configurator import cfg
 
 log = logging.getLogger(__name__)
 
@@ -24,11 +23,13 @@ class TickSimulator (threading.Thread):
         threading.Thread.__init__(self)
         self.daemon = True
         self.geiger = geiger
-        self.rate = (config.sim_dose_rate/config.tube_rate_factor)/120.0
-
+        
     def run(self):
         while True:
-            time.sleep(random.random()/self.rate)
+            ratefactor = cfg.getfloat('geigercounter','tube_rate_factor')
+            simrate = cfg.getfloat('geigercounter','sim_dose_rate')
+            rate = simrate/ratefactor
+            time.sleep(random.random()/rate*120)
             self.geiger.tick()
 
 
@@ -54,9 +55,10 @@ class Geigercounter (threading.Thread):
     def run(self):
         if gpio_available:
             GPIO.setmode(GPIO.BCM)
-            GPIO.setup(config.gpio_pigi,GPIO.IN)
-            GPIO.add_event_detect(config.gpio_pigi,GPIO.FALLING)
-            GPIO.add_event_callback(config.gpio_pigi,self.tick)
+            gpio_port = cfg.getint('geigercounter','gpio_port') 
+            GPIO.setup(gpio_port,GPIO.IN)
+            GPIO.add_event_detect(gpio_port,GPIO.FALLING)
+            GPIO.add_event_callback(gpio_port,self.tick)
         else:
             TickSimulator(self).start()
 
@@ -66,13 +68,15 @@ class Geigercounter (threading.Thread):
 
             # Statistical correction of tube dead-time
             if gpio_available:
-                self.count = int(self.count/(1-(self.count*config.tube_dead_time)))
+                deadtime = cfg.getfloat('geigercounter','tube_dead_time')
+                self.count = int(self.count/(1-(self.count*deadtime)))
 
             cpm_fifo.appendleft(self.count)
 
             self.cpm = int(sum(cpm_fifo)*60.0/len(cpm_fifo))
             self.cps = self.count
-            self.eqd = round(self.cpm * config.tube_rate_factor,2)
+            ratefactor = cfg.getfloat('geigercounter','tube_rate_factor')
+            self.eqd = round(self.cpm * ratefactor,2)
 
             self.count = 0
             log.debug(self.get_state())

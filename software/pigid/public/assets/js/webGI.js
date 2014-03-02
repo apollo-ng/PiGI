@@ -144,9 +144,8 @@ function initUI() {
     
     $('#toggleCalendar').bind(webGI.ui_action,function()
     {
-    
         $('#modal-calendar').addClass('md-show');
-        $('#calendarContainer').dateRangePicker();
+        //$('#calendarContainer').dateRangePicker();
     });
     
     $('#modalAuth').bind(webGI.ui_action,function()
@@ -407,6 +406,14 @@ function initHistory() {
     }
     webGI.history.chart = new Dygraph("historyContainer", webGI.history.data,
     {
+        //interactionModel : {
+        //    'mousedown' : Dygraph.Interaction.startPan,
+        //    'mousemove' : Dygraph.Interaction.movePan,
+        //    'mouseup' : Dygraph.Interaction.endPan,
+            //'click' : clickV3,
+            //'dblclick' : dblClickV3,
+        //    'mousewheel' : Dygraph.Interaction.moveZoom
+        //},
         showRangeSelector: true,
         rangeSelectorPlotFillColor: '#677712',
         rangeSelectorPlotStrokeColor: '#677712',

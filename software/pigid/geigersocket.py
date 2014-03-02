@@ -68,9 +68,9 @@ class LogWebSocketManager(threading.Thread):
         except WebSocketError:
             self.active = False
             log.error("could not write to socket %s"%self.socket)
-        except NotImplementedError, e:
+        except Exception, e:
+            self.active = False
             log.error(e)
-            log.error("THREAD ERROR!!!!")
     
     def send_log(self,start=None,end=None,age=None,amount=10,static=False):
         if age and age<60*60*2: #2hours

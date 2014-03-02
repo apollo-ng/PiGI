@@ -7,24 +7,19 @@ import json
 import bottle
 from gevent.pywsgi import WSGIServer
 from geventwebsocket import WebSocketHandler, WebSocketError
-
-import geigercounter
 import geigersocket
 import geigerlog
 
-try:
-    import config
-except:
-    print "Could not import config file."
-    print "Copy config.py.EXAMPLE to config.py and adapt it for your setup."
-    exit(1)
+from configurator import cfg
 
-logging.basicConfig(level=config.log_level, format=config.log_format)
+logging.basicConfig(level=cfg.get('logging','level'), format='%(asctime)s %(levelname)s %(name)s: %(message)s')
 log = logging.getLogger("pigid")
 log.info("Starting pigid")
 
+import geigercounter
+
 last_total = geigerlog.get_last_totalcount()
-geiger = geigercounter.Geigercounter(total = last_total)
+geiger = geigercounter.Geigercounter(total=last_total)
 wsock_mgr_status = geigersocket.StatusWebSocketsManager(geiger)
 wsock_mgr_ticks = geigersocket.TicksWebSocketsManager(geiger)
 geigerlog = geigerlog.GeigerLog(geiger)
@@ -110,8 +105,8 @@ def handle_ws_log():
     log.info("websocket closed")
 
 def main():
-    ip = config.listening_ip
-    port = config.listening_port
+    ip = cfg.get('server','ip')
+    port = cfg.getint('server','port') 
     log.info("listening on %s:%d" % (ip, port))
 
     server = WSGIServer((ip, port), app,

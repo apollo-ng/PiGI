@@ -6,10 +6,9 @@ import time
 import json
 import logging
 from collections import deque
+from configurator import cfg
 
 log = logging.getLogger(__name__)
-
-import config
 
 LOG_WRITE_RATE = 5
 MAX_ENTRY_DIST = 30
@@ -34,7 +33,7 @@ def get_last_totalcount():
     entry = json.loads(entry_json)
     return entry['total']
 
-def average_log_entries(entries):
+def average_log_entries(entries,tube_rate_factor):
     result = []
     previous_entry = None
     for entry in entries:
@@ -49,7 +48,7 @@ def average_log_entries(entries):
         if counts < 0: counts=0
         cps = counts/seconds
         cpm = cps * 60
-        eqd = round(cpm * config.tube_rate_factor,2)
+        eqd = round(cpm * tube_rate_factor,2)
     
         entry["cps"] = int(cps)
         entry["cpm"] = int(cpm)
@@ -156,8 +155,7 @@ class GeigerLog(threading.Thread):
             else:
                 continue
             step += 1
-        return average_log_entries(result)
-    
+        return average_log_entries(result,cfg.getfloat('geigercounter','tube_rate_factor'))
     
 if __name__ == "__main__":
     print get_last_totalcount()

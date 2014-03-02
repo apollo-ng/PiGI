@@ -11,3 +11,5 @@ config.py
 *.s#*
 *.db
 entropy.bin
+local.cfg
+dynamic.cfg

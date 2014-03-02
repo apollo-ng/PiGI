@@ -151,7 +151,20 @@
   <div class="md-modal md-effect-1" id="modal-calendar">
    <div class="md-content green">
     <h3 class="icon-attention md-green"> &nbsp;Select date range</h3>
-    <div id="calendarContainer"></div>
+    <div id="calendarContainer">
+      <label for="year">Year</label>
+      <select id="calendarYear" name="year">
+       <option value="ALL" selected>all</option>
+       <option value="2014">2014</option>
+      </select>
+      <br />
+      <label for="month">Month</label>
+      <select id="calendarMonth" name="month">
+       <option value="ALL" selected>all</option>
+       <option value="2">Feb</option>
+       <option value="3">Mar</option>
+      </select>
+    </div>
     <div class="md-footer">
      <a href="#menu" class="md-close" onclick="$('#modal-calendar').removeClass('md-show');">Cancel</a>
     </div>

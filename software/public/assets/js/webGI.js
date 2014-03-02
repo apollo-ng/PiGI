@@ -20,7 +20,8 @@ var webGI =
     {
         websocket_host : "ws://" + window.location.hostname + ":" +window.location.port,
         audio : 0,
-        tick_snd : new Audio("assets/tock.wav"),
+        tick_snd : new Audio("assets/snd/tock.wav"),
+        bell_snd : new Audio("assets/snd/ui-bell.mp3"),
         count_unit : "CPM"
     },
     geo :
@@ -97,6 +98,7 @@ function initWebsockets()
         $('#modalError').removeClass('md-show');
         requestLog();
         requestHistory(null,null);
+        setTimeout(function(){$('.splash').addClass('splash-hidden'); console.log('Remove splash'); },500);
     };
 
     webGI.websockets.log.onclose = function()
@@ -145,6 +147,11 @@ function initUI()
         updateLayout();
         webGI.log.chart_age = parseInt($(event.target).attr("seconds"))
         requestLog();
+    });
+
+    $('#lvl_val, #lvl_unit').bind(webGI.ui_action,function()
+    {
+        $('#modalRADCON').addClass('md-show');
     });
 
     // CPS/CPM Toggle
@@ -311,6 +318,7 @@ function toggleAudio()
 function showErrorModal (title, msg, action)
 {
     $('#body').find('.md-modal').removeClass('md-show');
+    webGI.conf.bell_snd.play();
 
     setTimeout(function()
     {
@@ -332,22 +340,23 @@ function showErrorModal (title, msg, action)
 
 function initSpinner()
 {
-    var opts = {
-        lines: 15, // The number of lines to draw
+    var opts =
+    {
+        lines: 14, // The number of lines to draw
         length: 30, // The length of each line
-        width: 12, // The line thickness
+        width: 11, // The line thickness
         radius: 45, // The radius of the inner circle
         corners: 1, // Corner roundness (0..1)
         rotate: 0, // The rotation offset
         direction: 1, // 1: clockwise, -1: counterclockwise
         color: 'rgba(216, 211, 197, 0.9)', // #rgb or #rrggbb or array of colors
-        speed: 1, // Rounds per second
+        speed: 0.8, // Rounds per second
         trail: 60, // Afterglow percentage
         shadow: true, // Whether to render a shadow
         hwaccel: true, // Whether to use hardware acceleration
         className: 'spinner', // The CSS class to assign to the spinner
         zIndex: 2e9, // The z-index (defaults to 2000000000)
-        top: 'auto', // Top position relative to parent in px
+        top: '150px', // Top position relative to parent in px
         left: 'auto' // Left position relative to parent in px
     };
 
@@ -400,7 +409,7 @@ function updateLayout()
     var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 
     // Make the modals stack and sticky
-    $('.md-modal').css({'top': '100px', 'left': (w/2)-($('#modalAuth').width()/2)+'px'})
+    $('.md-modal').css({'top': '80px', 'left': (w/2)-($('#modalAuth').width()/2)+'px'})
 
     var h_offset = 150;
     var w_offset = 48;
@@ -552,7 +561,8 @@ function initHistory()
         drawCallback: function(dygraph, initial)
         {
             var range = dygraph.yAxisRange()
-            if (range[0] != 0.01){
+            if (range[0] != 0.01)
+            {
                 console.log("Fixing range",range);
                 range[0] = 0.01;
                 range[1] = null//;range[1]*2;
@@ -856,6 +866,7 @@ $(document).ready(function()
     initUI();
     initSpinner();
     initWebsockets();
-    setTimeout(function () { geoToggle(); },5000);
+
+    //setTimeout(function () { geoToggle(); },5000);
 
 });

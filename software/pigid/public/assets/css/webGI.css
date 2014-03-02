@@ -532,15 +532,14 @@ keyframes blinker {
     text-align: center;
     background: #5F5E5A;
     text-decoration: none !important;
- background: -moz-linear-gradient(top, rgba(146,145,136,0.25) 0%, rgba(146,145,136,0.29) 16%, rgba(82,81,72,0.36) 42%, rgba(82,81,72,0.5) 100%);
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(146,145,136,0.25)), color-stop(16%,rgba(146,145,136,0.29)), color-stop(42%,rgba(82,81,72,0.36)), color-stop(100%,rgba(82,81,72,0.5)));
-background: -webkit-linear-gradient(top, rgba(146,145,136,0.25) 0%,rgba(146,145,136,0.29) 16%,rgba(82,81,72,0.36) 42%,rgba(82,81,72,0.5) 100%);
-background: -o-linear-gradient(top, rgba(146,145,136,0.25) 0%,rgba(146,145,136,0.29) 16%,rgba(82,81,72,0.36) 42%,rgba(82,81,72,0.5) 100%);
-background: -ms-linear-gradient(top, rgba(146,145,136,0.25) 0%,rgba(146,145,136,0.29) 16%,rgba(82,81,72,0.36) 42%,rgba(82,81,72,0.5) 100%);
-background: linear-gradient(to bottom, rgba(146,145,136,0.25) 0%,rgba(146,145,136,0.29) 16%,rgba(82,81,72,0.36) 42%,rgba(82,81,72,0.5) 100%);
+    background: -moz-linear-gradient(top, rgba(146,145,136,0.25) 0%, rgba(146,145,136,0.29) 16%, rgba(82,81,72,0.36) 42%, rgba(82,81,72,0.5) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(146,145,136,0.25)), color-stop(16%,rgba(146,145,136,0.29)), color-stop(42%,rgba(82,81,72,0.36)), color-stop(100%,rgba(82,81,72,0.5)));
+    background: -webkit-linear-gradient(top, rgba(146,145,136,0.25) 0%,rgba(146,145,136,0.29) 16%,rgba(82,81,72,0.36) 42%,rgba(82,81,72,0.5) 100%);
+    background: linear-gradient(to bottom, rgba(146,145,136,0.25) 0%,rgba(146,145,136,0.29) 16%,rgba(82,81,72,0.36) 42%,rgba(82,81,72,0.5) 100%);
     border: 1px solid #555;
     border-top: 1px solid #888;
     border-bottom: 1px solid #000;
+    cursor: pointer !important;
 }
 
 .md-red {

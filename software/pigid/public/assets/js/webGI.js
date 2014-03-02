@@ -287,17 +287,19 @@ function toggleAudio() {
     }
 }
 
-function showErrorModal(title, msg, action)
+function showErrorModal (title, msg, action)
 {
+    //console.log('Firing Modal');
     $('#modalErrorTitle').html(title);
     $('#modalErrorMsg').html(msg);
 
-    var buttons = '<a href="#" class="md-close" onclick="$(\'#modalError\').removeClass(\'md-show\');">Ack</a>';
+    var buttons = '<a class="md-close" onclick="$(\'#modalError\').removeClass(\'md-show\');">Ack</a>';
     if (action) {
-        buttons = buttons + action
+        buttons = buttons + action;
     }
 
     $('#modalErrorAction').html(buttons);
+    setTimeout(function() {  $('#modalError').addClass('md-show') },1500);
 }
 
 function initSpinner()
@@ -668,6 +670,7 @@ function traceDraw()
 
 function geoToggle()
 {
+    //console.log('geo toggled');
     if (navigator.geolocation)
     {
         if(webGI.geo.watcher)
@@ -698,7 +701,10 @@ function geoToggle()
     else
     {
         $('#userGeoLoc').html('');
-        console.log("Geolocation is not supported by this browser");
+        showErrorModal(
+            'Geolocation unavailable',
+            '<p>It seems your browser/device does not support geolocation</p>'
+        );
     }
 }
 
@@ -737,14 +743,14 @@ function geoUpdate(position)
 
 function geoError(error)
 {
-    //console.log("Error: " + errors[error.code]);
-
     var errors = {
         1: 'Permission denied',
         2: 'Position unavailable',
         3: 'Request timeout',
         4: 'Unknown Error'
     };
+
+    //console.log("Error: " + errors[error.code]);
 
     $('#userGeoStatus').removeClass('init-blinker icon-dot-circled lock-green lock-yellow lock-red');
     $('#userGeoStatus').addClass('icon-target-1');

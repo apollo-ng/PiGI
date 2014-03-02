@@ -8,6 +8,7 @@ var webGI =
         chart : null,
         data : [],
         chart_age : 60*15,
+        chart_colors : ['#677712','yellow'],
         gauge : null
     },
     history :
@@ -472,16 +473,19 @@ function updateStatus(data)
             {
                 $('#eqd_val, #eqd_unit, #lvl_val, #lvl_unit').removeClass('yellow red');
                 $('#eqd_val, #eqd_unit, #lvl_val, #lvl_unit').addClass('green');
+                webGI.log.chart_colors = ['#677712','yellow']; //FIXME: needs a full redraw to take effect :/
             }
             else if (c<6)
             {
                 $('#eqd_val, #eqd_unit, #lvl_val, #lvl_unit').removeClass('green red');
                 $('#eqd_val, #eqd_unit, #lvl_val, #lvl_unit').addClass('yellow');
+                webGI.log.chart_colors = ['#F5C43C','yellow']; //FIXME: needs a full redraw to take effect :/
             }
             else
             {
                 $('#eqd_val, #eqd_unit, #lvl_val, #lvl_unit').removeClass('green yellow');
                 $('#eqd_val, #eqd_unit, #lvl_val, #lvl_unit').addClass('red');
+                webGI.log.chart_colors = ['#ff0000','yellow']; //FIXME: needs a full redraw to take effect :/
             }
 
             break;
@@ -644,7 +648,7 @@ function initLog()
         includeZero: true,
         labels: ['time','µSv/h','µSv/h (15m avg)'],
         xlabel: 'time',
-        colors: ['#677712','yellow'],
+        colors: webGI.log.chart_colors,
         'µSv/h':
         {
             fillGraph: true,

@@ -148,15 +148,6 @@ body {
     min-width: 55px !important;
 }
 
-#eqd_val {
-    color: #75890c;
-}
-
-#eqd_unit {
-    color: #fff;
-    background: #75890c;
-}
-
 #lvl_val {
     width: 14px;
 }
@@ -171,7 +162,7 @@ body {
 }
 
 .mfd-display.yellow {
-    color: yellow !important;
+    color: #F5C43C !important;
 }
 
 .mfd-display.green {
@@ -185,7 +176,7 @@ body {
 
 .mfd-unit.yellow {
     color: #222 !important;
-    background: yellow;
+    background: #F5C43C;
 }
 
 .mfd-unit.green {

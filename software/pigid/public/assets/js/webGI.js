@@ -1,37 +1,44 @@
-var webGI = {
+var webGI =
+{
     ui_action : 'click',
     websockets : {},
     spinner : null,
-    log : {
+    log :
+    {
         chart : null,
         data : [],
         chart_age : 60*15,
         gauge : null
     },
-    history : {
+    history :
+    {
         chart : null,
         data : [],
         log_scale : false
     },
-    conf : {
+    conf :
+    {
         websocket_host : "ws://" + window.location.hostname + ":" +window.location.port,
         audio : 0,
         tick_snd : new Audio("assets/tock.wav"),
         count_unit : "CPM"
     },
-    geo : {
+    geo :
+    {
         watcher : null,
         lat : 0,
         lon : 0,
         alt : 0,
         acc : 0
     },
-    jQT : new $.jQTouch({
+    jQT : new $.jQTouch
+    ({
         icon: 'jqtouch.png',
         statusBar: 'black-translucent',
         preloadImages: []
     }),
-    trace : {
+    trace :
+    {
         canvas : null,
         particles : {},
         active : false,
@@ -39,10 +46,10 @@ var webGI = {
     }
 };
 
-function initWebsockets() {
+function initWebsockets()
+{
     if(!("WebSocket" in window))
     {
-        //$('#chatLog, input, button, #examples').fadeOut("fast");
         $('<p>Oh no, you need a modern browser that supports WebSockets. How about <a href="http://www.google.com/chrome">Google Chrome</a>?</p>').appendTo('#container');
         return;
     }
@@ -75,9 +82,15 @@ function initWebsockets() {
     webGI.websockets.status.onclose = function()
     {
         webGI.websockets.status = new WebSocket(webGI.conf.websocket_host+"/ws_status");
+        showErrorModal(
+            'Network Error',
+            '<p>It seems your browser/device does not support geolocation</p>'
+        );
+
+
         $('#modalError').addClass('md-show');
         setTimeout(function(){initWebsockets()}, 5000);
-        console.log ("Status socket rest");
+        //console.log ("Status socket rest");
     };
 
     webGI.websockets.log.onopen = function()
@@ -91,31 +104,31 @@ function initWebsockets() {
     {
         webGI.websockets.log = new WebSocket(webGI.conf.websocket_host+"/ws_log");
         $('#modalError').addClass('md-show');
-        //setTimeout(function(){initWebsockets()}, 5000);
-        console.log ("Log socket rest");
+        //console.log ("Log socket rest");
     };
 
     webGI.websockets.log.onmessage = function(e)
     {
-      var x = JSON.parse(e.data);
-      //console.log(x);
-      switch(x.type)
-      {
-        case "history":
-          updateLogHistory(x);
-        break;
-        case "status":
-          updateLogStatus(x);
-        break;
-        case "static_history":
-          updateHistory(x);
-        break;
-        default:
-      }
+        var x = JSON.parse(e.data);
+        //console.log(x);
+        switch(x.type)
+        {
+            case "history":
+                updateLogHistory(x);
+            break;
+            case "status":
+                updateLogStatus(x);
+            break;
+            case "static_history":
+                updateHistory(x);
+            break;
+            default:
+        }
     }
 }
 
-function initUI() {
+function initUI()
+{
     // Bind UI events
 
     // Backlog
@@ -230,32 +243,40 @@ function initUI() {
 }
 
 
-function toggleCounterUnit() {
-  if(webGI.conf.count_unit=="CPM")
-  {
-     $('#count_unit').html('CPS');
-     webGI.conf.count_unit = "CPS";
-  }
-  else
-  {
-      $('#count_unit').html('CPM');
-      webGI.conf.count_unit = "CPM";
-  }
+function toggleCounterUnit()
+{
+    if(webGI.conf.count_unit=="CPM")
+    {
+        $('#count_unit').html('CPS');
+        webGI.conf.count_unit = "CPS";
+    }
+    else
+    {
+        $('#count_unit').html('CPM');
+        webGI.conf.count_unit = "CPM";
+    }
 }
 
-function toggleLogScale() {
-    if(!webGI.history.log_scale){
+function toggleLogScale()
+{
+    if(!webGI.history.log_scale)
+    {
         webGI.history.log_scale = true;
         $('#toggleLogScale').addClass('enabled');
-    } else {
+    }
+    else
+    {
         webGI.history.log_scale = false;
         $('#toggleLogScale').removeClass('enabled');
     }
 
     webGI.history.chart.updateOptions({ logscale: webGI.history.log_scale });
 }
-function toggleAudio() {
-    if(webGI.conf.audio==0) {
+
+function toggleAudio()
+{
+    if(webGI.conf.audio==0)
+    {
         $('#toggleAudio').addClass('enabled');
         webGI.conf.audio=1;
         webGI.websockets.ticks = new WebSocket(webGI.conf.websocket_host+"/ws_ticks");
@@ -275,7 +296,7 @@ function toggleAudio() {
                             }, Math.random()*200);
                         }
                     }
-                    break;
+               break;
                default:
 
             }
@@ -327,15 +348,18 @@ function initSpinner()
     webGI.spinner.stop();
 }
 
-function startSpinner(){
+function startSpinner()
+{
     webGI.spinner.spin(document.getElementById('body'));
 }
 
-function stopSpinner(){
+function stopSpinner()
+{
     webGI.spinner.stop();
 }
 
-function initGauge() {
+function initGauge()
+{
 
     var opts = {
         lines: 1,
@@ -359,7 +383,8 @@ function initGauge() {
     webGI.log.gauge.set(0);
 }
 
-function updateLayout() {
+function updateLayout()
+{
     // This is called on DOMReady and on resize/rotate
     // FIXME: Nasty hack to keep everything in flux state :)
     //console.log("Updating Layout");
@@ -392,21 +417,25 @@ function updateLayout() {
 
 }
 
-function updateConfig() {
+function updateConfig()
+{
     console.log("Writing config to local storage")
 }
 
 
-function updateStatus(data) {
+function updateStatus(data)
+{
     if(webGI.conf.count_unit=="CPM") $('#count_val').html(parseInt(x.cpm));
     if(webGI.conf.count_unit=="CPS") $('#count_val').html(parseInt(x.cps));
 
-    if(webGI.trace.active) {
+    if(webGI.trace.active)
+    {
         for(var i = 0; i < parseInt(x.cps); i++)
         {
             setTimeout(function() {
                 webGI.trace.particles[Math.random()]=new traceCreateParticle();
-            }, Math.random()*1000);
+            },
+            Math.random()*1000);
         }
     }
     // INES class identification
@@ -459,30 +488,40 @@ function updateStatus(data) {
     $('#eqd_val').html(doserate.toFixed(2));
 }
 
-function requestLog() {
-    var cmd = {
+function requestLog()
+{
+    var cmd =
+    {
         "cmd" : "read",
         "age" : webGI.log.chart_age
     }
+
     webGI.websockets.log.send(JSON.stringify(cmd));
-    console.log ("Requesting log (age " +webGI.log.chart_age +" )");
+    //console.log ("Requesting log (age " +webGI.log.chart_age +" )");
 }
 
-function requestHistory(from,to) {
-    var cmd = {
+function requestHistory(from,to)
+{
+    var cmd =
+    {
         "cmd" : "history",
         "from" : from,
         "to" : to
     }
+
     webGI.websockets.log.send(JSON.stringify(cmd));
-    console.log ("Requesting history");
+    //console.log ("Requesting history");
 }
 
-function initHistory() {
-    console.log("Init history");
-    if (webGI.history.data.length==0) {
+function initHistory()
+{
+    //console.log("Init history");
+
+    if (webGI.history.data.length==0)
+    {
         return;
     }
+
     webGI.history.chart = new Dygraph("historyContainer", webGI.history.data,
     {
         showRangeSelector: true,
@@ -495,7 +534,8 @@ function initHistory() {
         showRoller: true,
         valueRange: [0.01,null],
         //yRangePad: 10,
-        drawCallback: function(dygraph, initial) {
+        drawCallback: function(dygraph, initial)
+        {
             var range = dygraph.yAxisRange()
             if (range[0] != 0.01){
                 console.log("Fixing range",range);
@@ -512,39 +552,51 @@ function initHistory() {
         //connectSeparatedPoints: true,
         labels: ['time','µSv/h','µSv/h (15m avg)'],
         colors: ['#677712','yellow'],
-        'µSv/h': {
+        'µSv/h':
+        {
             fillGraph: true,
             stepPlot: true,
         },
-        'µSv/h (15m avg)': {
+        'µSv/h (15m avg)':
+        {
             fillGraph: false,
         },
     });
 }
 
-function updateHistory(data) {
-    console.log("HISTORY");
+function updateHistory(data)
+{
+    //console.log("HISTORY");
     webGI.history.data = [];
-    $.each(data.log, function(i,v){
+    $.each(data.log, function(i,v)
+    {
         //var v = JSON.parse(v_json);
         var ts = new Date(v.timestamp*1000)
-        if (isNaN(ts.getTime())) {
+        if (isNaN(ts.getTime()))
+        {
             return;
         }
         webGI.history.data.push([ts,v.doserate,v.doserate_avg]);
     });
-    if (webGI.history.chart == null) {
+
+    if (webGI.history.chart == null)
+    {
         initHistory();
-    } else {
+    }
+    else
+    {
         webGI.history.chart.updateOptions({ file: webGI.history.data });
     }
 }
 
-function initLog() {
-    console.log("Init log");
-    if (webGI.log.data.length==0) {
+function initLog()
+{
+    //console.log("Init log");
+    if (webGI.log.data.length==0)
+    {
         return;
     }
+
     webGI.log.chart = new Dygraph("chartContainer", webGI.log.data,
     {
         title: 'EAR: $$ uSv/h (AVG) - EAD: $$ uSv (Total)',
@@ -560,36 +612,46 @@ function initLog() {
         labels: ['time','µSv/h','µSv/h (15m avg)'],
         xlabel: 'time',
         colors: ['#677712','yellow'],
-        'µSv/h': {
+        'µSv/h':
+        {
             fillGraph: true,
             stepPlot: true,
         },
-        'µSv/h (15m avg)': {
+        'µSv/h (15m avg)':
+        {
             fillGraph: false,
         },
     });
 }
 
-function updateLogHistory(data) {
-    console.log("LOGHISTORY");
+function updateLogHistory(data)
+{
+    //console.log("LOGHISTORY");
     webGI.log.data = [];
-    $.each(data.log, function(i,v){
+    $.each(data.log, function(i,v)
+    {
         //var v = JSON.parse(v_json);
         var ts = new Date(v.timestamp*1000)
-        if (isNaN(ts.getTime())) {
+        if (isNaN(ts.getTime()))
+        {
             return;
         }
         webGI.log.data.push([ts,v.doserate,v.doserate_avg]);
     });
-    if (webGI.log.chart == null) {
+
+    if (webGI.log.chart == null)
+    {
         initLog();
-    } else {
+    }
+    else
+    {
         webGI.log.chart.updateOptions({ file: webGI.log.data });
     }
 }
 
-function updateLogStatus(data) {
-    console.log("UPDATE")
+function updateLogStatus(data)
+{
+    //console.log("UPDATE")
     var ts = new Date(data.timestamp*1000);
     webGI.log.data.push([ts,data.doserate,data.doserate_avg]);
     var left_end = new Date((data.timestamp-webGI.log.chart_age)*1000)
@@ -658,7 +720,8 @@ function traceDraw()
 		if(p.x < -50) p.x = W+50;
 		if(p.y < -50) p.y = H+50;
 		if(p.x > W) p.x = -50;
-		if(p.y > H) {
+		if(p.y > H)
+        {
             delete webGI.trace.particles[t]
 		}
 	});
@@ -685,14 +748,14 @@ function geoToggle()
         else
         {
             $('#userGeoStatus').addClass('init-blinker');
-            var timeoutVal = 10 * 1000 * 1000;
+
             webGI.geo.watcher = navigator.geolocation.watchPosition(
                 geoUpdate,
                 geoError,
                 {
                     enableHighAccuracy: false,
-                    timeout: timeoutVal,
-                    maximumAge: 0
+                    timeout: 60,
+                    maximumAge: 5
                 }
             );
             //console.log("geo.watcher enabled");
@@ -760,7 +823,7 @@ function geoError(error)
 
     showErrorModal(
         'Geolocation unavailable',
-        '<p>Hmmm, unfortunately I still could not determine our location. The browser/device told me:</p> <p><h4>'+ errors[error.code] + '</h4></p><b>Possible solutions:</b></p><ul><li>Turn on your GPS</li><li>Allow the browser to share geolocation</li></ul>'
+        '<p>Hmmm, unfortunately, I still could not really determine our location. The browser/device told me:</p> <p><h4>'+ errors[error.code] + '</h4></p><b>Possible solutions:</b></p><ul><li>Turn on your GPS</li><li>Allow the browser to share geolocation</li></ul>'
     );
 }
 
@@ -778,6 +841,6 @@ $(document).ready(function()
     initUI();
     initSpinner();
     initWebsockets();
-    setTimeout(function () { geoToggle(); },1500);
+    setTimeout(function () { geoToggle(); },2000);
 
 });

@@ -336,13 +336,13 @@ keyframes blinker {
 
 .md-modal {
     position: absolute !important;
-    width: 50% !important;
+    width: 55% !important;
     /*
      margin: 0 auto !important;
     -webkit-transform: translateY(-50%);
     -moz-transform: translateY(-50%);
     transform: translateY(-50%); */
-    max-width: 430px !important;
+    max-width: 480px !important;
     min-width: 320px !important;
     z-index: 2000 !important;
     visibility: hidden;

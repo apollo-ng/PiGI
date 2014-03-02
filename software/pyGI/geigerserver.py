@@ -5,6 +5,7 @@ from geventwebsocket import WebSocketHandler, WebSocketError
 import json
 import logging
 import os
+import sys
 
 from configurator import cfg
 
@@ -13,7 +14,7 @@ import geigersocket
 log=logging.getLogger(__name__)
 
 app = bottle.Bottle()
-script_dir = os.path.dirname(os.path.realpath(__file__))
+script_dir = sys.path[0]
 public_dir = os.path.join(script_dir,"public")
 
 wsock_mgr_status = None

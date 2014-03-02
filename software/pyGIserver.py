@@ -1,15 +1,13 @@
 #!/usr/bin/env python
 import logging
 
-from configurator import cfg
+from pyGI.configurator import cfg
 
 logging.basicConfig(level=cfg.get('logging','level'), format='%(asctime)s %(levelname)s %(name)s: %(message)s')
-log = logging.getLogger("pigid")
-log.info("Starting pigid")
+log = logging.getLogger("pyGIserver")
+log.info("Starting pyGIserver")
 
-import geigercounter
-import geigerserver
-import geigerlog
+from pyGI import geigercounter,geigerserver,geigerlog
 
 if __name__ == "__main__":
     last_total = geigerlog.get_last_totalcount()

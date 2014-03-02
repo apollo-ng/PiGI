@@ -2,6 +2,7 @@ import leveldb
 from datetime import datetime, timedelta
 import threading
 import os
+import sys
 import time
 import json
 import logging
@@ -13,12 +14,14 @@ log = logging.getLogger(__name__)
 LOG_WRITE_RATE = 5
 MAX_ENTRY_DIST = 30
 
+script_dir = sys.path[0]
+log_dir = os.path.join(script_dir,"log","geiger_log.db")
+    
+
 def dt2unix(dt):
     return int(dt.strftime("%s"))
 
 def get_last_totalcount():
-    script_dir = os.path.dirname(os.path.realpath(__file__))
-    log_dir = os.path.join(script_dir,"log","geiger_log.db")
     db = leveldb.LevelDB(log_dir)
     now = dt2unix(datetime.now())
     d = 1
@@ -60,8 +63,6 @@ def average_log_entries(entries,tube_rate_factor):
     
 class GeigerLog(threading.Thread):
     def __init__(self,geiger):
-        script_dir = os.path.dirname(os.path.realpath(__file__))
-        log_dir = os.path.join(script_dir,"log","geiger_log.db")
         self.db = leveldb.LevelDB(log_dir)
         self.geiger = geiger
         threading.Thread.__init__(self) 

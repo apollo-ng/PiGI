@@ -20,7 +20,7 @@ var webGI =
     {
         websocket_host : "ws://" + window.location.hostname + ":" +window.location.port,
         audio : 0,
-        tick_snd : new Audio("assets/tock.wav"),
+        tick_snd : new Audio("assets/snd/tock.wav"),
         bell_snd : new Audio("assets/snd/ui-bell.mp3"),
         count_unit : "CPM"
     },
@@ -147,6 +147,11 @@ function initUI()
         updateLayout();
         webGI.log.chart_age = parseInt($(event.target).attr("seconds"))
         requestLog();
+    });
+
+    $('#lvl_val, #lvl_unit').bind(webGI.ui_action,function()
+    {
+        $('#modalRADCON').addClass('md-show');
     });
 
     // CPS/CPM Toggle
@@ -404,7 +409,7 @@ function updateLayout()
     var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 
     // Make the modals stack and sticky
-    $('.md-modal').css({'top': '100px', 'left': (w/2)-($('#modalAuth').width()/2)+'px'})
+    $('.md-modal').css({'top': '80px', 'left': (w/2)-($('#modalAuth').width()/2)+'px'})
 
     var h_offset = 150;
     var w_offset = 48;

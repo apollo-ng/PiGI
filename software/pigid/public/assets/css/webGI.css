@@ -336,7 +336,7 @@ keyframes blinker {
 
 .md-modal {
     position: absolute !important;
-    width: 55% !important;
+    width: 65% !important;
     /*
      margin: 0 auto !important;
     -webkit-transform: translateY(-50%);
@@ -622,3 +622,75 @@ div#jqt #about a {
     visibility: hidden !important;
 }
 */
+
+#modalRADCON .display {
+    margin: 15px;
+    overflow: hidden;
+    -moz-box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.2) 0 0px 0 4px;
+    -webkit-box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.2) 0 0px 0 4px;
+    box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.2) 0 0px 0 4px;
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
+    border: 1px solid #3F3E3A;
+    border-bottom: 1px solid #7F7E7A;
+    background: #3F3E3A url('../img/panel_bg.png') repeat;
+}
+
+#modalRADCON table {
+    width: 100%;
+}
+
+#modalRADCON tr {
+    height: 20px;
+}
+
+#modalRADCON .num {
+    text-align: center;
+    font-family: "Digi";
+    font-size: 16px;
+}
+
+#modalRADCON .edr {
+    text-align: right;
+    padding-right: 4px;
+}
+
+#modalRADCON .red {
+    background: rgba(137, 37, 12, 0.4);
+}
+
+#modalRADCON .red-current {
+    background: rgba(137, 37, 12, 0.9);
+    height: 30px;
+    font-weight: bold;
+}
+
+#modalRADCON .yellow {
+    background: rgba(137, 117, 12, 0.4);
+}
+
+#modalRADCON .yellow-current {
+    background: rgba(137, 117, 12, 0.8);
+    height: 30px;
+    color: #333;
+    font-weight: bold;
+}
+
+#modalRADCON .green {
+    background: rgba(117, 137, 12, 0.3);
+}
+
+#modalRADCON .green-current {
+    background: rgba(117, 137, 12, 0.5);
+    height: 30px;
+    font-weight: bold;
+}
+
+#modalRADCON .side {
+    transform-origin: 50% 50%;
+    -moz-transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    text-align: center;
+}

@@ -154,6 +154,39 @@
    </div>
   </div>
 
+  <div id="modalRADCON" class="md-modal md-animation">
+   <div class="md-content">
+    <h3 class="icon-attention"> &nbsp;RADCON Details</h3>
+    <div class="display">
+     <table>
+      <thead>
+    <tr>
+      <th style="width: 5%"></th>
+      <th style="width: 10%">Level</th>
+      <th style="width: 35%">EDR</th>
+      <th style="width: 45%">Example</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr id="radconLevel0" class="green"><td rowspan="3" class="side">Low</td><td class="num">0</td><td class="edr">0 - 0.01 uSv/h</td><td>LDR</td></tr>
+      <tr id="radconLevel1" class="green green-current"><td class="num">1</td><td class="edr">0.01 - 0.1 uSv/h</td><td>High Altitude</td></tr>
+      <tr id="radconLevel2" class="green"><td class="num">2</td><td class="edr">0.1 - 1 uSv/h</td><td></td></tr>
+      <tr id="radconLevel3" class="yellow"><td rowspan="3" class="side">Elevated</td><td class="num">3</td><td class="edr">1 - 10 uSv/h</td><td></td></tr>
+      <tr id="radconLevel4" class="yellow"><td class="num">4</td><td class="edr">10 - 100 uSv/h</td><td></td></tr>
+      <tr id="radconLevel5" class="yellow"><td class="num">5</td><td class="edr">100 -1000 uSv/h</td><td></td></tr>
+      <tr id="radconLevel6" class="red"><td rowspan="5" class="side">Dangerous</td><td class="num">6</td><td class="edr">1 - 10 mSv/h</td><td></td></tr>
+      <tr id="radconLevel7" class="red"><td class="num">7</td><td class="edr">10 -100 mSv/h</td><td></td></tr>
+      <tr id="radconLevel8" class="red"><td class="num">8</td><td class="edr">100 - 1000 mSv/h</td><td></td></tr>
+      <tr id="radconLevel9" class="red"><td class="num">9</td><td class="edr">>1 Sv/h</td><td></td></tr>
+     </tbody>
+     </table>
+    </div>
+    <div class="md-footer" style="text-align: center">
+     <a class="md-close" onclick="$('#modalRADCON').removeClass('md-show');">OK</a>
+    </div>
+   </div>
+  </div>
+
   <div id="modalError" class="md-modal md-animation">
    <div class="md-content red">
     <h3 id="modalErrorTitle" class="icon-attention md-red"></h3>

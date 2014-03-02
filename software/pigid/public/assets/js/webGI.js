@@ -19,7 +19,13 @@ var webGI = {
         tick_snd : new Audio("assets/tock.wav"),
         count_unit : "CPM"
     },
-    geoWatch : null,
+    geo : {
+        watcher : null,
+        lat : 0,
+        lon : 0,
+        elevation : 0,
+        accuracy : 0
+    },
     jQT : new $.jQTouch({
         icon: 'jqtouch.png',
         statusBar: 'black-translucent',
@@ -190,11 +196,24 @@ function initUI() {
         //console.log('Page animation started');
     });
 
-   // Orientation change callback event
+    // Orientation change callback event
     $('#jqt').bind('turn', function(e, data)
     {
         console.log('Orientation changed to: ' + data.orientation);
         updateLayout();
+    });
+
+    // First working swipe handler test harness. Let's see how we like it
+    $('#mainPanel').swipeLeft(function(){
+        webGI.jQT.goTo('#historyPanel', 'slideleft');
+    });
+
+    $('#mainPanel').swipeRight(function(){
+        webGI.jQT.goTo('#optionsPanel', 'slideright');
+    });
+
+    $('#optionsPanel').swipeLeft(function(){
+        webGI.jQT.goTo('#mainPanel', 'slideleft');
     });
 
 /*
@@ -203,22 +222,83 @@ function initUI() {
         console.log('Page animation finished');
         updateLayout();
     });
-
-    // Swipe handler
-    $('#jqt').swipe(function(evt, data) {
-                    var details = !data ? '': '<strong>' + data.direction + '/' + data.deltaX +':' + data.deltaY + '</strong>!';
-                    $(this).html('You swiped ' + details );
-                    $(this).parent().after('<li>swiped!</li>')
-                });
 */
-       initLog();
+    initLog();
     initHistory();
-
-
     initGauge();
     updateLayout();
 }
 
+
+function toggleCounterUnit() {
+  if(webGI.conf.count_unit=="CPM")
+  {
+     $('#count_unit').html('CPS');
+     webGI.conf.count_unit = "CPS";
+  }
+  else
+  {
+      $('#count_unit').html('CPM');
+      webGI.conf.count_unit = "CPM";
+  }
+}
+
+function toggleLogScale() {
+    if(!webGI.history.log_scale){
+        webGI.history.log_scale = true;
+        $('#toggleLogScale').addClass('enabled');
+    } else {
+        webGI.history.log_scale = false;
+        $('#toggleLogScale').removeClass('enabled');
+    }
+
+    webGI.history.chart.updateOptions({ logscale: webGI.history.log_scale });
+}
+function toggleAudio() {
+    if(webGI.conf.audio==0) {
+        $('#toggleAudio').addClass('enabled');
+        webGI.conf.audio=1;
+        webGI.websockets.ticks = new WebSocket(webGI.conf.websocket_host+"/ws_ticks");
+        webGI.websockets.ticks.onmessage = function(e)
+        {
+            x = JSON.parse(e.data);
+           //console.log(x);
+           switch(x.type)
+           {
+               case "tick":
+                    if (webGI.conf.audio == 1) {
+                        console.log(x)
+                        for(var i = 0; i < parseInt(x.count); i++)
+                        {
+                            setTimeout(function() {
+                                webGI.conf.tick_snd.play();
+                            }, Math.random()*200);
+                        }
+                    }
+                    break;
+               default:
+
+            }
+        }
+    } else {
+        webGI.conf.audio=0;
+        webGI.websockets.ticks.close();
+        $('#toggleAudio').removeClass('enabled');
+    }
+}
+
+function showErrorModal(title, msg, action)
+{
+    $('#modalErrorTitle').html(title);
+    $('#modalErrorMsg').html(msg);
+
+    var buttons = '<a href="#" class="md-close" onclick="$(\'#modalError\').removeClass(\'md-show\');">Ack</a>';
+    if (action) {
+        buttons = buttons + action
+    }
+
+    $('#modalErrorAction').html(buttons);
+}
 
 function initSpinner()
 {
@@ -297,9 +377,6 @@ function updateLayout() {
     var new_w = $('#mainInstrument').width();
 
     $('.instrument-container').css({'height': new_h+'px', 'width': new_w+'px'}).attr('height',new_h).attr('width',new_w);
-    //$('#traceContainer') .css({'height': new_h-4+'px', 'width': new_w+'px'}).attr('height',new_h-4).attr('width',new_w);
-    //$('#chartContainer') .css({'height': new_h+'px', 'width': new_w+'px'}).attr('height',new_h).attr('width',new_w);
-    //$('#gaugeContainer') .css({'height': new_h-4+'px', 'width': new_w+'px'}).attr('height',new_h-4).attr('width',new_w);
 
     new_w = $('#historyInstrument').width();
     $('#historyContainer') .css({'height': new_h+'px', 'width': new_w-15+'px'}).attr('height',new_h).attr('width',new_w-15);
@@ -315,7 +392,6 @@ function updateLayout() {
 
 function updateConfig() {
     console.log("Writing config to local storage")
-
 }
 
 
@@ -519,137 +595,9 @@ function updateLogStatus(data) {
     webGI.log.chart.updateOptions({ file: webGI.log.data });
 }
 
-
-
-
-function toggleCounterUnit() {
-  if(webGI.conf.count_unit=="CPM")
-  {
-     $('#count_unit').html('CPS');
-     webGI.conf.count_unit = "CPS";
-  }
-  else
-  {
-      $('#count_unit').html('CPM');
-      webGI.conf.count_unit = "CPM";
-  }
-}
-
-function toggleLogScale() {
-    if(!webGI.history.log_scale){
-        webGI.history.log_scale = true;
-        $('#toggleLogScale').addClass('enabled');
-    } else {
-        webGI.history.log_scale = false;
-        $('#toggleLogScale').removeClass('enabled');
-    }
-
-    webGI.history.chart.updateOptions({ logscale: webGI.history.log_scale });
-}
-function toggleAudio() {
-    if(webGI.conf.audio==0) {
-        $('#toggleAudio').addClass('enabled');
-        webGI.conf.audio=1;
-        webGI.websockets.ticks = new WebSocket(webGI.conf.websocket_host+"/ws_ticks");
-        webGI.websockets.ticks.onmessage = function(e)
-        {
-            x = JSON.parse(e.data);
-           //console.log(x);
-           switch(x.type)
-           {
-               case "tick":
-                    if (webGI.conf.audio == 1) {
-                        console.log(x)
-                        for(var i = 0; i < parseInt(x.count); i++)
-                        {
-                            setTimeout(function() {
-                                webGI.conf.tick_snd.play();
-                            }, Math.random()*200);
-                        }
-                    }
-                    break;
-               default:
-
-            }
-        }
-    } else {
-        webGI.conf.audio=0;
-        webGI.websockets.ticks.close();
-        $('#toggleAudio').removeClass('enabled');
-    }
-}
-
-// Geolocation
-
-function geoToggle() {
-  if (navigator.geolocation)
-  {
-    if(webGI.geoWatch)
-    {
-      navigator.geolocation.clearWatch(webGI.geoWatch);
-      webGI.geoWatch = null;
-      $('#userGeoStatus').removeClass('init-blinker icon-dot-circled lock-green lock-yellow lock-red');
-      $('#userGeoStatus').addClass('icon-target-1');
-      $('#userGeoLoc').html('');
-      console.log("geoWatch disabled");
-    }
-    else
-    {
-      $('#userGeoStatus').addClass('init-blinker');
-      var timeoutVal = 10 * 1000 * 1000;
-      webGI.geoWatch = navigator.geolocation.watchPosition(
-        geoUpdate,
-        geoError,
-        { enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 }
-      );
-      console.log("geoWatch enabled");
-    }
-  }
-  else
-  {
-    $('#userGeoLoc').html('');
-    console.log("Geolocation is not supported by this browser");
-  }
-}
-
-function geoUpdate(position) {
-  $('#userGeoStatus').removeClass('init-blinker icon-target-1');
-  $('#userGeoStatus').addClass('icon-dot-circled');
-
-  // Update lock circle to indicate GeoLocation accuracy
-  if (position.coords.accuracy < 10)
-  {
-    $('#userGeoStatus').removeClass('lock-red lock-yellow');
-    $('#userGeoStatus').addClass('lock-green');
-  }
-  else if (position.coords.accuracy < 25)
-  {
-    $('#userGeoStatus').removeClass('lock-red lock-green');
-    $('#userGeoStatus').addClass('lock-yellow');
-  }
-  else
-  {
-    $('#userGeoStatus').removeClass('lock-yellow lock-green');
-    $('#userGeoStatus').addClass('lock-red');
-  }
-
-  $('#userGeoLoc').html(position.coords.latitude.toString().substr(0,8) + ' ' + position.coords.longitude.toString().substr(0,8))
-}
-
-function geoError(error) {
-  var errors = {
-    1: 'Permission denied',
-    2: 'Position unavailable',
-    3: 'Request timeout',
-    4: 'Unknown Error'
-  };
-  $('#userGeoStatus').removeClass('init-blinker icon-dot-circled lock-green lock-yellow lock-red');
-  $('#userGeoStatus').addClass('icon-target-1');
-  $('#userGeoLoc').html('');
-  navigator.geolocation.clearWatch(webGI.geoWatch);
-  console.log("Error: " + errors[error.code]);
-}
-
+/*
+ * 2D/hardware accelerated canvas particle tracer/visualizer
+ */
 
 function traceCreateParticle()
 {
@@ -696,10 +644,6 @@ function traceDraw()
 	//Lets draw particles from the array now
 	$.each(webGI.trace.particles, function(t,p)
     {
-    //for(var t = 0; t < webGI.trace_particles.length; t++)
-	//{
-		//var p = webGI.trace_particles[t];
-
 		ctx.beginPath();
 
 		ctx.fillStyle = p.color;
@@ -714,17 +658,113 @@ function traceDraw()
 		if(p.x > W) p.x = -50;
 		if(p.y > H) {
             delete webGI.trace.particles[t]
-			//p.y = Math.random()*25-50;
-			//p.x = Math.random()*W;
-			//p.vy = Math.random()*2+6;
 		}
 	});
 }
 
-$(document).ready(function() {
+/*
+ *   Geolocation
+ */
+
+function geoToggle()
+{
+    if (navigator.geolocation)
+    {
+        if(webGI.geo.watcher)
+        {
+            navigator.geolocation.clearWatch(webGI.geo.watcher);
+            webGI.geo.watcher = null;
+            $('#userGeoStatus').removeClass('init-blinker icon-dot-circled lock-green lock-yellow lock-red');
+            $('#userGeoStatus').addClass('icon-target-1');
+            $('#userGeoLoc').html('');
+            //console.log("geo.watcher disabled");
+        }
+        else
+        {
+            $('#userGeoStatus').addClass('init-blinker');
+            var timeoutVal = 10 * 1000 * 1000;
+            webGI.geo.watcher = navigator.geolocation.watchPosition(
+                geoUpdate,
+                geoError,
+                {
+                    enableHighAccuracy: false,
+                    timeout: timeoutVal,
+                    maximumAge: 0
+                }
+            );
+            //console.log("geo.watcher enabled");
+        }
+    }
+    else
+    {
+        $('#userGeoLoc').html('');
+        console.log("Geolocation is not supported by this browser");
+    }
+}
+
+function geoUpdate(position)
+{
+    $('#userGeoStatus').removeClass('init-blinker icon-target-1');
+    $('#userGeoStatus').addClass('icon-dot-circled');
+
+    // Update lock circle to indicate GeoLocation accuracy
+    if (position.coords.accuracy < 10)
+    {
+        $('#userGeoStatus').removeClass('lock-red lock-yellow');
+        $('#userGeoStatus').addClass('lock-green');
+    }
+    else if (position.coords.accuracy < 25)
+    {
+        $('#userGeoStatus').removeClass('lock-red lock-green');
+        $('#userGeoStatus').addClass('lock-yellow');
+    }
+    else
+    {
+        $('#userGeoStatus').removeClass('lock-yellow lock-green');
+        $('#userGeoStatus').addClass('lock-red');
+    }
+
+    webGI.geo.lat = position.coords.latitude;
+    webGI.geo.lon = position.coords.longitude;
+    webGI.geo.alt = position.coords.altitude;
+    webGI.geo.acc = position.coords.accuracy;
+
+    $('#userGeoLoc').html(
+        position.coords.latitude.toString().substr(0,8) + ' ' +
+        position.coords.longitude.toString().substr(0,8)
+    )
+}
+
+function geoError(error)
+{
+    //console.log("Error: " + errors[error.code]);
+
+    var errors = {
+        1: 'Permission denied',
+        2: 'Position unavailable',
+        3: 'Request timeout',
+        4: 'Unknown Error'
+    };
+
+    $('#userGeoStatus').removeClass('init-blinker icon-dot-circled lock-green lock-yellow lock-red');
+    $('#userGeoStatus').addClass('icon-target-1');
+    $('#userGeoLoc').html('');
+
+    navigator.geolocation.clearWatch(webGI.geo.watcher);
+
+    showErrorModal(
+        'Geolocation unavailable',
+        '<p>Hmmm, I still could not determine our location, the browser/device told me:</p> <p><b>'+ errors[error.code] + '</b></p>'
+    );
+}
+
+
+$(document).ready(function()
+{
     $(window).resize(updateLayout);
     updateLayout();
     window.onhashchange = updateLayout; // should have been replaced by pageAnimationEnd event but doesn't work as well
+
     // Switch UI click/tap event handler action for stupid apple browsers
     if ($.support.touch) { webGI.ui_action = 'touchend'; }
     else { webGI.ui_action  = 'click'; }

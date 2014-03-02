@@ -21,6 +21,7 @@ var webGI =
         websocket_host : "ws://" + window.location.hostname + ":" +window.location.port,
         audio : 0,
         tick_snd : new Audio("assets/tock.wav"),
+        bell_snd : new Audio("assets/snd/ui-bell.mp3"),
         count_unit : "CPM"
     },
     geo :
@@ -312,6 +313,7 @@ function toggleAudio()
 function showErrorModal (title, msg, action)
 {
     $('#body').find('.md-modal').removeClass('md-show');
+    webGI.conf.bell_snd.play();
 
     setTimeout(function()
     {

@@ -660,7 +660,7 @@ div#jqt #about a {
     background: rgba(137, 37, 12, 0.4);
 }
 
-#modalRADCON .red-current {
+#modalRADCON .red.current {
     background: rgba(137, 37, 12, 0.9);
     height: 30px;
     font-weight: bold;
@@ -670,7 +670,7 @@ div#jqt #about a {
     background: rgba(137, 117, 12, 0.4);
 }
 
-#modalRADCON .yellow-current {
+#modalRADCON .yellow.current {
     background: rgba(137, 117, 12, 0.8);
     height: 30px;
     color: #333;
@@ -681,7 +681,7 @@ div#jqt #about a {
     background: rgba(117, 137, 12, 0.3);
 }
 
-#modalRADCON .green-current {
+#modalRADCON .green.current {
     background: rgba(117, 137, 12, 0.5);
     height: 30px;
     font-weight: bold;

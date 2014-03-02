@@ -454,49 +454,41 @@ function updateStatus(data)
             Math.random()*1000);
         }
     }
-    // INES class identification
+
     var doserate = parseFloat(x.doserate);
 
-    if(doserate < 0.1)
+    // RADCON class identification
+    var s = 0.1;
+
+    for(var c=0;c<=8;c++)
     {
-        console.log("ebola");
-        // Level 0 Local Background
-        $('#lvl_val').html('0');
-        $('#lvl_unit').html('LDR');
-        $('#eqd_unit').html('&micro;Sv/h');
+        if(doserate < s)
+        {
+            $('#lvl_val').html(c);
+            $('#radconLevel'+c).addClass('current');
+            break;
+        }
+        else
+        {
+            s=s*10;
+        }
 
     }
-    else if (doserate < 10)
-    {
-        // Level 1 Anomaly
-        $('#lvl_val').html('1');
-        $('#lvl_unit').html('Jet');
-        $('#eqd_unit').html('&micro;Sv/h');
 
-    }
-    else if (doserate < 1000)
+    // Automatic unit switching
+    if(doserate < 1000)
     {
-        // Level 2 Incident
-    }
-    else if (doserate < 100000)
-    {
-        // Level 3
+        $('#eqd_unit').html('uSv/h');
     }
     else if (doserate < 1000000)
     {
-        // Level 4
-    }
-    else if (doserate < 10000000)
-    {
-        // Level 5
-    }
-    else if (doserate < 100000000)
-    {
-        // Level 6
+        $('#eqd_unit').html('mSv/h');
+        doserate = doserate/1000;
     }
     else
     {
-        // Level 7
+        $('#eqd_unit').html('Sv/h');
+        doserate = doserate/1000000;
     }
 
     webGI.log.gauge.set(doserate);

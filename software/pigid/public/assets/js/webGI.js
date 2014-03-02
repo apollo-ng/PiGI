@@ -23,8 +23,8 @@ var webGI = {
         watcher : null,
         lat : 0,
         lon : 0,
-        elevation : 0,
-        accuracy : 0
+        alt : 0,
+        acc : 0
     },
     jQT : new $.jQTouch({
         icon: 'jqtouch.png',

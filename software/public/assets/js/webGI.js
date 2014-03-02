@@ -465,6 +465,7 @@ function updateStatus(data)
         if(doserate < s)
         {
             $('#lvl_val').html(c);
+            $('.rc-row').removeClass('current');
             $('#radconLevel'+c).addClass('current');
             break;
         }

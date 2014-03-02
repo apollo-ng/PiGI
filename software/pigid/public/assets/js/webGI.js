@@ -82,13 +82,12 @@ function initWebsockets()
     webGI.websockets.status.onclose = function()
     {
         webGI.websockets.status = new WebSocket(webGI.conf.websocket_host+"/ws_status");
+
         showErrorModal(
-            'Network Error',
-            '<p>It seems your browser/device does not support geolocation</p>'
+            'Websocket Error',
+            '<p>Wheeeeh, I lost my sockets. Either the server has gone down or the network connection is unreliable or stalled.</p><b>Possible solutions:</b></p><ul><li>Is the pyGI daemon running on the Pi?</li><li>Enable/toggle your WIFI connection</li></ul>'
         );
 
-
-        $('#modalError').addClass('md-show');
         setTimeout(function(){initWebsockets()}, 5000);
         //console.log ("Status socket rest");
     };
@@ -103,7 +102,10 @@ function initWebsockets()
     webGI.websockets.log.onclose = function()
     {
         webGI.websockets.log = new WebSocket(webGI.conf.websocket_host+"/ws_log");
-        $('#modalError').addClass('md-show');
+        showErrorModal(
+            'Websocket Error',
+            '<p>Wheeeeh, I lost my sockets. Either the server has gone down or the network connection is unreliable or stalled.</p><b>Possible solutions:</b></p><ul><li>Is the pyGI daemon running on the Pi?</li><li>Enable/toggle your WIFI connection</li></ul>'
+        );
         //console.log ("Log socket rest");
     };
 
@@ -310,17 +312,24 @@ function toggleAudio()
 
 function showErrorModal (title, msg, action)
 {
-    //console.log('Firing Modal');
-    $('#modalErrorTitle').html(title);
-    $('#modalErrorMsg').html(msg);
+    $('#body').find('.md-modal').removeClass('md-show');
 
-    var buttons = '<a class="md-close" onclick="$(\'#modalError\').removeClass(\'md-show\');">Ack</a>';
-    if (action) {
-        buttons = buttons + action;
-    }
+    setTimeout(function()
+    {
+        $('#modalErrorTitle').html(title);
+        $('#modalErrorMsg').html(msg);
 
-    $('#modalErrorAction').html(buttons);
-    $('#modalError').addClass('md-show');
+        var buttons = '<a class="md-close" onclick="$(\'#modalError\').removeClass(\'md-show\');">Ack</a>';
+
+        if (action)
+        {
+            buttons = buttons + action;
+        }
+
+        $('#modalErrorAction').html(buttons);
+        $('#modalError').addClass('md-show');
+    },
+    300);
 }
 
 function initSpinner()
@@ -841,6 +850,6 @@ $(document).ready(function()
     initUI();
     initSpinner();
     initWebsockets();
-    setTimeout(function () { geoToggle(); },2000);
+    setTimeout(function () { geoToggle(); },5000);
 
 });

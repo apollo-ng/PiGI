@@ -1,26 +1,37 @@
 import ConfigParser
 import logging
+import sys,os
 
 log = logging.getLogger(__name__)
+
+FILENAME_DEFAULT = 'default.cfg'
+FILENAME_LOCAL = 'local.cfg'
+FILENAME_DYNAMIC = 'dynamic.cfg'
+
+CONF_DIR = os.path.join(sys.path[0],'conf')
+
+PATH_DEFAULT = os.path.join(CONF_DIR,FILENAME_DEFAULT)
+PATH_LOCAL = os.path.join(CONF_DIR,FILENAME_LOCAL)
+PATH_DYNAMIC = os.path.join(CONF_DIR,FILENAME_DYNAMIC)
 
 class Configurator():
     def __init__(self):
         self.static_conf = ConfigParser.SafeConfigParser()
-        self.static_conf.readfp(open('default.cfg'))
+        self.static_conf.readfp(open(PATH_DEFAULT))
         log.info('reading configuration default.cfg')
-        additionals = self.static_conf.read('local.cfg')
+        additionals = self.static_conf.read(PATH_LOCAL)
         for f in additionals:
             log.info('reading configuration %s'%f)
         self.dynamic_conf = ConfigParser.SafeConfigParser()
         self.read_dynamic()
         
     def read_dynamic(self):
-        dyn = self.dynamic_conf.read('dynamic.cfg')
+        dyn = self.dynamic_conf.read(PATH_DYNAMIC)
         for f in dyn:
             log.info('reading configuration %s'%f)
         
     def write_dynamic(self):
-        with open('dynamic.cfg','wb') as f:
+        with open(PATH_DYNAMIC,'wb') as f:
             self.dynamic_conf.write(f)
             
     

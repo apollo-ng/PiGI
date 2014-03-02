@@ -23,6 +23,7 @@ class TickSimulator (threading.Thread):
         threading.Thread.__init__(self)
         self.daemon = True
         self.geiger = geiger
+        log.info("Starting tick simulator")
         
     def run(self):
         while True:
@@ -35,6 +36,7 @@ class TickSimulator (threading.Thread):
 
 class Geigercounter (threading.Thread):
     def __init__(self,total=0):
+        log.info("Starting geigercounter")
         threading.Thread.__init__(self)
         self.daemon = True
         self.socket = None

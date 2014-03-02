@@ -21,9 +21,12 @@ class WebSocketsManager(threading.Thread):
         if socket in self.sockets:
             self.sockets.remove(socket)
         self.sockets.append(socket)
-        log.info("added socket %s"%socket)
 
     def send(self,msg_dict):
+        if not self.sockets:
+            return
+        
+        log.debug("%s: sending %s"%(self.sockets[0].path, str(msg_dict)))
         msg_json = json.dumps(msg_dict)
         for socket in self.sockets:
             try:
@@ -35,6 +38,7 @@ class WebSocketsManager(threading.Thread):
     
 class StatusWebSocketsManager(WebSocketsManager):
     def run(self):
+        log.info("Starting status websockets manager")
         while True:
             self.send(self.geiger.get_state())
             time.sleep(1)
@@ -43,6 +47,7 @@ class StatusWebSocketsManager(WebSocketsManager):
 class TicksWebSocketsManager(WebSocketsManager):
     def run(self):
         last_ticks = self.geiger.totalcount
+        log.info("Starting ticks websockets manager")
         while True:
             ticks = self.geiger.totalcount-last_ticks
             last_ticks = self.geiger.totalcount
@@ -53,6 +58,7 @@ class TicksWebSocketsManager(WebSocketsManager):
 
 class LogWebSocketManager(threading.Thread):
     def __init__(self,geiger,geigerlog,socket):
+        log.info("Starting log websocket manager")
         self.geiger = geiger
         self.socket = socket
         self.geigerlog = geigerlog
@@ -79,6 +85,7 @@ class LogWebSocketManager(threading.Thread):
         logtype = "static_history" if static else "history"
         
         lj = json.dumps({"type":logtype,"log":history})
+        log.info("%s: sending %s"%(self.socket.path,logtype))
         self.socket.send(lj)
             
         

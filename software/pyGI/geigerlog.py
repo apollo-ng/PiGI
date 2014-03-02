@@ -73,6 +73,7 @@ class GeigerLog(threading.Thread):
         self.last_log = None
     
     def run(self):
+        log.info("Starting geigerlog")
         avg_age = dt2unix(datetime.now() - timedelta(minutes=15))
         avg_list = deque()
         entries_list = list(self.db.RangeIter(key_from=str(avg_age)))
@@ -92,7 +93,7 @@ class GeigerLog(threading.Thread):
             value = json.dumps(state)
             self.db.Put(key, value)
             self.last_log = state
-            log.info("Logging: %s : %s"%(key,value))
+            log.debug("Logging: %s : %s"%(key,value))
 
     def get_log_entries(self,start=None,end=None,age=None,amount=500):
         

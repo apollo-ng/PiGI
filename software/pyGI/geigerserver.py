@@ -51,26 +51,26 @@ def keep_socket_open(wsock):
             log.info("Received : %s" % message)            
         except WebSocketError:
             break
-    log.info("websocket closed")
+    log.info("websocket closed (%s)"%wsock.path)
     
 @app.route('/ws_status')
 def handle_ws_status():
     wsock = get_websocket_from_request()
-    log.info("websocket opened")
+    log.info("websocket opened (%s)"%wsock.path)
     wsock_mgr_status.add_socket(wsock)
     keep_socket_open(wsock)
 
 @app.route('/ws_ticks')
 def handle_ws_ticks():
     wsock = get_websocket_from_request()
-    log.info("websocket opened")
+    log.info("websocket opened (%s)"%wsock.path)
     wsock_mgr_ticks.add_socket(wsock)
     keep_socket_open(wsock)
 
 @app.route('/ws_log')
 def handle_ws_log():
     wsock = get_websocket_from_request()
-    log.info("websocket opened")
+    log.info("websocket opened (%s)"%wsock.path)
     
     log_mgr = geigersocket.LogWebSocketManager(geiger,geigerlog,wsock)
     #wsock_mgr_log.add_socket(wsock)
@@ -95,7 +95,7 @@ def handle_ws_log():
                 log_mgr.send_log(start=age_from,end=age_to,amount=1000,static=True)
         except WebSocketError:
             break
-    log.info("websocket closed")
+    log.info("websocket closed (%s)"%wsock.path)
 
 
 def start(g,gl):

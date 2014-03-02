@@ -9,16 +9,12 @@
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
   <link rel="stylesheet" href="assets/css/jqtouch.min.css" title="jQTouch">
   <link rel="stylesheet" href="assets/css/webGI.css">
-  <link rel="stylesheet" href="assets/css/daterangepicker.css">
   <script src="assets/js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/jqtouch.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/dygraph-combined.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/gauge.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/spin.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/webGI.js" type="text/javascript" charset="utf-8"></script>
-  <script src="assets/js/moment.min.js" type="text/javascript" charset="utf-8"></script>
-  <script src="assets/js/daterangepicker.js" type="text/javascript" charset="utf-8"></script>
-
  </head>
  <body id="body">
 
@@ -67,7 +63,7 @@
      <div id="historyContainer" class="instrument-container"></div>
      <div class="instrument-control-container">
       <a href="#" id="no-action" class="instrument-control live-control icon-chart-area enabled ">Action Button</a>
-      <a href="#" id="toggleCalendar" class="instrument-control">CAL</a>
+      <a href="#" id="showModalDateRanger" class="instrument-control">CAL</a>
       <a href="#" id="toggleLogScale" class="instrument-control">LOG</a>
      </div>
     </div>
@@ -88,7 +84,7 @@
       <li><input type="radio" name="geoMode" value="static" title="" id="cnf_gps_mode_static" /><label for="cnf_gps_mode_static" class="input-action-label">Stationary</label></li>
       </ul>
       <ul class="rounded">
-      <li class="arrow"><a href="#" id="modalAuth" class="dissolve">Server Settings</a></li>
+      <li class="arrow"><a href="#" id="showModalAuth">Server Settings</a></li>
       <li class="arrow"><a href="#about" class="dissolve">About</a></li>
      </ul>
     </div>
@@ -121,34 +117,20 @@
   <!-- End Jqt control -->
 
   <!-- Modals -->
-
-  <div class="md-modal md-effect-1" id="modal-auth">
+  <div id="modalAuth" class="md-modal md-animation">
    <div class="md-content red">
     <h3 class="icon-attention md-red"> &nbsp;Authorization required</h3>
     <div>
      <input type="password" placeholder="Please enter your password as stored in pyGI conf">
     </div>
     <div class="md-footer">
-     <a href="#menu" class="md-close" onclick="$('#modal-auth').removeClass('md-show');">Cancel</a>
-     <a href="#" class="md-close md-green" onclick="">OK</a>
+     <a class="md-close" onclick="$('#modalAuth').removeClass('md-show');">Cancel</a>
+     <a class="md-close md-green" onclick="">OK</a>
     </div>
    </div>
   </div>
 
-  <div class="md-modal md-effect-1" id="modal-error">
-   <div class="md-content red">
-    <h3 class="icon-attention md-red"> &nbsp;Network Error</h3>
-    <div>
-     I'm sorry but I have lost the connection to the WebSocket. Either the pyGI server has gone down or the network connection is unreliable. I should be able to reconnect automatically but in case I fail please fix the issue and reconnect manually.
-    </div>
-    <div class="md-footer">
-     <a href="#menu" class="md-close" onclick="$('#modal-error').removeClass('md-show');">Cancel</a>
-     <a href="" class="md-close md-green" onclick="initWebsockets()">Reconnent now</a>
-    </div>
-   </div>
-  </div>
-  
-  <div class="md-modal md-effect-1" id="modal-calendar">
+  <div id="modalDateRanger" class="md-modal md-animation">
    <div class="md-content green">
     <h3 class="icon-attention md-green"> &nbsp;Select date range</h3>
     <div id="calendarContainer">
@@ -166,11 +148,19 @@
       </select>
     </div>
     <div class="md-footer">
-     <a href="#menu" class="md-close" onclick="$('#modal-calendar').removeClass('md-show');">Cancel</a>
+     <a class="md-close" onclick="$('#modalDateRanger').removeClass('md-show');">Cancel</a>
     </div>
    </div>
   </div>
-  
+
+  <div id="modalError" class="md-modal md-animation">
+   <div class="md-content red">
+    <h3 id="modalErrorTitle" class="icon-attention md-red"></h3>
+    <div id="modalErrorMsg"></div>
+    <div id="modalErrorAction" class="md-footer"></div>
+   </div>
+  </div>
+
   <div class="md-overlay"></div>
 
  </body>

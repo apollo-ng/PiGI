@@ -290,7 +290,6 @@ keyframes blinker {
     background: linear-gradient(to bottom, rgba(103,119,18,0.8) 0%,rgba(162,183,58,0.8) 100%) !important;
 }
 
-
 .dygraph-axis-label-x,
 .dygraph-axis-label-y {
     font-family: "Digi";
@@ -307,29 +306,43 @@ keyframes blinker {
 }
 
 .dygraph-title {
-    color: #75890c;
-    font-size: 0.9em;
-    line-height: 25px;
+    opacity: 1;
+    z-index:200000;
 }
 
 .dygraph-xlabel {
-    border: 1px solid yellow;
     opacity: 0;
 }
 
 .dygraph-xlabel {
-   display: none;
+    display: none;
+}
+
+.dygraph-legend {
+    position: relative;
+    top: 0px !important;
+    left: 0px !important;
+    height: 25px;
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
+    width: 99.9% !important;
+    color: #d8d3c5;
+    padding-right: 15px !important;
+    line-height: 25px !important;
+    text-align: right !important;
+    background: rgba(17,16,12,0.4) !important;
 }
 
 .md-modal {
     position: absolute !important;
-    width: 50% !important;
+    width: 55% !important;
     /*
      margin: 0 auto !important;
     -webkit-transform: translateY(-50%);
     -moz-transform: translateY(-50%);
     transform: translateY(-50%); */
-    max-width: 430px !important;
+    max-width: 480px !important;
     min-width: 320px !important;
     z-index: 2000 !important;
     visibility: hidden;
@@ -358,12 +371,11 @@ keyframes blinker {
 }
 
 .md-show ~ .md-overlay {
-
     opacity: 1;
     visibility: visible;
 }
 
-.md-effect-1 .md-content {
+.md-animation .md-content {
     -webkit-transform: scale(0.7);
     -moz-transform: scale(0.7);
     -ms-transform: scale(0.7);
@@ -374,13 +386,12 @@ keyframes blinker {
     transition: all 0.3s;
 }
 
-.md-show.md-effect-1 .md-content {
+.md-show.md-animation .md-content {
     -webkit-transform: scale(1);
     -moz-transform: scale(1);
     -ms-transform: scale(1);
     transform: scale(1);
     opacity: 1;
-
 }
 
 /* Content styles */
@@ -412,6 +423,14 @@ keyframes blinker {
     background: rgba(0,0,0,0.1);
     border-radius: 9px 9px 0 0;
     border-bottom: 1px solid #222;
+}
+
+.md-content h4 {
+    font-size: 1.8em;
+}
+
+.md-content ul {
+    padding-bottom: 0px !important;
 }
 
 .md-content > div {
@@ -518,15 +537,14 @@ keyframes blinker {
     text-align: center;
     background: #5F5E5A;
     text-decoration: none !important;
- background: -moz-linear-gradient(top, rgba(146,145,136,0.25) 0%, rgba(146,145,136,0.29) 16%, rgba(82,81,72,0.36) 42%, rgba(82,81,72,0.5) 100%);
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(146,145,136,0.25)), color-stop(16%,rgba(146,145,136,0.29)), color-stop(42%,rgba(82,81,72,0.36)), color-stop(100%,rgba(82,81,72,0.5)));
-background: -webkit-linear-gradient(top, rgba(146,145,136,0.25) 0%,rgba(146,145,136,0.29) 16%,rgba(82,81,72,0.36) 42%,rgba(82,81,72,0.5) 100%);
-background: -o-linear-gradient(top, rgba(146,145,136,0.25) 0%,rgba(146,145,136,0.29) 16%,rgba(82,81,72,0.36) 42%,rgba(82,81,72,0.5) 100%);
-background: -ms-linear-gradient(top, rgba(146,145,136,0.25) 0%,rgba(146,145,136,0.29) 16%,rgba(82,81,72,0.36) 42%,rgba(82,81,72,0.5) 100%);
-background: linear-gradient(to bottom, rgba(146,145,136,0.25) 0%,rgba(146,145,136,0.29) 16%,rgba(82,81,72,0.36) 42%,rgba(82,81,72,0.5) 100%);
+    background: -moz-linear-gradient(top, rgba(146,145,136,0.25) 0%, rgba(146,145,136,0.29) 16%, rgba(82,81,72,0.36) 42%, rgba(82,81,72,0.5) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(146,145,136,0.25)), color-stop(16%,rgba(146,145,136,0.29)), color-stop(42%,rgba(82,81,72,0.36)), color-stop(100%,rgba(82,81,72,0.5)));
+    background: -webkit-linear-gradient(top, rgba(146,145,136,0.25) 0%,rgba(146,145,136,0.29) 16%,rgba(82,81,72,0.36) 42%,rgba(82,81,72,0.5) 100%);
+    background: linear-gradient(to bottom, rgba(146,145,136,0.25) 0%,rgba(146,145,136,0.29) 16%,rgba(82,81,72,0.36) 42%,rgba(82,81,72,0.5) 100%);
     border: 1px solid #555;
     border-top: 1px solid #888;
     border-bottom: 1px solid #000;
+    cursor: pointer !important;
 }
 
 .md-red {

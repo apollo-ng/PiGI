@@ -689,7 +689,7 @@ function traceCreateParticle()
 	this.vy = Math.random()*4+2;
 
 	var b = Math.random()*128+128>>0;
-	this.color = "rgba("+b+","+b+","+b+",0.5)";
+	this.color = "rgba("+b+","+b+","+b+",0.6)";
 }
 
 function traceStart()
@@ -718,7 +718,7 @@ function traceDraw()
     var ctx = webGI.trace.canvas.getContext("2d");
 
 	ctx.globalCompositeOperation = "source-over";
-	ctx.fillStyle = "rgba(52,51,48, 0.6)";
+	ctx.fillStyle = "rgba(30,30,30, 0.7)";
 	ctx.fillRect(0, 0, W, H);
 	ctx.globalCompositeOperation = "lighter";
 
@@ -729,6 +729,8 @@ function traceDraw()
 
 		ctx.fillStyle = p.color;
 		ctx.fillRect(p.x, p.y, 1,p.vy);
+        ctx.fillStyle = "rgba(0,255,0,1)";
+        ctx.fillRect(p.x, p.y+p.vy+1, 1,1);
 
 		p.x += p.vx;
 		p.y += p.vy;

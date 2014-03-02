@@ -299,7 +299,7 @@ function showErrorModal (title, msg, action)
     }
 
     $('#modalErrorAction').html(buttons);
-    setTimeout(function() {  $('#modalError').addClass('md-show') },1500);
+    $('#modalError').addClass('md-show');
 }
 
 function initSpinner()
@@ -760,7 +760,7 @@ function geoError(error)
 
     showErrorModal(
         'Geolocation unavailable',
-        '<p>Hmmm, I still could not determine our location, the browser/device told me:</p> <p><b>'+ errors[error.code] + '</b></p>'
+        '<p>Hmmm, unfortunately I still could not determine our location. The browser/device told me:</p> <p><h4>'+ errors[error.code] + '</h4></p><b>Possible solutions:</b></p><ul><li>Turn on your GPS</li><li>Allow the browser to share geolocation</li></ul>'
     );
 }
 
@@ -778,6 +778,6 @@ $(document).ready(function()
     initUI();
     initSpinner();
     initWebsockets();
-    geoToggle();  // Init geolocation
+    setTimeout(function () { geoToggle(); },1500);
 
 });

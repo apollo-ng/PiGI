@@ -290,7 +290,6 @@ keyframes blinker {
     background: linear-gradient(to bottom, rgba(103,119,18,0.8) 0%,rgba(162,183,58,0.8) 100%) !important;
 }
 
-
 .dygraph-axis-label-x,
 .dygraph-axis-label-y {
     font-family: "Digi";
@@ -372,7 +371,6 @@ keyframes blinker {
 }
 
 .md-show ~ .md-overlay {
-
     opacity: 1;
     visibility: visible;
 }
@@ -394,7 +392,6 @@ keyframes blinker {
     -ms-transform: scale(1);
     transform: scale(1);
     opacity: 1;
-
 }
 
 /* Content styles */
@@ -426,6 +423,14 @@ keyframes blinker {
     background: rgba(0,0,0,0.1);
     border-radius: 9px 9px 0 0;
     border-bottom: 1px solid #222;
+}
+
+.md-content h4 {
+    font-size: 1.8em;
+}
+
+.md-content ul {
+    padding-bottom: 0px !important;
 }
 
 .md-content > div {

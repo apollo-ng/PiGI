@@ -457,7 +457,7 @@ function updateStatus(data)
 
     var doserate = parseFloat(x.doserate);
 
-    // RADCON class identification
+    // RADCON class identification and UI reaction
     var s = 0.1;
 
     for(var c=0;c<=8;c++)
@@ -466,14 +466,30 @@ function updateStatus(data)
         {
             $('#lvl_val').html(c);
             $('.rc-row').removeClass('current');
-            $('#radconLevel'+c).addClass('current');
+            $('#rc'+c).addClass('current');
+
+            if(c<3)
+            {
+                $('#eqd_val, #eqd_unit, #lvl_val, #lvl_unit').removeClass('yellow red');
+                $('#eqd_val, #eqd_unit, #lvl_val, #lvl_unit').addClass('green');
+            }
+            else if (c<6)
+            {
+                $('#eqd_val, #eqd_unit, #lvl_val, #lvl_unit').removeClass('green red');
+                $('#eqd_val, #eqd_unit, #lvl_val, #lvl_unit').addClass('yellow');
+            }
+            else
+            {
+                $('#eqd_val, #eqd_unit, #lvl_val, #lvl_unit').removeClass('green yellow');
+                $('#eqd_val, #eqd_unit, #lvl_val, #lvl_unit').addClass('red');
+            }
+
             break;
         }
         else
         {
             s=s*10;
         }
-
     }
 
     // Automatic unit switching
@@ -493,7 +509,6 @@ function updateStatus(data)
     }
 
     webGI.log.gauge.set(doserate);
-
     $('#eqd_val').html(doserate.toFixed(2));
 }
 

@@ -493,7 +493,7 @@ function updateStatus(data)
     var edr = parseFloat(x.doserate);
 
     // Doserate Watchdog firing above 20% increase compared to 24h EDR avg
-    if(edr > (webGI.log.edr_avg_24+(webGI.log.edr_avg_24*1.2)))
+    if(edr > (webGI.log.edr_avg_24*1.2))
     {
         showErrorModal(
             'RADIATION Warning',

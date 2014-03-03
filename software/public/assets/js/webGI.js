@@ -162,9 +162,9 @@ function initUI()
         var age = webGI.log.chart_age;
         if (age > 60*60*1) {
             webGI.log.data = webGI.log.data_ld;
-        } else {
-            webGI.log.data = webGI.log.data_hd;
-        }
+        } //else {
+          //  webGI.log.data = webGI.log.data_hd;
+        //}
         if (webGI.log.chart == null)
         {
             initLog();
@@ -778,7 +778,15 @@ function updateLogStatus(data)
     var range = webGI.log.chart.xAxisRange();
     if (Math.abs(webGI.log.desired_range[0] - range[0]) < 60 &&
         Math.abs(webGI.log.desired_range[1] - range[1]) < 60) {
-      webGI.log.chart.updateOptions({dateWindow: webGI.log.desired_range});
+        if (webGI.log.age > 60*60*1) {
+            webGI.log.data = webGI.log.data_ld;
+        } else {
+            console.log("HD");
+            webGI.log.data = webGI.log.data_hd;
+        }
+ 
+      webGI.log.chart.updateOptions({dateWindow: webGI.log.desired_range,
+        file: webGI.log.data});
       // (do not set another timeout.)
     } else {
       var new_range;

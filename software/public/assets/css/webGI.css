@@ -358,7 +358,7 @@ keyframes blinker {
 
 .md-modal {
     position: absolute !important;
-    width: 65% !important;
+    width: 75% !important;
     /*
      margin: 0 auto !important;
     -webkit-transform: translateY(-50%);
@@ -418,7 +418,7 @@ keyframes blinker {
 
 /* Content styles */
 .md-content {
-    color: #fff;
+    color: #d8d3c5;
     font-family: "Helvetica Neue",Helvetica;
     font-size: 0.8em;
     position: relative;
@@ -441,8 +441,10 @@ keyframes blinker {
     padding: 0.4em;
     font-size: 2.4em;
     font-weight: 300;
+    height: 30px !important;
+    line-height: 30px !important;
     opacity: 0.8;
-    background: rgba(0,0,0,0.1);
+    background: rgba(0,0,0,0.25);
     border-radius: 9px 9px 0 0;
     border-bottom: 1px solid #222;
 }
@@ -660,6 +662,37 @@ div#jqt #about a {
     background: #3F3E3A url('../img/panel_bg.png') repeat;
 }
 
+#modalRADCON h3 a {
+    width: 30px !important;
+    float: right;
+    height: 30px;
+    font-family: inherit;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 30px;
+    text-decoration: none;
+    white-space: nowrap;
+    background: 0;
+    bottom: 6px;
+    right: 10px;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #e2e3e3;
+    text-align: center;
+    text-shadow: black 0 -1px 0;
+    border: 1px solid black;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    background-image: none;
+    background-color: #0a0a0a;
+    background-image: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#2f3031),color-stop(50%,#161717),color-stop(51%,#0a0a0a),color-stop(100%,#000));
+    background-image: -webkit-linear-gradient(top,#2f3031,#161717 50%,#0a0a0a 51%,#000);
+    background-image: linear-gradient(top,#2f3031,#161717 50%,#0a0a0a 51%,#000);
+    -webkit-box-shadow: rgba(255,255,255,.2) 0 1px 0,rgba(0,0,0,.2) 0 1px 2px inset;
+    box-shadow: rgba(255,255,255,.2) 0 1px 0,rgba(0,0,0,.2) 0 1px 2px inset;
+    cursor: pointer !important;
+}
+
 #modalRADCON table {
     width: 100%;
 }
@@ -716,4 +749,8 @@ div#jqt #about a {
     -webkit-transform: rotate(-90deg);
     transform: rotate(-90deg);
     text-align: center;
+    overflow: hidden;
+    width: 20px;
 }
+
+

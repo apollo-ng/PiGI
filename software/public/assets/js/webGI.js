@@ -11,6 +11,7 @@ var webGI =
         alldata : [],
         data_hd : [],
         data_ld : [],
+        edr_avg_24 : 0.10,
         chart_age : 60*15,
         desired_range : null,
         animtimer : null,
@@ -173,7 +174,7 @@ function initUI()
         else
         {
             var now = Date.now();
-            webGI.log.chart.updateOptions({ 
+            webGI.log.chart.updateOptions({
                 file: webGI.log.data,
                 dateWindow: webGI.log.desired_range
             });
@@ -474,7 +475,7 @@ function updateConfig()
 function updateStatus(data)
 {
     webGI.now = parseInt(x.timestamp)*1000;
-    
+
     if(webGI.conf.count_unit=="CPM") $('#count_val').html(parseInt(x.cpm));
     if(webGI.conf.count_unit=="CPS") $('#count_val').html(parseInt(x.cps));
 
@@ -489,14 +490,23 @@ function updateStatus(data)
         }
     }
 
-    var doserate = parseFloat(x.doserate);
+    var edr = parseFloat(x.doserate);
+
+    // Doserate Watchdog firing above 20% increase compared to 24h EDR avg
+    if(edr > (webGI.log.edr_avg_24+(webGI.log.edr_avg_24*1.2)))
+    {
+        showErrorModal(
+            'RADIATION Warning',
+            '<p>Wow, that tube is really cracking and sparkling now...</p>'
+        );
+    }
 
     // RADCON class identification and UI reaction
     var s = 0.1;
 
     for(var c=0;c<=8;c++)
     {
-        if(doserate < s)
+        if(edr < s)
         {
             $('#lvl_val').html(c);
             $('.rc-row').removeClass('current');
@@ -504,22 +514,22 @@ function updateStatus(data)
 
             if(c<3)
             {
-                $('#eqd_val, #eqd_unit, #lvl_val, #lvl_unit').removeClass('yellow red');
-                $('#eqd_val, #eqd_unit, #lvl_val, #lvl_unit').addClass('green');
+                $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('yellow red');
+                $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').addClass('green');
                 webGI.log.chart_colors = ['#677712','yellow']; //FIXME: needs a full redraw to take effect :/
                 webGI.log.chart.updateOptions({colors: webGI.log.chart_colors});
             }
             else if (c<6)
             {
-                $('#eqd_val, #eqd_unit, #lvl_val, #lvl_unit').removeClass('green red');
-                $('#eqd_val, #eqd_unit, #lvl_val, #lvl_unit').addClass('yellow');
+                $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('green red');
+                $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').addClass('yellow');
                 webGI.log.chart_colors = ['#F5C43C','yellow']; //FIXME: needs a full redraw to take effect :/
                 webGI.log.chart.updateOptions({colors: webGI.log.chart_colors});
             }
             else
             {
-                $('#eqd_val, #eqd_unit, #lvl_val, #lvl_unit').removeClass('green yellow');
-                $('#eqd_val, #eqd_unit, #lvl_val, #lvl_unit').addClass('red');
+                $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('green yellow');
+                $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').addClass('red');
                 webGI.log.chart_colors = ['#ff0000','yellow']; //FIXME: needs a full redraw to take effect :/
                 webGI.log.chart.updateOptions({colors: webGI.log.chart_colors});
             }
@@ -533,23 +543,23 @@ function updateStatus(data)
     }
 
     // Automatic unit switching
-    if(doserate < 1000)
+    if(edr < 1000)
     {
-        $('#eqd_unit').html('uSv/h');
+        $('#edr_unit').html('uSv/h');
     }
-    else if (doserate < 1000000)
+    else if (edr < 1000000)
     {
-        $('#eqd_unit').html('mSv/h');
-        doserate = doserate/1000;
+        $('#edr_unit').html('mSv/h');
+        edr = edr/1000;
     }
     else
     {
-        $('#eqd_unit').html('Sv/h');
-        doserate = doserate/1000000;
+        $('#edr_unit').html('Sv/h');
+        edr = edr/1000000;
     }
 
-    webGI.log.gauge.set(doserate);
-    $('#eqd_val').html(doserate.toFixed(2));
+    webGI.log.gauge.set(edr);
+    $('#edr_val').html(edr.toFixed(2));
 }
 
 function requestLog(age,hd)
@@ -708,7 +718,7 @@ function initLog()
 function updateLogHistory(data)
 {
     console.log("LOGHISTORY");
-    
+
     if (data.hd) {
         webGI.log.data_hd = [];
         $.each(data.log, function(i,v)
@@ -723,6 +733,8 @@ function updateLogHistory(data)
         });
     } else {
         webGI.log.data_ld = [];
+        var edr_avg=0;
+
         $.each(data.log, function(i,v)
         {
             var ts = new Date(v.timestamp*1000);
@@ -732,9 +744,14 @@ function updateLogHistory(data)
             //    return;
             //}
             webGI.log.data_ld.push([ts,v.doserate,v.doserate_avg]);
+            edr_avg += v.doserate;
+
         });
+
+        // Update rolling 24h average EDR for alert reference
+        webGI.log.edr_avg_24 = (edr_avg/data.log.length);
     }
-        
+
     var age = webGI.log.chart_age;
     if (age > 60*60*1) {
         webGI.log.data = webGI.log.data_ld;
@@ -763,17 +780,18 @@ function updateLogStatus(data)
     var ts = new Date(data.timestamp*1000);
 
     webGI.log.data_hd.push([ts,data.doserate,data.doserate_avg]);
-    
+    //webGI.log.edr_avg = data.doserate_avg; // Gives 15min avg
+
     //FIXME: push ld data less often
     webGI.log.data_ld.push([ts,data.doserate,data.doserate_avg]);
- 
+
     var left_end_ld = new Date((data.timestamp-60*60*24)*1000)
     while(webGI.log.data_ld[0][0] < left_end_ld) webGI.log.data_ld.shift();
-    
+
     var left_end_hd = new Date((data.timestamp-60*60*1)*1000)
     while(webGI.log.data_hd[0][0] < left_end_hd) webGI.log.data_hd.shift();
-    
-    
+
+
     var now = webGI.now;
     webGI.log.chart.updateOptions({
         file: webGI.log.data,
@@ -793,7 +811,7 @@ function updateLogStatus(data)
         } else {
             webGI.log.data = webGI.log.data_hd;
         }
- 
+
       webGI.log.chart.updateOptions({dateWindow: webGI.log.desired_range,
         file: webGI.log.data});
       // (do not set another timeout.)

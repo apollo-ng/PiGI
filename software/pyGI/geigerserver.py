@@ -83,11 +83,10 @@ def handle_ws_log():
             msg = json.loads(message)
             if msg.get("cmd") == "read":
                 age_seconds = int(msg.get("age",60*60));
-                if age_seconds <= 60*60*25:
-                    amount = None #15*6#this is irrelevant anyways...
+                if msg.get("hd"):
+                    log_mgr.send_log(age=age_seconds,amount=None)
                 else:
-                    amount = 24 * 30
-                log_mgr.send_log(age=age_seconds,amount=amount)
+                    log_mgr.send_log(age=age_seconds,amount=1000)
             elif msg.get("cmd") == "history":
                 age_from = msg.get("from")
                 age_to = msg.get("to")

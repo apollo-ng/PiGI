@@ -83,8 +83,8 @@ class LogWebSocketManager(threading.Thread):
             amount = None
         history = self.geigerlog.get_log_entries(start=start,end=end,age=age,amount=amount)
         logtype = "static_history" if static else "history"
-        
-        lj = json.dumps({"type":logtype,"log":history})
+        hd = False if amount else True
+        lj = json.dumps({"type":logtype,"log":history,"hd":hd})
         log.info("%s: sending %s"%(self.socket.path,logtype))
         self.socket.send(lj)
             

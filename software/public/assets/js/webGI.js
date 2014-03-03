@@ -8,6 +8,8 @@ var webGI =
         chart : null,
         data : [],
         alldata : [],
+        data_hd : [],
+        data_ld : [],
         chart_age : 60*15,
         desired_range : null,
         animtimer : null,
@@ -100,7 +102,8 @@ function initWebsockets()
     webGI.websockets.log.onopen = function()
     {
         $('#modalError').removeClass('md-show');
-        requestLog();
+        requestLog(60*60*1,true);
+        requestLog(60*60*24,false);
         requestHistory(null,null);
         setTimeout(function(){$('.splash').addClass('splash-hidden'); console.log('Remove splash'); },500);
     };
@@ -156,6 +159,27 @@ function initUI()
             clearTimeout(webGI.log.animtimer);
         }
         
+        
+        var age = webGI.log.chart_age;
+        if (age > 60*60*1) {
+            webGI.log.data = webGI.log.data_ld;
+        } else {
+            webGI.log.data = webGI.log.data_hd;
+        }
+        if (webGI.log.chart == null)
+        {
+            initLog();
+        }
+        else
+        {
+            var now = Date.now();
+            webGI.log.chart.updateOptions({ 
+                file: webGI.log.data,
+                dateWindow: webGI.log.desired_range
+            });
+        }
+        chartZoom(now - webGI.log.chart_age*1000);
+        return;
         var now = Date.now()
         if (webGI.log.chart_age <= 60*60) {
             webGI.log.data = webGI.log.alldata.slice(-60*15+10);
@@ -542,14 +566,15 @@ function updateStatus(data)
     $('#eqd_val').html(doserate.toFixed(2));
 }
 
-function requestLog()
+function requestLog(age,hd)
 {
     console.log("Request log");
     var cmd =
     {
         "cmd" : "read",
         //"age" : webGI.log.chart_age
-        "age" : 60*60*24
+        "age" : age,
+        "hd": hd
     }
 
     webGI.websockets.log.send(JSON.stringify(cmd));
@@ -694,20 +719,41 @@ function initLog()
 function updateLogHistory(data)
 {
     console.log("LOGHISTORY");
-    webGI.log.alldata = [];
-    $.each(data.log, function(i,v)
-    {
-        //var v = JSON.parse(v_json);
-        var ts = new Date(v.timestamp*1000)
-        //var ts = v.timestamp*1000
-        //if (isNaN(ts.getTime()))
-        //{
-        //    return;
-        //}
-        webGI.log.alldata.push([ts,v.doserate,v.doserate_avg]);
-    });
-    var samples = webGI.log.chart_age/5;
-    webGI.log.data = webGI.log.alldata.slice(-samples);
+    
+    if (data.hd) {
+        webGI.log.data_hd = [];
+        $.each(data.log, function(i,v)
+        {
+            var ts = new Date(v.timestamp*1000);
+            //var ts = v.timestamp*1000
+            //if (isNaN(ts.getTime()))
+            //{
+            //    return;
+            //}
+            webGI.log.data_hd.push([ts,v.doserate,v.doserate_avg]);
+        });
+    } else {
+        webGI.log.data_ld = [];
+        $.each(data.log, function(i,v)
+        {
+            var ts = new Date(v.timestamp*1000);
+            //var ts = v.timestamp*1000
+            //if (isNaN(ts.getTime()))
+            //{
+            //    return;
+            //}
+            webGI.log.data_ld.push([ts,v.doserate,v.doserate_avg]);
+        });
+    }
+        
+    var age = webGI.log.chart_age;
+    if (age > 60*60*1) {
+        webGI.log.data = webGI.log.data_ld;
+        console.log("LD")
+    } else {
+        webGI.log.data = webGI.log.data_hd;
+        console.log("HD",webGI.log.data.length)
+    }
     if (webGI.log.chart == null)
     {
         initLog();
@@ -726,8 +772,8 @@ function updateLogStatus(data)
 {
     //console.log("UPDATE")
     var ts = new Date(data.timestamp*1000);
-    webGI.log.data.push([ts,data.doserate,data.doserate_avg]);
-    webGI.log.alldata.push([ts,data.doserate,data.doserate_avg]);
+    webGI.log.data_hd.push([ts,data.doserate,data.doserate_avg]);
+    webGI.log.data_ld.push([ts,data.doserate,data.doserate_avg]);
     
     var left_end = new Date((data.timestamp-60*60*24)*1000)
     while(webGI.log.data[0][0] < left_end) webGI.log.data.shift();

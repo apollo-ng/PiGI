@@ -51,16 +51,17 @@ def average_log_entries(entries,tube_rate_factor):
         counts = float(entry.get("total",0)) - int(previous_entry.get("total",0))
     
         if counts < 0: counts=0
-        cps = counts/seconds
-        cpm = cps * 60
-        eqd = round(cpm * tube_rate_factor,2)
-    
-        entry["cps"] = int(cps)
-        entry["cpm"] = int(cpm)
-        entry["doserate"] = eqd
+        if seconds != 0:
+            cps = counts/seconds
+            cpm = cps * 60
+            eqd = round(cpm * tube_rate_factor,2)
+        
+            entry["cps"] = int(cps)
+            entry["cpm"] = int(cpm)
+            entry["doserate"] = eqd
 
-        result.append(entry)
-        previous_entry = entry
+            result.append(entry)
+            previous_entry = entry
     return result
     
 class GeigerLog(threading.Thread):

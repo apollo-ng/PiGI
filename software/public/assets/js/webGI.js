@@ -694,7 +694,7 @@ function initLog()
 function updateLogHistory(data)
 {
     console.log("LOGHISTORY");
-    webGI.log.data = [];
+    webGI.log.alldata = [];
     $.each(data.log, function(i,v)
     {
         //var v = JSON.parse(v_json);

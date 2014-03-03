@@ -58,7 +58,7 @@
 
    <!-- History Panel -->
    <div id="historyPanel">
-    <div class="toolbar"><h1>Historical Radiation Data</h1><a href="#mainPanel" class="button leftButton slideright">Live</a></div>
+    <div class="toolbar"><h1>History</h1><a href="#mainPanel" class="button leftButton slideright">Live</a></div>
     <div id="historyInstrument" class="instrument">
      <div id="historyContainer" class="instrument-container"></div>
      <div class="instrument-control-container">
@@ -160,20 +160,20 @@
      <table>
       <thead>
        <tr>
-        <th>&nbsp;</th>
-        <th>Level</th>
-        <th>EDR</th>
-        <th>Example</th>
+        <th width="15" style="width: 15px">&nbsp;</th>
+        <th width="15">Level</th>
+        <th width="150">EDR</th>
+        <th width="auto">Example</th>
        </tr>
       </thead>
       <tbody>
-       <tr id="rc0" class="rc-row green"><td rowspan="3" class="side">Low</td><td class="num">0</td><td class="edr">0 - 0.1 uSv/h</td><td>Local Doserate</td></tr>
+       <tr id="rc0" class="rc-row green"><td rowspan="3"><span class="side">LOW</span></td><td class="num">0</td><td class="edr">0 - 0.1 uSv/h</td><td>Local Doserate</td></tr>
        <tr id="rc1" class="rc-row green"><td class="num">1</td><td class="edr">0.1 - 1 uSv/h</td><td>High Altitude</td></tr>
        <tr id="rc2" class="rc-row green"><td class="num">2</td><td class="edr">1 - 10 uSv/h</td><td></td></tr>
-       <tr id="rc3" class="rc-row yellow"><td rowspan="3" class="side">Elevated</td><td class="num">3</td><td class="edr">10 - 100 uSv/h</td><td></td></tr>
+       <tr id="rc3" class="rc-row yellow"><td rowspan="3"><span class="side">MID</span></td><td class="num">3</td><td class="edr">10 - 100 uSv/h</td><td></td></tr>
        <tr id="rc4" class="rc-row yellow"><td class="num">4</td><td class="edr">100 - 1000 uSv/h</td><td></td></tr>
        <tr id="rc5" class="rc-row yellow"><td class="num">5</td><td class="edr">1 - 10 mSv/h</td><td></td></tr>
-       <tr id="rc6" class="rc-row red"><td rowspan="3" class="side">Dangerous</td><td class="num">6</td><td class="edr">10 - 100 mSv/h</td><td></td></tr>
+       <tr id="rc6" class="rc-row red"><td rowspan="3"><span class="side">HIGH</span></td><td class="num">6</td><td class="edr">10 - 100 mSv/h</td><td></td></tr>
        <tr id="rc7" class="rc-row red"><td class="num">7</td><td class="edr">100 - 1000 mSv/h</td><td></td></tr>
        <tr id="ra8" class="rc-row red"><td class="num">8</td><td class="edr">>1 Sv/h</td><td></td></tr>
       </tbody>

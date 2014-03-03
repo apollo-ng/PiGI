@@ -744,18 +744,13 @@ div#jqt #about a {
 }
 
 #modalRADCON .side {
-    width: 20px;
-    transform-origin: 50% 50%;
+    display: inline-block;
+    height: 25px !important;
+    line-height: 25px !important;
     -moz-transform: rotate(-90deg);
     -webkit-transform: rotate(-90deg);
     transform: rotate(-90deg);
-    text-align: center;
-    overflow: hidden;
 }
 
-#modalRADCON .side :after {
-   content: "";
-   width: 10px;
-}
 
 

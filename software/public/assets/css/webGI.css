@@ -148,15 +148,6 @@ body {
     min-width: 55px !important;
 }
 
-#eqd_val {
-    color: #75890c;
-}
-
-#eqd_unit {
-    color: #fff;
-    background: #75890c;
-}
-
 #lvl_val {
     width: 14px;
 }
@@ -166,16 +157,31 @@ body {
     line-height: 1.7em !important;
 }
 
-.lock-red {
+.mfd-display.red {
     color: red !important;
 }
 
-.lock-yellow {
-    color: yellow !important;
+.mfd-display.yellow {
+    color: #F5C43C !important;
 }
 
-.lock-green {
+.mfd-display.green {
     color: #75890c !important;
+}
+
+.mfd-unit.red {
+    color: white !important;
+    background: red;
+}
+
+.mfd-unit.yellow {
+    color: #222 !important;
+    background: #F5C43C;
+}
+
+.mfd-unit.green {
+    color: white !important;
+    background: #75890c;
 }
 
 #userGeoLoc {
@@ -625,6 +631,7 @@ div#jqt #about a {
 
 #modalRADCON .display {
     margin: 15px;
+    padding-top: 4px;
     overflow: hidden;
     -moz-box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.2) 0 0px 0 4px;
     -webkit-box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.2) 0 0px 0 4px;

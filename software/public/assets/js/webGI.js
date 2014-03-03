@@ -11,6 +11,7 @@ var webGI =
         chart_age : 60*15,
         desired_range : null,
         animtimer : null,
+        chart_colors : ['#677712','yellow'],
         gauge : null
     },
     history :
@@ -480,7 +481,7 @@ function updateStatus(data)
 
     var doserate = parseFloat(x.doserate);
 
-    // RADCON class identification
+    // RADCON class identification and UI reaction
     var s = 0.1;
 
     for(var c=0;c<=8;c++)
@@ -489,14 +490,33 @@ function updateStatus(data)
         {
             $('#lvl_val').html(c);
             $('.rc-row').removeClass('current');
-            $('#radconLevel'+c).addClass('current');
+            $('#rc'+c).addClass('current');
+
+            if(c<3)
+            {
+                $('#eqd_val, #eqd_unit, #lvl_val, #lvl_unit').removeClass('yellow red');
+                $('#eqd_val, #eqd_unit, #lvl_val, #lvl_unit').addClass('green');
+                webGI.log.chart_colors = ['#677712','yellow']; //FIXME: needs a full redraw to take effect :/
+            }
+            else if (c<6)
+            {
+                $('#eqd_val, #eqd_unit, #lvl_val, #lvl_unit').removeClass('green red');
+                $('#eqd_val, #eqd_unit, #lvl_val, #lvl_unit').addClass('yellow');
+                webGI.log.chart_colors = ['#F5C43C','yellow']; //FIXME: needs a full redraw to take effect :/
+            }
+            else
+            {
+                $('#eqd_val, #eqd_unit, #lvl_val, #lvl_unit').removeClass('green yellow');
+                $('#eqd_val, #eqd_unit, #lvl_val, #lvl_unit').addClass('red');
+                webGI.log.chart_colors = ['#ff0000','yellow']; //FIXME: needs a full redraw to take effect :/
+            }
+
             break;
         }
         else
         {
             s=s*10;
         }
-
     }
 
     // Automatic unit switching
@@ -516,7 +536,6 @@ function updateStatus(data)
     }
 
     webGI.log.gauge.set(doserate);
-
     $('#eqd_val').html(doserate.toFixed(2));
 }
 
@@ -656,7 +675,7 @@ function initLog()
         animatedZooms: true,
         labels: ['time','µSv/h','µSv/h (15m avg)'],
         xlabel: 'time',
-        colors: ['#677712','yellow'],
+        colors: webGI.log.chart_colors,
         'µSv/h':
         {
             fillGraph: true,
@@ -749,14 +768,14 @@ function updateLogStatus(data)
 
 function traceCreateParticle()
 {
-	this.x = Math.random()*webGI.trace.canvas.width;
-	this.y = 0; //-Math.random()*webGI.trace.canvas.height;
+    this.x = Math.random()*webGI.trace.canvas.width;
+    this.y = 0; //-Math.random()*webGI.trace.canvas.height;
 
-	this.vx = 0;
-	this.vy = Math.random()*4+2;
+    this.vx = 0;
+    this.vy = Math.random()*4+2;
 
-	var b = Math.random()*128+128>>0;
-	this.color = "rgba("+b+","+b+","+b+",0.6)";
+    var b = Math.random()*128+128>>0;
+    this.color = "rgba("+b+","+b+","+b+",0.6)";
 }
 
 function traceStart()
@@ -784,33 +803,33 @@ function traceDraw()
     var H = webGI.trace.canvas.height;
     var ctx = webGI.trace.canvas.getContext("2d");
 
-	ctx.globalCompositeOperation = "source-over";
-	ctx.fillStyle = "rgba(30,30,30, 0.7)";
-	ctx.fillRect(0, 0, W, H);
-	ctx.globalCompositeOperation = "lighter";
+    ctx.globalCompositeOperation = "source-over";
+    ctx.fillStyle = "rgba(30,30,30, 0.7)";
+    ctx.fillRect(0, 0, W, H);
+    ctx.globalCompositeOperation = "lighter";
 
-	//Lets draw particles from the array now
-	$.each(webGI.trace.particles, function(t,p)
+    //Lets draw particles from the array now
+    $.each(webGI.trace.particles, function(t,p)
     {
-		ctx.beginPath();
+        ctx.beginPath();
 
-		ctx.fillStyle = p.color;
-		ctx.fillRect(p.x, p.y, 1,p.vy);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(p.x, p.y, 1,p.vy);
         ctx.fillStyle = "rgba(117,137,12,1)";
         ctx.fillRect(p.x, p.y+p.vy, 1,2);
 
-		p.x += p.vx;
-		p.y += p.vy;
-		p.vy += Math.random()*p.y/25;
-		//To prevent the balls from moving out of the canvas
-		if(p.x < -50) p.x = W+50;
-		if(p.y < -50) p.y = H+50;
-		if(p.x > W) p.x = -50;
-		if(p.y > H)
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += Math.random()*p.y/25;
+        //To prevent the balls from moving out of the canvas
+        if(p.x < -50) p.x = W+50;
+        if(p.y < -50) p.y = H+50;
+        if(p.x > W) p.x = -50;
+        if(p.y > H)
         {
             delete webGI.trace.particles[t]
-		}
-	});
+        }
+    });
 }
 
 /*

@@ -7,7 +7,10 @@ var webGI =
     {
         chart : null,
         data : [],
+        alldata : [],
         chart_age : 60*15,
+        desired_range : null,
+        animtimer : null,
         gauge : null
     },
     history :
@@ -137,7 +140,7 @@ function initUI()
 
     // Backlog
     $('.live-control').bind(webGI.ui_action,function(event)
-    {
+    {  
         $('#gaugeContainer').hide();
         $('#chartContainer').show();
         $('.live-control').removeClass('enabled');
@@ -146,7 +149,27 @@ function initUI()
         traceStop();
         updateLayout();
         webGI.log.chart_age = parseInt($(event.target).attr("seconds"))
-        requestLog();
+        //var samples = webGI.log.chart_age/5;
+        //webGI.log.data = webGI.log.alldata.slice(-samples);
+        if (webGI.log.animtimer != null) {
+            clearTimeout(webGI.log.animtimer);
+        }
+        
+        var now = Date.now()
+        if (webGI.log.chart_age <= 60*60) {
+            webGI.log.data = webGI.log.alldata.slice(-60*15+10);
+            webGI.log.chart.updateOptions({ 
+                file: webGI.log.data,
+                dateWindow: webGI.log.desired_range,
+            });
+            chartZoom(now - webGI.log.chart_age*1000);
+        } else {
+            webGI.log.data = webGI.log.alldata;
+            webGI.log.chart.updateOptions({ 
+                file: webGI.log.data,
+                dateWindow: [now - webGI.log.chart_age*1000,now]
+            });
+        }
     });
 
     $('#lvl_val, #lvl_unit').bind(webGI.ui_action,function()
@@ -499,10 +522,12 @@ function updateStatus(data)
 
 function requestLog()
 {
+    console.log("Request log");
     var cmd =
     {
         "cmd" : "read",
-        "age" : webGI.log.chart_age
+        //"age" : webGI.log.chart_age
+        "age" : 60*60*24
     }
 
     webGI.websockets.log.send(JSON.stringify(cmd));
@@ -612,6 +637,7 @@ function initLog()
     //console.log("Init log");
     if (webGI.log.data.length==0)
     {
+        //requestLog()
         return;
     }
 
@@ -627,6 +653,7 @@ function initLog()
         interactionModel: {},
         //valueRange: [0,null],
         includeZero: true,
+        animatedZooms: true,
         labels: ['time','µSv/h','µSv/h (15m avg)'],
         xlabel: 'time',
         colors: ['#677712','yellow'],
@@ -644,26 +671,32 @@ function initLog()
 
 function updateLogHistory(data)
 {
-    //console.log("LOGHISTORY");
+    console.log("LOGHISTORY");
     webGI.log.data = [];
     $.each(data.log, function(i,v)
     {
         //var v = JSON.parse(v_json);
         var ts = new Date(v.timestamp*1000)
-        if (isNaN(ts.getTime()))
-        {
-            return;
-        }
-        webGI.log.data.push([ts,v.doserate,v.doserate_avg]);
+        //var ts = v.timestamp*1000
+        //if (isNaN(ts.getTime()))
+        //{
+        //    return;
+        //}
+        webGI.log.alldata.push([ts,v.doserate,v.doserate_avg]);
     });
-
+    var samples = webGI.log.chart_age/5;
+    webGI.log.data = webGI.log.alldata.slice(-samples);
     if (webGI.log.chart == null)
     {
         initLog();
     }
     else
     {
-        webGI.log.chart.updateOptions({ file: webGI.log.data });
+        var now = Date.now();
+        webGI.log.chart.updateOptions({ 
+            file: webGI.log.data,
+            dateWindow: [ now - webGI.log.chart_age*1000, now]
+        });
     }
 }
 
@@ -672,10 +705,43 @@ function updateLogStatus(data)
     //console.log("UPDATE")
     var ts = new Date(data.timestamp*1000);
     webGI.log.data.push([ts,data.doserate,data.doserate_avg]);
-    var left_end = new Date((data.timestamp-webGI.log.chart_age)*1000)
+    webGI.log.alldata.push([ts,data.doserate,data.doserate_avg]);
+    
+    var left_end = new Date((data.timestamp-60*60*24)*1000)
     while(webGI.log.data[0][0] < left_end) webGI.log.data.shift();
-    webGI.log.chart.updateOptions({ file: webGI.log.data });
+    var now = Date.now();
+    webGI.log.chart.updateOptions({ 
+        file: webGI.log.data,
+        dateWindow: [ now - webGI.log.chart_age*1000, now]
+    });
 }
+
+
+  function chartApproachRange() {
+    if (!webGI.log.desired_range) return;
+    // go halfway there
+    var range = webGI.log.chart.xAxisRange();
+    if (Math.abs(webGI.log.desired_range[0] - range[0]) < 60 &&
+        Math.abs(webGI.log.desired_range[1] - range[1]) < 60) {
+      webGI.log.chart.updateOptions({dateWindow: webGI.log.desired_range});
+      // (do not set another timeout.)
+    } else {
+      var new_range;
+      new_range = [0.5 * (webGI.log.desired_range[0] + range[0]),
+                   0.5 * (webGI.log.desired_range[1] + range[1])];
+      webGI.log.chart.updateOptions({dateWindow: new_range});
+      chartAnimate();
+    }
+  }
+  function chartAnimate() {
+    webGI.log.animtimer = setTimeout(chartApproachRange, 50);
+  }
+
+  function chartZoom (age) {
+    var w = webGI.log.chart.xAxisRange();
+    webGI.log.desired_range = [ age, Date.now()];
+    chartAnimate();
+  }
 
 /*
  * 2D/hardware accelerated canvas particle tracer/visualizer

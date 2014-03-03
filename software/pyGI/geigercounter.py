@@ -7,6 +7,7 @@ import logging
 
 from collections import deque
 from configurator import cfg
+from entropygenerator import EntropyGenerator
 
 log = logging.getLogger(__name__)
 
@@ -41,6 +42,13 @@ class Geigercounter (threading.Thread):
         self.daemon = True
         self.socket = None
         self.totalcount=total
+        
+        if cfg.getboolean('entropy','enable'):
+            self.entropygenerator = EntropyGenerator(cfg.get('entropy','filename'))
+        else:
+            self.entropygenerator = None
+        
+        
         self.reset()
         self.start()
 
@@ -53,6 +61,8 @@ class Geigercounter (threading.Thread):
     def tick(self, pin=None):
         self.count += 1
         self.totalcount += 1
+        if self.entropygenerator:
+            self.entropygenerator.tick()
 
     def run(self):
         if gpio_available:

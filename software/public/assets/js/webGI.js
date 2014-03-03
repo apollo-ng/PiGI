@@ -1,5 +1,6 @@
 var webGI =
 {
+    now: Date.now(),
     ui_action : 'click',
     websockets : {},
     spinner : null,
@@ -472,6 +473,8 @@ function updateConfig()
 
 function updateStatus(data)
 {
+    webGI.now = parseInt(x.timestamp)*1000;
+    
     if(webGI.conf.count_unit=="CPM") $('#count_val').html(parseInt(x.cpm));
     if(webGI.conf.count_unit=="CPS") $('#count_val').html(parseInt(x.cps));
 
@@ -746,7 +749,7 @@ function updateLogHistory(data)
     }
     else
     {
-        var now = Date.now();
+        var now = webGI.now;
         webGI.log.chart.updateOptions({
             file: webGI.log.data,
             dateWindow: [ now - webGI.log.chart_age*1000, now]
@@ -760,11 +763,18 @@ function updateLogStatus(data)
     var ts = new Date(data.timestamp*1000);
 
     webGI.log.data_hd.push([ts,data.doserate,data.doserate_avg]);
+    
+    //FIXME: push ld data less often
     webGI.log.data_ld.push([ts,data.doserate,data.doserate_avg]);
  
-    var left_end = new Date((data.timestamp-60*60*24)*1000)
-    while(webGI.log.data[0][0] < left_end) webGI.log.data.shift();
-    var now = Date.now();
+    var left_end_ld = new Date((data.timestamp-60*60*24)*1000)
+    while(webGI.log.data_ld[0][0] < left_end_ld) webGI.log.data_ld.shift();
+    
+    var left_end_hd = new Date((data.timestamp-60*60*1)*1000)
+    while(webGI.log.data_hd[0][0] < left_end_hd) webGI.log.data_hd.shift();
+    
+    
+    var now = webGI.now;
     webGI.log.chart.updateOptions({
         file: webGI.log.data,
         dateWindow: [ now - webGI.log.chart_age*1000, now]
@@ -778,10 +788,9 @@ function updateLogStatus(data)
     var range = webGI.log.chart.xAxisRange();
     if (Math.abs(webGI.log.desired_range[0] - range[0]) < 60 &&
         Math.abs(webGI.log.desired_range[1] - range[1]) < 60) {
-        if (webGI.log.age > 60*60*1) {
+        if (webGI.log.chart_age > 60*60*1) {
             webGI.log.data = webGI.log.data_ld;
         } else {
-            console.log("HD");
             webGI.log.data = webGI.log.data_hd;
         }
  
@@ -802,7 +811,7 @@ function updateLogStatus(data)
 
   function chartZoom (age) {
     var w = webGI.log.chart.xAxisRange();
-    webGI.log.desired_range = [ age, Date.now()];
+    webGI.log.desired_range = [ age, webGI.now];
     chartAnimate();
   }
 

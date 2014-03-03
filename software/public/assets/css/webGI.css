@@ -303,26 +303,42 @@ keyframes blinker {
     color: #d8d3c5;
 }
 .dygraph-axis-label-x {
-    margin-top: 4px;
+    margin-top: 5px;
 }
 
 .dygraph-rangesel-fgcanvas {
-    height: 40px !important;
-    border: 1px solid red;
+    margin-top: 10px;
+    height: 35px !important;
+    background: rgba(0,0,0,0.5);
+    overflow: hidden;
+    -moz-box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.2) 0 0px 0 4px;
+    -webkit-box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.2) 0 0px 0 4px;
+    box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.2) 0 0px 0 4px;
+    border: 1px solid #3F3E3A;
+    border-bottom: 1px solid #7F7E7A;
+
 }
 
+.dygraph-rangesel-bgcanvas {
+ margin-top: 10px;
+    height: 35px !important;
+    background: #3F3E3A url('../img/panel_bg.png') repeat;
+   -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
+    overflow: hidden;  }
+
 .dygraph-title {
-    opacity: 1;
+    opacity: 0;
     z-index:200000;
+    height: 30px;
 }
 
 .dygraph-xlabel {
     opacity: 0;
+    font-size: 20px;
 }
 
-.dygraph-xlabel {
-    display: none;
-}
 
 .dygraph-legend {
     position: relative;

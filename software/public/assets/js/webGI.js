@@ -141,7 +141,7 @@ function initUI()
 
     // Backlog
     $('.live-control').bind(webGI.ui_action,function(event)
-    {  
+    {
         $('#gaugeContainer').hide();
         $('#chartContainer').show();
         $('.live-control').removeClass('enabled');
@@ -155,18 +155,18 @@ function initUI()
         if (webGI.log.animtimer != null) {
             clearTimeout(webGI.log.animtimer);
         }
-        
+
         var now = Date.now()
         if (webGI.log.chart_age <= 60*60) {
             webGI.log.data = webGI.log.alldata.slice(-60*15+10);
-            webGI.log.chart.updateOptions({ 
+            webGI.log.chart.updateOptions({
                 file: webGI.log.data,
                 dateWindow: webGI.log.desired_range,
             });
             chartZoom(now - webGI.log.chart_age*1000);
         } else {
             webGI.log.data = webGI.log.alldata;
-            webGI.log.chart.updateOptions({ 
+            webGI.log.chart.updateOptions({
                 file: webGI.log.data,
                 dateWindow: [now - webGI.log.chart_age*1000,now]
             });
@@ -592,7 +592,8 @@ function initHistory()
         rangeSelectorPlotFillColor: '#677712',
         rangeSelectorPlotStrokeColor: '#677712',
         title: 'EAR: $$ uSv/h (AVG) - EAD: $$ uSv (Total)',
-        rightGap: 15,
+        titleHeight: 35,
+        rightGap: 10,
         fillAlpha: 0.7,
         fillGraph: true,
         showRoller: true,
@@ -616,6 +617,8 @@ function initHistory()
         //includeZero: true,
         //connectSeparatedPoints: true,
         labels: ['time','µSv/h','µSv/h (15m avg)'],
+        xlabel: 'time',
+        xLabelHeight : 25,
         colors: ['#677712','yellow'],
         'µSv/h':
         {
@@ -666,9 +669,9 @@ function initLog()
     webGI.log.chart = new Dygraph("chartContainer", webGI.log.data,
     {
         title: 'EAR: $$ uSv/h (AVG) - EAD: $$ uSv (Total)',
-        titleHeight: 25,
+        titleHeight: 35,
         fillGraph: true, //we want the error bars
-        rightGap: 15,
+        rightGap: 20,
         fillAlpha: 0.7,
         showRoller: false,
         rollPeriod: 1,
@@ -715,7 +718,7 @@ function updateLogHistory(data)
     else
     {
         var now = Date.now();
-        webGI.log.chart.updateOptions({ 
+        webGI.log.chart.updateOptions({
             file: webGI.log.data,
             dateWindow: [ now - webGI.log.chart_age*1000, now]
         });
@@ -728,11 +731,11 @@ function updateLogStatus(data)
     var ts = new Date(data.timestamp*1000);
     webGI.log.data.push([ts,data.doserate,data.doserate_avg]);
     webGI.log.alldata.push([ts,data.doserate,data.doserate_avg]);
-    
+
     var left_end = new Date((data.timestamp-60*60*24)*1000)
     while(webGI.log.data[0][0] < left_end) webGI.log.data.shift();
     var now = Date.now();
-    webGI.log.chart.updateOptions({ 
+    webGI.log.chart.updateOptions({
         file: webGI.log.data,
         dateWindow: [ now - webGI.log.chart_age*1000, now]
     });

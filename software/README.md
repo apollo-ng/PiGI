@@ -7,7 +7,7 @@ monitoring, mapping and analyzing ionizing radiation counts detected by the PiGI
 
 ### Main instrument panel
 ![Image](https://apollo.open-resource.org/_media/lab:webgi-mainpanel.jpg)
-### Histroy instrument panel
+### History instrument panel
 ![Image](https://apollo.open-resource.org/_media/lab:webgi-historypanel.jpg)
 ### Ion trace visualizer
 ![Image](https://apollo.open-resource.org/_media/lab:webgi-tracevisualizer.jpg)

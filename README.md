@@ -22,11 +22,33 @@ The PiGI is built as a ready-to-go drop-in module for the Raspberry Pi to transf
 ## Hardware
 
   * Schematics
-  * Board designs 
+  * Board designs
+  * Released under CERN OHL 1.2
+
+![Image](https://apollo.open-resource.org/_media/lab:pigi-prototype-board-v1.0.jpg)
 
 ## Software
 
-  * Basic prove-of-concept code
+### Features ###
+
+  * Live Status
+  * Live (15min/60min/24h) Graphs
+  * Analog gauge
+  * Ion Trace Visualizer
+  * History
+  * Tick Simulator (For show and development)
+  * Hardware RNG entropy generator
+  * More to come
+  * Release under GPL V3
+
+### Screenshots ###
+
+#### Main instrument panel
+![Image](https://apollo.open-resource.org/_media/lab:webgi-mainpanel.jpg)
+#### Histroy instrument panel
+![Image](https://apollo.open-resource.org/_media/lab:webgi-historypanel.jpg)
+#### Ion trace visualizer
+![Image](https://apollo.open-resource.org/_media/lab:webgi-tracevisualizer.jpg)
 
 ## Website & Contact
 

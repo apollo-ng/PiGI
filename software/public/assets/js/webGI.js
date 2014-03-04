@@ -492,13 +492,16 @@ function updateStatus(data)
 
     var edr = parseFloat(x.doserate);
 
-    // Doserate Watchdog firing above 20% increase compared to 24h EDR avg
+    // EDR Watchdog firing above 20% increase compared to 24h EDR avg
     if(edr > (webGI.log.edr_avg_24*1.2))
     {
+        console.log('EDR Watchdog fired');
+        /*
         showErrorModal(
             'RADIATION Warning',
             '<p>Wow, that tube is really cracking and sparkling now...</p>'
         );
+        * */
     }
 
     // RADCON class identification and UI reaction

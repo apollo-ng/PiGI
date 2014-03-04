@@ -13,8 +13,9 @@ distributing and monitoring radiation data registered by the PiGI-Module.
 
 #### Ubuntu/Raspbian
 
-    $ sudo apt-get install python-dev libevent-dev
-    $ sudo pip install ez-setup leveldb greenlet bottle gevent gevent-websocket
+    $ sudo apt-get install python-pip python-dev libevent-dev
+    $ sudo pip install ez-setup
+    $ sudo pip install leveldb greenlet bottle gevent gevent-websocket
 
 #### Gentoo
 
@@ -26,13 +27,11 @@ distributing and monitoring radiation data registered by the PiGI-Module.
 
     $ git clone https://github.com/apollo-ng/PiGI.git
 
-### Configuration
+### Server Startup
 
-Copy the example configuration file
+    $ cd PiGI/software/
+    $ python pyGIserver.py
 
-    $ cd PiGI
-    $ cp config.py.EXAMPLE config.py
-    $ python pigid.py
 
 ### Usage
 

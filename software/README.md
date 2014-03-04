@@ -20,6 +20,13 @@ We've tried to keep external dependencies to a minimum to make it easily
 deployable on any flavor of open-source operating system. If you deploy it
 successfully on any other OS, please update this:
 
+#### Currently tested versions
+
+    * greenlet-0.4.2
+    * bottle-0.12.4
+    * gevent-1.0
+    * gevent-websocket-0.9.3
+
 #### Ubuntu/Raspbian
 
     $ sudo apt-get install python-pip python-dev libevent-dev
@@ -28,9 +35,9 @@ successfully on any other OS, please update this:
 
 #### Gentoo
 
-    $ emerge -av dev-python/bottle dev-python/gevent dev-python/gevent-websocket dev-libs/leveldb dev-python/pip
+    $ emerge -av dev-libs/libevent dev-python/pip
     $ pip install ez-setup
-    $ pip install leveldb
+    $ pip install leveldb greenlet bottle gevent gevent-websocket
 
 ### Clone repo
 

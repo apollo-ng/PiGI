@@ -1,9 +1,9 @@
-# pigid - Raspberry Pi Geiger Interface Daemon
+# pyGI/webGI - A sweet software suite for the PiGI
 
-Python/HTML5/websocket software suite for analyzing, collecting,
-distributing and monitoring radiation data registered by the PiGI-Module.
+Python/HTML5/CSS/JS/Websocket software suite for collecting, distributing,
+monitoring and analyzing ionizing radiation impulses detected by the PiGI-Module.
 
-## Screenshot in Action
+## Sneak-Preview: Development screenshots in action
 
 ### Main instrument panel
 ![Image](https://apollo.open-resource.org/_media/lab:webgi-mainpanel.jpg)
@@ -15,6 +15,10 @@ distributing and monitoring radiation data registered by the PiGI-Module.
 ## Installation
 
 ### Dependencies
+
+We've tried to keep external dependencies to a minimum to make it easily
+deployable on any flavor of open-source operating system. If you deploy it
+successfully on any other OS, please update this:
 
 #### Ubuntu/Raspbian
 
@@ -34,12 +38,40 @@ distributing and monitoring radiation data registered by the PiGI-Module.
 
 ### Server Startup
 
+When you are deploying on the Pi to count real values and/or want to
+change the Web Server/Socket port to 80 rather than 8080 you have to
+run the software as root. Otherwise the interrupt handling on the Pi
+won't work and port 80 will not be accessible due to security (<1024).
+
     $ cd PiGI/software/
     $ python pyGIserver.py
 
+### Configuration
+
+PyGI checks 3 configuration files (if existent) in the following order:
+
+    * default.cfg (automatically comes shipped per default with examples)
+    * local.cfg (create this file to override local server settings - gitignored)
+    * dynamic.cfg (this file will be created automatically,
+      if the webGI client wants to change server settings - also gitignored)
 
 ### Usage
 
-Open Browser to http://127.0.0.1:8080
+Open Browser and goto http://127.0.0.1:8080
+
+### License
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 

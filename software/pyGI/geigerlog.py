@@ -16,7 +16,7 @@ MAX_ENTRY_DIST = 30
 
 script_dir = sys.path[0]
 log_dir = os.path.join(script_dir,"log","geiger_log.db")
-    
+
 
 def dt2unix(dt):
     return int(dt.strftime("%s"))
@@ -24,19 +24,33 @@ def dt2unix(dt):
 def get_last_totalcount():
     log.info("Getting last totalcount")
     db = leveldb.LevelDB(log_dir)
+    log.info("done db stuff")
     now = dt2unix(datetime.now())
     d = 1
     last_entries_keys = []
     i = 0
     while not last_entries_keys:
-        log.debug("Searching further (%d)..."%d)
+        log.info("Searching further (%d)..."%d)
         last_entries_keys = list(db.RangeIter(key_from=str(now-d),include_value=False))
-        d = d*2
-        i = i+1
-    last_key = last_entries_keys[-1]
-    entry_json = db.Get(last_key)
-    entry = json.loads(entry_json)
-    return entry['total']
+
+        # Prevent running wild on empty leveldb :)
+        if last_entries_keys and i > 0:
+            d = d*2
+            i = i+1
+        else:
+            log.info("Initializing shiny new leveldb instance")
+            new_instance = True
+            break
+
+    if not new_instance:
+        log.info("wish it was here")
+        last_key = last_entries_keys[-1]
+        entry_json = db.Get(last_key)
+        entry = json.loads(entry_json)
+        log.info("done masssa")
+        return entry['total']
+    else:
+        return 0
 
 def average_log_entries(entries,tube_rate_factor):
     result = []
@@ -46,16 +60,16 @@ def average_log_entries(entries,tube_rate_factor):
             previous_entry = entry
             result.append(entry)
             continue
-        
+
         seconds = float(entry.get("timestamp",0)) - int(previous_entry.get("timestamp",0))
         counts = float(entry.get("total",0)) - int(previous_entry.get("total",0))
-    
+
         if counts < 0: counts=0
         if seconds != 0:
             cps = counts/seconds
             cpm = cps * 60
             eqd = round(cpm * tube_rate_factor,2)
-        
+
             entry["cps"] = int(cps)
             entry["cpm"] = int(cpm)
             entry["doserate"] = eqd
@@ -63,16 +77,16 @@ def average_log_entries(entries,tube_rate_factor):
             result.append(entry)
             previous_entry = entry
     return result
-    
+
 class GeigerLog(threading.Thread):
     def __init__(self,geiger):
         self.db = leveldb.LevelDB(log_dir)
         self.geiger = geiger
-        threading.Thread.__init__(self) 
+        threading.Thread.__init__(self)
         self.daemon = True
         self.start()
         self.last_log = None
-    
+
     def run(self):
         log.info("Starting geigerlog")
         avg_age = dt2unix(datetime.now() - timedelta(minutes=15))
@@ -85,7 +99,7 @@ class GeigerLog(threading.Thread):
             if avg_list:
                 while avg_list[0]["timestamp"] < avg_age:
                     avg_list.popleft()
-            
+
             state = self.geiger.get_state()
             avg_list.append(state)
             avg = round(sum([e["doserate"] for e in avg_list])/len(avg_list),3)
@@ -97,14 +111,14 @@ class GeigerLog(threading.Thread):
             log.debug("Logging: %s : %s"%(key,value))
 
     def get_log_entries(self,start=None,end=None,age=None,amount=500):
-        
+
         if end is None:
             end = dt2unix(datetime.now())
         if age:
             start = end - age
         elif start is None:
             start = int(self.db.RangeIter(key_from="0",include_value=False).next())
-        
+
         result = []
         log.info("retriving %s log entries from %d to %s"%(str(amount),start,end))
         if amount is None:
@@ -121,7 +135,7 @@ class GeigerLog(threading.Thread):
                         record_insert["timestamp"]=insert_time
                 last_time = int(entry["timestamp"])
                 result.append(entry)
-                
+
             if result:
                 last = result[-1]
                 if end - int(last["timestamp"]) > MAX_ENTRY_DIST:
@@ -132,7 +146,7 @@ class GeigerLog(threading.Thread):
                         insert_time += 10
                         record_insert["timestamp"]=insert_time
             return result
-        
+
         delta_total = end - start
         delta_step = delta_total / amount
         step = 0
@@ -143,9 +157,9 @@ class GeigerLog(threading.Thread):
                 (timestamp,entry_json) = db_iter.next()
             except StopIteration:
                 break;
-            
+
             entry = json.loads(entry_json)
-            
+
             if int(timestamp)-t>MAX_ENTRY_DIST:
                 entry["timestamp"] = str(t)
                 entry["cps"] = 0
@@ -157,9 +171,10 @@ class GeigerLog(threading.Thread):
                 result.append(entry)
             elif result[-1] != entry:
                 result.append(entry)
-            
+
             step += 1
         return average_log_entries(result,cfg.getfloat('geigercounter','tube_rate_factor'))
-    
+
 if __name__ == "__main__":
-    print get_last_totalcount()
+    #print get_last_totalcount()
+    log.info("get totalcount called originally")

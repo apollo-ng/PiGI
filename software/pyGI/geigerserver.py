@@ -1,6 +1,7 @@
 import bottle
 from gevent.pywsgi import WSGIServer
-from geventwebsocket import WebSocketHandler, WebSocketError
+#from geventwebsocket import WebSocketHandler, WebSocketError
+from geventwebsocket import WebSocketHandler
 
 import json
 import logging
@@ -48,11 +49,11 @@ def keep_socket_open(wsock):
             message = wsock.receive()
             if message is None:
                 raise WebSocketError
-            log.info("Received : %s" % message)            
+            log.info("Received : %s" % message)
         except WebSocketError:
             break
     log.info("websocket closed (%s)"%wsock.path)
-    
+
 @app.route('/ws_status')
 def handle_ws_status():
     wsock = get_websocket_from_request()
@@ -71,7 +72,7 @@ def handle_ws_ticks():
 def handle_ws_log():
     wsock = get_websocket_from_request()
     log.info("websocket opened (%s)"%wsock.path)
-    
+
     log_mgr = geigersocket.LogWebSocketManager(geiger,geigerlog,wsock)
     #wsock_mgr_log.add_socket(wsock)
     while True:
@@ -103,9 +104,9 @@ def start(g,gl):
     geigerlog = gl
     wsock_mgr_status = geigersocket.StatusWebSocketsManager(geiger)
     wsock_mgr_ticks = geigersocket.TicksWebSocketsManager(geiger)
-    
+
     ip = cfg.get('server','ip')
-    port = cfg.getint('server','port') 
+    port = cfg.getint('server','port')
     log.info("listening on %s:%d" % (ip, port))
 
     server = WSGIServer((ip, port), app,

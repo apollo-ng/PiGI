@@ -1,7 +1,7 @@
-# pyGI/webGI - A sweet software suite for the PiGI
+# pyGI/webGI - A software suite for the PiGI
 
 Python/HTML5/CSS/JS/Websocket software suite for collecting, distributing,
-monitoring and analyzing ionizing radiation impulses detected by the PiGI-Module.
+monitoring, mapping and analyzing ionizing radiation counts detected by the PiGI-Module.
 
 ## Sneak-Preview: Development screenshots in action
 
@@ -36,26 +36,29 @@ successfully on any other OS, please update this:
 
     $ git clone https://github.com/apollo-ng/PiGI.git
 
-### Server Startup
+## Configuration
 
-When you are deploying on the Pi to count real values and/or want to
-change the Web Server/Socket port to 80 rather than 8080 you have to
-run the software as root. Otherwise the interrupt handling on the Pi
-won't work and port 80 will not be accessible due to security (<1024).
-
-    $ cd PiGI/software/
-    $ python pyGIserver.py
-
-### Configuration
-
-PyGI checks 3 configuration files (if existent) in the following order:
+PyGI checks 3 configuration files, if existent in conf/, updating the
+values defined in the file before or using new ones, in the following order:
 
     * default.cfg (automatically comes shipped per default with examples)
     * local.cfg (create this file to override local server settings - gitignored)
     * dynamic.cfg (this file will be created automatically,
       if the webGI client wants to change server settings - also gitignored)
 
-### Usage
+When you are deploying on the Pi to count real values and/or want to
+change the Web Server/Socket port to 80 rather than 8080 __you have to
+run the software as root__. Otherwise the interrupt handling on the Pi
+won't work and port 80 will not be accessible due to security (<1024).
+
+## Usage
+
+### Server Startup
+
+    $ cd PiGI/software/
+    $ python pyGIserver.py
+
+### Client Access
 
 Open Browser and goto http://127.0.0.1:8080
 

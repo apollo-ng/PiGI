@@ -5,7 +5,12 @@ distributing and monitoring radiation data registered by the PiGI-Module.
 
 ## Screenshot in Action
 
-
+### Main instrument panel
+![Image](https://apollo.open-resource.org/_media/lab:webgi-mainpanel.jpg)
+### Histroy instrument panel
+![Image](https://apollo.open-resource.org/_media/lab:webgi-historypanel.jpg)
+### Ion trace visualizer
+![Image](https://apollo.open-resource.org/_media/lab:webgi-tracevisualizer.jpg)
 
 ## Installation
 

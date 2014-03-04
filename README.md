@@ -43,8 +43,11 @@ The PiGI is built as a ready-to-go drop-in module for the Raspberry Pi to transf
 
 ### Screenshots ###
 
+#### Main instrument panel
 ![Image](https://apollo.open-resource.org/_media/lab:webgi-mainpanel.jpg)
+#### Histroy instrument panel
 ![Image](https://apollo.open-resource.org/_media/lab:webgi-historypanel.jpg)
+#### Ion trace visualizer
 ![Image](https://apollo.open-resource.org/_media/lab:webgi-tracevisualizer.jpg)
 
 ## Website & Contact

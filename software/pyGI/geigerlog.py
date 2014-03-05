@@ -22,35 +22,30 @@ def dt2unix(dt):
     return int(dt.strftime("%s"))
 
 def get_last_totalcount():
+
     log.info("Getting last totalcount")
     db = leveldb.LevelDB(log_dir)
-    log.info("done db stuff")
     now = dt2unix(datetime.now())
     d = 1
     last_entries_keys = []
     i = 0
+
     while not last_entries_keys:
-        log.info("Searching further (%d)..."%d)
+
+        log.debug("Searching further (%d)..."%d)
         last_entries_keys = list(db.RangeIter(key_from=str(now-d),include_value=False))
 
-        # Prevent running wild on empty leveldb :)
-        if last_entries_keys and i > 0:
+        # Abort safely when no results are returned (fresh instance)
+        if not last_entries_keys and i == 0:
+            return 0
+        else:
             d = d*2
             i = i+1
-        else:
-            log.info("Initializing shiny new leveldb instance")
-            new_instance = True
-            break
 
-    if not new_instance:
-        log.info("wish it was here")
-        last_key = last_entries_keys[-1]
-        entry_json = db.Get(last_key)
-        entry = json.loads(entry_json)
-        log.info("done masssa")
-        return entry['total']
-    else:
-        return 0
+    last_key = last_entries_keys[-1]
+    entry_json = db.Get(last_key)
+    entry = json.loads(entry_json)
+    return entry['total']
 
 def average_log_entries(entries,tube_rate_factor):
     result = []
@@ -109,6 +104,7 @@ class GeigerLog(threading.Thread):
             self.db.Put(key, value)
             self.last_log = state
             log.debug("Logging: %s : %s"%(key,value))
+            log.debug(self.db.GetStats())
 
     def get_log_entries(self,start=None,end=None,age=None,amount=500):
 
@@ -176,5 +172,4 @@ class GeigerLog(threading.Thread):
         return average_log_entries(result,cfg.getfloat('geigercounter','tube_rate_factor'))
 
 if __name__ == "__main__":
-    #print get_last_totalcount()
-    log.info("get totalcount called originally")
+    print get_last_totalcount()

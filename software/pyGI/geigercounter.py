@@ -15,8 +15,12 @@ try:
     import RPi.GPIO as GPIO
     gpio_available = True
 except ImportError:
-    msg = "Could not initialize GPIOs, geigercounter operation will only be simulated!"
-    log.warning(msg)
+    log.info("+---------------------------------------------------------------------------+")
+    log.info("|              Could not import RPi.GPIO python module.                     |")
+    log.info("|   I'm assuming you are in development/show mode on another host system    |")
+    log.info("| If this is a Raspberry PI/PiGI and you want real counts, install RPi.GPIO |")
+    log.info("+---------------------------------------------------------------------------+")
+    log.info("Engaging TickSimulator with an avg. radiation level of %(edr)s uSv/h instead" % {"edr": cfg.getfloat('geigercounter','sim_dose_rate')})
     gpio_available = False
 
 class TickSimulator (threading.Thread):
@@ -25,7 +29,7 @@ class TickSimulator (threading.Thread):
         self.daemon = True
         self.geiger = geiger
         log.info("Starting tick simulator")
-        
+
     def run(self):
         while True:
             ratefactor = cfg.getfloat('geigercounter','tube_rate_factor')
@@ -42,13 +46,13 @@ class Geigercounter (threading.Thread):
         self.daemon = True
         self.socket = None
         self.totalcount=total
-        
+
         if cfg.getboolean('entropy','enable'):
             self.entropygenerator = EntropyGenerator(cfg.get('entropy','filename'))
         else:
             self.entropygenerator = None
-        
-        
+
+
         self.reset()
         self.start()
 
@@ -67,7 +71,7 @@ class Geigercounter (threading.Thread):
     def run(self):
         if gpio_available:
             GPIO.setmode(GPIO.BCM)
-            gpio_port = cfg.getint('geigercounter','gpio_port') 
+            gpio_port = cfg.getint('geigercounter','gpio_port')
             GPIO.setup(gpio_port,GPIO.IN)
             GPIO.add_event_detect(gpio_port,GPIO.FALLING)
             GPIO.add_event_callback(gpio_port,self.tick)

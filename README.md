@@ -50,7 +50,7 @@ connected to any processing system that can detect falling edges like:
 
 #### Main instrument panel
 ![Image](https://apollo.open-resource.org/_media/lab:webgi-mainpanel.jpg)
-#### Histroy instrument panel
+#### History instrument panel
 ![Image](https://apollo.open-resource.org/_media/lab:webgi-historypanel.jpg)
 #### Ion trace visualizer
 ![Image](https://apollo.open-resource.org/_media/lab:webgi-tracevisualizer.jpg)

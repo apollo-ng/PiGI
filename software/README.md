@@ -39,6 +39,17 @@ successfully on any other OS, please update this:
     $ pip install ez-setup
     $ pip install leveldb greenlet bottle gevent gevent-websocket
 
+#### Raspberry PI deployment
+
+If you want to deploy the code on a PI for production in order to count
+values from a real GM tube connected to the PiGI-Module, you have to make
+sure to satisfy the RPi.GPIO dependency:
+
+    * pip install RPi.GPIO
+
+This only applies to non-Raspbian installations, since Raspbian ships
+RPi.GPIO with the default installation.
+
 ### Clone repo
 
     $ git clone https://github.com/apollo-ng/PiGI.git

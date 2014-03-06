@@ -15,8 +15,6 @@ LOG_WRITE_RATE = 5
 MAX_ENTRY_DIST = 30
 
 script_dir = sys.path[0]
-log_dir = os.path.join(script_dir,"log","geiger_log.db")
-
 
 def dt2unix(dt):
     return int(dt.strftime("%s"))
@@ -24,7 +22,7 @@ def dt2unix(dt):
 def get_last_totalcount():
 
     log.info("Getting last totalcount")
-    db = leveldb.LevelDB(log_dir)
+    db = leveldb.LevelDB(cfg.get('db','path'))
     now = dt2unix(datetime.now())
     d = 1
     last_entries_keys = []
@@ -75,7 +73,7 @@ def average_log_entries(entries,tube_rate_factor):
 
 class GeigerLog(threading.Thread):
     def __init__(self,geiger):
-        self.db = leveldb.LevelDB(log_dir)
+        self.db = leveldb.LevelDB(cfg.get('db','path'))
         self.geiger = geiger
         threading.Thread.__init__(self)
         self.daemon = True
@@ -116,7 +114,7 @@ class GeigerLog(threading.Thread):
             start = int(self.db.RangeIter(key_from="0",include_value=False).next())
 
         result = []
-        log.info("retriving %s log entries from %d to %s"%(str(amount),start,end))
+        log.info("Fetching %s log entries from %d to %s"%(str(amount),start,end))
         if amount is None:
             entries_list = list(self.db.RangeIter(key_from=str(start)))
             last_time = start

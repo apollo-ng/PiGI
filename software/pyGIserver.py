@@ -19,10 +19,10 @@ if __name__ == "__main__":
     from pyGI import geigercounter,geigerserver,geigerlog
     try:
         #get last totalcount from db
-        last_total = geigerlog.get_last_totalcount()
-        
+        (last_total,last_total_dtc) = geigerlog.get_last_totalcount()
+        log.info("Last total: %d, total_dtc: %d"%(last_total, last_total_dtc))
         #start geigercounter
-        geiger = geigercounter.Geigercounter(total=last_total)
+        geiger = geigercounter.Geigercounter(total=last_total, total_dtc=last_total_dtc)
         
         #start geigercounter logging
         geigerlog = geigerlog.GeigerLog(geiger)

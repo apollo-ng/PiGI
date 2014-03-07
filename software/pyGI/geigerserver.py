@@ -1,6 +1,6 @@
 import bottle
 from gevent.pywsgi import WSGIServer
-#from geventwebsocket import WebSocketHandler, WebSocketError
+from geventwebsocket import WebSocketError
 from geventwebsocket.handler import WebSocketHandler
 
 import json

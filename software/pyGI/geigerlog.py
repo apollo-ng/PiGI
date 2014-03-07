@@ -27,23 +27,26 @@ def get_last_totalcount():
     d = 1
     last_entries_keys = []
     i = 0
-
+    
+    #Check for empty leveldb instance
+    try:
+        db.RangeIter(include_value=False).next()
+    except StopIteration:
+        log.INFO("Empty LevelDB")
+        return (0,0)
+    
     while not last_entries_keys:
 
         log.debug("Searching further (%d)..."%d)
         last_entries_keys = list(db.RangeIter(key_from=str(now-d),include_value=False, fill_cache=True))
 
-        # Abort safely when no results are returned (fresh instance)
-        if not last_entries_keys and i == 0:
-            return 0
-        else:
-            d = d*2
-            i = i+1
+        d = d*2
+        i = i+1
 
     last_key = last_entries_keys[-1]
     entry_json = db.Get(last_key)
     entry = json.loads(entry_json)
-    return entry['total']
+    return (entry['data']['totalcount'],entry['data']['totalcount_dtc'])
 
 def average_log_entries(entries,tube_rate_factor):
     result = []

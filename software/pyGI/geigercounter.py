@@ -40,12 +40,13 @@ class TickSimulator (threading.Thread):
 
 
 class Geigercounter (threading.Thread):
-    def __init__(self,total=0):
+    def __init__(self,total=0,total_dtc=0):
         log.info("Starting geigercounter")
         threading.Thread.__init__(self)
         self.daemon = True
         self.socket = None
         self.totalcount=total
+        self.totalcount_dtc=total_dtc
 
         if cfg.getboolean('entropy','enable'):
             self.entropygenerator = EntropyGenerator(cfg.get('entropy','filename'))

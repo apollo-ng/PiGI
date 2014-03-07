@@ -60,7 +60,7 @@ class Geigercounter (threading.Thread):
         self.count=0
         self.cps=0
         self.cpm=0
-        self.eqd=0
+        self.edr=0
 
     def tick(self, pin=None):
         self.count += 1
@@ -92,7 +92,7 @@ class Geigercounter (threading.Thread):
             self.cpm = int(sum(cpm_fifo)*60.0/len(cpm_fifo))
             self.cps = self.count
             ratefactor = cfg.getfloat('geigercounter','tube_rate_factor')
-            self.eqd = round(self.cpm * ratefactor,2)
+            self.edr = round(self.cpm * ratefactor,2)
 
             self.count = 0
             log.debug(self.get_state())
@@ -100,10 +100,25 @@ class Geigercounter (threading.Thread):
     def get_state(self):
         msg = {
                 "type": "status",
+                "node_uuid": cfg.get('node','uuid'),
+                "timestamp": int(datetime.datetime.now().strftime("%s")),
+                "geostamp": {
+                    "lat": 48.00,
+                    "lon": 11.00,
+                    "alt": 560
+                },
+                "parameters": {
+                    "tube_id": cfg.get('geigercounter','tube_id'),
+                    "dead_time": cfg.getfloat('geigercounter','tube_dead_time'),
+                    "tube_factor": cfg.getfloat('geigercounter','tube_rate_factor'),
+                    "opmode": "stationary",
+                    "window": "abc"
+                },
                 "cps": self.cps,
                 "cpm": self.cpm,
                 "total": self.totalcount,
-                "doserate": self.eqd,
-                "timestamp": int(datetime.datetime.now().strftime("%s"))
+                "edr": self.edr,
+                "annotation": ""
+
             }
         return msg

@@ -31,7 +31,7 @@ def get_last_totalcount():
     while not last_entries_keys:
 
         log.debug("Searching further (%d)..."%d)
-        last_entries_keys = list(db.RangeIter(key_from=str(now-d),include_value=False))
+        last_entries_keys = list(db.RangeIter(key_from=str(now-d),include_value=False, fill_cache=True))
 
         # Abort safely when no results are returned (fresh instance)
         if not last_entries_keys and i == 0:
@@ -65,7 +65,7 @@ def average_log_entries(entries,tube_rate_factor):
 
             entry["cps"] = int(cps)
             entry["cpm"] = int(cpm)
-            entry["doserate"] = eqd
+            entry["edr"] = eqd
 
             result.append(entry)
             previous_entry = entry
@@ -95,8 +95,8 @@ class GeigerLog(threading.Thread):
 
             state = self.geiger.get_state()
             avg_list.append(state)
-            avg = round(sum([e["doserate"] for e in avg_list])/len(avg_list),3)
-            state["doserate_avg"] = avg
+            avg = round(sum([e["edr"] for e in avg_list])/len(avg_list),3)
+            state["edr_avg"] = avg
             key = str(state["timestamp"])
             value = json.dumps(state)
             self.db.Put(key, value)
@@ -122,7 +122,7 @@ class GeigerLog(threading.Thread):
                 entry = json.loads(e[1])
                 if int(entry["timestamp"])-last_time > MAX_ENTRY_DIST:
                     insert_time = last_time + LOG_WRITE_RATE
-                    record_insert = {"cps":0,"cpm":0,"doserate":0.0,"doserate_avg":0.0,"total":entry["total"],"timestamp":insert_time}
+                    record_insert = {"cps":0,"cpm":0,"edr":0.0,"edr_avg":0.0,"total":entry["total"],"timestamp":insert_time}
                     while insert_time < int(entry["timestamp"]):
                         result.append(record_insert.copy())
                         insert_time += 10
@@ -134,7 +134,7 @@ class GeigerLog(threading.Thread):
                 last = result[-1]
                 if end - int(last["timestamp"]) > MAX_ENTRY_DIST:
                     insert_time = int(last["timestamp"]) + LOG_WRITE_RATE
-                    record_insert = {"cps":0,"cpm":0,"doserate":0.0,"doserate_avg":0.0,"total":last["total"],"timestamp":insert_time}
+                    record_insert = {"cps":0,"cpm":0,"edr":0.0,"edr_avg":0.0,"total":last["total"],"timestamp":insert_time}
                     while insert_time < end:
                         result.append(record_insert.copy())
                         insert_time += 10
@@ -158,8 +158,8 @@ class GeigerLog(threading.Thread):
                 entry["timestamp"] = str(t)
                 entry["cps"] = 0
                 entry["cpm"] = 0
-                entry["doserate"] = 0
-                entry["doserate_avg"] = 0
+                entry["edr"] = 0
+                entry["edr_avg"] = 0
 
             if not result:
                 result.append(entry)

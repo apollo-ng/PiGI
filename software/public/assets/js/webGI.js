@@ -476,7 +476,7 @@ function updateConfig()
 
 function updateStatus(msg)
 {
-    webGI.now = parseInt(msg.data.timestamp)*1000;
+    webGI.now = parseInt(msg.timestamp)*1000;
 
     if(webGI.conf.count_unit=="CPM") $('#count_val').html(parseInt(msg.data.cpm_dtc));
     if(webGI.conf.count_unit=="CPS") $('#count_val').html(parseInt(msg.data.cps_dtc));
@@ -781,12 +781,11 @@ function updateLogHistory(data)
 
 function updateLogStatus(msg)
 {
-    //console.log("UPDATE")
+    console.log("UPDATE")
+    
     var ts = new Date(msg.timestamp*1000);
-
     webGI.log.data_hd.push([ts,msg.data.edr,msg.data.edr_avg]);
-    //webGI.log.edr_avg = data.edr_avg; // Gives 15min avg
-
+    
     //FIXME: push ld data less often
     webGI.log.data_ld.push([ts,msg.data.edr,msg.data.edr_avg]);
 

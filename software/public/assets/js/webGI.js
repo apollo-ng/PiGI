@@ -79,11 +79,12 @@ function initWebsockets()
        //console.log(x);
        switch(msg.type)
        {
-           case "status":
+            case "geojson":
                 updateStatus(msg);
-           break;
-
-           default:
+            break;
+                
+            default:
+                console.log("INVALID MESSAGE",msg);
 
         }
     }
@@ -129,13 +130,14 @@ function initWebsockets()
             case "history":
                 updateLogHistory(x);
             break;
-            case "status":
+            case "geojson":
                 updateLogStatus(x);
             break;
             case "static_history":
                 updateHistory(x);
             break;
             default:
+                console.log("INVALID MESSAGE",x)
         }
     }
 }
@@ -668,7 +670,7 @@ function updateHistory(data)
         {
             return;
         }
-        webGI.history.data.push([ts,v.edr,v.edr_avg]);
+        webGI.history.data.push([ts,v.data.edr,v.data.edr_avg]);
     });
 
     if (webGI.history.chart == null)
@@ -732,7 +734,7 @@ function updateLogHistory(data)
             //{
             //    return;
             //}
-            webGI.log.data_hd.push([ts,v.edr,v.edr_avg]);
+            webGI.log.data_hd.push([ts,v.data.edr,v.data.edr_avg]);
         });
     } else {
         webGI.log.data_ld = [];
@@ -746,8 +748,8 @@ function updateLogHistory(data)
             //{
             //    return;
             //}
-            webGI.log.data_ld.push([ts,v.edr,v.edr_avg]);
-            edr_avg += v.edr;
+            webGI.log.data_ld.push([ts,v.data.edr,v.data.edr_avg]);
+            edr_avg += v.data.edr;
 
         });
 
@@ -777,16 +779,16 @@ function updateLogHistory(data)
     }
 }
 
-function updateLogStatus(data)
+function updateLogStatus(msg)
 {
     //console.log("UPDATE")
-    var ts = new Date(data.timestamp*1000);
+    var ts = new Date(msg.timestamp*1000);
 
-    webGI.log.data_hd.push([ts,data.edr,data.edr_avg]);
+    webGI.log.data_hd.push([ts,msg.data.edr,msg.data.edr_avg]);
     //webGI.log.edr_avg = data.edr_avg; // Gives 15min avg
 
     //FIXME: push ld data less often
-    webGI.log.data_ld.push([ts,data.edr,data.edr_avg]);
+    webGI.log.data_ld.push([ts,msg.data.edr,msg.data.edr_avg]);
 
     var left_end_ld = new Date((data.timestamp-60*60*24)*1000)
     while(webGI.log.data_ld[0][0] < left_end_ld) webGI.log.data_ld.shift();

@@ -100,7 +100,7 @@ class Geigercounter (threading.Thread):
 
     def get_state(self):
         msg = {
-                "type": "status",
+                "type": "geigerjson",
                 "node_uuid": cfg.get('node','uuid'),
                 "timestamp": int(datetime.datetime.now().strftime("%s")),
                 "geostamp": {

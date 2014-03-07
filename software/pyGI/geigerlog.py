@@ -58,7 +58,7 @@ def average_log_entries(entries,tube_rate_factor):
             continue
 
         seconds = float(entry.get("timestamp",0)) - int(previous_entry.get("timestamp",0))
-        counts = float(entry.get("total",0)) - int(previous_entry.get("total",0))
+        counts = float(entry['data'].get("totalcount_dtc",0)) - int(previous_entry['data'].get("totalcount_dtc",0))
 
         if counts < 0: counts=0
         if seconds != 0:
@@ -66,9 +66,9 @@ def average_log_entries(entries,tube_rate_factor):
             cpm = cps * 60
             edr = round(cpm * tube_rate_factor,2)
 
-            entry["cps"] = int(cps)
-            entry["cpm"] = int(cpm)
-            entry["edr"] = edr
+            #entry["cps"] = int(cps)
+            #entry["cpm"] = int(cpm)
+            entry["data"]["edr"] = edr
 
             result.append(entry)
             previous_entry = entry
@@ -108,7 +108,6 @@ class GeigerLog(threading.Thread):
             log.debug(self.db.GetStats())
 
     def get_log_entries(self,start=None,end=None,age=None,amount=500):
-        return []
         if end is None:
             end = dt2unix(datetime.now())
         if age:
@@ -125,7 +124,7 @@ class GeigerLog(threading.Thread):
                 entry = json.loads(e[1])
                 if int(entry["timestamp"])-last_time > MAX_ENTRY_DIST:
                     insert_time = last_time + LOG_WRITE_RATE
-                    record_insert = {"cps":0,"cpm":0,"edr":0.0,"edr_avg":0.0,"total":entry["total"],"timestamp":insert_time}
+                    record_insert = dummy_entry(insert_time,entry['data']['totalcount'],entry['data']['totalcount_dtc'])
                     while insert_time < int(entry["timestamp"]):
                         result.append(record_insert.copy())
                         insert_time += 10
@@ -137,7 +136,7 @@ class GeigerLog(threading.Thread):
                 last = result[-1]
                 if end - int(last["timestamp"]) > MAX_ENTRY_DIST:
                     insert_time = int(last["timestamp"]) + LOG_WRITE_RATE
-                    record_insert = {"cps":0,"cpm":0,"edr":0.0,"edr_avg":0.0,"total":last["total"],"timestamp":insert_time}
+                    record_insert = dummy_entry(insert_time,entry['data']['totalcount'],entry['data']['totalcount_dtc'])
                     while insert_time < end:
                         result.append(record_insert.copy())
                         insert_time += 10
@@ -158,11 +157,8 @@ class GeigerLog(threading.Thread):
             entry = json.loads(entry_json)
 
             if int(timestamp)-t>MAX_ENTRY_DIST:
-                entry["timestamp"] = str(t)
-                entry["cps"] = 0
-                entry["cpm"] = 0
-                entry["edr"] = 0
-                entry["edr_avg"] = 0
+                entry=dummy_entry(t,entry['data']['totalcount'],entry['data']['totalcount_dtc'])
+                
 
             if not result:
                 result.append(entry)
@@ -171,6 +167,26 @@ class GeigerLog(threading.Thread):
 
             step += 1
         return average_log_entries(result,cfg.getfloat('geigercounter','tube_rate_factor'))
+
+def dummy_entry(timestamp,total,total_dtc):
+    msg = {
+        "type": "geigerjson",
+        "node_uuid": cfg.get('node','uuid'),
+        "timestamp": timestamp,
+        "data": {
+            "source": "off",
+            "cps": 0,
+            "cps_dtc": 0,
+            "cpm": 0,
+            "cpm_dtc": 0,
+            "totalcount": total,
+            "totalcount_dtc": total_dtc,
+            "edr": 0
+        },
+        "annotation": ""
+    }
+    return msg
+
 
 if __name__ == "__main__":
     print get_last_totalcount()

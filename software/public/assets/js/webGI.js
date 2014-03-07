@@ -75,12 +75,12 @@ function initWebsockets()
 
     webGI.websockets.status.onmessage = function(e)
     {
-        x = JSON.parse(e.data);
+       var msg = JSON.parse(e.data);
        //console.log(x);
-       switch(x.type)
+       switch(msg.type)
        {
            case "status":
-                updateStatus(x);
+                updateStatus(msg);
            break;
 
            default:
@@ -472,16 +472,16 @@ function updateConfig()
 }
 
 
-function updateStatus(data)
+function updateStatus(msg)
 {
-    webGI.now = parseInt(x.timestamp)*1000;
+    webGI.now = parseInt(msg.data.timestamp)*1000;
 
-    if(webGI.conf.count_unit=="CPM") $('#count_val').html(parseInt(x.cpm));
-    if(webGI.conf.count_unit=="CPS") $('#count_val').html(parseInt(x.cps));
+    if(webGI.conf.count_unit=="CPM") $('#count_val').html(parseInt(msg.data.cpm_dtc));
+    if(webGI.conf.count_unit=="CPS") $('#count_val').html(parseInt(msg.data.cps_dtc));
 
     if(webGI.trace.active)
     {
-        for(var i = 0; i < parseInt(x.cps); i++)
+        for(var i = 0; i < parseInt(msg.data.cps_dtc); i++)
         {
             setTimeout(function() {
                 webGI.trace.particles[Math.random()]=new traceCreateParticle();
@@ -490,7 +490,7 @@ function updateStatus(data)
         }
     }
 
-    var edr = parseFloat(x.edr);
+    var edr = parseFloat(msg.data.edr);
 
     // EDR Watchdog firing above 20% increase compared to 24h EDR avg
     if(edr > (webGI.log.edr_avg_24*1.2))
@@ -520,21 +520,21 @@ function updateStatus(data)
                 $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('yellow red');
                 $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').addClass('green');
                 webGI.log.chart_colors = ['#677712','yellow']; //FIXME: needs a full redraw to take effect :/
-                webGI.log.chart.updateOptions({colors: webGI.log.chart_colors});
+                if (webGI.log.chart) webGI.log.chart.updateOptions({colors: webGI.log.chart_colors});
             }
             else if (c<6)
             {
                 $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('green red');
                 $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').addClass('yellow');
                 webGI.log.chart_colors = ['#F5C43C','yellow']; //FIXME: needs a full redraw to take effect :/
-                webGI.log.chart.updateOptions({colors: webGI.log.chart_colors});
+                if (webGI.log.chart) webGI.log.chart.updateOptions({colors: webGI.log.chart_colors});
             }
             else
             {
                 $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('green yellow');
                 $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').addClass('red');
                 webGI.log.chart_colors = ['#ff0000','yellow']; //FIXME: needs a full redraw to take effect :/
-                webGI.log.chart.updateOptions({colors: webGI.log.chart_colors});
+                if (webGI.log.chart) webGI.log.chart.updateOptions({colors: webGI.log.chart_colors});
             }
 
             break;

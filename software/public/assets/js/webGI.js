@@ -79,7 +79,7 @@ function initWebsockets()
        //console.log(x);
        switch(msg.type)
        {
-            case "geojson":
+            case "geigerjson":
                 updateStatus(msg);
             break;
                 
@@ -130,7 +130,7 @@ function initWebsockets()
             case "history":
                 updateLogHistory(x);
             break;
-            case "geojson":
+            case "geigerjson":
                 updateLogStatus(x);
             break;
             case "static_history":
@@ -790,10 +790,10 @@ function updateLogStatus(msg)
     //FIXME: push ld data less often
     webGI.log.data_ld.push([ts,msg.data.edr,msg.data.edr_avg]);
 
-    var left_end_ld = new Date((data.timestamp-60*60*24)*1000)
+    var left_end_ld = new Date((msg.timestamp-60*60*24)*1000)
     while(webGI.log.data_ld[0][0] < left_end_ld) webGI.log.data_ld.shift();
 
-    var left_end_hd = new Date((data.timestamp-60*60*1)*1000)
+    var left_end_hd = new Date((msg.timestamp-60*60*1)*1000)
     while(webGI.log.data_hd[0][0] < left_end_hd) webGI.log.data_hd.shift();
 
 

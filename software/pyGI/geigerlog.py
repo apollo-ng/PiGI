@@ -61,11 +61,11 @@ def average_log_entries(entries,tube_rate_factor):
         if seconds != 0:
             cps = counts/seconds
             cpm = cps * 60
-            eqd = round(cpm * tube_rate_factor,2)
+            edr = round(cpm * tube_rate_factor,2)
 
             entry["cps"] = int(cps)
             entry["cpm"] = int(cpm)
-            entry["edr"] = eqd
+            entry["edr"] = edr
 
             result.append(entry)
             previous_entry = entry
@@ -95,8 +95,8 @@ class GeigerLog(threading.Thread):
 
             state = self.geiger.get_state()
             avg_list.append(state)
-            avg = round(sum([e["edr"] for e in avg_list])/len(avg_list),3)
-            state["edr_avg"] = avg
+            avg = round(sum([e["data"]["edr"] for e in avg_list])/len(avg_list),3)
+            state["data"]["edr_avg"] = avg
             key = str(state["timestamp"])
             value = json.dumps(state)
             self.db.Put(key, value)
@@ -105,7 +105,7 @@ class GeigerLog(threading.Thread):
             log.debug(self.db.GetStats())
 
     def get_log_entries(self,start=None,end=None,age=None,amount=500):
-
+        return []
         if end is None:
             end = dt2unix(datetime.now())
         if age:

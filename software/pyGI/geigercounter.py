@@ -114,10 +114,16 @@ class Geigercounter (threading.Thread):
                     "opmode": "stationary",
                     "window": "abc"
                 },
+                "data": {
+                "source": "test",
                 "cps": self.cps,
+                "cps_dtc": self.cps,
                 "cpm": self.cpm,
-                "total": self.totalcount,
-                "edr": self.edr,
+                "cpm_dtc": self.cpm,
+                "totalcount": self.totalcount,
+                "totalcount_dtc": self.totalcount,
+                "edr": self.edr
+                },
                 "annotation": ""
 
             }

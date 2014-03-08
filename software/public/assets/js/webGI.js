@@ -29,8 +29,6 @@ var webGI_init =
     conf :
     {
         websocket_host : "ws://" + window.location.hostname + ":" +window.location.port,
-        audio : 0,
-        tick_snd : new Audio("assets/snd/tock.wav"),
         bell_snd : new Audio("assets/snd/ui-bell.mp3"),
         count_unit : "CPM"
     },
@@ -225,7 +223,13 @@ function initUI()
     // Audio
     $('#toggleAudio').bind(webGI.ui_action,function()
     {
-        toggleAudio();
+        if(webGI.ticker.enabled) {
+            $('#toggleAudio').removeClass('enabled');
+            webGI.ticker.disable();
+        } else {
+            $('#toggleAudio').addClass('enabled');
+            webGI.ticker.enable();
+        }
     });
 
     $('#toggleLogScale').bind(webGI.ui_action,function()
@@ -302,40 +306,6 @@ function toggleLogScale()
     }
 
     webGI.history.chart.updateOptions({ logscale: webGI.history.log_scale });
-}
-
-function toggleAudio()
-{
-    if(webGI.conf.audio==0)
-    {
-        $('#toggleAudio').addClass('enabled');
-        webGI.conf.audio=1;
-        webGI.websockets.ticks = new WebSocket(webGI.conf.websocket_host+"/ws_ticks");
-        webGI.websockets.ticks.onmessage = function(e)
-        {
-            x = JSON.parse(e.data);
-           //console.log(x);
-           switch(x.type)
-           {
-               case "tick":
-                    if (webGI.conf.audio == 1) {
-                        for(var i = 0; i < parseInt(x.count); i++)
-                        {
-                            setTimeout(function() {
-                                webGI.conf.tick_snd.play();
-                            }, Math.random()*200);
-                        }
-                    }
-               break;
-               default:
-
-            }
-        }
-    } else {
-        webGI.conf.audio=0;
-        webGI.websockets.ticks.close();
-        $('#toggleAudio').removeClass('enabled');
-    }
 }
 
 function showErrorModal (title, msg, action)

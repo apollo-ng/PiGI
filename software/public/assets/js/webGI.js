@@ -105,11 +105,11 @@ function initUI() {
         webGI.gauge.disable();
         webGI.tracer.disable();
         webGI.livechart.enable();
-        
+
         $('.live-control').removeClass('enabled');
         $('#toggleGauge,#toggleTrace').removeClass('enabled');
         $(event.target).addClass('enabled');
-        
+
         updateLayout();
         webGI.livechart.set_age(parseInt($(event.target).attr("data-seconds")));
     });
@@ -137,11 +137,11 @@ function initUI() {
 
     $('#toggleGauge').bind(webGI.ui_action,function() {
        $('#toggleTrace').hide(); //FIXME This is bogus???
-       
+
        webGI.tracer.disable();
        webGI.livechart.disable();
        webGI.gauge.enable();
-       
+
        $('#toggleGauge').addClass('enabled');
        $('.live-control, #toggleTrace').removeClass('enabled');
     });
@@ -150,7 +150,7 @@ function initUI() {
        webGI.livechart.disable();
        webGI.gauge.disable();
        webGI.tracer.enable();
-       
+
        $('#toggleTrace').addClass('enabled');
        $('.live-control, #toggleGauge').removeClass('enabled');
     });
@@ -305,7 +305,7 @@ $(document).ready(function() {
 
     initUI();
     initWebsockets();
-    
+
     setTimeout(function() {
         webGI.spinner.disable();
         $('.splash').addClass('splash-hidden');

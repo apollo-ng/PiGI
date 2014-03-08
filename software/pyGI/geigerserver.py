@@ -97,6 +97,32 @@ def handle_ws_log():
             break
     log.info("websocket closed (%s)"%wsock.path)
 
+@app.route('/ws_conf')
+def handle_ws_log():
+    wsock = get_websocket_from_request()
+    log.info("websocket opened (%s)"%wsock.path)
+
+    while True:
+        try:
+            message = wsock.receive()
+            if message is None:
+                raise WebSocketError
+            log.info("Received : %s" % message)
+            msg = json.loads(message)
+            if msg.get("cmd") == "get":
+                conf = {
+                    "type": "geigerconf",
+                    "sim_dose_rate": cfg.getfloat('geigercounter','sim_dose_rate'),
+                }
+                wsock.send(json.dumps(conf))
+            elif msg.get("cmd") == "save":
+                sim_dose_rate = msg["conf"].get("sim_dose_rate")
+                if not sim_dose_rate is None:
+                    cfg.set('geigercounter','sim_dose_rate',sim_dose_rate)
+        except WebSocketError:
+            break
+    log.info("websocket closed (%s)"%wsock.path)
+
 
 def start(g,gl):
     global geiger, geigerlog, wsock_mgr_status, wsock_mgr_ticks

@@ -25,6 +25,7 @@
   <script src="assets/js/webGI_livechart.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/webGI_history.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/webGI_status.js" type="text/javascript" charset="utf-8"></script>
+  <script src="assets/js/webGI_options.js" type="text/javascript" charset="utf-8"></script>
  </head>
  <body id="body">
 
@@ -113,6 +114,10 @@
       <li><input type="radio" name="source" value="sim" title="" id="server_cnf_opmode_sim" checked="checked" /><label for="server_cnf_opmode_sim" class="input-action-label">Simulation</label></li>
       <li><input type="radio" name="source" value="test" title="" id="server_cnf_opmode_test" /><label for="server_cnf_opmode_test" class="input-action-label">Test</label></li>
       <li><input type="radio" name="source" value="env" title="" id="server_cnf_opmode_env" /><label for="server_cnf_opmode_env" class="input-action-label">Enviroment</label></li>
+      </ul>
+      <h2>Simulation</h2>
+      <ul class="rounded">
+      <li><input name="sim_dose_rate" id="server_cnf_sim_dose_rate" /><label for="server_cnf_sim_dose_rate" class="input-label">µSv/h</label></li>
       </ul>
       <a href="#" class="white" id="saveServerSettings">Save Server Settings</a>
     </div>

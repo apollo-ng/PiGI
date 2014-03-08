@@ -104,4 +104,3 @@ class LogWebSocketManager(threading.Thread):
             #state = self.geiger.get_state()
             #state["timestamp"] = key
             #self.send(state)
-            

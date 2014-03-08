@@ -195,6 +195,11 @@ function initUI() {
         webGI.jQT.goTo('#mainPanel', 'slideleft');
     });
 
+
+    //Options stuff
+    $('#saveServerSettings').bind(webGI.conf.ui_action,function() {
+        webGI.options.save();
+    });
 /*
     $('#jqt').bind('pageAnimationEnd', function(e, info)
     {

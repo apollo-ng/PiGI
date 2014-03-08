@@ -148,6 +148,7 @@ class GeigerLog(threading.Thread):
         step = 0
         while True:
             t = start + delta_step * step
+            if t > end: break
             db_iter = self.db.RangeIter(key_from=str(t))
             try:
                 (timestamp,entry_json) = db_iter.next()

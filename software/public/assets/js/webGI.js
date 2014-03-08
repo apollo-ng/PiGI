@@ -43,10 +43,11 @@ function initWebsockets()
     webGI.websockets.status.onmessage = function(e)
     {
        var msg = JSON.parse(e.data);
-       //console.log(x);
+       //console.log(msg);
        switch(msg.type)
        {
             case "geigerjson":
+
                 updateStatus(msg);
             break;
 
@@ -187,9 +188,14 @@ function initUI()
         }
     });
 
-    $('#toggleLogScale').bind(webGI.ui_action,function()
-    {
-        toggleLogScale();
+    $('#toggleLogScale').bind(webGI.ui_action,function() {
+        if(!webGI.history.log_scale) {
+            webGI.history.set_log_scale(true);
+            $('#toggleLogScale').addClass('enabled');
+        } else {
+            webGI.history.set_log_scale(false);
+            $('#toggleLogScale').removeClass('enabled');
+        }
     });
 
     // Page animation callback events
@@ -244,16 +250,6 @@ function toggleCounterUnit()
     {
         $('#count_unit').html('CPM');
         webGI.conf.count_unit = "CPM";
-    }
-}
-
-function toggleLogScale() {
-    if(!webGI.history.log_scale) {
-        webGI.history.set_log_scale(true);
-        $('#toggleLogScale').addClass('enabled');
-    } else {
-        webGI.history.set_log_scale(false);
-        $('#toggleLogScale').removeClass('enabled');
     }
 }
 
@@ -454,6 +450,4 @@ $(document).ready(function()
     },500);
     
     //setTimeout(function () { geoToggle(); },5000);
-    
-
 });

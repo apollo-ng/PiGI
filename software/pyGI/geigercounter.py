@@ -116,7 +116,7 @@ class Geigercounter (threading.Thread):
                     "window": "abc"
                 },
                 "data": {
-                "source": "test",
+                "source": "test" if gpio_available else "sim",
                 "cps": self.cps,
                 "cps_dtc": self.cps,
                 "cpm": self.cpm,

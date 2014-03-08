@@ -325,7 +325,17 @@ function updateStatus(msg)
     if(webGI.conf.count_unit=="CPS") $('#count_val').html(parseInt(msg.data.cps_dtc));
 
     webGI.tracer.add(parseInt(msg.data.cps_dtc));
-    
+
+    if (msg.data.source == "sim")
+    {
+        $('#simNotify').addClass('init-simNotify');
+    }
+    else
+    {
+        $('#simNotify').removeClass('init-simNotify');
+    }
+
+
     var edr = parseFloat(msg.data.edr);
 
     // EDR Watchdog firing above 20% increase compared to 24h EDR avg
@@ -365,7 +375,7 @@ function updateStatus(msg)
                 $('#rcCatLMed').addClass('current');
                 $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('green red');
                 $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').addClass('yellow');
-                webGI.livechart.set_colors(['#F5C43C','yellow']); 
+                webGI.livechart.set_colors(['#F5C43C','yellow']);
             }
             else
             {
@@ -373,7 +383,7 @@ function updateStatus(msg)
                 $('#rcCatLHigh').addClass('current');
                 $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('green yellow');
                 $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').addClass('red');
-                webGI.livechart.set_colors(['#ff0000','yellow']); 
+                webGI.livechart.set_colors(['#ff0000','yellow']);
             }
 
             break;
@@ -448,6 +458,6 @@ $(document).ready(function()
         webGI.spinner.disable();
         $('.splash').addClass('splash-hidden');
     },500);
-    
+
     //setTimeout(function () { geoToggle(); },5000);
 });

@@ -34,14 +34,6 @@ var webGI_init =
         bell_snd : new Audio("assets/snd/ui-bell.mp3"),
         count_unit : "CPM"
     },
-    geo :
-    {
-        watcher : null,
-        lat : 0,
-        lon : 0,
-        alt : 0,
-        acc : 0
-    },
     jQT : new $.jQTouch
     ({
         icon: 'jqtouch.png',
@@ -193,7 +185,7 @@ function initUI()
 
     $('#userGeoStatus').bind(webGI.ui_action,function()
     {
-        geoToggle();
+        webGI.geo.toggle();
     });
 
     $('#toggleModal').bind(webGI.ui_action,function()
@@ -276,7 +268,8 @@ function initUI()
 */
     initLog();
     initHistory();
-    webGI.gauge.init()
+    webGI.gauge.init();
+    webGI.geo.init();
     updateLayout();
 }
 
@@ -767,106 +760,6 @@ function updateLogStatus(msg)
     webGI.log.desired_range = [ age, webGI.now];
     chartAnimate();
   }
-
-/*
- *   Geolocation
- */
-
-function geoToggle()
-{
-    //console.log('geo toggled');
-    if (navigator.geolocation)
-    {
-        if(webGI.geo.watcher)
-        {
-            navigator.geolocation.clearWatch(webGI.geo.watcher);
-            webGI.geo.watcher = null;
-            $('#userGeoStatus').removeClass('init-blinker icon-dot-circled lock-green lock-yellow lock-red');
-            $('#userGeoStatus').addClass('icon-target-1');
-            $('#userGeoLoc').html('');
-            //console.log("geo.watcher disabled");
-        }
-        else
-        {
-            $('#userGeoStatus').addClass('init-blinker');
-
-            webGI.geo.watcher = navigator.geolocation.watchPosition(
-                geoUpdate,
-                geoError,
-                {
-                    enableHighAccuracy: false,
-                    timeout: 60,
-                    maximumAge: 5
-                }
-            );
-            //console.log("geo.watcher enabled");
-        }
-    }
-    else
-    {
-        $('#userGeoLoc').html('');
-        showErrorModal(
-            'Geolocation unavailable',
-            '<p>It seems your browser/device does not support geolocation</p>'
-        );
-    }
-}
-
-function geoUpdate(position)
-{
-    $('#userGeoStatus').removeClass('init-blinker icon-target-1');
-    $('#userGeoStatus').addClass('icon-dot-circled');
-
-    // Update lock circle to indicate GeoLocation accuracy
-    if (position.coords.accuracy < 10)
-    {
-        $('#userGeoStatus').removeClass('lock-red lock-yellow');
-        $('#userGeoStatus').addClass('lock-green');
-    }
-    else if (position.coords.accuracy < 25)
-    {
-        $('#userGeoStatus').removeClass('lock-red lock-green');
-        $('#userGeoStatus').addClass('lock-yellow');
-    }
-    else
-    {
-        $('#userGeoStatus').removeClass('lock-yellow lock-green');
-        $('#userGeoStatus').addClass('lock-red');
-    }
-
-    webGI.geo.lat = position.coords.latitude;
-    webGI.geo.lon = position.coords.longitude;
-    webGI.geo.alt = position.coords.altitude;
-    webGI.geo.acc = position.coords.accuracy;
-
-    $('#userGeoLoc').html(
-        position.coords.latitude.toString().substr(0,8) + ' ' +
-        position.coords.longitude.toString().substr(0,8)
-    )
-}
-
-function geoError(error)
-{
-    var errors = {
-        1: 'Permission denied',
-        2: 'Position unavailable',
-        3: 'Request timeout',
-        4: 'Unknown Error'
-    };
-
-    //console.log("Error: " + errors[error.code]);
-
-    $('#userGeoStatus').removeClass('init-blinker icon-dot-circled lock-green lock-yellow lock-red');
-    $('#userGeoStatus').addClass('icon-target-1');
-    $('#userGeoLoc').html('');
-
-    navigator.geolocation.clearWatch(webGI.geo.watcher);
-
-    showErrorModal(
-        'Geolocation unavailable',
-        '<p>Hmmm, unfortunately, I still could not really determine our location. The browser/device told me:</p> <p><h4>'+ errors[error.code] + '</h4></p><b>Possible solutions:</b></p><ul><li>Turn on your GPS</li><li>Allow the browser to share geolocation</li></ul>'
-    );
-}
 
 
 $(document).ready(function()

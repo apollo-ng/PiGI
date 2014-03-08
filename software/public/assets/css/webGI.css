@@ -716,32 +716,38 @@ div#jqt #about a {
     padding-right: 4px;
 }
 
-#modalRADCON .red {
+#modalRADCON .red td {
     background: rgba(137, 37, 12, 0.4);
 }
 
-#modalRADCON .red.current {
+#modalRADCON .red.current td {
     background: rgba(137, 37, 12, 0.9);
     height: 30px;
     font-weight: bold;
 }
 
-#modalRADCON .yellow {
-    background: rgba(137, 117, 12, 0.4);
+#modalRADCON .yellow td {
+    background: rgba(245, 196, 60, 0.4);
 }
 
-#modalRADCON .yellow.current {
-    background: rgba(137, 117, 12, 0.8);
+#modalRADCON .yellow.current td {
+    background: rgba(245, 196, 60, 0.7);
     height: 30px;
     color: #333;
     font-weight: bold;
 }
 
-#modalRADCON .green {
+#modalRADCON .green td {
     background: rgba(117, 137, 12, 0.3);
 }
 
-#modalRADCON .green.current {
+#modalRADCON .green.current td {
+    background: rgba(117, 137, 12, 0.5);
+    height: 30px;
+    font-weight: bold;
+}
+
+#modalRADCON .rc-cat.green.current {
     background: rgba(117, 137, 12, 0.5);
     height: 30px;
     font-weight: bold;

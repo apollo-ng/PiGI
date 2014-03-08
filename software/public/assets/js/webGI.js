@@ -508,6 +508,8 @@ function updateStatus(msg)
 
             if(c<3)
             {
+                $('.rc-cat').removeClass('current');
+                $('#rcCatLow').addClass('current');
                 $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('yellow red');
                 $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').addClass('green');
                 webGI.log.chart_colors = ['#677712','yellow']; //FIXME: needs a full redraw to take effect :/
@@ -515,6 +517,8 @@ function updateStatus(msg)
             }
             else if (c<6)
             {
+                $('.rc-cat').removeClass('current');
+                $('#rcCatLMed').addClass('current');
                 $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('green red');
                 $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').addClass('yellow');
                 webGI.log.chart_colors = ['#F5C43C','yellow']; //FIXME: needs a full redraw to take effect :/
@@ -522,6 +526,8 @@ function updateStatus(msg)
             }
             else
             {
+                $('.rc-cat').removeClass('current');
+                $('#rcCatLHigh').addClass('current');
                 $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('green yellow');
                 $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').addClass('red');
                 webGI.log.chart_colors = ['#ff0000','yellow']; //FIXME: needs a full redraw to take effect :/

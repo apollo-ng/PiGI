@@ -32,7 +32,7 @@ def get_last_totalcount():
     try:
         db.RangeIter(include_value=False).next()
     except StopIteration:
-        log.INFO("Empty LevelDB")
+        log.info("Empty LevelDB")
         return (0,0)
     
     while not last_entries_keys:

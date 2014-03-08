@@ -46,9 +46,9 @@
      <canvas id="gaugeContainer" class="instrument-container" style="display: none"></canvas>
      <canvas id="traceContainer" class="instrument-container" style="display: none"></canvas>
      <div class="instrument-control-container">
-      <a href="#" id="live15m" class="instrument-control live-control enabled" seconds=900>15M</a>
-      <a href="#" id="live60m" class="instrument-control live-control" seconds=3600>60M</a>
-      <a href="#" id="live24h" class="instrument-control live-control" seconds=86400>24H</a>
+      <a href="#" id="live15m" class="instrument-control live-control enabled" data-seconds=900>15M</a>
+      <a href="#" id="live60m" class="instrument-control live-control" data-seconds=3600>60M</a>
+      <a href="#" id="live24h" class="instrument-control live-control" data-seconds=86400>24H</a>
       <a href="#" id="toggleGauge" class="instrument-control viewableControl big-icon icon-gauge-1"></a>
       <a href="#" id="toggleTrace" class="instrument-control big-icon icon-eye-1"></a>
       <a href="#" id="toggleAudio" class="instrument-control big-icon icon-volume-down-1"></a>
@@ -76,11 +76,10 @@
      <ul class="rounded">
       <li><input type="url" placeholder="http://host:port/" id="websocket_url" /></li>
       </ul>
-      <h2>Geolocation</h2>
+      <h2>webGI Options</h2>
       <ul class="rounded">
-      <li><input type="checkbox" value="on" checked="checked" title="" id="cnf_gps_hacc"/><label for="cnf_gps_hacc" class="input-action-label">Enable GPS High Accuracy Mode</label></li>
-      <li><input type="radio" name="geoMode" value="mobile" title="" id="cnf_gps_mode_mobile" checked="checked" /><label for="cnf_gps_mode_mobile" class="input-action-label">Mobile</label></li>
-      <li><input type="radio" name="geoMode" value="static" title="" id="cnf_gps_mode_static" /><label for="cnf_gps_mode_static" class="input-action-label">Stationary</label></li>
+      <li><input type="checkbox" value="on" checked="checked" title="" id="cnf_dtc_enabled"/><label for="cnf_dtc_enabled" class="input-action-label">Enable Dead-Time Compensation</label></li>
+      <li><input type="checkbox" value="off" title="" id="cnf_gps_hacc"/><label for="cnf_gps_hacc" class="input-action-label">Enable GPS High Accuracy Mode</label></li>
       </ul>
       <ul class="rounded">
       <li class="arrow"><a href="#" id="showModalAuth">Server Settings</a></li>
@@ -89,11 +88,30 @@
     </div>
    </div>
 
+   <!-- Server Options Panel -->
+   <div id="serverOptionsPanel">
+    <div class="toolbar"><h1>Server Options</h1><a href="#" class="goback button leftButton">Back</a><a href="#mainPanel" class="button rightButton slideleft">Live</a></div>
+     <div class="scroll">
+      <h2>OPMode</h2>
+      <ul class="rounded">
+      <li><input type="radio" name="geoMode" value="mobile" title="" id="cnf_gps_mode_mobile" checked="checked" /><label for="cnf_gps_mode_mobile" class="input-action-label">Mobile</label></li>
+      <li><input type="radio" name="geoMode" value="static" title="" id="cnf_gps_mode_static" /><label for="cnf_gps_mode_static" class="input-action-label">Stationary</label></li>
+      </ul>
+      <h2>Source selection</h2>
+      <ul class="rounded">
+      <li><input type="radio" name="source" value="sim" title="" id="server_cnf_opmode_sim" checked="checked" /><label for="server_cnf_opmode_sim" class="input-action-label">Simulation</label></li>
+      <li><input type="radio" name="source" value="test" title="" id="server_cnf_opmode_test" /><label for="server_cnf_opmode_test" class="input-action-label">Test</label></li>
+      <li><input type="radio" name="source" value="env" title="" id="server_cnf_opmode_env" /><label for="server_cnf_opmode_env" class="input-action-label">Enviroment</label></li>
+      </ul>
+      <a href="#" class="white" id="saveServerSettings">Save Server Settings</a>
+    </div>
+   </div>
+
    <!-- About -->
    <div id="about">
     <div class="toolbar"><h1>About</h1><a href="#" class="goback button leftButton">Back</a><a href="#mainPanel" class="button rightButton slideleft">Live</a></div>
     <div class="info view scroll" style="text-align: justify;">
-        <img src="assets/img/apollo-badge.png" border="0" />
+        <img src="assets/img/apollo-badge.png" alt="Apollo-NG Mission Badge" />
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lacinia
         varius odio, vel lobortis neque luctus vel. Etiam euismod turpis a augue
         laoreet eu rutrum lectus vehicula. Integer elementum tellus non erat
@@ -109,14 +127,15 @@
          <tr><td>jqtouch</td><td>A Zepto/jQuery plugin focussed on mobile web development</td><td>MIT</td></tr>
          <tr><td>dygraphs</td><td>Fast, flexible and lightweight JavaScript charting library</td><td>MIT</td></tr>
          <tr><td><a href="http://fgnass.github.io/spin.js/" target="_blank">spin.js</a></td><td>Dynamically creates spinning activity indicators</td><td>MIT</td></tr>
-         <tr><td>ui-bell.mp3</td><td><a href="http://www.freesound.org/people/unfa/sounds/215416/</td><td>MIT</td></tr>" target="_blank">Freesound/Unfa</a>
+         <tr><td>ui-bell.mp3</td><td><a href="http://www.freesound.org/people/unfa/sounds/215416/" target="_blank">Freesound/Unfa</a></td><td>CC-BY</td></tr>
         </table>
-        <a class="donateLink" href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@domain.net&item_name=Donation">Donate</a>
+        <a class="donateLink" href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&amp;business=paypal@domain.net&amp;item_name=Donation">Donate</a>
         <p>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
            the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
         <p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
            MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</p>
-        <p>You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.</p>
+        <p>You should have received a copy of the GNU General Public License along with this program.
+           If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
     </div>
    </div>
 
@@ -132,7 +151,7 @@
     </div>
     <div class="md-footer">
      <a class="md-close" onclick="$('#modalAuth').removeClass('md-show');">Cancel</a>
-     <a class="md-close md-green" onclick="">OK</a>
+     <a class="md-close md-green dissolve" href="#serverOptionsPanel" onclick="$('#modalAuth').removeClass('md-show');">OK</a>
     </div>
    </div>
   </div>
@@ -141,13 +160,13 @@
    <div class="md-content green">
     <h3 class="icon-attention md-green"> &nbsp;Select date range</h3>
     <div id="calendarContainer">
-      <label for="year">Year</label>
+      <label for="calendarYear">Year</label>
       <select id="calendarYear" name="year">
        <option value="ALL" selected>all</option>
        <option value="2014">2014</option>
       </select>
       <br />
-      <label for="month">Month</label>
+      <label for="calendarMonth">Month</label>
       <select id="calendarMonth" name="month">
        <option value="ALL" selected>all</option>
        <option value="2">Feb</option>
@@ -167,10 +186,10 @@
      <table>
       <thead>
        <tr>
-        <th width="15" style="width: 15px">&nbsp;</th>
-        <th width="15">Level</th>
-        <th width="150">EDR</th>
-        <th width="auto">Example</th>
+        <th style="width: 15px">&nbsp;</th>
+        <th>Level</th>
+        <th>EDR</th>
+        <th>Example</th>
        </tr>
       </thead>
       <tbody>

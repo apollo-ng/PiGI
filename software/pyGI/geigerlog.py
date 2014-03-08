@@ -27,18 +27,18 @@ def get_last_totalcount():
     d = 1
     last_entries_keys = []
     i = 0
-    
-    #Check for empty leveldb instance
+
+    # Check for empty leveldb instance
     try:
         db.RangeIter(include_value=False).next()
     except StopIteration:
         log.info("Empty LevelDB")
         return (0,0)
-    
+
     while not last_entries_keys:
 
         log.debug("Searching further (%d)..."%d)
-        last_entries_keys = list(db.RangeIter(key_from=str(now-d),include_value=False, fill_cache=True))
+        last_entries_keys = list(db.RangeIter(key_from=str(now-d),include_value=False))
 
         d = d*2
         i = i+1
@@ -118,7 +118,7 @@ class GeigerLog(threading.Thread):
         result = []
         log.info("Fetching %s log entries from %d to %s"%(str(amount),start,end))
         if amount is None:
-            entries_list = list(self.db.RangeIter(key_from=str(start)))
+            entries_list = list(self.db.RangeIter(key_from=str(start),fill_cache=True))
             last_time = start
             for e in entries_list:
                 entry = json.loads(e[1])
@@ -149,7 +149,7 @@ class GeigerLog(threading.Thread):
         while True:
             t = start + delta_step * step
             if t > end: break
-            db_iter = self.db.RangeIter(key_from=str(t))
+            db_iter = self.db.RangeIter(key_from=str(t),fill_cache=True)
             try:
                 (timestamp,entry_json) = db_iter.next()
             except StopIteration:
@@ -159,7 +159,7 @@ class GeigerLog(threading.Thread):
 
             if int(timestamp)-t>MAX_ENTRY_DIST:
                 entry=dummy_entry(t,entry['data']['totalcount'],entry['data']['totalcount_dtc'])
-                
+
 
             if not result:
                 result.append(entry)

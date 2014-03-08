@@ -82,7 +82,7 @@ function initWebsockets()
             case "geigerjson":
                 updateStatus(msg);
             break;
-                
+
             default:
                 console.log("INVALID MESSAGE",msg);
 
@@ -108,7 +108,7 @@ function initWebsockets()
         requestLog(60*60*1,true);
         requestLog(60*60*24,false);
         requestHistory(null,null);
-        setTimeout(function(){$('.splash').addClass('splash-hidden'); console.log('Remove splash'); },500);
+        setTimeout(function(){$('.splash').addClass('splash-hidden'); },500);
     };
 
     webGI.websockets.log.onclose = function()
@@ -123,21 +123,21 @@ function initWebsockets()
 
     webGI.websockets.log.onmessage = function(e)
     {
-        var x = JSON.parse(e.data);
-        console.log(x);
-        switch(x.type)
+        var msg = JSON.parse(e.data);
+        //console.log(msg);
+        switch(msg.type)
         {
-            case "history":
-                updateLogHistory(x);
-            break;
             case "geigerjson":
-                updateLogStatus(x);
+                updateLogStatus(msg);
+            break;
+            case "history":
+                updateLogHistory(msg);
             break;
             case "static_history":
-                updateHistory(x);
+                updateHistory(msg);
             break;
             default:
-                console.log("INVALID MESSAGE",x)
+                console.log("INVALID MESSAGE",msg)
         }
     }
 }
@@ -330,7 +330,6 @@ function toggleAudio()
            {
                case "tick":
                     if (webGI.conf.audio == 1) {
-                        console.log(x)
                         for(var i = 0; i < parseInt(x.count); i++)
                         {
                             setTimeout(function() {
@@ -495,16 +494,16 @@ function updateStatus(msg)
     var edr = parseFloat(msg.data.edr);
 
     // EDR Watchdog firing above 20% increase compared to 24h EDR avg
+    /*
     if(edr > (webGI.log.edr_avg_24*1.2))
     {
         console.log('EDR Watchdog fired');
-        /*
+
         showErrorModal(
             'RADIATION Warning',
             '<p>Wow, that tube is really cracking and sparkling now...</p>'
         );
-        * */
-    }
+    }*/
 
     // RADCON class identification and UI reaction
     var s = 0.1;
@@ -569,7 +568,6 @@ function updateStatus(msg)
 
 function requestLog(age,hd)
 {
-    console.log("Request log");
     var cmd =
     {
         "cmd" : "read",
@@ -722,7 +720,7 @@ function initLog()
 
 function updateLogHistory(data)
 {
-    console.log("LOGHISTORY");
+    //console.log("LOGHISTORY");
 
     if (data.hd) {
         webGI.log.data_hd = [];
@@ -760,10 +758,10 @@ function updateLogHistory(data)
     var age = webGI.log.chart_age;
     if (age > 60*60*1) {
         webGI.log.data = webGI.log.data_ld;
-        console.log("LD")
+        //console.log("LD")
     } else {
         webGI.log.data = webGI.log.data_hd;
-        console.log("HD",webGI.log.data.length)
+        //console.log("HD",webGI.log.data.length)
     }
     if (webGI.log.chart == null)
     {
@@ -781,11 +779,11 @@ function updateLogHistory(data)
 
 function updateLogStatus(msg)
 {
-    console.log("UPDATE")
-    
+    //console.log("UPDATE")
+
     var ts = new Date(msg.timestamp*1000);
     webGI.log.data_hd.push([ts,msg.data.edr,msg.data.edr_avg]);
-    
+
     //FIXME: push ld data less often
     webGI.log.data_ld.push([ts,msg.data.edr,msg.data.edr_avg]);
 

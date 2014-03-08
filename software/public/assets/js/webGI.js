@@ -20,7 +20,6 @@ var webGI_init =
         desired_range : null,
         animtimer : null,
         chart_colors : ['#677712','yellow'],
-        gauge : null
     },
     history :
     {
@@ -148,12 +147,12 @@ function initUI()
     // Backlog
     $('.live-control').bind(webGI.ui_action,function(event)
     {
-        $('#gaugeContainer').hide();
+        webGI.gauge.disable();
         $('#chartContainer').show();
         $('.live-control').removeClass('enabled');
         $('#toggleGauge,#toggleTrace').removeClass('enabled');
         $(event.target).addClass('enabled');
-        webGI.tracer.stop();
+        webGI.tracer.disable();
         updateLayout();
         webGI.log.chart_age = parseInt($(event.target).attr("seconds"))
         //var samples = webGI.log.chart_age/5;
@@ -218,8 +217,8 @@ function initUI()
     {
        $('#chartContainer').hide();
        $('#toggleTrace').hide();
-       webGI.tracer.stop();
-       $('#gaugeContainer').show();
+       webGI.tracer.disable();
+       webGI.gauge.enable();
        $('#toggleGauge').addClass('enabled');
        $('.live-control, #toggleTrace').removeClass('enabled');
     });
@@ -227,10 +226,10 @@ function initUI()
     $('#toggleTrace').bind(webGI.ui_action,function()
     {
        $('#chartContainer').hide();
-       $('#gaugeContainer').hide();
+       webGI.gauge.disable();
        $('#toggleTrace').addClass('enabled');
        $('.live-control, #toggleGauge').removeClass('enabled');
-       webGI.tracer.start();
+       webGI.tracer.enable();
     });
 
     // Audio
@@ -279,7 +278,7 @@ function initUI()
 */
     initLog();
     initHistory();
-    initGauge();
+    webGI.gauge.init()
     updateLayout();
 }
 
@@ -407,31 +406,6 @@ function stopSpinner()
     webGI.spinner.stop();
 }
 
-function initGauge()
-{
-
-    var opts = {
-        lines: 1,
-        angle: 0.15,
-        lineWidth: 0.05,
-        pointer: {
-            length: 0.9,
-            strokeWidth: 0.015,
-            color: '#d8d3c5'
-        },
-        limitmMax: 'true',
-        colorStart: '#75890c',
-        colorStop: '#75890c',
-        strokeColor: '#000000'
-    }
-
-    var target = document.getElementById('gaugeContainer');
-    webGI.log.gauge = new Gauge(target).setOptions(opts);
-    webGI.log.gauge.maxValue = 1;
-    webGI.log.gauge.animationSpeed = 64;
-    webGI.log.gauge.set(0);
-}
-
 function updateLayout()
 {
     // This is called on DOMReady and on resize/rotate
@@ -460,7 +434,7 @@ function updateLayout()
     //ugly, but we seem to need it
     initLog();
     initHistory();
-    initGauge();
+    webGI.gauge.init()
     //if (webGI.log.chart != null) webGI.log.chart.updateOptions({file: webGI.log.data});
     //if (webGI.history.chart != null) webGI.history.chart.updateOptions({file: webGI.history.data});
 
@@ -558,7 +532,7 @@ function updateStatus(msg)
         edr = edr/1000000;
     }
 
-    webGI.log.gauge.set(edr);
+    webGI.gauge.set(edr);
     $('#edr_val').html(edr.toFixed(2));
 }
 

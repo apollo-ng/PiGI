@@ -13,7 +13,7 @@ webGI.tracer = (function($) {
     
     //Private
     var particles = {};
-    var drawInterval = null;
+    var draw_interval = null;
     var active = false;
     
     function createParticle() {
@@ -27,7 +27,7 @@ webGI.tracer = (function($) {
         this.color = "rgba("+b+","+b+","+b+",0.6)";
     }
 
-    my.start = function() {
+    my.enable = function() {
         $("#"+my.container_id).show();
         active = true;
         canvas = document.getElementById(my.container_id);
@@ -36,7 +36,7 @@ webGI.tracer = (function($) {
         draw_interval = setInterval(draw, 33);
     };
 
-    my.stop = function() {
+    my.disable = function() {
         $("#"+my.container_id).hide();
         particles = {};
         if (draw_interval !== null) clearInterval(draw_interval);

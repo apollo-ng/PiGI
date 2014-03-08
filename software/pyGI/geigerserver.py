@@ -119,6 +119,8 @@ def handle_ws_log():
                 sim_dose_rate = msg["conf"].get("sim_dose_rate")
                 if not sim_dose_rate is None:
                     cfg.set('geigercounter','sim_dose_rate',sim_dose_rate)
+                    
+                cfg.write_dynamic()
         except WebSocketError:
             break
     log.info("websocket closed (%s)"%wsock.path)

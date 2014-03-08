@@ -2,29 +2,24 @@ if (typeof webGI === 'undefined') {
     webGI = {}
 }
 
-var webGI_init =
-{
-    ui_action : 'click',
-    websockets : {},
-    conf : {
-        websocket_host : "ws://" + window.location.hostname + ":" +window.location.port,
-        bell_snd : new Audio("assets/snd/ui-bell.mp3"),
-    },
-    jQT : new $.jQTouch ({
-        icon: 'jqtouch.png',
-        statusBar: 'black-translucent',
-        preloadImages: []
-    })
+webGI.conf = {
+    websocket_host : "ws://" + window.location.hostname + ":" +window.location.port,
+    bell_snd : new Audio("assets/snd/ui-bell.mp3"),
+    ui_action : 'click'
 };
 
-$.extend(webGI,webGI_init);
+webGI.jQT = new $.jQTouch ({
+    icon: 'jqtouch.png',
+    statusBar: 'black-translucent',
+    preloadImages: []
+});
 
 function initWebsockets() {
     if(!("WebSocket" in window)) {
         $('<p>Oh no, you need a modern browser that supports WebSockets. How about <a href="http://www.google.com/chrome">Google Chrome</a>?</p>').appendTo('#container');
         return;
     }
-
+    webGI.websockets = {};
     webGI.websockets.status = new WebSocket(webGI.conf.websocket_host+"/ws_status");
     webGI.websockets.log = new WebSocket(webGI.conf.websocket_host+"/ws_log");
 
@@ -101,7 +96,7 @@ function initUI() {
     // Bind UI events
 
     // livechart (15m/60m/24h)
-    $('.live-control').bind(webGI.ui_action,function(event) {
+    $('.live-control').bind(webGI.conf.ui_action,function(event) {
         webGI.gauge.disable();
         webGI.tracer.disable();
         webGI.livechart.enable();
@@ -114,28 +109,28 @@ function initUI() {
         webGI.livechart.set_age(parseInt($(event.target).attr("data-seconds")));
     });
 
-    $('#lvl_val, #lvl_unit').bind(webGI.ui_action,function() {
+    $('#lvl_val, #lvl_unit').bind(webGI.conf.ui_action,function() {
         webGI.status.show_radcon();
     });
 
     // CPS/CPM Toggle
-    $('#count_val, #count_unit').bind(webGI.ui_action,function() {
+    $('#count_val, #count_unit').bind(webGI.conf.ui_action,function() {
         webGI.status.toggle_counter_unit();
     });
 
-    $('#userGeoStatus').bind(webGI.ui_action,function() {
+    $('#userGeoStatus').bind(webGI.conf.ui_action,function() {
         webGI.geo.toggle();
     });
 
-    $('#showModalDateRanger').bind(webGI.ui_action,function() {
+    $('#showModalDateRanger').bind(webGI.conf.ui_action,function() {
         $('#modalDateRanger').addClass('md-show');
     });
 
-    $('#showModalAuth').bind(webGI.ui_action,function() {
+    $('#showModalAuth').bind(webGI.conf.ui_action,function() {
         $('#modalAuth').addClass('md-show');
     });
 
-    $('#toggleGauge').bind(webGI.ui_action,function() {
+    $('#toggleGauge').bind(webGI.conf.ui_action,function() {
        $('#toggleTrace').hide(); //FIXME This is bogus???
        
        webGI.tracer.disable();
@@ -146,7 +141,7 @@ function initUI() {
        $('.live-control, #toggleTrace').removeClass('enabled');
     });
 
-    $('#toggleTrace').bind(webGI.ui_action,function() {
+    $('#toggleTrace').bind(webGI.conf.ui_action,function() {
        webGI.livechart.disable();
        webGI.gauge.disable();
        webGI.tracer.enable();
@@ -156,7 +151,7 @@ function initUI() {
     });
 
     // Audio
-    $('#toggleAudio').bind(webGI.ui_action,function() {
+    $('#toggleAudio').bind(webGI.conf.ui_action,function() {
         if(webGI.ticker.enabled) {
             $('#toggleAudio').removeClass('enabled');
             webGI.ticker.disable();
@@ -166,7 +161,7 @@ function initUI() {
         }
     });
 
-    $('#toggleLogScale').bind(webGI.ui_action,function() {
+    $('#toggleLogScale').bind(webGI.conf.ui_action,function() {
         if(!webGI.history.log_scale) {
             webGI.history.set_log_scale(true);
             $('#toggleLogScale').addClass('enabled');
@@ -207,15 +202,9 @@ function initUI() {
         updateLayout();
     });
 */
-    webGI.livechart.init()
-    webGI.history.init();
-    webGI.gauge.init();
-    webGI.geo.init();
-    updateLayout();
 }
 
-function showErrorModal (title, msg, action)
-{
+function showErrorModal(title, msg, action) {
     $('#body').find('.md-modal').removeClass('md-show');
     webGI.conf.bell_snd.play();
 
@@ -235,7 +224,6 @@ function showErrorModal (title, msg, action)
     },
     300);
 }
-
 
 function updateLayout() {
     // This is called on DOMReady and on resize/rotate
@@ -296,15 +284,20 @@ function requestHistory(from,to) {
 $(document).ready(function() {
     webGI.spinner.init();
     $(window).resize(updateLayout);
-    updateLayout();
     window.onhashchange = updateLayout; // should have been replaced by pageAnimationEnd event but doesn't work as well
 
     // Switch UI click/tap event handler action for stupid apple browsers
-    if ($.support.touch) { webGI.ui_action = 'touchend'; }
-    else { webGI.ui_action  = 'click'; }
-
-    initUI();
+    if ($.support.touch) { webGI.conf.ui_action = 'touchend'; }
+    else { webGI.conf.ui_action  = 'click'; }
+    
     initWebsockets();
+    initUI();
+    
+    webGI.livechart.init()
+    webGI.history.init();
+    webGI.gauge.init();
+    webGI.geo.init();
+    updateLayout();
     
     setTimeout(function() {
         webGI.spinner.disable();

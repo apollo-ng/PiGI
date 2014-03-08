@@ -85,6 +85,7 @@
 
 body {
     background: #323128;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
 /* Multi Function Display (Top) */
@@ -427,7 +428,7 @@ keyframes blinker {
     font-size: 0.8em;
     position: relative;
     border: 1px solid #555;
-    border-top: 1px solid #aaa;
+    border-top: 1px solid rgba(200, 200, 200, 0.6);
     border-bottom: 1px solid #111;
     -webkit-border-radius: 9px !important;
     -moz-border-radius: 9px !important;
@@ -721,12 +722,16 @@ div#jqt #about a {
 
 #modalRADCON .current {
     height: 30px;
-    font-weight: bold;
     font-size: 16px;
 }
 
+#modalRADCON .rc-cat{
+    height: 20px !important;
+    font-weight: bold;
+}
+
 #modalRADCON .red td {
-    background: rgba(137, 37, 12, 0.4);
+    background: rgba(137, 37, 12, 0.3);
 }
 
 #modalRADCON .red.current td {
@@ -734,17 +739,20 @@ div#jqt #about a {
 }
 
 #modalRADCON .yellow td {
-    background: rgba(245, 196, 60, 0.3);
+    background: rgba(245, 196, 60, 0.2);
 }
 
-#modalRADCON .yellow.current td {
-    background: rgba(245, 196, 60, 0.7);
-    height: 30px;
-    color: #333;
+#modalRADCON .yellow.current td, #modalRADCON .rc-cat.yellow.current {
+    background: rgba(245, 196, 60, 0.5);
+    -moz-box-shadow: inset 0 0 10px 0 rgba(245, 196, 60, 1);
+    -webkit-box-shadow: inset 0 0 10px 0 rgba(245, 196, 60, 1);
+    box-shadow: inset 0 0 10px 0 rgba(245, 196, 60, 1);
+    text-shadow: 0 0 10px rgba(245, 196, 60, 1), -1px -1px #000;
+    color: #fff;
 }
 
 #modalRADCON .green td {
-    background: rgba(117, 137, 12, 0.3);
+    background: rgba(117, 137, 12, 0.2);
 }
 
 #modalRADCON .green.current td, #modalRADCON .rc-cat.green.current {
@@ -752,12 +760,14 @@ div#jqt #about a {
     -moz-box-shadow: inset 0 0 10px 0 rgba(117, 137, 12, 1);
     -webkit-box-shadow: inset 0 0 10px 0 rgba(117, 137, 12, 1);
     box-shadow: inset 0 0 10px 0 rgba(117, 137, 12, 1);
+    text-shadow: 0 0 10px rgba(117, 137, 12, 1.0), -1px -1px #000;
+    color: #fff;
 }
 
 #modalRADCON .side {
     display: inline-block;
-    height: 25px !important;
-    line-height: 25px !important;
+    height: 30px !important;
+    line-height: 30px !important;
     -moz-transform: rotate(-90deg);
     -webkit-transform: rotate(-90deg);
     transform: rotate(-90deg);

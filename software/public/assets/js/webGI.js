@@ -1,4 +1,102 @@
-var webGI =
+if (typeof webGI === 'undefined') {
+    webGI = {}
+}
+
+console.log($);
+webGI.tracer = (function($) {
+    /*
+    * 2D/hardware accelerated canvas particle tracer/visualizer
+    */
+    console.log("TRACER",$);
+    //Public
+    var my = {};
+    
+    
+    //Private
+    var particles = {};
+    var drawInterval = null;
+    var active = false;
+    
+    
+    function createParticle() {
+        this.x = Math.random()*canvas.width;
+        this.y = 0; //-Math.random()*webGI.trace.canvas.height;
+
+        this.vx = 0;
+        this.vy = Math.random()*4+2;
+
+        var b = Math.random()*128+128>>0;
+        this.color = "rgba("+b+","+b+","+b+",0.6)";
+    }
+
+    my.start = function() {
+        $("#traceContainer").show();
+        active = true;
+        canvas = document.getElementById("traceContainer");
+        //webGI.trace.width = $(webGI.trace).width();
+
+        var ctx = canvas.getContext("2d");
+        particles = {};
+        draw_interval = setInterval(draw, 33);
+    };
+
+    my.stop = function() {
+        $('#traceContainer').hide();
+        particles = {};
+        if (draw_interval !== null) clearInterval(draw_interval);
+    };
+    
+    my.add = function(amount) {
+        if(active)
+        {
+            for(var i = 0; i < amount; i++)
+            {
+                setTimeout(function() {
+                    particles[Math.random()]=new createParticle();
+                },
+                Math.random()*1000);
+            }
+        }
+    };
+
+    function draw() {
+        var W = canvas.width;
+        var H = canvas.height;
+        var ctx = canvas.getContext("2d");
+
+        ctx.globalCompositeOperation = "source-over";
+        ctx.fillStyle = "rgba(30,30,30, 0.7)";
+        ctx.fillRect(0, 0, W, H);
+        ctx.globalCompositeOperation = "lighter";
+
+        //Lets draw particles from the array now
+        $.each(particles, function(t,p)
+        {
+            ctx.beginPath();
+
+            ctx.fillStyle = p.color;
+            ctx.fillRect(p.x, p.y, 1,p.vy);
+            ctx.fillStyle = "rgba(117,137,12,1)";
+            ctx.fillRect(p.x, p.y+p.vy, 1,2);
+
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += Math.random()*p.y/25;
+            //To prevent the balls from moving out of the canvas
+            if(p.x < -50) p.x = W+50;
+            if(p.y < -50) p.y = H+50;
+            if(p.x > W) p.x = -50;
+            if(p.y > H)
+            {
+                delete particles[t]
+            }
+        });
+    }
+    
+    return my;
+}($));
+
+var webGI_init =
 {
     now: Date.now(),
     ui_action : 'click',
@@ -55,6 +153,7 @@ var webGI =
     }
 };
 
+$.extend(webGI,webGI_init);
 function initWebsockets()
 {
     if(!("WebSocket" in window))
@@ -154,7 +253,8 @@ function initUI()
         $('.live-control').removeClass('enabled');
         $('#toggleGauge,#toggleTrace').removeClass('enabled');
         $(event.target).addClass('enabled');
-        traceStop();
+        //traceStop();
+        webGI.tracer.stop();
         updateLayout();
         webGI.log.chart_age = parseInt($(event.target).attr("seconds"))
         //var samples = webGI.log.chart_age/5;
@@ -219,7 +319,8 @@ function initUI()
     {
        $('#chartContainer').hide();
        $('#toggleTrace').hide();
-       traceStop();
+       //traceStop();
+       webGI.tracer.stop();
        $('#gaugeContainer').show();
        $('#toggleGauge').addClass('enabled');
        $('.live-control, #toggleTrace').removeClass('enabled');
@@ -231,7 +332,8 @@ function initUI()
        $('#gaugeContainer').hide();
        $('#toggleTrace').addClass('enabled');
        $('.live-control, #toggleGauge').removeClass('enabled');
-       traceStart();
+       //traceStart();
+       webGI.tracer.start();
     });
 
     // Audio
@@ -480,17 +582,8 @@ function updateStatus(msg)
     if(webGI.conf.count_unit=="CPM") $('#count_val').html(parseInt(msg.data.cpm_dtc));
     if(webGI.conf.count_unit=="CPS") $('#count_val').html(parseInt(msg.data.cps_dtc));
 
-    if(webGI.trace.active)
-    {
-        for(var i = 0; i < parseInt(msg.data.cps_dtc); i++)
-        {
-            setTimeout(function() {
-                webGI.trace.particles[Math.random()]=new traceCreateParticle();
-            },
-            Math.random()*1000);
-        }
-    }
-
+    webGI.tracer.add(parseInt(msg.data.cps_dtc));
+    
     var edr = parseFloat(msg.data.edr);
 
     // EDR Watchdog firing above 20% increase compared to 24h EDR avg

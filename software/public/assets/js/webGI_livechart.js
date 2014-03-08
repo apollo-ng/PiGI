@@ -12,7 +12,7 @@ webGI.livechart = (function($) {
     my.container_id = "chartContainer";
     my.chart_age = 60*15;
     my.now = Date.now();
-    
+
     //Private attributes
     var container = null;
     var chart = null
@@ -23,9 +23,7 @@ webGI.livechart = (function($) {
     var animtimer = null;
     var edr_avg_24h = 0.1; //FIXME this does not belong here
     var chart_colors = ['#677712','yellow'];
-    
-    
-    
+
     //Public Function
     my.init = function() {
         container = $("#"+my.container_id);
@@ -35,16 +33,28 @@ webGI.livechart = (function($) {
             return;
         }
 
+        var clickCallback = function(e) {
+            var x = e.offsetX;
+            var y = e.offsetY;
+            var dataXY = chart.toDataCoords(x, y);
+            $('#eventTS').html(new Date(dataXY[0]));
+            $('#eventEDR').html(dataXY[1]);
+            $('#modalAnnotation').addClass('md-show');
+        }
+
+
         chart = new Dygraph(my.container_id, data,
         {
             title: 'EAR: $$ uSv/h (AVG) - EAD: $$ uSv (Total)',
             titleHeight: 35,
-            fillGraph: true, 
+            fillGraph: true,
             rightGap: 20,
             fillAlpha: 0.7,
             showRoller: false,
             rollPeriod: 1,
-            interactionModel: {},
+            interactionModel: {
+                'click' : clickCallback
+            },
             //valueRange: [0,null],
             includeZero: true,
             animatedZooms: true,
@@ -60,9 +70,10 @@ webGI.livechart = (function($) {
             {
                 fillGraph: false,
             },
+
         });
     }
-    
+
     my.update = function(msg) {
         //console.log("UPDATE")
 
@@ -84,7 +95,7 @@ webGI.livechart = (function($) {
             dateWindow: [ my.now - my.chart_age*1000, my.now]
         });
     }
-    
+
     my.updateBacklog = function(msg){
         //console.log("LOGHISTORY");
         if (msg.hd) {
@@ -119,7 +130,7 @@ webGI.livechart = (function($) {
             // Update rolling 24h average EDR for alert reference
             edr_avg_24 = (edr_avg/msg.log.length);
         }
-        
+
         //FIXME: this is very redundant with set_age, refactor...
         var age = my.chart_age;
         if (age > 60*60*1) {
@@ -142,30 +153,30 @@ webGI.livechart = (function($) {
         }
     }
 
-    
+
     my.set_log_scale = function(enabled) {
         if (chart) chart.updateOptions({ logscale: enabled });
         my.log_scale = enabled;
     }
-    
+
     my.set_colors = function(c) {
         if (chart) chart.updateOptions({ colors: c });
         my.chart_colors = c
     }
-    
+
     my.set_age = function(seconds) {
         my.chart_age = seconds
         if (animtimer != null) {
             clearTimeout(animtimer);
         }
 
-        
+
         if (seconds > 60*60*1) {
             data = data_ld;
         } else {
             data = data_hd;
         }
-        
+
         if (chart == null)
         {
             my.init();
@@ -177,15 +188,15 @@ webGI.livechart = (function($) {
         }
         zoom(my.chart_age*1000);
     };
-    
+
     my.enable = function() {
         container.show()
     };
-    
+
     my.disable = function() {
         container.hide()
     };
-    
+
     //Private Function
     function chartApproachRange() {
         if (!desired_range) return;
@@ -212,7 +223,7 @@ webGI.livechart = (function($) {
           chartAnimate();
         }
     }
-    
+
     function chartAnimate() {
         animtimer = setTimeout(chartApproachRange, 50);
     }
@@ -222,7 +233,7 @@ webGI.livechart = (function($) {
         desired_range = [ my.now-age, my.now];
         chartAnimate();
     }
-    
+
     //Do not forget to return my, otherwise nothing will work.
     return my;
 }($));  //Pass jq/zepto to the module construction function call

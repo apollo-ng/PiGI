@@ -11,13 +11,13 @@ webGI.history = (function($) {
     var my = {};
     my.container_id = "historyContainer";
     my.log_scale = false;
-    
-    
+
+
     //Private attributes
     var container = null;
     var chart = null
     var data = [];
-    
+
     //Public Function
     my.init = function() {
         if (data.length==0)
@@ -59,7 +59,12 @@ webGI.history = (function($) {
             //zoomCallback: function(min,max,y) {
             //    webGI.history.chart.updateOptions({valueRange: [0.01, null]});
             //},
-
+            clickCallback: function(e, x, pts) {
+                console.log("Click " + pts_info(e,x,pts));
+              },
+            pointClickCallback: function(e, p) {
+                console.log("Point Click " + p.name + ": " + p.x);
+            },
             //includeZero: true,
             //connectSeparatedPoints: true,
             labels: ['time','µSv/h','µSv/h (15m avg)'],
@@ -77,7 +82,7 @@ webGI.history = (function($) {
             },
         });
     }
-    
+
     my.update = function(msg) {
         //console.log("HISTORY");
         data = [];
@@ -101,16 +106,16 @@ webGI.history = (function($) {
             chart.updateOptions({ file: webGI.history.data });
         }
     }
-    
+
     my.set_log_scale = function(enabled) {
         chart.updateOptions({ logscale: enabled });
         my.log_scale = enabled;
     }
-    
+
 
     //Private Function
 
-    
+
     //Do not forget to return my, otherwise nothing will work.
     return my;
 }($));  //Pass jq/zepto to the module construction function call

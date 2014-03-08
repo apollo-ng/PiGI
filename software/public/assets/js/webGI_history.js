@@ -10,7 +10,6 @@ webGI.history = (function($) {
     //Public attributes
     var my = {};
     my.container_id = "historyContainer";
-    my.chart_age = 60*15;
     my.log_scale = false;
     
     

@@ -4,22 +4,8 @@ if (typeof webGI === 'undefined') {
 
 var webGI_init =
 {
-    now: Date.now(),
     ui_action : 'click',
     websockets : {},
-    log :
-    {
-        chart : null,
-        data : [],
-        alldata : [],
-        data_hd : [],
-        data_ld : [],
-        edr_avg_24 : 0.10,
-        chart_age : 60*15,
-        desired_range : null,
-        animtimer : null,
-        chart_colors : ['#677712','yellow'],
-    },
     conf :
     {
         websocket_host : "ws://" + window.location.hostname + ":" +window.location.port,
@@ -108,10 +94,10 @@ function initWebsockets()
         switch(msg.type)
         {
             case "geigerjson":
-                updateLogStatus(msg);
+                webGI.livechart.update(msg);
             break;
             case "history":
-                updateLogHistory(msg);
+                webGI.livechart.updateBacklog(msg);
             break;
             case "static_history":
                 webGI.history.update(msg);
@@ -130,38 +116,13 @@ function initUI()
     $('.live-control').bind(webGI.ui_action,function(event)
     {
         webGI.gauge.disable();
-        $('#chartContainer').show();
+        webGI.livechart.enable();
         $('.live-control').removeClass('enabled');
         $('#toggleGauge,#toggleTrace').removeClass('enabled');
         $(event.target).addClass('enabled');
         webGI.tracer.disable();
         updateLayout();
-        webGI.log.chart_age = parseInt($(event.target).attr("seconds"))
-        //var samples = webGI.log.chart_age/5;
-        //webGI.log.data = webGI.log.alldata.slice(-samples);
-        if (webGI.log.animtimer != null) {
-            clearTimeout(webGI.log.animtimer);
-        }
-
-        var age = webGI.log.chart_age;
-        if (age > 60*60*1) {
-            webGI.log.data = webGI.log.data_ld;
-        } //else {
-          //  webGI.log.data = webGI.log.data_hd;
-        //}
-        if (webGI.log.chart == null)
-        {
-            initLog();
-        }
-        else
-        {
-            var now = Date.now();
-            webGI.log.chart.updateOptions({
-                file: webGI.log.data,
-                dateWindow: webGI.log.desired_range
-            });
-        }
-        chartZoom(now - webGI.log.chart_age*1000);
+        webGI.livechart.set_age(parseInt($(event.target).attr("data-seconds")));
 });
 
     $('#lvl_val, #lvl_unit').bind(webGI.ui_action,function()
@@ -264,7 +225,7 @@ function initUI()
         updateLayout();
     });
 */
-    initLog();
+    webGI.livechart.init()
     webGI.history.init();
     webGI.gauge.init();
     webGI.geo.init();
@@ -346,7 +307,7 @@ function updateLayout()
     $('#historyContainer') .css({'height': new_h+'px', 'width': new_w-15+'px'}).attr('height',new_h).attr('width',new_w-15);
 
     //ugly, but we seem to need it
-    initLog();
+    webGI.livechart.init();
     webGI.history.init();
     webGI.gauge.init()
     //if (webGI.log.chart != null) webGI.log.chart.updateOptions({file: webGI.log.data});
@@ -362,7 +323,7 @@ function updateConfig()
 
 function updateStatus(msg)
 {
-    webGI.now = parseInt(msg.timestamp)*1000;
+    webGI.livechart.now = parseInt(msg.timestamp)*1000;
 
     if(webGI.conf.count_unit=="CPM") $('#count_val').html(parseInt(msg.data.cpm_dtc));
     if(webGI.conf.count_unit=="CPS") $('#count_val').html(parseInt(msg.data.cps_dtc));
@@ -400,8 +361,7 @@ function updateStatus(msg)
                 $('#rcCatLow').addClass('current');
                 $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('yellow red');
                 $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').addClass('green');
-                webGI.log.chart_colors = ['#677712','yellow']; //FIXME: needs a full redraw to take effect :/
-                if (webGI.log.chart) webGI.log.chart.updateOptions({colors: webGI.log.chart_colors});
+                webGI.livechart.set_colors(['#677712','yellow']);
             }
             else if (c<6)
             {
@@ -409,8 +369,7 @@ function updateStatus(msg)
                 $('#rcCatLMed').addClass('current');
                 $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('green red');
                 $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').addClass('yellow');
-                webGI.log.chart_colors = ['#F5C43C','yellow']; //FIXME: needs a full redraw to take effect :/
-                if (webGI.log.chart) webGI.log.chart.updateOptions({colors: webGI.log.chart_colors});
+                webGI.livechart.set_colors(['#F5C43C','yellow']); 
             }
             else
             {
@@ -418,8 +377,7 @@ function updateStatus(msg)
                 $('#rcCatLHigh').addClass('current');
                 $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('green yellow');
                 $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').addClass('red');
-                webGI.log.chart_colors = ['#ff0000','yellow']; //FIXME: needs a full redraw to take effect :/
-                if (webGI.log.chart) webGI.log.chart.updateOptions({colors: webGI.log.chart_colors});
+                webGI.livechart.set_colors(['#ff0000','yellow']); 
             }
 
             break;
@@ -476,161 +434,6 @@ function requestHistory(from,to)
     webGI.websockets.log.send(JSON.stringify(cmd));
     //console.log ("Requesting history");
 }
-
-function initLog()
-{
-    //console.log("Init log");
-    if (webGI.log.data.length==0)
-    {
-        //requestLog()
-        return;
-    }
-
-    webGI.log.chart = new Dygraph("chartContainer", webGI.log.data,
-    {
-        title: 'EAR: $$ uSv/h (AVG) - EAD: $$ uSv (Total)',
-        titleHeight: 35,
-        fillGraph: true, //we want the error bars
-        rightGap: 20,
-        fillAlpha: 0.7,
-        showRoller: false,
-        rollPeriod: 1,
-        interactionModel: {},
-        //valueRange: [0,null],
-        includeZero: true,
-        animatedZooms: true,
-        labels: ['time','µSv/h','µSv/h (15m avg)'],
-        xlabel: 'time',
-        colors: webGI.log.chart_colors,
-        'µSv/h':
-        {
-            fillGraph: true,
-            stepPlot: true,
-        },
-        'µSv/h (15m avg)':
-        {
-            fillGraph: false,
-        },
-    });
-}
-
-function updateLogHistory(data)
-{
-    //console.log("LOGHISTORY");
-
-    if (data.hd) {
-        webGI.log.data_hd = [];
-        $.each(data.log, function(i,v)
-        {
-            var ts = new Date(v.timestamp*1000);
-            //var ts = v.timestamp*1000
-            //if (isNaN(ts.getTime()))
-            //{
-            //    return;
-            //}
-            webGI.log.data_hd.push([ts,v.data.edr,v.data.edr_avg]);
-        });
-    } else {
-        webGI.log.data_ld = [];
-        var edr_avg=0;
-
-        $.each(data.log, function(i,v)
-        {
-            var ts = new Date(v.timestamp*1000);
-            //var ts = v.timestamp*1000
-            //if (isNaN(ts.getTime()))
-            //{
-            //    return;
-            //}
-            webGI.log.data_ld.push([ts,v.data.edr,v.data.edr_avg]);
-            edr_avg += v.data.edr;
-
-        });
-
-        // Update rolling 24h average EDR for alert reference
-        webGI.log.edr_avg_24 = (edr_avg/data.log.length);
-    }
-
-    var age = webGI.log.chart_age;
-    if (age > 60*60*1) {
-        webGI.log.data = webGI.log.data_ld;
-        //console.log("LD")
-    } else {
-        webGI.log.data = webGI.log.data_hd;
-        //console.log("HD",webGI.log.data.length)
-    }
-    if (webGI.log.chart == null)
-    {
-        initLog();
-    }
-    else
-    {
-        var now = webGI.now;
-        webGI.log.chart.updateOptions({
-            file: webGI.log.data,
-            dateWindow: [ now - webGI.log.chart_age*1000, now]
-        });
-    }
-}
-
-function updateLogStatus(msg)
-{
-    //console.log("UPDATE")
-
-    var ts = new Date(msg.timestamp*1000);
-    webGI.log.data_hd.push([ts,msg.data.edr,msg.data.edr_avg]);
-
-    //FIXME: push ld data less often
-    webGI.log.data_ld.push([ts,msg.data.edr,msg.data.edr_avg]);
-
-    var left_end_ld = new Date((msg.timestamp-60*60*24)*1000)
-    while(webGI.log.data_ld[0][0] < left_end_ld) webGI.log.data_ld.shift();
-
-    var left_end_hd = new Date((msg.timestamp-60*60*1)*1000)
-    while(webGI.log.data_hd[0][0] < left_end_hd) webGI.log.data_hd.shift();
-
-
-    var now = webGI.now;
-    webGI.log.chart.updateOptions({
-        file: webGI.log.data,
-        dateWindow: [ now - webGI.log.chart_age*1000, now]
-    });
-}
-
-
-  function chartApproachRange() {
-    if (!webGI.log.desired_range) return;
-    // go halfway there
-    var range = webGI.log.chart.xAxisRange();
-    if (Math.abs(webGI.log.desired_range[0] - range[0]) < 60 &&
-        Math.abs(webGI.log.desired_range[1] - range[1]) < 60) {
-        if (webGI.log.chart_age > 60*60*1) {
-            webGI.log.data = webGI.log.data_ld;
-        } else {
-            webGI.log.data = webGI.log.data_hd;
-        }
-
-      webGI.log.chart.updateOptions({dateWindow: webGI.log.desired_range,
-        file: webGI.log.data});
-      // (do not set another timeout.)
-    } else {
-      var new_range;
-      new_range = [0.5 * (webGI.log.desired_range[0] + range[0]),
-                   0.5 * (webGI.log.desired_range[1] + range[1])];
-      webGI.log.chart.updateOptions({dateWindow: new_range});
-      chartAnimate();
-    }
-  }
-  function chartAnimate() {
-    webGI.log.animtimer = setTimeout(chartApproachRange, 50);
-  }
-
-  function chartZoom (age) {
-    var w = webGI.log.chart.xAxisRange();
-    webGI.log.desired_range = [ age, webGI.now];
-    chartAnimate();
-  }
-
 
 $(document).ready(function()
 {

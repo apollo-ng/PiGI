@@ -20,12 +20,6 @@ var webGI_init =
         animtimer : null,
         chart_colors : ['#677712','yellow'],
     },
-    history :
-    {
-        chart : null,
-        data : [],
-        log_scale : false
-    },
     conf :
     {
         websocket_host : "ws://" + window.location.hostname + ":" +window.location.port,
@@ -120,7 +114,7 @@ function initWebsockets()
                 updateLogHistory(msg);
             break;
             case "static_history":
-                updateHistory(msg);
+                webGI.history.update(msg);
             break;
             default:
                 console.log("INVALID MESSAGE",msg)
@@ -271,7 +265,7 @@ function initUI()
     });
 */
     initLog();
-    initHistory();
+    webGI.history.init();
     webGI.gauge.init();
     webGI.geo.init();
     updateLayout();
@@ -292,20 +286,14 @@ function toggleCounterUnit()
     }
 }
 
-function toggleLogScale()
-{
-    if(!webGI.history.log_scale)
-    {
-        webGI.history.log_scale = true;
+function toggleLogScale() {
+    if(!webGI.history.log_scale) {
+        webGI.history.set_log_scale(true);
         $('#toggleLogScale').addClass('enabled');
-    }
-    else
-    {
-        webGI.history.log_scale = false;
+    } else {
+        webGI.history.set_log_scale(false);
         $('#toggleLogScale').removeClass('enabled');
     }
-
-    webGI.history.chart.updateOptions({ logscale: webGI.history.log_scale });
 }
 
 function showErrorModal (title, msg, action)
@@ -359,7 +347,7 @@ function updateLayout()
 
     //ugly, but we seem to need it
     initLog();
-    initHistory();
+    webGI.history.init();
     webGI.gauge.init()
     //if (webGI.log.chart != null) webGI.log.chart.updateOptions({file: webGI.log.data});
     //if (webGI.history.chart != null) webGI.history.chart.updateOptions({file: webGI.history.data});
@@ -487,94 +475,6 @@ function requestHistory(from,to)
 
     webGI.websockets.log.send(JSON.stringify(cmd));
     //console.log ("Requesting history");
-}
-
-function initHistory()
-{
-    //console.log("Init history");
-
-    if (webGI.history.data.length==0)
-    {
-        return;
-    }
-
-    webGI.history.chart = new Dygraph("historyContainer", webGI.history.data,
-    {
-        //interactionModel : {
-        //    'mousedown' : Dygraph.Interaction.startPan,
-        //    'mousemove' : Dygraph.Interaction.movePan,
-        //    'mouseup' : Dygraph.Interaction.endPan,
-            //'click' : clickV3,
-            //'dblclick' : dblClickV3,
-        //    'mousewheel' : Dygraph.Interaction.moveZoom
-        //},
-        showRangeSelector: true,
-        rangeSelectorPlotFillColor: '#677712',
-        rangeSelectorPlotStrokeColor: '#677712',
-        title: 'EAR: $$ uSv/h (AVG) - EAD: $$ uSv (Total)',
-        titleHeight: 35,
-        rightGap: 10,
-        fillAlpha: 0.7,
-        fillGraph: true,
-        showRoller: true,
-        valueRange: [0.01,null],
-        //yRangePad: 10,
-        drawCallback: function(dygraph, initial)
-        {
-            var range = dygraph.yAxisRange()
-            if (range[0] != 0.01)
-            {
-                console.log("Fixing range",range);
-                range[0] = 0.01;
-                range[1] = null//;range[1]*2;
-                dygraph.updateOptions({valueRange: range});
-            }
-        },
-        //zoomCallback: function(min,max,y) {
-        //    webGI.history.chart.updateOptions({valueRange: [0.01, null]});
-        //},
-
-        //includeZero: true,
-        //connectSeparatedPoints: true,
-        labels: ['time','µSv/h','µSv/h (15m avg)'],
-        xlabel: 'time',
-        xLabelHeight : 25,
-        colors: ['#677712','yellow'],
-        'µSv/h':
-        {
-            fillGraph: true,
-            stepPlot: true,
-        },
-        'µSv/h (15m avg)':
-        {
-            fillGraph: false,
-        },
-    });
-}
-
-function updateHistory(data)
-{
-    //console.log("HISTORY");
-    webGI.history.data = [];
-    $.each(data.log, function(i,v)
-    {
-        //var v = JSON.parse(v_json);
-        var ts = new Date(v.timestamp*1000)
-        if (isNaN(ts.getTime()))
-        {
-            return;
-        }
-        webGI.history.data.push([ts,v.data.edr,v.data.edr_avg]);
-    });
-
-    if (webGI.history.chart == null)
-    {
-        initHistory();
-    }
-    else
-    {
-        webGI.history.chart.updateOptions({ file: webGI.history.data });
-    }
 }
 
 function initLog()

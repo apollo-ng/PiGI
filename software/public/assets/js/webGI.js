@@ -7,7 +7,6 @@ var webGI_init =
     now: Date.now(),
     ui_action : 'click',
     websockets : {},
-    spinner : null,
     log :
     {
         chart : null,
@@ -106,7 +105,6 @@ function initWebsockets()
         requestLog(60*60*1,true);
         requestLog(60*60*24,false);
         requestHistory(null,null);
-        setTimeout(function(){$('.splash').addClass('splash-hidden'); },500);
     };
 
     webGI.websockets.log.onclose = function()
@@ -370,41 +368,6 @@ function showErrorModal (title, msg, action)
     300);
 }
 
-function initSpinner()
-{
-    var opts =
-    {
-        lines: 14, // The number of lines to draw
-        length: 30, // The length of each line
-        width: 11, // The line thickness
-        radius: 45, // The radius of the inner circle
-        corners: 1, // Corner roundness (0..1)
-        rotate: 0, // The rotation offset
-        direction: 1, // 1: clockwise, -1: counterclockwise
-        color: 'rgba(216, 211, 197, 0.9)', // #rgb or #rrggbb or array of colors
-        speed: 0.8, // Rounds per second
-        trail: 60, // Afterglow percentage
-        shadow: true, // Whether to render a shadow
-        hwaccel: true, // Whether to use hardware acceleration
-        className: 'spinner', // The CSS class to assign to the spinner
-        zIndex: 2e9, // The z-index (defaults to 2000000000)
-        top: '150px', // Top position relative to parent in px
-        left: 'auto' // Left position relative to parent in px
-    };
-
-    webGI.spinner = new Spinner(opts).spin(document.getElementById('body'));
-    webGI.spinner.stop();
-}
-
-function startSpinner()
-{
-    webGI.spinner.spin(document.getElementById('body'));
-}
-
-function stopSpinner()
-{
-    webGI.spinner.stop();
-}
 
 function updateLayout()
 {
@@ -908,6 +871,7 @@ function geoError(error)
 
 $(document).ready(function()
 {
+    webGI.spinner.init();
     $(window).resize(updateLayout);
     updateLayout();
     window.onhashchange = updateLayout; // should have been replaced by pageAnimationEnd event but doesn't work as well
@@ -917,9 +881,13 @@ $(document).ready(function()
     else { webGI.ui_action  = 'click'; }
 
     initUI();
-    initSpinner();
     initWebsockets();
-
+    setTimeout(function() {
+        webGI.spinner.disable();
+        $('.splash').addClass('splash-hidden');
+    },500);
+    
     //setTimeout(function () { geoToggle(); },5000);
+    
 
 });

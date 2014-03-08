@@ -1,6 +1,3 @@
-//This is a template for webGI modules
-//Copy and extend...
-
 //Create webGI object if neccessary
 if (typeof webGI === 'undefined') {
     webGI = {}

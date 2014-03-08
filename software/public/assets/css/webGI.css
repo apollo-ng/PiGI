@@ -702,9 +702,15 @@ div#jqt #about a {
     width: 100%;
 }
 
+#modalRADCON th {
+    padding-right: 5px;
+}
+
 #modalRADCON tr, #modalRADCON td {
     height: 22px;
     line-height: 22px;
+    text-align: right;
+    padding-right: 5px;
 }
 
 #modalRADCON .num {
@@ -713,11 +719,7 @@ div#jqt #about a {
     font-size: 16px;
     width: 25px;
     overflow: hidden;
-}
-
-#modalRADCON .edr {
-    text-align: right;
-    padding-right: 4px;
+    padding: 0 !important;
 }
 
 #modalRADCON .current {

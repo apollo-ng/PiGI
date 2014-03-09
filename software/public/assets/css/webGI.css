@@ -873,7 +873,7 @@ keyframes simNotify {
     padding: 0 !important;
     float: right;
     width: 20%;
-    max-width: 150px;
+    max-width: 100px;
     margin: 0 !important;
     overflow: hidden;
     -webkit-box-shadow: inset 0 0 52px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.0) 0 0px 0 4px;

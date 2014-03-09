@@ -93,7 +93,7 @@
       <li><input type="checkbox" value="off" title="" id="cnf_gps_hacc"/><label for="cnf_gps_hacc" class="input-action-label">Enable GPS High Accuracy Mode</label></li>
       </ul>
       <ul class="rounded">
-      <li class="arrow"><a href="#" id="showModalAuth">Server Settings</a></li>
+      <li class="arrow"><a href="#serverOptionsPanel" class="dissolve">Server Settings</a></li>
       <li class="arrow"><a href="#about" class="dissolve">About</a></li>
      </ul>
     </div>
@@ -103,20 +103,34 @@
    <div id="serverOptionsPanel">
     <div class="toolbar"><h1>Server Options</h1><a href="#" class="goback button leftButton">Back</a><a href="#mainPanel" class="button rightButton slideleft">Live</a></div>
      <div class="scroll">
+      <span id="cnf_node_uuid">00000000-0000-0000-0000-000000000000</span>
       <h2>OPMode</h2>
       <ul class="rounded">
       <li><input type="radio" name="geoMode" value="mobile" title="" id="cnf_gps_mode_mobile" checked="checked" /><label for="cnf_gps_mode_mobile" class="input-action-label">Mobile</label></li>
-      <li><input type="radio" name="geoMode" value="static" title="" id="cnf_gps_mode_static" /><label for="cnf_gps_mode_static" class="input-action-label">Stationary</label></li>
+      <li>
+       <input type="radio" name="geoMode" value="static" title="" id="cnf_gps_mode_static" /><label for="cnf_gps_mode_static" class="input-action-label">Stationary</label>
+       <input type="text" id="cnf_node_lat" /> <input type="text" id="cnf_node_lon" /> <input type="text" id="cnf_node_alt" />
+      </li>
       </ul>
-      <h2>Source selection</h2>
+      <h2>Data Sources</h2>
       <ul class="rounded">
-      <li><input type="radio" name="source" value="env" title="" id="server_cnf_opmode_env" /><label for="server_cnf_opmode_env" class="input-action-label">Enviroment</label></li>
+      <li>
+       <input type="radio" name="source" value="env" title="" id="server_cnf_opmode_env" /><label for="server_cnf_opmode_env" class="input-action-label">Enviroment</label>
+       <div style="border: 1px solid #222; border-radius: 5px; background: #3F3E3A url('img/panel_bg.png') repeat; height: 30px; font-size: 14px; font-weight: normal;">
+        Window/tube capabilities:
+        <div style="float: right; margin-left: 5px; background: rgba(255,255,255,0.1); padding: 5px;"><input style="position: relative; top: 2px" type="radio" value="c" title="" id="cgw_c" name="cnf_geigercounter_window" /><label style="padding-left: 5px;" for="cgw_c">C only</label></div>
+        <div style="float: right; margin-left: 5px; background: rgba(255,255,255,0.1); padding: 5px;"><input style="position: relative; top: 2px" type="radio" value="bc" title="" id="cgw_bc" name="cnf_geigercounter_window" /><label style="padding-left: 5px;" for="cgw_bc">B + C</label></div>
+        <div style="float: right; margin-left: 5px; background: rgba(255,255,255,0.1); padding: 5px;"><input style="position: relative; top: 2px" type="radio" value="abc" title="" id="cgw_abc" name="cnf_geigercounter_window" /><label style="padding-left: 5px;" for="cgw_abc">A+B+C</label></div>
+       </div>
+      </li>
       <li><input type="radio" name="source" value="test" title="" id="server_cnf_opmode_test" /><label for="server_cnf_opmode_test" class="input-action-label">Test</label></li>
-      <li><input type="radio" name="source" value="sim" title="" id="server_cnf_opmode_sim" checked="checked" /><label for="server_cnf_opmode_sim" class="input-action-label">Simulation</label></li>
-      <li><input type=range min="0" max="100" value="1" step="all" id="simRanger" class='options-range-input' oninput="$('#server_cnf_sim_dose_rate').val(webGI.options.lin2log(this.value))"/>
-      <input name="server_cnf_sim_dose_rate" id="server_cnf_sim_dose_rate" class="optionsDisplay" oninput="$('#simRanger').val(webGI.options.log2lin(this.value))"/></li>
-      </ul>
-      <a href="#" class="grayButton" id="saveServerSettings">Save Server Settings</a>
+      <li>
+       <input type="radio" name="source" value="sim" title="" id="server_cnf_opmode_sim" checked="checked" /><label for="server_cnf_opmode_sim" class="input-action-label">Tick Simulator</label>
+       <input type=range min="0" max="100" value="1" step="all" id="simRanger" class='options-range-input' oninput="$('#server_cnf_sim_dose_rate').val(webGI.options.lin2log(this.value))"/>
+       <input name="server_cnf_sim_dose_rate" id="server_cnf_sim_dose_rate" class="optionsDisplay" oninput="$('#simRanger').val(webGI.options.log2lin(this.value))"/>
+      </li>
+     </ul>
+     <a href="#" class="grayButton" id="showModalAuth">Save Server Settings</a>
     </div>
    </div>
 
@@ -164,7 +178,7 @@
     </div>
     <div class="md-footer">
      <a class="md-close" onclick="$('#modalAuth').removeClass('md-show');">Cancel</a>
-     <a class="md-close md-green dissolve" href="#serverOptionsPanel" onclick="$('#modalAuth').removeClass('md-show');">OK</a>
+     <a class="md-close md-green dissolve" id="saveServerSettings" href="#serverOptionsPanel" onclick="$('#modalAuth').removeClass('md-show');">Save</a>
     </div>
    </div>
   </div>

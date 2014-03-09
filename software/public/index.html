@@ -110,16 +110,13 @@
       </ul>
       <h2>Source selection</h2>
       <ul class="rounded">
-      <li><input type="radio" name="source" value="sim" title="" id="server_cnf_opmode_sim" checked="checked" /><label for="server_cnf_opmode_sim" class="input-action-label">Simulation</label></li>
-      <li><input type="radio" name="source" value="test" title="" id="server_cnf_opmode_test" /><label for="server_cnf_opmode_test" class="input-action-label">Test</label></li>
       <li><input type="radio" name="source" value="env" title="" id="server_cnf_opmode_env" /><label for="server_cnf_opmode_env" class="input-action-label">Enviroment</label></li>
+      <li><input type="radio" name="source" value="test" title="" id="server_cnf_opmode_test" /><label for="server_cnf_opmode_test" class="input-action-label">Test</label></li>
+      <li><input type="radio" name="source" value="sim" title="" id="server_cnf_opmode_sim" checked="checked" /><label for="server_cnf_opmode_sim" class="input-action-label">Simulation</label></li>
+      <li><input type=range min="0" max="100" value="1" step="all" id="simRanger" class='options-range-input' oninput="$('#server_cnf_sim_dose_rate').val(webGI.options.lin2log(this.value))"/>
+      <input name="server_cnf_sim_dose_rate" id="server_cnf_sim_dose_rate" class="optionsDisplay" oninput="$('#simRanger').val(webGI.options.log2lin(this.value))"/></li>
       </ul>
-      <h2>Target for simulation in uSv/h</h2>
-      <ul class="rounded">
-      <li><input type=range min="0" max="100" value="2.7" step="all" list=simRange id="simRanger" class='options-range-input' oninput="$('#server_cnf_sim_dose_rate').val(webGI.options.lin2log(value))"/>
-      <input name="server_cnf_sim_dose_rate" id="server_cnf_sim_dose_rate" class="optionsDisplay"/></li>
-      </ul>
-      <a href="#" class="white" id="saveServerSettings">Save Server Settings</a>
+      <a href="#" class="grayButton" id="saveServerSettings">Save Server Settings</a>
     </div>
    </div>
 

@@ -61,11 +61,14 @@ class Geigercounter (threading.Thread):
         self.count=0
         self.cps=0
         self.cpm=0
+        self.cps_dtc=0
+        self.cpm_dtc=0
         self.edr=0
 
     def tick(self, pin=None):
         self.count += 1
         self.totalcount += 1
+        self.totalcount_dtc += 1
         if self.entropygenerator:
             self.entropygenerator.tick()
 
@@ -80,22 +83,32 @@ class Geigercounter (threading.Thread):
             TickSimulator(self).start()
 
         cpm_fifo = deque([],60)
+        cpm_dtc_fifo = deque([],60)
         while True:
             time.sleep(1)
 
             # Statistical correction of tube dead-time
             if gpio_available:
                 deadtime = cfg.getfloat('geigercounter','tube_dead_time')
-                self.count = int(self.count/(1-(self.count*deadtime)))
-
+                count_dtc = int(self.count/(1-(self.count*deadtime)))
+            else:
+                count_dtc = self.count
+                
             cpm_fifo.appendleft(self.count)
+            cpm_dtc_fifo.appendleft(count_dtc)
 
             self.cpm = int(sum(cpm_fifo)*60.0/len(cpm_fifo))
+            self.cpm_dtc = int(sum(cpm_dtc_fifo)*60.0/len(cpm_dtc_fifo))
             self.cps = self.count
+            self.cps_dtc = count_dtc
+            
             ratefactor = cfg.getfloat('geigercounter','tube_rate_factor')
-            self.edr = round(self.cpm * ratefactor,2)
-
+            self.edr = round(self.cpm_dtc * ratefactor,2)
+            
+            self.totalcount_dtc += (count_dtc - self.count)
+            
             self.count = 0
+            
             log.debug(self.get_state())
 
     def get_state(self):
@@ -104,26 +117,26 @@ class Geigercounter (threading.Thread):
                 "node_uuid": cfg.get('node','uuid'),
                 "timestamp": int(datetime.datetime.now().strftime("%s")),
                 "geostamp": {
-                    "lat": 48.00,
-                    "lon": 11.00,
-                    "alt": 560
+                    "lat": cfg.getfloat('node','lat'),
+                    "lon": cfg.getfloat('node','lon'),
+                    "alt": cfg.getfloat('node','alt')
                 },
                 "parameters": {
                     "tube_id": cfg.get('geigercounter','tube_id'),
                     "dead_time": cfg.getfloat('geigercounter','tube_dead_time'),
                     "tube_factor": cfg.getfloat('geigercounter','tube_rate_factor'),
-                    "opmode": "stationary",
-                    "window": "abc"
+                    "opmode": cfg.get('node', 'opmode'),
+                    "window": cfg.get('geigercounter', 'window')
                 },
                 "data": {
-                "source": "test" if gpio_available else "sim",
-                "cps": self.cps,
-                "cps_dtc": self.cps,
-                "cpm": self.cpm,
-                "cpm_dtc": self.cpm,
-                "totalcount": self.totalcount,
-                "totalcount_dtc": self.totalcount,
-                "edr": self.edr
+                    "source": cfg.get('geigercounter', 'source') if gpio_available else "sim",
+                    "cps": self.cps,
+                    "cps_dtc": self.cps_dtc,
+                    "cpm": self.cpm,
+                    "cpm_dtc": self.cpm_dtc,
+                    "totalcount": self.totalcount,
+                    "totalcount_dtc": self.totalcount_dtc,
+                    "edr": self.edr
                 },
                 "annotation": ""
 

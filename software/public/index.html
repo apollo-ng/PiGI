@@ -12,7 +12,6 @@
   <link rel="stylesheet" href="assets/css/webGI.css">
   <script src="assets/js/spin.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/webGI_spinner.js" type="text/javascript" charset="utf-8"></script>
-
   <script src="assets/js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/jqtouch.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/dygraph-combined.js" type="text/javascript" charset="utf-8"></script>
@@ -115,9 +114,10 @@
       <li><input type="radio" name="source" value="test" title="" id="server_cnf_opmode_test" /><label for="server_cnf_opmode_test" class="input-action-label">Test</label></li>
       <li><input type="radio" name="source" value="env" title="" id="server_cnf_opmode_env" /><label for="server_cnf_opmode_env" class="input-action-label">Enviroment</label></li>
       </ul>
-      <h2>Simulation</h2>
+      <h2>Target for simulation in uSv/h</h2>
       <ul class="rounded">
-      <li><input name="sim_dose_rate" id="server_cnf_sim_dose_rate" /><label for="server_cnf_sim_dose_rate" class="input-label">µSv/h</label></li>
+      <li><input type=range min="0" max="100" value="2.7" step="all" list=simRange id="simRanger" class='options-range-input' oninput="$('#server_cnf_sim_dose_rate').val(webGI.options.lin2log(value))"/>
+      <input name="server_cnf_sim_dose_rate" id="server_cnf_sim_dose_rate" class="optionsDisplay"/></li>
       </ul>
       <a href="#" class="white" id="saveServerSettings">Save Server Settings</a>
     </div>

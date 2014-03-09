@@ -9,15 +9,15 @@ webGI.status = (function($) {
 
     //Public attributes
     var my = {};
-    
+
     //Private attributes
     var count_unit = "CPM";
-    
+
     //Public Function
     my.show_radcon = function() {
         $('#modalRADCON').addClass('md-show');
     };
-    
+
     my.toggle_counter_unit = function() {
         if(count_unit=="CPM")
         {
@@ -30,7 +30,7 @@ webGI.status = (function($) {
             count_unit = "CPM";
         }
         }
-    
+
 
     my.update = function(msg) {
         if(count_unit=="CPM") $('#count_val').html(parseInt(msg.data.cpm_dtc));
@@ -82,7 +82,7 @@ webGI.status = (function($) {
                 else if (c<6)
                 {
                     $('.rc-cat').removeClass('current');
-                    $('#rcCatLMed').addClass('current');
+                    $('#rcCatMed').addClass('current');
                     $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('green red');
                     $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').addClass('yellow');
                     //webGI.livechart.set_colors(['#F5C43C','yellow']);
@@ -90,7 +90,7 @@ webGI.status = (function($) {
                 else
                 {
                     $('.rc-cat').removeClass('current');
-                    $('#rcCatLHigh').addClass('current');
+                    $('#rcCatHigh').addClass('current');
                     $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('green yellow');
                     $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').addClass('red');
                     //webGI.livechart.set_colors(['#ff0000','yellow']);
@@ -122,7 +122,7 @@ webGI.status = (function($) {
 
         $('#edr_val').html(edr.toFixed(2));
     }
-    
+
     //Do not forget to return my, otherwise nothing will work.
     return my;
 }($));  //Pass jq/zepto to the module construction function call

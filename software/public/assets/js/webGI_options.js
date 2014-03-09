@@ -77,6 +77,7 @@ webGI.options = (function($) {
         console.log("Options:",msg)
         my.server.sim_dose_rate = msg.sim_dose_rate;
         $('#server_cnf_sim_dose_rate').val(my.server.sim_dose_rate);
+        $('#simRanger').val(webGI.options.log2lin(my.server.sim_dose_rate));
     }
 
     //Do not forget to return my, otherwise nothing will work.

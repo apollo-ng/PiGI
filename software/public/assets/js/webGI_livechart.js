@@ -38,7 +38,7 @@ webGI.livechart = (function($) {
             var y = e.offsetY;
             var dataXY = chart.toDataCoords(x, y);
             $('#eventTS').html(new Date(dataXY[0]));
-            $('#eventEDR').html(dataXY[1]);
+            $('#eventEDR').html(dataXY[1].toFixed(2));
             $('#modalAnnotation').addClass('md-show');
         }
 

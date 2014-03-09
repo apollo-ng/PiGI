@@ -169,6 +169,13 @@ class GeigerLog(threading.Thread):
             step += 1
         return average_log_entries(result,cfg.getfloat('geigercounter','tube_rate_factor'))
 
+    def set_annotation(self,ts,text):
+        (key,entry_json) = self.db.RangeIter(key_from=str(ts)).next()
+        entry = json.loads(entry_json)
+        entry['annotation'] = text
+        entry_json = json.dumps(entry)
+        self.db.Put(key,entry_json)
+        
 def dummy_entry(timestamp,total,total_dtc):
     msg = {
         "type": "geigerjson",

@@ -21,6 +21,8 @@ webGI.livechart = (function($) {
     var data_ld = [];
     var desired_range = null;
     var animtimer = null;
+    var annotation_ts = null;
+    var annotations = [];
     var edr_avg_24h = 0.1; //FIXME this does not belong here
     var chart_colors = ['#677712','yellow'];
 
@@ -38,10 +40,17 @@ webGI.livechart = (function($) {
             var y = e.offsetY;
             var dataXY = chart.toDataCoords(x, y);
             $('#eventTS').html(new Date(dataXY[0]));
+            annotation_ts = dataXY[0]/1000;
             $('#eventEDR').html(dataXY[1].toFixed(2));
             $('#modalAnnotation').addClass('md-show');
         }
-
+        
+        my.save_annotation = function() {
+            var annotation_text = $('#eventText').val();
+            console.log(annotation_ts,annotation_text);
+            pushAnnotation(annotation_ts,annotation_text);
+            requestLog(60*60*1,true);
+        };
 
         chart = new Dygraph(my.container_id, data,
         {
@@ -97,8 +106,10 @@ webGI.livechart = (function($) {
     }
 
     my.updateBacklog = function(msg){
+        
         //console.log("LOGHISTORY");
         if (msg.hd) {
+            annotations = [];
             data_hd = [];
             $.each(msg.log, function(i,v)
             {
@@ -108,6 +119,14 @@ webGI.livechart = (function($) {
                 //{
                 //    return;
                 //}
+                if(! v.annotation == "") {
+                    annotations.push( {
+                      series: 'µSv/h',
+                      x: v.timestamp*1000,
+                      shortText: "X",
+                      text: v.annotation
+                    } );
+                }
                 data_hd.push([ts,v.data.edr,v.data.edr_avg]);
             });
         } else {
@@ -140,17 +159,16 @@ webGI.livechart = (function($) {
             data = data_hd;
             //console.log("HD",webGI.log.data.length)
         }
-        if (chart == null)
-        {
+        if (chart == null) {
             my.init();
-        }
-        else
-        {
+        } else {
             chart.updateOptions({
                 file: data,
                 dateWindow: [ my.now - my.chart_age*1000, my.now]
             });
         }
+        console.log(annotations);
+        chart.setAnnotations(annotations);
     }
 
 
@@ -163,7 +181,7 @@ webGI.livechart = (function($) {
         if (chart) chart.updateOptions({ colors: c });
         my.chart_colors = c
     }
-
+    
     my.set_age = function(seconds) {
         my.chart_age = seconds
         if (animtimer != null) {

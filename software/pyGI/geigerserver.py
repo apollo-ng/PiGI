@@ -93,6 +93,11 @@ def handle_ws_log():
                 age_to = msg.get("to")
                 #log.info("From %s to %s"%(str(age_from),str(age_to)))
                 log_mgr.send_log(start=age_from,end=age_to,amount=1000,static=True)
+            elif msg.get("cmd") == "annotation":
+                ts = msg.get("timestamp")
+                text = msg.get("text")
+                geigerlog.set_annotation(ts,text)
+                log_mgr.send_log(start=age_from,end=age_to,amount=1000,static=True)
         except WebSocketError:
             break
     log.info("websocket closed (%s)"%wsock.path)

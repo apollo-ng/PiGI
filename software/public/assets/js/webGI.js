@@ -129,6 +129,10 @@ function initUI() {
     $('#showModalAuth').bind(webGI.conf.ui_action,function() {
         $('#modalAuth').addClass('md-show');
     });
+    
+    $('#annotationSave').bind(webGI.conf.ui_action,function() {
+        webGI.livechart.save_annotation();
+    });
 
     $('#toggleGauge').bind(webGI.conf.ui_action,function() {
        $('#toggleTrace').hide(); //FIXME This is bogus???
@@ -280,6 +284,17 @@ function requestHistory(from,to) {
         "cmd" : "history",
         "from" : from,
         "to" : to
+    }
+
+    webGI.websockets.log.send(JSON.stringify(cmd));
+    //console.log ("Requesting history");
+}
+
+function pushAnnotation(ts,text) {
+    var cmd = {
+        "cmd" : "annotation",
+        "timestamp" : ts,
+        "text": text
     }
 
     webGI.websockets.log.send(JSON.stringify(cmd));

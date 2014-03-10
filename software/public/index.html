@@ -114,20 +114,22 @@
       </ul>
       <h2>Data Sources</h2>
       <ul class="rounded">
-      <li>
+      <li class="env-suboptions">
        <input type="radio" name="source" value="env" title="" id="server_cnf_opmode_env" /><label for="server_cnf_opmode_env" class="input-action-label">Enviroment</label>
-       <div style="border: 1px solid #222; border-radius: 5px; background: #3F3E3A url('img/panel_bg.png') repeat; height: 30px; font-size: 14px; font-weight: normal;">
+       <div class="env-suboptions-container options-inline-radio">
         Window/tube capabilities:
-        <div style="float: right; margin-left: 5px; background: rgba(255,255,255,0.1); padding: 5px;"><input style="position: relative; top: 2px" type="radio" value="c" title="" id="cgw_c" name="cnf_geigercounter_window" /><label style="padding-left: 5px;" for="cgw_c">C only</label></div>
-        <div style="float: right; margin-left: 5px; background: rgba(255,255,255,0.1); padding: 5px;"><input style="position: relative; top: 2px" type="radio" value="bc" title="" id="cgw_bc" name="cnf_geigercounter_window" /><label style="padding-left: 5px;" for="cgw_bc">B + C</label></div>
-        <div style="float: right; margin-left: 5px; background: rgba(255,255,255,0.1); padding: 5px;"><input style="position: relative; top: 2px" type="radio" value="abc" title="" id="cgw_abc" name="cnf_geigercounter_window" /><label style="padding-left: 5px;" for="cgw_abc">A+B+C</label></div>
+        <div><input type="radio" value="c" title="" id="cgw_c" name="cnf_geigercounter_window" /><label style="padding-left: 5px;" for="cgw_c">&gamma; only</label></div>
+        <div><input type="radio" value="bc" title="" id="cgw_bc" name="cnf_geigercounter_window" /><label style="padding-left: 5px;" for="cgw_bc">&beta;,&gamma;</label></div>
+        <div><input type="radio" value="abc" title="" id="cgw_abc" name="cnf_geigercounter_window" checked="checked" /><label style="padding-left: 5px;" for="cgw_abc">&alpha;,&beta;,&gamma;</label></div>
        </div>
       </li>
       <li><input type="radio" name="source" value="test" title="" id="server_cnf_opmode_test" /><label for="server_cnf_opmode_test" class="input-action-label">Test</label></li>
-      <li>
+      <li class="sim-suboptions">
        <input type="radio" name="source" value="sim" title="" id="server_cnf_opmode_sim" checked="checked" /><label for="server_cnf_opmode_sim" class="input-action-label">Tick Simulator</label>
-       <input type=range min="0" max="100" value="1" step="all" id="simRanger" class='options-range-input' oninput="$('#server_cnf_sim_dose_rate').val(webGI.options.lin2log(this.value))"/>
-       <input name="server_cnf_sim_dose_rate" id="server_cnf_sim_dose_rate" class="optionsDisplay" oninput="$('#simRanger').val(webGI.options.log2lin(this.value))"/>
+       <div class="sim-suboptions-container">
+        <input type=range min="0" max="100" value="1" step="all" id="simRanger" class='options-range-input' oninput="$('#server_cnf_sim_dose_rate').val(webGI.options.lin2log(this.value))"/>
+        <input name="server_cnf_sim_dose_rate" id="server_cnf_sim_dose_rate" class="optionsDisplay" oninput="$('#simRanger').val(webGI.options.log2lin(this.value))"/>
+       </div>
       </li>
      </ul>
      <a href="#" class="grayButton" id="showModalAuth">Save Server Settings</a>

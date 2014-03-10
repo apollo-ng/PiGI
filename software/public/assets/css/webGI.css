@@ -875,6 +875,7 @@ keyframes simNotify {
     width: 20%;
     max-width: 100px;
     margin: 0 !important;
+    margin-top: 5px !important;
     overflow: hidden;
     -webkit-box-shadow: inset 0 0 52px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.0) 0 0px 0 4px;
     box-shadow: inset 0 0 52px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.0) 0 0px 0 4px;
@@ -906,7 +907,6 @@ keyframes simNotify {
     width: 75%;
     padding: 0;
     margin: 0;
-    margin-top: 8px;
     background: transparent;
     border: none;
     outline: none;
@@ -934,28 +934,26 @@ keyframes simNotify {
 
 .options-range-input,
 .options-range-input--vertical {
-    border-radius: 6px;
     border: 1px solid #555;
     border-bottom: 1px solid rgba(200, 200, 200, 0.4);
     border-top: 1px solid #000;
-    background: #3F3E3A url('../img/panel_bg.png') repeat;
     -webkit-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
+    -moz-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
     box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
-    height: 12px;
-    border-radius: 6px;
+    height: 6px;
+    border-radius: 3px;
 }
 
 .options-range-input::-moz-range-track,
 .options-range-input--vertical::-moz-range-track {
-    border-radius: 6px;
     border: 1px solid #555;
     border-bottom: 1px solid rgba(200, 200, 200, 0.6);
     border-top: 1px solid #000;
-    background: #3F3E3A url('../img/panel_bg.png') repeat;
     -webkit-box-shadow: inset 0 0 5px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.35);
+    -moz-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
     box-shadow: inset 0 0 5px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.35);
-    height: 12px;
-    border-radius: 6px;
+    height: 6px;
+    border-radius: 3px;
 }
 
 /*
@@ -1003,30 +1001,32 @@ keyframes simNotify {
 */
 
 .options-inline-radio {
-    margin-top: 7px;
-    border-radius: 5px;
-    border: 1px solid #555;
-    border-bottom: 1px solid rgba(200, 200, 200, 0.4);
-    border-top: 1px solid #000;
+    border-radius: 7px;
     background: #3F3E3A url('../img/panel_bg.png') repeat;
     -webkit-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
     -moz-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
     box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
-    height: 30px;
-    line-height: 30px;
+    height: 40px;
+    line-height: 40px;
     overflow: hidden;
     margin-bottom: 0;
+    padding-right: 5px;
     font-size: 14px;
     font-weight: normal;
+    border-radius: 7px;
+    background: #3F3E3A url('../img/panel_bg.png') repeat;
+    -webkit-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
+    -moz-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
+    box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
 }
 
 .options-inline-radio div {
     float: right;
-    margin-left: 5px;
+    margin-top: 5px;
+    margin-right: 1px;
     height: 30px;
     position: relative;
     display: inline-block;
-    margin-bottom: 20px;
     width: 15%;
     font: 14px/20px "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -1037,16 +1037,10 @@ keyframes simNotify {
     top: 2px;
 }
 .options-inline-radio input[type=radio]:checked ~ label {
-    color: rgba(52,51,62,1);
+    color: #fff;
+    font-weight: bold;
     background: rgb(103,119,18);
-    background: -moz-linear-gradient(top, rgba(103,119,18,0.8) 0%, rgba(162,183,58,1) 100%) !important;
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(103,119,18,0.8)), color-stop(100%,rgba(162,183,58,0.8))) !important;
-    background: -webkit-linear-gradient(top, rgba(103,119,18,0.8) 0%,rgba(162,183,58,1) 100%) !important;
-    background: -o-linear-gradient(top, rgba(103,119,18,0.8) 0%,rgba(162,183,58,1) 100%) !important;
-    background: -ms-linear-gradient(top, rgba(103,119,18,1) 0%,rgba(162,183,58,1) 100%) !important;
-    background: linear-gradient(to bottom, rgba(103,119,18,0.8) 0%,rgba(162,183,58,0.8) 100%) !important;
     box-shadow: 0 1px 2px rgba(0,0,0,.2) inset;
-    color: #707070;
     text-shadow: 0 0 2px #fff;
 }
 
@@ -1059,13 +1053,13 @@ keyframes simNotify {
     left: 0;
     right: 0;
     bottom: 0;
-    border: 1px solid #bebebe;
+    border: 1px solid #222;
     background-image: -moz-linear-gradient(top,#fefefe, #e1e1e1);
     background-image: -webkit-linear-gradient(top, #fefefe, #e1e1e1);
     text-align: center;
     line-height: 28px;
     cursor: pointer;
-    color: #888;
+    color: #333;
     text-shadow: 0 1px 0 #fff;
 }
 
@@ -1073,25 +1067,46 @@ keyframes simNotify {
     height: 0 !important;
     border: none;
     margin: 0;
+    line-height: 42px;
+    padding-left: 10px;
     -webkit-transition: all 0.3s ease-in-out !important;
     -moz-transition: all 0.3s ease-in-out !important;
     transition: all 0.3s ease-in-out !important;
 }
 
 #serverOptionsPanel li.env-suboptions input[type=radio]:checked ~ .env-suboptions-container {
-    height: 30px !important;
+    height: 42px !important;
+    margin-top: 10px;
+    border: 1px solid #555 !important;
+border-bottom: 1px solid rgba(200, 200, 200, 0.4) !important;
+border-top: 1px solid #000 !important;
 }
 
 #serverOptionsPanel li.sim-suboptions input[type=radio] ~ .sim-suboptions-container {
     height: 0 !important;
     overflow: hidden;
+    border: none;
     -webkit-transition: all 0.3s ease-in-out !important;
     -moz-transition: all 0.3s ease-in-out !important;
     transition: all 0.3s ease-in-out !important;
+    padding: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 7px;
+    background: #3F3E3A url('../img/panel_bg.png') repeat;
+    -webkit-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
+    -moz-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
+    box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
+    height: 42px;
+
 }
 
 #serverOptionsPanel li.sim-suboptions input[type=radio]:checked ~ .sim-suboptions-container {
-    height: 30px !important;
+    height: 42px !important;
+    margin-top: 10px;
+    border: 1px solid #555;
+    border-bottom: 1px solid rgba(200, 200, 200, 0.4);
+    border-top: 1px solid #000;
 }
 
 

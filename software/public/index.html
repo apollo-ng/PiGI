@@ -107,9 +107,13 @@
       <h2>OPMode</h2>
       <ul class="rounded">
       <li><input type="radio" name="geoMode" value="mobile" title="" id="cnf_gps_mode_mobile" checked="checked" /><label for="cnf_gps_mode_mobile" class="input-action-label">Mobile</label></li>
-      <li>
+      <li class="geo-suboptions">
        <input type="radio" name="geoMode" value="static" title="" id="cnf_gps_mode_static" /><label for="cnf_gps_mode_static" class="input-action-label">Stationary</label>
-       <input type="text" id="cnf_node_lat" /> <input type="text" id="cnf_node_lon" /> <input type="text" id="cnf_node_alt" />
+       <div class="geo-suboptions-container options-inline-text">
+        <div><input type="text" id="cnf_node_lat" /> <label for="cgw_c">&gamma; only</label></div>
+        <div><input type="text" id="cnf_node_lon" /> <label for="cgw_bc">&beta;,&gamma;</label></div>
+        <div><input type="text" id="cnf_node_alt" /><labelfor="cgw_abc">&alpha;,&beta;,&gamma;</label></div>
+       </div>
       </li>
       </ul>
       <h2>Data Sources</h2>

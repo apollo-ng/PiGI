@@ -860,7 +860,7 @@ keyframes simNotify {
 }
 
 
-.optionsDisplay {
+.options-display {
     display: inline-block;
     font-family: "Digi";
     font-size: 22px;
@@ -871,15 +871,14 @@ keyframes simNotify {
     text-align: center;
     color: #d8d3c5;
     padding: 0 !important;
-    float: right;
     width: 20%;
     max-width: 100px;
     margin: 0 !important;
-    margin-top: 6px !important;
+    margin-top: 0px !important;
     overflow: hidden;
-    -webkit-box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.2) 0 0px 0 3px;
-    -moz-box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.2) 0 0px 0 3px;
-    box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.2) 0 0px 0 3px;
+    -webkit-box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.2) 0 0px 0 2px;
+    -moz-box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.2) 0 0px 0 2px;
+    box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.2) 0 0px 0 2px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -1061,21 +1060,71 @@ keyframes simNotify {
     text-shadow: 0 1px 0 #fff;
 }
 
-#serverOptionsPanel li.geo-suboptions input[type=radio] ~ .geo-suboptions-container {
-    height: 0 !important;
-    border: none;
-    margin: 0;
-    line-height: 42px;
-    -webkit-transition: all 0.3s ease-in-out !important;
-    -moz-transition: all 0.3s ease-in-out !important;
-    transition: all 0.3s ease-in-out !important;
-    padding-left: 10px;
-    padding-right: 7px;
+.options-inline-text {
     border-radius: 7px;
     background: #3F3E3A url('../img/panel_bg.png') repeat;
     -webkit-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
     -moz-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
     box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
+    height: 42px;
+    overflow: hidden;
+    margin-bottom: 0;
+    padding-right: 5px;
+    font-size: 14px;
+    font-weight: normal;
+    border-radius: 7px;
+    background: #3F3E3A url('../img/panel_bg.png') repeat;
+    -webkit-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
+    -moz-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
+    box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
+    white-space: nowrap;
+}
+
+
+.options-inline-text div {
+    display: inline-block;
+    width: 26% !important;
+    color: #1F1E1A;
+    max-width: 30%;
+    overflow: hidden;
+    margin-right: 8px !important;
+}
+
+.options-inline-text input[type=text] {
+    display: inline-block;
+    width: 65% !important;
+    font-family: "Digi" !important;
+    font-size: 22px;
+    font-weight: normal;
+    height: 27px;
+    line-height: 27px;
+    vertical-align: middle;
+    text-align: center;
+    color: #d8d3c5;
+    padding: 0 !important;
+    background: #1F1E1A !important;
+}
+
+.options-inline-text label {
+    display: inline-block;
+    width: 35% !important;
+    height: 27px;
+    line-height: 27px;
+    vertical-align: middle;
+    background: rgba(216, 211, 197, 0.5);
+    font-family: Arial, sans;
+    font-size: 14px;
+}
+
+#serverOptionsPanel li.geo-suboptions input[type=radio] ~ .geo-suboptions-container {
+    height: 0 !important;
+    border: none;
+    margin: 0;
+    -webkit-transition: all 0.3s ease-in-out !important;
+    -moz-transition: all 0.3s ease-in-out !important;
+    transition: all 0.3s ease-in-out !important;
+    padding-left: 10px;
+    padding-right: 7px;
     height: 42px;
 }
 
@@ -1085,7 +1134,6 @@ keyframes simNotify {
     border-bottom: 1px solid rgba(200, 200, 200, 0.4) !important;
     border-top: 1px solid #000 !important;
 }
-
 
 #serverOptionsPanel li.env-suboptions input[type=radio] ~ .env-suboptions-container {
     height: 0 !important;

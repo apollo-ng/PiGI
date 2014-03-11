@@ -110,9 +110,10 @@
       <li class="geo-suboptions">
        <input type="radio" name="geoMode" value="static" title="" id="cnf_gps_mode_static" /><label for="cnf_gps_mode_static" class="input-action-label">Stationary</label>
        <div class="geo-suboptions-container options-inline-text">
-        <div><input type="text" id="cnf_node_lat" /> <label for="cgw_c">&gamma; only</label></div>
-        <div><input type="text" id="cnf_node_lon" /> <label for="cgw_bc">&beta;,&gamma;</label></div>
-        <div><input type="text" id="cnf_node_alt" /><labelfor="cgw_abc">&alpha;,&beta;,&gamma;</label></div>
+        <div class="options-display"><label for="cnf_node_lat">Lat</label><input type="text" id="cnf_node_lat" /></div>
+        <div class="options-display"><label for="cnf_node_lon">Lon</label><input type="text" id="cnf_node_lon" /></div>
+        <div class="options-display"><label for="cnf_node_alt">Alt</label><input type="text" id="cnf_node_alt" /></div>
+        <div style="width: 15% !important; margin: 0 !important; color: #75890c; font-size: 24px"><span id="geoSnapshot" class="icon-target" style="margin-left: 0"></span></div>
        </div>
       </li>
       </ul>
@@ -132,7 +133,7 @@
        <input type="radio" name="source" value="sim" title="" id="server_cnf_opmode_sim" checked="checked" /><label for="server_cnf_opmode_sim" class="input-action-label">Tick Simulator</label>
        <div class="sim-suboptions-container">
         <input type=range min="0" max="100" value="1" step="all" id="simRanger" class='options-range-input' oninput="$('#server_cnf_sim_dose_rate').val(webGI.options.lin2log(this.value))"/>
-        <input name="server_cnf_sim_dose_rate" id="server_cnf_sim_dose_rate" class="optionsDisplay" oninput="$('#simRanger').val(webGI.options.log2lin(this.value))"/>
+        <input name="server_cnf_sim_dose_rate" id="server_cnf_sim_dose_rate" class="options-display" oninput="$('#simRanger').val(webGI.options.log2lin(this.value))"/>
        </div>
       </li>
      </ul>

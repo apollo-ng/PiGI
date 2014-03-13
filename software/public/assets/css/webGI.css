@@ -620,6 +620,8 @@ keyframes blinker {
     font-weight: normal;
     width: 90%;
     margin-left: 8px;
+    color: #d8d3c5;
+    text-shadow: #2b2b2b 0 -1px 0;
 }
 
 div#jqt #about {
@@ -865,20 +867,17 @@ keyframes simNotify {
     font-family: "Digi";
     font-size: 22px;
     font-weight: normal;
-    height: 27px;
-    line-height: 27px;
-    vertical-align: middle;
+    height: 30px;
     text-align: center;
     color: #d8d3c5;
     padding: 0 !important;
     width: 20%;
     max-width: 100px;
-    margin: 0 !important;
-    margin-top: 0px !important;
+    margin-top: 6px;
     overflow: hidden;
-    -webkit-box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.2) 0 0px 0 2px;
-    -moz-box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.2) 0 0px 0 2px;
-    box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.2) 0 0px 0 2px;
+    -webkit-box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.2) 0 0px 0 1px;
+    -moz-box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.2) 0 0px 0 1px;
+    box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.2) 0 0px 0 1px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -903,7 +902,9 @@ keyframes simNotify {
     display: inline-block;
     width: 75%;
     padding: 0;
-    margin: 0;
+    margin: 0 !important;
+    margin-top: 18px !important;
+    vertical-align: top;
     background: transparent;
     border: none;
     outline: none;
@@ -932,25 +933,21 @@ keyframes simNotify {
 .options-range-input,
 .options-range-input--vertical {
     height: 6px;
-    margin-top: 17px;
     border-radius: 3px;
     border: 1px solid #424138;
     border-top: 1px solid #000;
-    -webkit-box-shadow: inset 0 0 5px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.35);
-    -moz-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
-    box-shadow: inset 0 0 5px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.35);
+    -webkit-box-shadow: inset 0 0 10px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.35);
+    box-shadow: inset 0 0 10px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.35);
 }
 
 .options-range-input::-moz-range-track,
 .options-range-input--vertical::-moz-range-track {
     height: 6px;
-    margin-top: 17px;
     border-radius: 3px;
     border: 1px solid #424138;
     border-top: 1px solid #000;
-    -webkit-box-shadow: inset 0 0 5px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.35);
-    -moz-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
-    box-shadow: inset 0 0 5px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.35);
+    -moz-box-shadow: inset 0 0 20px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.35);
+    box-shadow: inset 0 0 20px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.35);
 }
 
 /*
@@ -990,7 +987,7 @@ keyframes simNotify {
     -webkit-transform:rotate(90deg);
     -moz-transform:rotate(90deg);
     -ms-transform:rotate(90deg);
-     transform:rotate(90deg);
+    transform:rotate(90deg);
 }
 
 /*
@@ -1087,7 +1084,7 @@ keyframes simNotify {
     color: #1F1E1A;
     max-width: 30%;
     overflow: hidden;
-    margin-right: 8px !important;
+    margin-right: 6px !important;
 }
 
 .options-inline-text input[type=text] {
@@ -1096,8 +1093,8 @@ keyframes simNotify {
     font-family: "Digi" !important;
     font-size: 22px;
     font-weight: normal;
-    height: 27px;
-    line-height: 27px;
+    height: 30px;
+    line-height: 30px;
     vertical-align: middle;
     text-align: center;
     color: #d8d3c5;
@@ -1108,8 +1105,8 @@ keyframes simNotify {
 .options-inline-text label {
     display: inline-block;
     width: 35% !important;
-    height: 27px;
-    line-height: 27px;
+    height: 30px;
+    line-height: 30px;
     vertical-align: middle;
     background: rgba(216, 211, 197, 0.5);
     font-family: Arial, sans;
@@ -1129,7 +1126,7 @@ keyframes simNotify {
 }
 
 #serverOptionsPanel li.geo-suboptions input[type=radio]:checked ~ .geo-suboptions-container {
-    height: 42px !important;
+    height: 45px !important;
     margin-top: 10px;
     border-bottom: 1px solid rgba(200, 200, 200, 0.4) !important;
     border-top: 1px solid #000 !important;
@@ -1147,7 +1144,7 @@ keyframes simNotify {
 }
 
 #serverOptionsPanel li.env-suboptions input[type=radio]:checked ~ .env-suboptions-container {
-    height: 42px !important;
+    height: 45px !important;
     margin-top: 10px;
     border-bottom: 1px solid rgba(200, 200, 200, 0.4) !important;
     border-top: 1px solid #000 !important;
@@ -1172,11 +1169,14 @@ keyframes simNotify {
 }
 
 #serverOptionsPanel li.sim-suboptions input[type=radio]:checked ~ .sim-suboptions-container {
-    height: 42px !important;
+    height: 45px !important;
     margin-top: 10px;
     border-bottom: 1px solid rgba(200, 200, 200, 0.4);
     border-top: 1px solid #000;
 }
 
-
+ul.rounded li input[type=radio]:checked ~ .input-action-label {
+    font-weight: bold !important;
+    color: #fff;
+}
 

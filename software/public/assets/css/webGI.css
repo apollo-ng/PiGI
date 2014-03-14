@@ -1177,6 +1177,9 @@ keyframes simNotify {
 
 ul.rounded li input[type=radio]:checked ~ .input-action-label {
     font-weight: bold !important;
-    color: #fff;
+    color: #fafafa;
 }
 
+.scroll h2 {
+    color: #fafafa !important;
+}

@@ -101,9 +101,17 @@
 
    <!-- Server Options Panel -->
    <div id="serverOptionsPanel">
-    <div class="toolbar"><h1>Server Options</h1><a href="#" class="goback button leftButton">Back</a><a href="#mainPanel" class="button rightButton slideleft">Live</a></div>
-     <div class="scroll">
-      <span id="cnf_node_uuid">00000000-0000-0000-0000-000000000000</span>
+    <div class="toolbar">
+     <a href="#" class="goback button leftButton">Back</a>
+     <a href="#mainPanel" class="button rightButton slideleft">Live</a>
+     <div style="width: 65% !important; margin: 0 auto; border: 0px solid red; color: #d8d3c5">
+      <div style"color: #ffffff !important;">Node Name</div>
+      <div id="cnf_node_uuid">00000000-0000-0000-0000-000000000000</div>
+     </div>
+    </div>
+
+    <div class="scroll">
+
       <h2>OPMode</h2>
       <ul class="rounded">
       <li><input type="radio" name="geoMode" value="mobile" title="" id="cnf_gps_mode_mobile" checked="checked" /><label for="cnf_gps_mode_mobile" class="input-action-label">Mobile</label></li>

@@ -104,9 +104,9 @@
     <div class="toolbar">
      <a href="#" class="goback button leftButton">Back</a>
      <a href="#mainPanel" class="button rightButton slideleft">Live</a>
-     <div style="width: 65% !important; margin: 0 auto; border: 0px solid red; color: #d8d3c5">
-      <div style"color: #ffffff !important;">Node Name</div>
-      <div id="cnf_node_uuid">00000000-0000-0000-0000-000000000000</div>
+     <div style="width: 65% !important; margin: 0 auto; border: 0px solid red; text-align: center; position: relative; top: -5px">
+      <div style="color: #ffffff; font-weight: bold;">Node Name</div>
+      <div id="cnf_node_uuid" style="color: #d8d3c5; height: 20px; line-height: 20px; font-size: 10px; overflow: hidden; text-overflow: ellipsis">00000000-0000-0000-0000-000000000000</div>
      </div>
     </div>
 
@@ -114,34 +114,34 @@
 
       <h2>OPMode</h2>
       <ul class="rounded">
-      <li><input type="radio" name="geoMode" value="mobile" title="" id="cnf_gps_mode_mobile" checked="checked" /><label for="cnf_gps_mode_mobile" class="input-action-label">Mobile</label></li>
+      <li><input type="radio" name="geoMode" value="mobile" title="" id="server_cnf_gps_mode_mobile" checked="checked" /><label for="server_cnf_gps_mode_mobile" class="input-action-label">Mobile</label></li>
       <li class="geo-suboptions">
-       <input type="radio" name="geoMode" value="static" title="" id="cnf_gps_mode_static" /><label for="cnf_gps_mode_static" class="input-action-label">Stationary</label>
+       <input type="radio" name="geoMode" value="static" title="" id="server_cnf_gps_mode_static" /><label for="server_cnf_gps_mode_static" class="input-action-label">Stationary</label>
        <div class="geo-suboptions-container options-inline-text">
-        <div class="options-display"><label for="cnf_node_lat">Lat</label><input type="text" id="cnf_node_lat" /></div>
-        <div class="options-display"><label for="cnf_node_lon">Lon</label><input type="text" id="cnf_node_lon" /></div>
-        <div class="options-display"><label for="cnf_node_alt">Alt</label><input type="text" id="cnf_node_alt" /></div>
-        <div style="width: 15% !important; margin: 0 !important; color: #75890c; font-size: 24px"><span id="geoSnapshot" class="icon-target" style="margin-left: 0"></span></div>
+        <div class="options-display"><label for="server_cnf_node_lat">Lat</label><input type="text" id="server_cnf_node_lat" value="00.00000" /></div>
+        <div class="options-display"><label for="server_cnf_node_lon">Lon</label><input type="text" id="server_cnf_node_lon" value="00.00000" /></div>
+        <div class="options-display"><label for="server_cnf_node_alt">Alt</label><input type="text" id="server_cnf_node_alt" value="0" /></div>
+        <div style="width: 24% !important; max-width: 24% !important; margin: 0 !important; color: #75890c; font-size: 24px"><span id="geoSnapshot" class="icon-target" style="background: rgb(103,119,18); margin: 0; border: 1px solid #000; color: #fafafa; border-radius: 7px; padding: 0; height: 31px; line-height: 30px; display: inline-block; text-overflow: ellipsis;"></span></div>
        </div>
       </li>
       </ul>
       <h2>Data Sources</h2>
       <ul class="rounded">
       <li class="env-suboptions">
-       <input type="radio" name="source" value="env" title="" id="server_cnf_opmode_env" /><label for="server_cnf_opmode_env" class="input-action-label">Enviroment</label>
+       <input type="radio" name="source" value="env" title="" id="server_cnf_opmode_env" /><label for="server_cnf_opmode_env" class="input-action-label">Environment</label>
        <div class="env-suboptions-container options-inline-radio">
         Window/tube capabilities:
-        <div><input type="radio" value="c" title="" id="cgw_c" name="cnf_geigercounter_window" /><label class="corner-top-right corner-bottom-right" for="cgw_c">&gamma; only</label></div>
-        <div><input type="radio" value="bc" title="" id="cgw_bc" name="cnf_geigercounter_window" /><label for="cgw_bc">&beta;,&gamma;</label></div>
-        <div><input type="radio" value="abc" title="" id="cgw_abc" name="cnf_geigercounter_window" checked="checked" /><label class="corner-top-left corner-bottom-left" for="cgw_abc">&alpha;,&beta;,&gamma;</label></div>
+        <div><input type="radio" value="c" title="" id="cgw_c" name="server_cnf_geigercounter_window" /><label class="corner-top-right corner-bottom-right" for="cgw_c">&gamma; only</label></div>
+        <div><input type="radio" value="bc" title="" id="cgw_bc" name="server_cnf_geigercounter_window" /><label for="cgw_bc">&beta;,&gamma;</label></div>
+        <div><input type="radio" value="abc" title="" id="cgw_abc" name="server_cnf_geigercounter_window" checked="checked" /><label class="corner-top-left corner-bottom-left" for="cgw_abc">&alpha;,&beta;,&gamma;</label></div>
        </div>
       </li>
       <li><input type="radio" name="source" value="test" title="" id="server_cnf_opmode_test" /><label for="server_cnf_opmode_test" class="input-action-label">Test</label></li>
       <li class="sim-suboptions">
        <input type="radio" name="source" value="sim" title="" id="server_cnf_opmode_sim" checked="checked" /><label for="server_cnf_opmode_sim" class="input-action-label">Tick Simulator</label>
-       <div class="sim-suboptions-container">
-        <input type=range min="0" max="100" value="1" step="0.01" id="simRanger" class='options-range-input' oninput="$('#server_cnf_sim_dose_rate').val(webGI.options.lin2log(this.value))"/>
-        <input name="server_cnf_sim_dose_rate" id="server_cnf_sim_dose_rate" class="options-display" oninput="$('#simRanger').val(webGI.options.log2lin(this.value))"/>
+       <div class="options-inline-text sim-suboptions-container">
+        <div style="width: 25% !important" class="options-display"><label for="server_cnf_sim_dose_rate">us</label><input type="text" id="server_cnf_sim_dose_rate" /></div>
+        <div style="width: 75% !important; display: inline-block;"><input type=range min="0" max="100" value="1" step="0.01" id="simRanger" class="options-range-input" /></div>
        </div>
       </li>
      </ul>

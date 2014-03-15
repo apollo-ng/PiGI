@@ -865,9 +865,9 @@ keyframes simNotify {
 .options-display {
     display: inline-block;
     font-family: "Digi";
-    font-size: 22px;
+    font-size: 28px;
     font-weight: normal;
-    height: 30px;
+    height: 35px;
     text-align: center;
     color: #d8d3c5;
     padding: 0 !important;
@@ -900,10 +900,10 @@ keyframes simNotify {
 .options-range-input,
 .options-range-input--vertical {
     display: inline-block;
-    width: 75%;
+    width: 100% !important;
     padding: 0;
     margin: 0 !important;
-    margin-top: 18px !important;
+    margin-top: 20px !important;
     vertical-align: top;
     background: transparent;
     border: none;
@@ -932,22 +932,24 @@ keyframes simNotify {
 
 .options-range-input,
 .options-range-input--vertical {
-    height: 6px;
-    border-radius: 3px;
+    height: 8px;
+    line-height: 50px;
+    border-radius: 4px;
     border: 1px solid #424138;
     border-top: 1px solid #000;
-    -webkit-box-shadow: inset 0 0 10px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.35);
-    box-shadow: inset 0 0 10px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.35);
+    -webkit-box-shadow: inset 0 0 20px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.35);
+    box-shadow: inset 0 0 20px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.35);
 }
 
 .options-range-input::-moz-range-track,
 .options-range-input--vertical::-moz-range-track {
-    height: 6px;
-    border-radius: 3px;
+    height: 8px;
+    line-height: 50px;
+    border-radius: 4px;
     border: 1px solid #424138;
     border-top: 1px solid #000;
-    -moz-box-shadow: inset 0 0 20px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.35);
-    box-shadow: inset 0 0 20px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.35);
+    -moz-box-shadow: inset 0 0 30px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.35);
+    box-shadow: inset 0 0 30px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.35);
 }
 
 /*
@@ -957,8 +959,8 @@ keyframes simNotify {
 
 .options-range-input::-webkit-slider-thumb,
 .options-range-input--vertical::-webkit-slider-thumb {
-    height: 30px;
-    width: 30px;
+    height: 34px;
+    width: 40px;
     border: 1px solid rgba(0,0,0,0.36);
     background:url("http://db.tt/q5LHtPKx") center center no-repeat #75890c;
     background-size: 7px 18px;
@@ -970,8 +972,8 @@ keyframes simNotify {
 
 .options-range-input::-moz-range-thumb,
 .options-range-input--vertical::-moz-range-thumb {
-    height: 30px;
-    width: 30px;
+    height: 34px;
+    width: 40px;
     border: 1px solid rgba(0,0,0,0.36);
     border-radius: 7px;
     background:url("http://db.tt/q5LHtPKx") center center no-repeat #e5e9e8;
@@ -1063,10 +1065,9 @@ keyframes simNotify {
     -webkit-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
     -moz-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
     box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
-    height: 42px;
+    height: 47px;
     overflow: hidden;
     margin-bottom: 0;
-    padding-right: 5px;
     font-size: 14px;
     font-weight: normal;
     border-radius: 7px;
@@ -1080,33 +1081,33 @@ keyframes simNotify {
 
 .options-inline-text div {
     display: inline-block;
-    width: 26% !important;
+    width: 29% !important;
     color: #1F1E1A;
-    max-width: 30%;
+    max-width: 29%;
     overflow: hidden;
-    margin-right: 6px !important;
+    margin-right: 1% !important;
 }
 
 .options-inline-text input[type=text] {
     display: inline-block;
     width: 65% !important;
     font-family: "Digi" !important;
-    font-size: 22px;
+    font-size: 28px !important;
     font-weight: normal;
-    height: 30px;
-    line-height: 30px;
+    height: 35px;
+    line-height: 35px;
     vertical-align: middle;
     text-align: center;
     color: #d8d3c5;
     padding: 0 !important;
-    background: #1F1E1A !important;
+    background: rgba(63, 62, 58, 0.2) !important;
 }
 
 .options-inline-text label {
     display: inline-block;
     width: 35% !important;
-    height: 30px;
-    line-height: 30px;
+    height: 35px;
+    line-height: 35px;
     vertical-align: middle;
     background: rgba(216, 211, 197, 0.5);
     font-family: Arial, sans;
@@ -1115,18 +1116,24 @@ keyframes simNotify {
 
 #serverOptionsPanel li.geo-suboptions input[type=radio] ~ .geo-suboptions-container {
     height: 0 !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    opacity: 0;
     border: none;
     margin: 0;
     -webkit-transition: all 0.3s ease-in-out !important;
     -moz-transition: all 0.3s ease-in-out !important;
     transition: all 0.3s ease-in-out !important;
-    padding-left: 10px;
+    padding-left: 8px;
     padding-right: 7px;
-    height: 42px;
+    height: 50px;
 }
 
 #serverOptionsPanel li.geo-suboptions input[type=radio]:checked ~ .geo-suboptions-container {
-    height: 45px !important;
+    height: 50px !important;
+    opacity: 1;
     margin-top: 10px;
     border-bottom: 1px solid rgba(200, 200, 200, 0.4) !important;
     border-top: 1px solid #000 !important;
@@ -1134,9 +1141,10 @@ keyframes simNotify {
 
 #serverOptionsPanel li.env-suboptions input[type=radio] ~ .env-suboptions-container {
     height: 0 !important;
+    opacity: 0;
     border: none;
     margin: 0;
-    line-height: 42px;
+    line-height: 50px;
     padding-left: 10px;
     -webkit-transition: all 0.3s ease-in-out !important;
     -moz-transition: all 0.3s ease-in-out !important;
@@ -1144,7 +1152,8 @@ keyframes simNotify {
 }
 
 #serverOptionsPanel li.env-suboptions input[type=radio]:checked ~ .env-suboptions-container {
-    height: 45px !important;
+    height: 50px !important;
+    opacity: 1;
     margin-top: 10px;
     border-bottom: 1px solid rgba(200, 200, 200, 0.4) !important;
     border-top: 1px solid #000 !important;
@@ -1152,24 +1161,26 @@ keyframes simNotify {
 
 #serverOptionsPanel li.sim-suboptions input[type=radio] ~ .sim-suboptions-container {
     height: 0 !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    opacity: 0;
     overflow: hidden;
     border: none;
     -webkit-transition: all 0.3s ease-in-out !important;
     -moz-transition: all 0.3s ease-in-out !important;
     transition: all 0.3s ease-in-out !important;
-    padding: 0;
-    padding-left: 10px;
-    padding-right: 7px;
+    padding: 0 !important;
     border-radius: 7px;
     background: #3F3E3A url('../img/panel_bg.png') repeat;
     -webkit-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
     -moz-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
     box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
-    height: 42px;
 }
 
 #serverOptionsPanel li.sim-suboptions input[type=radio]:checked ~ .sim-suboptions-container {
-    height: 45px !important;
+    height: 50px !important;
+    opacity: 1;
     margin-top: 10px;
     border-bottom: 1px solid rgba(200, 200, 200, 0.4);
     border-top: 1px solid #000;
@@ -1178,6 +1189,10 @@ keyframes simNotify {
 ul.rounded li input[type=radio]:checked ~ .input-action-label {
     font-weight: bold !important;
     color: #fafafa;
+    -webkit-transition: all 0.2s ease-in-out !important;
+    -moz-transition: all 0.2s ease-in-out !important;
+    transition: all 0.2s ease-in-out !important;
+
 }
 
 .scroll h2 {

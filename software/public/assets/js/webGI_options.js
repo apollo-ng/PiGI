@@ -35,7 +35,7 @@ webGI.options = (function($) {
 
     //Public Function
     my.save = function() {
-        my.server.sim_dose_rate = $('#server_cnf_sim_dose_rate').val();
+        my.server.sim_dose_rate = parseFloat($('#server_cnf_sim_dose_rate').val());
 
         var cmd = {
             "cmd" : "save",

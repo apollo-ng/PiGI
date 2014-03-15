@@ -129,7 +129,7 @@ function initUI() {
     $('#showModalAuth').bind(webGI.conf.ui_action,function() {
         $('#modalAuth').addClass('md-show');
     });
-    
+
     $('#annotationSave').bind(webGI.conf.ui_action,function() {
         webGI.livechart.save_annotation();
     });
@@ -204,6 +204,20 @@ function initUI() {
     $('#saveServerSettings').bind(webGI.conf.ui_action,function() {
         webGI.options.save();
     });
+
+    $('#simRanger').bind('input', function() {
+        var val = parseFloat(webGI.options.lin2log(this.value));
+        if (val >= 10) val = val.toFixed(0);
+        $('#server_cnf_sim_dose_rate').val(val);
+    });
+
+    $('#server_cnf_sim_dose_rate').bind('input', function() {
+        $('#simRanger').val(webGI.options.log2lin(parseFloat(this.value)))
+    });
+
+
+
+
 /*
     $('#jqt').bind('pageAnimationEnd', function(e, info)
     {
@@ -309,16 +323,16 @@ $(document).ready(function() {
     // Switch UI click/tap event handler action for stupid apple browsers
     if ($.support.touch) { webGI.conf.ui_action = 'touchend'; }
     else { webGI.conf.ui_action  = 'click'; }
-    
+
     initWebsockets();
     initUI();
-    
+
     webGI.livechart.init()
     webGI.history.init();
     webGI.gauge.init();
     webGI.geo.init();
     updateLayout();
-    
+
     setTimeout(function() {
         webGI.spinner.disable();
         $('.splash').addClass('splash-hidden');

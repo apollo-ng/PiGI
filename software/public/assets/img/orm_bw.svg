@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="open_radiation_monitoring.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="310.90038"
+     inkscape:cy="485.52379"
+     inkscape:document-units="px"
+     inkscape:current-layer="g3010"
+     showgrid="false"
+     inkscape:window-width="1280"
+     inkscape:window-height="741"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     showguides="true"
+     inkscape:guide-bbox="true" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g3010">
+      <path
+         transform="matrix(1.0400286,0,0,1.0400286,-53.384048,-44.710624)"
+         d="m 694.28571,563.79077 a 252.85715,248.57143 0 1 1 -505.7143,0 252.85715,248.57143 0 1 1 505.7143,0 z"
+         sodipodi:ry="248.57143"
+         sodipodi:rx="252.85715"
+         sodipodi:cy="563.79077"
+         sodipodi:cx="441.42856"
+         id="path2985"
+         style="fill:none;stroke:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         sodipodi:type="arc" />
+      <path
+         transform="matrix(0.87615501,0,0,0.89700825,18.954431,35.922925)"
+         d="m 694.28571,563.79077 a 252.85715,248.57143 0 1 1 -505.7143,0 252.85715,248.57143 0 1 1 505.7143,0 z"
+         sodipodi:ry="248.57143"
+         sodipodi:rx="252.85715"
+         sodipodi:cy="563.79077"
+         sodipodi:cx="441.42856"
+         id="path2985-7"
+         style="fill:none;stroke:none"
+         sodipodi:type="arc" />
+      <path
+         transform="matrix(0.34088276,0,0,0.79216233,255.23889,95.034089)"
+         d="m 694.28571,563.79077 a 252.85715,248.57143 0 1 1 -505.7143,0 252.85715,248.57143 0 1 1 505.7143,0 z"
+         sodipodi:ry="248.57143"
+         sodipodi:rx="252.85715"
+         sodipodi:cy="563.79077"
+         sodipodi:cx="441.42856"
+         id="path2985-7-0"
+         style="fill:none;stroke:#000000;stroke-width:4.81094503;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         sodipodi:type="arc" />
+      <path
+         transform="matrix(0,0.34088276,-0.79216233,0,852.32809,391.17251)"
+         d="m 694.28571,563.79077 a 252.85715,248.57143 0 1 1 -505.7143,0 252.85715,248.57143 0 1 1 505.7143,0 z"
+         sodipodi:ry="248.57143"
+         sodipodi:rx="252.85715"
+         sodipodi:cy="563.79077"
+         sodipodi:cx="441.42856"
+         id="path2985-7-0-3"
+         style="fill:none;stroke:#000000;stroke-width:4.81094503;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         sodipodi:type="arc" />
+      <path
+         transform="matrix(0.24104051,0.24104051,-0.56014336,0.56014336,615.11577,119.44208)"
+         d="m 694.28571,563.79077 a 252.85715,248.57143 0 1 1 -505.7143,0 252.85715,248.57143 0 1 1 505.7143,0 z"
+         sodipodi:ry="248.57143"
+         sodipodi:rx="252.85715"
+         sodipodi:cy="563.79077"
+         sodipodi:cx="441.42856"
+         id="path2985-7-0-3-1"
+         style="fill:none;stroke:#000000;stroke-width:4.81094503;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         sodipodi:type="arc" />
+      <path
+         transform="matrix(0.24104051,-0.24104051,0.56014336,0.56014336,-16.491548,332.24641)"
+         d="m 694.28571,563.79077 a 252.85715,248.57143 0 1 1 -505.7143,0 252.85715,248.57143 0 1 1 505.7143,0 z"
+         sodipodi:ry="248.57143"
+         sodipodi:rx="252.85715"
+         sodipodi:cy="563.79077"
+         sodipodi:cx="441.42856"
+         id="path2985-7-0-3-1-3"
+         style="fill:none;stroke:#000000;stroke-width:4.81094503;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         sodipodi:type="arc" />
+      <path
+         transform="translate(22.142833,-7.1428727)"
+         d="m 410.00001,548.79077 a 26.428572,26.428572 0 1 1 -52.85714,0 26.428572,26.428572 0 1 1 52.85714,0 z"
+         sodipodi:ry="26.428572"
+         sodipodi:rx="26.428572"
+         sodipodi:cy="548.79077"
+         sodipodi:cx="383.57144"
+         id="path3847"
+         style="fill:none;stroke:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         sodipodi:type="arc" />
+      <text
+         transform="matrix(-0.98473172,-0.23125181,0.23256434,-0.97293053,678.02385,1158.9581)"
+         sodipodi:linespacing="125%"
+         id="text3849"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><textPath
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="textPath3857"
+           xlink:href="#path2985-7">OPEN RADIATION MONITORING</textPath></text>
+      <text
+         transform="matrix(0.94927309,-0.31445287,0.31445287,0.94927309,-148.15219,156.5163)"
+         sodipodi:linespacing="125%"
+         id="text3853"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><textPath
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="textPath3925"
+           xlink:href="#path2985-1">SCIENTIA PRAESIDIUM OMNI EST</textPath></text>
+      <path
+         inkscape:connector-curvature="0"
+         id="path2985-1"
+         d="m 152.87053,543.92176 c 0.76027,136.61844 113.63053,247.14967 252.7901,247.17987 139.15946,0.03 252.07766,-110.45212 252.89739,-247.07009 l -505.68749,-0.10978 z"
+         style="fill:none;stroke:none" />
+      <path
+         transform="matrix(0.85940834,0,0,0.87986299,26.346893,44.160685)"
+         d="m 694.28571,563.79077 a 252.85715,248.57143 0 1 1 -505.7143,0 252.85715,248.57143 0 1 1 505.7143,0 z"
+         sodipodi:ry="248.57143"
+         sodipodi:rx="252.85715"
+         sodipodi:cy="563.79077"
+         sodipodi:cx="441.42856"
+         id="path2985-7-2"
+         style="fill:none;stroke:#000000;stroke-width:2.82001424;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         sodipodi:type="arc" />
+      <path
+         transform="matrix(1.0686205,0,0,1.0686205,-66.0053,-60.830446)"
+         d="m 694.28571,563.79077 a 252.85715,248.57143 0 1 1 -505.7143,0 252.85715,248.57143 0 1 1 505.7143,0 z"
+         sodipodi:ry="248.57143"
+         sodipodi:rx="252.85715"
+         sodipodi:cy="563.79077"
+         sodipodi:cx="441.42856"
+         id="path2985-4"
+         style="fill:none;stroke:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         sodipodi:type="arc" />
+    </g>
+  </g>
+</svg>

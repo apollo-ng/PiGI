@@ -35,7 +35,8 @@ webGI.livechart = (function($) {
             return;
         }
 
-        var clickCallback = function(e) {
+        var clickCallback = function(e)
+        {
             var x = e.offsetX;
             var y = e.offsetY;
             var dataXY = chart.toDataCoords(x, y);
@@ -44,7 +45,18 @@ webGI.livechart = (function($) {
             $('#eventEDR').html(dataXY[1].toFixed(2));
             $('#modalAnnotation').addClass('md-show');
         }
-        
+
+        var annotationClickCallback = function(annotation, point)
+        {
+            console.log(annotation.xval);
+            console.log(annotation.text);
+            console.log(point.yval);
+            $('#eventTS').html(new Date(annotation.xval));
+            $('#eventEDR').html(point.yval.toFixed(2));
+            $('#eventText').html(annotation.text);
+            $('#modalAnnotation').addClass('md-show');
+        }
+
         my.save_annotation = function() {
             var annotation_text = $('#eventText').val();
             console.log(annotation_ts,annotation_text);
@@ -64,6 +76,7 @@ webGI.livechart = (function($) {
             interactionModel: {
                 'click' : clickCallback
             },
+            annotationClickHandler: annotationClickCallback,
             //valueRange: [0,null],
             includeZero: true,
             animatedZooms: true,
@@ -78,8 +91,7 @@ webGI.livechart = (function($) {
             'µSv/h (15m avg)':
             {
                 fillGraph: false,
-            },
-
+            }
         });
     }
 
@@ -106,7 +118,7 @@ webGI.livechart = (function($) {
     }
 
     my.updateBacklog = function(msg){
-        
+
         //console.log("LOGHISTORY");
         if (msg.hd) {
             annotations = [];
@@ -181,7 +193,7 @@ webGI.livechart = (function($) {
         if (chart) chart.updateOptions({ colors: c });
         my.chart_colors = c
     }
-    
+
     my.set_age = function(seconds) {
         my.chart_age = seconds
         if (animtimer != null) {

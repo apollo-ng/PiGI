@@ -201,6 +201,10 @@ function initUI() {
 
 
     //Options stuff
+    $('#geoSnapshot').bind(webGI.conf.ui_action,function() {
+        webGI.geo.getCurrentPosition(webGI.options.geoSnapshotCallback);
+    });
+
     $('#saveServerSettings').bind(webGI.conf.ui_action,function() {
         webGI.options.save();
     });

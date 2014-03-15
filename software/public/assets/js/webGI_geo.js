@@ -11,17 +11,17 @@ webGI.geo = (function($) {
     var my = {};
     my.container_id_status = "userGeoStatus";
     my.container_id_loc = "userGeoLoc";
-    
+
     //Private attributes
     var watcher = null;
     var lat = 0;
     var lon = 0;
     var alt = 0;
     var acc = 0;
-    
+
     //Public Function
     my.init = function() {
-        
+
         var target = document.getElementById(my.container_id);
         container_status = $("#"+my.container_id_status);
         container_loc = $("#"+my.container_id_loc);
@@ -65,8 +65,12 @@ webGI.geo = (function($) {
             );
         }
     }
-    
-    
+
+    my.getCurrentPosition = function(callback)
+    {
+        navigator.geolocation.getCurrentPosition(callback);
+    }
+
     //Private Function
     function geoUpdate(position)
     {

@@ -365,6 +365,10 @@ keyframes blinker {
     background: rgba(17,16,12,0.4) !important;
 }
 
+.dygraphDefaultAnnotation {
+    border: 1px solid red !important;
+}
+
 .md-modal {
     position: absolute !important;
     width: 75% !important;
@@ -590,7 +594,7 @@ keyframes blinker {
     font-weight: 300;
     margin-right: 0px !important;
     width: 47%;
-    font-size: 1.3em !important;
+    font-size: 1.5em !important;
     height: 45px;
     line-height: 45px;
     color: #fff;
@@ -615,7 +619,17 @@ keyframes blinker {
 }
 
 .md-green {
-    background: rgba(30,255,10,0.5) !important;
+    -moz-box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+    -webkit-box-shadow: inset 0 0 10px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+    box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+    text-shadow: 0 -1px 1px #222;
+    background: rgb(164,179,87) !important;
+    background: -moz-linear-gradient(top, rgba(164,179,87,0.8) 0%, rgba(117,137,12,0.8) 100%) !important;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(164,179,87,0.8)), color-stop(100%,rgba(117,137,12,0.8))) !important;
+    background: -webkit-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%) !important;
+    background: -o-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%) !important;
+    background: -ms-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%) !important;
+    background: linear-gradient(to bottom, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%) !important;
 }
 
 .input-action-label {

@@ -207,12 +207,20 @@ function initUI() {
 
     $('#simRanger').bind('input', function() {
         var val = parseFloat(webGI.options.lin2log(this.value));
-        if (val >= 10) val = val.toFixed(0);
+        if (val >= 10)
+        {
+            val = val.toFixed(0);
+            $('#server_cnf_sim_dose_rate').css({ "color": "#F5C43C" });
+        }
+        else
+        {
+            $('#server_cnf_sim_dose_rate').css({ "color": "#75890c" });
+        }
         $('#server_cnf_sim_dose_rate').val(val);
     });
 
     $('#server_cnf_sim_dose_rate').bind('input', function() {
-        $('#simRanger').val(webGI.options.log2lin(parseFloat(this.value)))
+        $('#simRanger').val(webGI.options.log2lin(parseFloat(this.value)));
     });
 
 

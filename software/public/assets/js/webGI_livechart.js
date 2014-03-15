@@ -205,6 +205,7 @@ webGI.livechart = (function($) {
             });
         }
         zoom(my.chart_age*1000);
+        chart.setAnnotations(annotations);
     };
 
     my.enable = function() {

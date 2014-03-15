@@ -292,14 +292,17 @@ keyframes blinker {
 
 
 .enabled {
-    color: rgba(52,51,62,1);
-    background: rgb(103,119,18);
-    background: -moz-linear-gradient(top, rgba(103,119,18,0.8) 0%, rgba(162,183,58,1) 100%) !important;
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(103,119,18,0.8)), color-stop(100%,rgba(162,183,58,0.8))) !important;
-    background: -webkit-linear-gradient(top, rgba(103,119,18,0.8) 0%,rgba(162,183,58,1) 100%) !important;
-    background: -o-linear-gradient(top, rgba(103,119,18,0.8) 0%,rgba(162,183,58,1) 100%) !important;
-    background: -ms-linear-gradient(top, rgba(103,119,18,1) 0%,rgba(162,183,58,1) 100%) !important;
-    background: linear-gradient(to bottom, rgba(103,119,18,0.8) 0%,rgba(162,183,58,0.8) 100%) !important;
+    -moz-box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+    -webkit-box-shadow: inset 0 0 10px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+    box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+    text-shadow: 0 -1px 1px #333;
+    background: rgb(164,179,87);
+    background: -moz-linear-gradient(top, rgba(164,179,87,0.8) 0%, rgba(117,137,12,0.8) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(164,179,87,0.8)), color-stop(100%,rgba(117,137,12,0.8)));
+    background: -webkit-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+    background: -o-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+    background: -ms-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+    background: linear-gradient(to bottom, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
 }
 
 .dygraph-axis-label-x,
@@ -621,7 +624,7 @@ keyframes blinker {
     width: 90%;
     margin-left: 8px;
     color: #d8d3c5;
-    text-shadow: #2b2b2b 0 -1px 0;
+    text-shadow: 0 -1px 1px rgba(0,0,0,0.7), 0 1px 1px rgba(255,255,255,0.5);
 }
 
 div#jqt #about {
@@ -861,13 +864,12 @@ keyframes simNotify {
     border-bottom-right-radius: 7px;
 }
 
-
 .options-display {
     display: inline-block;
     font-family: "Digi";
     font-size: 32px;
     font-weight: normal;
-    height: 35px;
+    height: 36px;
     text-align: center;
     color: #d8d3c5;
     padding: 0 !important;
@@ -962,31 +964,30 @@ keyframes simNotify {
 .options-range-input--vertical::-webkit-slider-thumb {
     height: 34px;
     width: 40px;
-    border: 1px solid rgba(0,0,0,0.36);
-    background:url("http://db.tt/q5LHtPKx") center center no-repeat rgba(117, 137, 12, 0.5);
+    background:url("http://db.tt/q5LHtPKx") center center no-repeat rgba(117, 137, 12, 0.9);
     background-size: 7px 18px;
-    border-radius: 7px;
-    border: 1px solid #222;
-    -webkit-box-shadow: inset 0 0 30px 0 #75890c, 0 0 1.1em 0 rgba(0,0,0,0.75);
-    box-shadow: inset 0 0 30px 0 #75890c, 0 0 1.1em 0 rgba(0,0,0,0.75);
--moz-box-shadow: inset 0 0 10px 0 rgba(117, 137, 12, 1);
--webkit-box-shadow: inset 0 0 10px 0 rgba(117, 137, 12, 1);
-box-shadow: inset 0 0 10px 0 rgba(117, 137, 12, 1);
+    border: 1px solid #555;
+    border-top: 1px solid rgba(216, 211, 197, 0.5);
+    border-bottom: 1px solid #222;
+    border-radius: 8px;
+    -moz-box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+    -webkit-box-shadow: inset 0 0 10px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+    box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
 }
 
 .options-range-input::-moz-range-thumb,
 .options-range-input--vertical::-moz-range-thumb {
     height: 34px;
     width: 40px;
-    border: 1px solid rgba(0,0,0,0.36);
-    border-radius: 7px;
-    background:url("http://db.tt/q5LHtPKx") center center no-repeat #e5e9e8;
+    background:url("http://db.tt/q5LHtPKx") center center no-repeat rgba(117, 137, 12, 0.9);
     background-size: 7px 18px;
     border: 1px solid #555;
-    border-top: 1px solid rgba(200, 200, 200, 0.6);
+    border-top: 1px solid rgba(216, 211, 197, 0.5);
     border-bottom: 1px solid #111;
-    -webkit-box-shadow: inset 0 0 52px 0 #75890c, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.0) 0 0px 0 4px;
-    box-shadow: inset 0 0 52px 0 #75890c, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.0) 0 0px 0 4px;
+    border-radius: 8px;
+    -moz-box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+    -webkit-box-shadow: inset 0 0 10px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+    box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
 }
 
 .options-range-input--vertical {
@@ -1024,27 +1025,35 @@ box-shadow: inset 0 0 10px 0 rgba(117, 137, 12, 1);
     float: right;
     margin-top: 5px;
     margin-right: 1px;
-    height: 30px;
+    height: 39px;
+    line-height: 39px;
     position: relative;
     display: inline-block;
     width: 15%;
-    font: 14px/20px "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     -webkit-font-smoothing: antialiased;
 }
 
 .options-inline-radio input[type=radio] {
-    position: relative;
-    top: 2px;
+    display:none;
 }
 .options-inline-radio input[type=radio]:checked ~ label {
     color: #fff;
     font-weight: bold;
-    background: rgb(103,119,18);
-    box-shadow: 0 1px 2px rgba(0,0,0,.2) inset;
-    text-shadow: 0 0 2px #fff;
+    -moz-box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+    -webkit-box-shadow: inset 0 0 10px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+    box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+    text-shadow: 0 -1px 1px #444, 0 1px 1px #FFFFFF;
+    background: rgb(164,179,87);
+    background: -moz-linear-gradient(top, rgba(164,179,87,0.8) 0%, rgba(117,137,12,0.8) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(164,179,87,0.8)), color-stop(100%,rgba(117,137,12,0.8)));
+    background: -webkit-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+    background: -o-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+    background: -ms-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+    background: linear-gradient(to bottom, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
 }
 
 .options-inline-radio input[type=radio] ~ label {
+    font-size: 20px;
     display: inline-block;
     padding: 0;
     margin: 0;
@@ -1057,7 +1066,7 @@ box-shadow: inset 0 0 10px 0 rgba(117, 137, 12, 1);
     background-image: -moz-linear-gradient(top,#fefefe, #e1e1e1);
     background-image: -webkit-linear-gradient(top, #fefefe, #e1e1e1);
     text-align: center;
-    line-height: 28px;
+    line-height: 39px;
     cursor: pointer;
     color: #333;
     text-shadow: 0 1px 0 #fff;
@@ -1089,7 +1098,7 @@ box-shadow: inset 0 0 10px 0 rgba(117, 137, 12, 1);
     color: #1F1E1A;
     max-width: 29%;
     overflow: hidden;
-    margin-right: 1% !important;
+    margin-right: 4px !important;
 }
 
 .options-inline-text input[type=text] {
@@ -1110,12 +1119,18 @@ box-shadow: inset 0 0 10px 0 rgba(117, 137, 12, 1);
 .options-inline-text label {
     display: inline-block;
     width: 35% !important;
-    height: 35px;
-    line-height: 35px;
+    height: 36px;
+    line-height: 36px;
     vertical-align: middle;
-    background: rgba(216, 211, 197, 0.5);
     font-family: Arial, sans;
-    font-size: 14px;
+    font-size: 16px;
+    background: -moz-linear-gradient(top, rgba(216,211,197,0.8) 0%, rgba(242,238,222,0.4) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(216,211,197,0.8)), color-stop(100%,rgba(242,238,222,0.4)));
+    background: -webkit-linear-gradient(top, rgba(216,211,197,0.8) 0%,rgba(242,238,222,0.4) 100%);
+    background: -o-linear-gradient(top, rgba(216,211,197,0.8) 0%,rgba(242,238,222,0.4) 100%);
+    background: -ms-linear-gradient(top, rgba(216,211,197,0.8) 0%,rgba(242,238,222,0.4) 100%);
+    background: linear-gradient(to bottom, rgba(216,211,197,0.8) 0%,rgba(242,238,222,0.4) 100%);
+    text-shadow: 0 1px 1px rgba(255,255,255,0.5);
 }
 
 #serverOptionsPanel li.geo-suboptions input[type=radio] ~ .geo-suboptions-container {
@@ -1196,9 +1211,31 @@ ul.rounded li input[type=radio]:checked ~ .input-action-label {
     -webkit-transition: all 0.2s ease-in-out !important;
     -moz-transition: all 0.2s ease-in-out !important;
     transition: all 0.2s ease-in-out !important;
-
 }
 
 .scroll h2 {
     color: #fafafa !important;
+}
+
+.options-button {
+    height: 36px;
+    width: 40px;
+    color: #fafafa !important;
+    text-align: center;
+    background-size: 7px 18px;
+    border: 1px solid #555;
+    border-top: 1px solid rgba(216, 211, 197, 0.5);
+    border-bottom: 1px solid #111;
+    border-radius: 6px;
+    -moz-box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+    -webkit-box-shadow: inset 0 0 10px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+    box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+    text-shadow: 0 -1px 1px #444, 0 1px 1px #FFFFFF;
+    background: rgb(164,179,87);
+    background: -moz-linear-gradient(top, rgba(164,179,87,0.8) 0%, rgba(117,137,12,0.8) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(164,179,87,0.8)), color-stop(100%,rgba(117,137,12,0.8)));
+    background: -webkit-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+    background: -o-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+    background: -ms-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+    background: linear-gradient(to bottom, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
 }

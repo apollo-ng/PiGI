@@ -80,6 +80,7 @@ webGI.status = (function($) {
 
 
     my.update = function(msg) {
+        
         if(count_unit=="CPM") $('#count_val').html(parseInt(msg.data.cpm_dtc));
         if(count_unit=="CPS") $('#count_val').html(parseInt(msg.data.cps_dtc));
 
@@ -114,6 +115,8 @@ webGI.status = (function($) {
         {
             if(edr < s)
             {
+                $('#statusGauge').attr('max',s);
+                
                 $('#lvl_val').html(c);
                 $('.rc-row').removeClass('current');
                 $('#rc'+c).addClass('current');
@@ -168,6 +171,9 @@ webGI.status = (function($) {
         }
 
         $('#edr_val').html(edr.toFixed(2));
+        
+        $('#statusGauge').val(edr);
+        
     }
 
     //Do not forget to return my, otherwise nothing will work.

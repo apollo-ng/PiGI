@@ -17,7 +17,8 @@ webGI.history = (function($) {
     var container = null;
     var chart = null
     var data = [];
-
+    var annotations = [];
+    
     //Public Function
     my.init = function() {
         if (data.length==0)
@@ -81,11 +82,13 @@ webGI.history = (function($) {
                 fillGraph: false,
             },
         });
+        chart.setAnnotations(annotations);
     }
 
     my.update = function(msg) {
         //console.log("HISTORY");
         data = [];
+        annotations = [];
         $.each(msg.log, function(i,v)
         {
             //var v = JSON.parse(v_json);
@@ -93,6 +96,14 @@ webGI.history = (function($) {
             if (isNaN(ts.getTime()))
             {
                 return;
+            }
+            if(! v.annotation == "") {
+                annotations.push( {
+                  series: 'µSv/h',
+                  x: v.timestamp*1000,
+                  shortText: v.annotation[0],
+                  text: v.annotation
+                } );
             }
             data.push([ts,v.data.edr,v.data.edr_avg]);
         });
@@ -104,7 +115,9 @@ webGI.history = (function($) {
         else
         {
             chart.updateOptions({ file: webGI.history.data });
+            chart.setAnnotations(annotations);
         }
+        
     }
 
     my.set_log_scale = function(enabled) {

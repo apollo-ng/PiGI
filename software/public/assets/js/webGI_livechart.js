@@ -112,6 +112,7 @@ webGI.livechart = (function($) {
 
         chart = new Dygraph(my.container_id, data,
         {
+            dateWindow: [ my.now - my.chart_age*1000, my.now],
             title: 'EAR: $$ uSv/h (AVG) - EAD: $$ uSv (Total)',
             titleHeight: 35,
             fillGraph: true,

@@ -20,7 +20,7 @@ function initUI() {
 
     // livechart (15m/60m/24h)
     $('.live-control').bind(webGI.conf.ui_action,function(event) {
-        webGI.gauge.disable();
+        webGI.status.disable();
         webGI.tracer.disable();
         webGI.livechart.enable();
 
@@ -62,7 +62,7 @@ function initUI() {
 
        webGI.tracer.disable();
        webGI.livechart.disable();
-       webGI.gauge.enable();
+       webGI.status.enable();
 
        $('#toggleGauge').addClass('enabled');
        $('.live-control, #toggleTrace').removeClass('enabled');
@@ -70,7 +70,7 @@ function initUI() {
 
     $('#toggleTrace').bind(webGI.conf.ui_action,function() {
        webGI.livechart.disable();
-       webGI.gauge.disable();
+       webGI.status.disable();
        webGI.tracer.enable();
 
        $('#toggleTrace').addClass('enabled');
@@ -210,7 +210,7 @@ function updateLayout() {
     //ugly, but we seem to need it
     webGI.livechart.init();
     webGI.history.init();
-    webGI.gauge.init()
+    //webGI.gauge.init()
 }
 
 function updateConfig() {
@@ -225,11 +225,11 @@ $(document).ready(function() {
     }
 
     webGI.spinner.init();
-    
+
     //Start websocket stuff for status and log (livechart and history)
     webGI.livechart.init_socket();
     webGI.status.init_socket();
-    
+
     //Set callbacks to updateLayout on window resize and url-hash change (panels)
     $(window).resize(updateLayout);
     window.onhashchange = updateLayout; // should have been replaced by pageAnimationEnd event but doesn't work as well
@@ -240,7 +240,6 @@ $(document).ready(function() {
 
     initUI();
 
-    webGI.gauge.init();
     webGI.geo.init();
     updateLayout();
 

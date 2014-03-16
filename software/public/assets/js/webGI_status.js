@@ -14,11 +14,11 @@ webGI.status = (function($) {
     var count_unit = "CPM";
     var ws_status = null;
     //Public Function
-    
-    
+
+
     my.init_socket = function() {
         ws_status = new WebSocket(webGI.conf.websocket_host+"/ws_status");
-        
+
         ws_status.onopen = function() {
             $('#modalError').removeClass('md-show');
             //console.log('Status Update socket opened');
@@ -31,7 +31,7 @@ webGI.status = (function($) {
                 case "geigerjson":
                     my.update(msg);
                     webGI.livechart.now = parseInt(msg.timestamp)*1000;
-                    webGI.gauge.set(parseFloat(msg.data.edr));
+                    //webGI.gauge.set(parseFloat(msg.data.edr));
                     webGI.tracer.add(parseInt(msg.data.cps_dtc));
                 break;
 
@@ -52,7 +52,15 @@ webGI.status = (function($) {
             //console.log ("Status socket reset");
         };
     };
-    
+
+    my.enable = function() {
+        $('#gaugeContainer').show();
+    }
+
+    my.disable = function() {
+        $('#gaugeContainer').hide();
+    }
+
     my.show_radcon = function() {
         $('#modalRADCON').addClass('md-show');
     };

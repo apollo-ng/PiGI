@@ -84,6 +84,7 @@ webGI.livechart = (function($) {
             var y = e.offsetY;
             var dataXY = chart.toDataCoords(x, y);
             $('#eventTS').html(new Date(dataXY[0]));
+            $('#eventText').val("Annotation");
             annotation_ts = dataXY[0]/1000;
             $('#eventEDR').html(dataXY[1].toFixed(2));
             $('#modalAnnotation').addClass('md-show');
@@ -94,17 +95,19 @@ webGI.livechart = (function($) {
             console.log(annotation.xval);
             console.log(annotation.text);
             console.log(point.yval);
+            console.log(point.yval);
+            annotation_ts = annotation.xval/1000;
             $('#eventTS').html(new Date(annotation.xval));
             $('#eventEDR').html(point.yval.toFixed(2));
-            $('#eventText').html(annotation.text);
+            $('#eventText').val(annotation.text);
             $('#modalAnnotation').addClass('md-show');
         }
 
         my.save_annotation = function() {
             var annotation_text = $('#eventText').val();
             console.log(annotation_ts,annotation_text);
-            pushAnnotation(annotation_ts,annotation_text);
-            requestLog(60*60*1,true);
+            my.pushAnnotation(annotation_ts,annotation_text);
+            my.requestLog(60*60*1,true);
         };
 
         chart = new Dygraph(my.container_id, data,
@@ -178,7 +181,7 @@ webGI.livechart = (function($) {
                     annotations.push( {
                       series: 'µSv/h',
                       x: v.timestamp*1000,
-                      shortText: "X",
+                      shortText: v.annotation[0],
                       text: v.annotation
                     } );
                 }

@@ -1261,3 +1261,110 @@ ul.rounded li input[type=radio]:checked ~ .input-action-label {
     background: -ms-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
     background: linear-gradient(to bottom, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
 }
+
+
+
+
+progress,          /* All HTML5 progress enabled browsers */
+progress[role]     /* polyfill */
+{
+
+	/* Turns off styling - not usually needed, but good to know. */
+	appearance: none;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+
+	/* gets rid of default border in Firefox and Opera. */
+	border: none;
+
+	/* Needs to be in here for Safari polyfill so background images work as expected. */
+	background-size: auto;
+
+	/* Dimensions */
+	width: 400px;
+	height: 60px;
+
+}
+
+/* Polyfill */
+progress[role]:after {
+	background-image: none; /* removes default background from polyfill */
+}
+
+/* Ensure fallback text doesn't appear in polyfill */
+progress[role] strong {
+	display: none;
+}
+
+progress,                          /* Firefox  */
+progress[role][aria-valuenow] {    /* Polyfill */
+    background: #282828 !important; /* !important is needed by the polyfill */
+    height: 35px;
+    border-radius: 5px;
+}
+
+/* Chrome */
+progress::-webkit-progress-bar {
+    background: #282828;
+    height: 35px;
+    border-radius: 5px;
+}
+
+progress {
+-moz-box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+-webkit-box-shadow: inset 0 0 10px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+text-shadow: 0 -1px 1px #333;
+background: rgb(164,179,87);
+background: -moz-linear-gradient(top, rgba(164,179,87,0.8) 0%, rgba(117,137,12,0.8) 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(164,179,87,0.8)), color-stop(100%,rgba(117,137,12,0.8)));
+background: -webkit-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: -o-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: -ms-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: linear-gradient(to bottom, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+}
+
+/* Firefox */
+progress::-moz-progress-bar {
+-moz-box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+-webkit-box-shadow: inset 0 0 10px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+text-shadow: 0 -1px 1px #333;
+background: rgb(164,179,87);
+background: -moz-linear-gradient(top, rgba(164,179,87,0.8) 0%, rgba(117,137,12,0.8) 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(164,179,87,0.8)), color-stop(100%,rgba(117,137,12,0.8)));
+background: -webkit-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: -o-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: -ms-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: linear-gradient(to bottom, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+}
+
+/* Chrome */
+progress::-webkit-progress-value {
+-moz-box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+-webkit-box-shadow: inset 0 0 10px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+text-shadow: 0 -1px 1px #333;
+background: rgb(164,179,87);
+background: -moz-linear-gradient(top, rgba(164,179,87,0.8) 0%, rgba(117,137,12,0.8) 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(164,179,87,0.8)), color-stop(100%,rgba(117,137,12,0.8)));
+background: -webkit-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: -o-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: -ms-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: linear-gradient(to bottom, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+}
+
+/* Polyfill */
+progress[aria-valuenow]:before  {
+-moz-box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+-webkit-box-shadow: inset 0 0 10px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+text-shadow: 0 -1px 1px #333;
+background: rgb(164,179,87);
+background: -moz-linear-gradient(top, rgba(164,179,87,0.8) 0%, rgba(117,137,12,0.8) 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(164,179,87,0.8)), color-stop(100%,rgba(117,137,12,0.8)));
+background: -webkit-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: -o-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: -ms-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: linear-gradient(to bottom, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+}

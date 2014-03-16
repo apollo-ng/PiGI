@@ -141,6 +141,7 @@ def handle_ws_conf():
                         cfg.set('geigercounter',field,str(val))
                 
                 cfg.write_dynamic()
+                cfg.read_dynamic()
         except WebSocketError:
             break
     log.info("websocket closed (%s)"%wsock.path)

@@ -69,7 +69,6 @@ class Configurator():
         if not self.dynamic_conf.has_section(section):
             self.dynamic_conf.add_section(section)
         self.dynamic_conf.set(section,option,value)
-        self.read_dynamic()
 
 cfg = Configurator()
 

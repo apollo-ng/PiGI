@@ -11,6 +11,7 @@ import sys
 from configurator import cfg
 
 import geigersocket
+import geigercounter
 
 log=logging.getLogger(__name__)
 
@@ -103,7 +104,7 @@ def handle_ws_log():
     log.info("websocket closed (%s)"%wsock.path)
 
 @app.route('/ws_conf')
-def handle_ws_log():
+def handle_ws_conf():
     wsock = get_websocket_from_request()
     log.info("websocket opened (%s)"%wsock.path)
 
@@ -117,14 +118,28 @@ def handle_ws_log():
             if msg.get("cmd") == "get":
                 conf = {
                     "type": "geigerconf",
+                    "uuid": cfg.get('node','uuid'),
+                    "name": cfg.get('node','name'),
+                    "opmode": cfg.get('node','opmode'),
+                    "lat": cfg.getfloat('node','lat'),
+                    "lon": cfg.getfloat('node','lon'),
+                    "alt": cfg.getfloat('node','alt'),
                     "sim_dose_rate": cfg.getfloat('geigercounter','sim_dose_rate'),
+                    "window": cfg.get('geigercounter','window'),
+                    "source": cfg.get('geigercounter','source') if geigercounter.gpio_available else "sim",
                 }
                 wsock.send(json.dumps(conf))
             elif msg.get("cmd") == "save":
-                sim_dose_rate = msg["conf"].get("sim_dose_rate")
-                if not sim_dose_rate is None:
-                    cfg.set('geigercounter','sim_dose_rate',sim_dose_rate)
-                    
+                for field in ["lat","lon","alt","opmode"]:
+                    val = msg["conf"].get(field)
+                    if not val is None:
+                        cfg.set('node',field,str(val))
+                        
+                for field in ["window","source","sim_dose_rate"]:
+                    val = msg["conf"].get(field)
+                    if not val is None:
+                        cfg.set('geigercounter',field,str(val))
+                
                 cfg.write_dynamic()
         except WebSocketError:
             break

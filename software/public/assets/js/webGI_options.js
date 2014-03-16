@@ -36,13 +36,37 @@ webGI.options = (function($) {
     //Public Function
     my.save = function() {
         my.server.sim_dose_rate = parseFloat($('#server_cnf_sim_dose_rate').val());
-
+        if ($('#server_cnf_gps_mode_mobile').is(':checked')){
+            my.server.opmode = "mobile";
+        } else {
+            my.server.opmode = "static";
+            my.server.lat = parseFloat($('#server_cnf_node_lat').val());
+            my.server.lon = parseFloat($('#server_cnf_node_lon').val());
+            my.server.alt = parseFloat($('#server_cnf_node_alt').val());
+        };
+        
+        if ($('#server_cnf_opmode_env').is(':checked')){
+            my.server.source = "env";
+        } else if ($('#server_cnf_opmode_test').is(':checked')){
+            my.server.source = "test";
+        } else if ($('#server_cnf_opmode_sim').is(':checked')){
+            my.server.source = "sim";
+        }
+        
+        if ($('#cgw_abc').is(':checked')){
+            my.server.window = "abc";
+        } else if ($('#cgw_bc').is(':checked')){
+            my.server.window = "bc";
+        } else if ($('#cgw_c').is(':checked')){
+            my.server.source = "c";
+        }
+        
         var cmd = {
             "cmd" : "save",
             "conf": my.server
         };
         ws_conf.send(JSON.stringify(cmd));
-        console.log("Saving options");
+        console.log("Saving options", my.server);
         my.request()
     }
 
@@ -82,10 +106,28 @@ webGI.options = (function($) {
 
     //Private Function
     function update(msg) {
-        //console.log("Options:",msg)
+        console.log("Options:",msg)
+        $('#cnf_node_uuid').text(msg.uuid);
+        $('#cnf_node_name').text(msg.name);
+        
         my.server.sim_dose_rate = msg.sim_dose_rate;
         $('#server_cnf_sim_dose_rate').val(my.server.sim_dose_rate);
         $('#simRanger').val(webGI.options.log2lin(my.server.sim_dose_rate));
+        
+        $('#server_cnf_node_lat').val(msg.lat);
+        $('#server_cnf_node_lon').val(msg.lon);
+        $('#server_cnf_node_alt').val(msg.alt);
+        
+        if(msg.opmode==="stationary"){
+            $('#server_cnf_gps_mode_static').prop('checked',true);
+        } else if (msg.opmode==="mobile") {
+            $('#server_cnf_gps_mode_mobile').prop('checked',true);
+        }
+        
+        $('#server_cnf_opmode_'+msg.source).prop('checked',true);
+        
+        $('#cgw_'+msg.window).prop('checked',true);
+        
     }
 
     //Do not forget to return my, otherwise nothing will work.

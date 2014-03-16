@@ -107,7 +107,7 @@ webGI.livechart = (function($) {
             var annotation_text = $('#eventText').val();
             console.log(annotation_ts,annotation_text);
             my.pushAnnotation(annotation_ts,annotation_text);
-            my.requestLog(60*60*1,true);
+            my.requestLog(60*60*24,false);
         };
 
         chart = new Dygraph(my.container_id, data,
@@ -167,8 +167,21 @@ webGI.livechart = (function($) {
 
         //console.log("LOGHISTORY");
         if (msg.hd) {
-            annotations = [];
             data_hd = [];
+            $.each(msg.log, function(i,v)
+            {
+                var ts = new Date(v.timestamp*1000);
+                //var ts = v.timestamp*1000
+                //if (isNaN(ts.getTime()))
+                //{
+                //    return;
+                //}
+                data_hd.push([ts,v.data.edr,v.data.edr_avg]);
+            });
+        } else {
+            data_ld = [];
+            var edr_avg=0;
+            annotations = [];
             $.each(msg.log, function(i,v)
             {
                 var ts = new Date(v.timestamp*1000);
@@ -185,20 +198,6 @@ webGI.livechart = (function($) {
                       text: v.annotation
                     } );
                 }
-                data_hd.push([ts,v.data.edr,v.data.edr_avg]);
-            });
-        } else {
-            data_ld = [];
-            var edr_avg=0;
-
-            $.each(msg.log, function(i,v)
-            {
-                var ts = new Date(v.timestamp*1000);
-                //var ts = v.timestamp*1000
-                //if (isNaN(ts.getTime()))
-                //{
-                //    return;
-                //}
                 data_ld.push([ts,v.data.edr,v.data.edr_avg]);
                 edr_avg += v.data.edr;
 
@@ -319,7 +318,7 @@ webGI.livechart = (function($) {
             } else {
                 data = data_hd;
             }
-
+        chart.setAnnotations(annotations);
         chart.updateOptions({
             dateWindow: desired_range,
             file: data
@@ -329,6 +328,7 @@ webGI.livechart = (function($) {
           var new_range;
           new_range = [0.5 * (desired_range[0] + range[0]),
                        0.5 * (desired_range[1] + range[1])];
+          chart.setAnnotations(annotations);
           chart.updateOptions({dateWindow: new_range});
           chartAnimate();
         }

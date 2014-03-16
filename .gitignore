@@ -10,6 +10,7 @@ config.py
 *.b#*
 *.s#*
 *.db
+*.db.idx-*
 entropy.bin
 local.cfg
 dynamic.cfg

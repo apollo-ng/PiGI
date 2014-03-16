@@ -51,7 +51,7 @@ webGI.options = (function($) {
         "cmd" : "get",
         }
         ws_conf.send(JSON.stringify(cmd));
-        console.log("Requesting options");
+        //console.log("Requesting options");
     }
 
     my.lin2log = function(position) {
@@ -72,9 +72,17 @@ webGI.options = (function($) {
         return ((Math.log(value)-minv) / scale + minp).toFixed(2);
     }
 
+    my.geoSnapshotCallback = function (position) {
+        //console.log(position);
+        $('#server_cnf_node_lat').val(position.coords.latitude.toFixed(5));
+        $('#server_cnf_node_lon').val(position.coords.longitude.toFixed(5));
+        $('#server_cnf_node_alt').val(position.coords.altitude);
+
+    }
+
     //Private Function
     function update(msg) {
-        console.log("Options:",msg)
+        //console.log("Options:",msg)
         my.server.sim_dose_rate = msg.sim_dose_rate;
         $('#server_cnf_sim_dose_rate').val(my.server.sim_dose_rate);
         $('#simRanger').val(webGI.options.log2lin(my.server.sim_dose_rate));

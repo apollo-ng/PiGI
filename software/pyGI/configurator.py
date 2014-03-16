@@ -1,27 +1,48 @@
 import ConfigParser
 import logging
-import sys,os
+import sys,os,uuid
 
 log = logging.getLogger(__name__)
 
 FILENAME_DEFAULT = 'default.cfg'
 FILENAME_LOCAL = 'local.cfg'
 FILENAME_DYNAMIC = 'dynamic.cfg'
-
+FILENAME_UUID = 'uuid.cfg'
 CONF_DIR = os.path.join(sys.path[0],'conf')
 
 PATH_DEFAULT = os.path.join(CONF_DIR,FILENAME_DEFAULT)
 PATH_LOCAL = os.path.join(CONF_DIR,FILENAME_LOCAL)
 PATH_DYNAMIC = os.path.join(CONF_DIR,FILENAME_DYNAMIC)
+PATH_UUID = os.path.join(CONF_DIR,FILENAME_UUID)
 
 class Configurator():
     def __init__(self):
         self.static_conf = ConfigParser.SafeConfigParser()
+        
+        #uuid
+        
+        try:
+            self.static_conf.readfp(open(PATH_UUID))
+            log.info("node uuid: %s"%self.static_conf.get('node','uuid'))
+        except (IOError, ConfigParser.NoOptionError, ConfigParser.NoSectionError) as e:
+            log.warn("No uuid set!")
+            new_uuid = str(uuid.uuid1())
+            log.warn("Setting new uuid: %s"%new_uuid)
+            self.static_conf = ConfigParser.SafeConfigParser()
+            self.static_conf.add_section('node')
+            self.static_conf.set('node','uuid',new_uuid)
+            with open(PATH_UUID,'wb') as f:
+                self.static_conf.write(f)
+        
         self.static_conf.readfp(open(PATH_DEFAULT))
         log.info('reading configuration default.cfg')
+        
+        
         additionals = self.static_conf.read(PATH_LOCAL)
         for f in additionals:
             log.info('reading configuration %s'%f)
+        
+        
         self.dynamic_conf = ConfigParser.SafeConfigParser()
         self.read_dynamic()
         

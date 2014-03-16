@@ -25,10 +25,53 @@ webGI.livechart = (function($) {
     var annotations = [];
     var edr_avg_24h = 0.1; //FIXME this does not belong here
     var chart_colors = ['#677712','yellow'];
+    var ws_log = null;
+    
+    my.init_socket = function() {
+        ws_log = new WebSocket(webGI.conf.websocket_host+"/ws_log");
 
+        ws_log.onopen = function() {
+            $('#modalError').removeClass('md-show');
+            setTimeout(function(){
+                my.requestLog(60*60*1,true);
+                my.requestLog(60*60*24,false);
+                my.requestHistory(null,null);
+            }, 100);
+        };
+
+        ws_log.onclose = function() {
+            ws_log = new WebSocket(webGI.conf.websocket_host+"/ws_log");
+            showErrorModal(
+                'Websocket Error',
+                '<p>Wheeeeh, I lost my sockets. Either the server has gone down or the network connection is unreliable or stalled.</p><b>Possible solutions:</b></p><ul><li>Is the pyGI daemon running on the Pi?</li><li>Enable/toggle your WIFI connection</li></ul>'
+            );
+            //console.log ("Log socket reset");
+        };
+
+        ws_log.onmessage = function(e) {
+            var msg = JSON.parse(e.data);
+            //console.log(msg);
+            switch(msg.type) {
+                case "geigerjson":
+                    my.update(msg);
+                break;
+                case "history":
+                    my.updateBacklog(msg);
+                break;
+                case "static_history":
+                    webGI.history.update(msg);
+                break;
+                default:
+                    console.log("INVALID MESSAGE",msg)
+            }
+        }
+    };
+        
     //Public Function
     my.init = function() {
         container = $("#"+my.container_id);
+        
+        
         //console.log("Init log");
         if (data.length==0)
         {
@@ -179,7 +222,7 @@ webGI.livechart = (function($) {
                 dateWindow: [ my.now - my.chart_age*1000, my.now]
             });
         }
-        console.log(annotations);
+        //console.log(annotations);
         chart.setAnnotations(annotations);
     }
 
@@ -226,6 +269,39 @@ webGI.livechart = (function($) {
 
     my.disable = function() {
         container.hide()
+    };
+
+    my.requestLog=function(age,hd) {
+        var cmd = {
+            "cmd" : "read",
+            "age" : age,
+            "hd": hd
+        }
+
+        ws_log.send(JSON.stringify(cmd));
+        //console.log ("Requesting log (age " +webGI.log.chart_age +" )");
+    };
+
+    my.requestHistory= function(from,to) {
+        var cmd = {
+            "cmd" : "history",
+            "from" : from,
+            "to" : to
+        }
+
+        ws_log.send(JSON.stringify(cmd));
+        //console.log ("Requesting history");
+    };
+
+    my.pushAnnotation=function(ts,text) {
+        var cmd = {
+            "cmd" : "annotation",
+            "timestamp" : ts,
+            "text": text
+        }
+
+        ws_log.send(JSON.stringify(cmd));
+        //console.log ("Requesting history");
     };
 
     //Private Function

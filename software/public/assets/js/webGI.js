@@ -14,48 +14,6 @@ webGI.jQT = new $.jQTouch ({
     preloadImages: []
 });
 
-function initWebsockets() {
-    if(!("WebSocket" in window)) {
-        $('<p>Oh no, you need a modern browser that supports WebSockets. How about <a href="http://www.google.com/chrome">Google Chrome</a>?</p>').appendTo('#container');
-        return;
-    }
-    webGI.websockets = {};
-    webGI.websockets.log = new WebSocket(webGI.conf.websocket_host+"/ws_log");
-
-    webGI.websockets.log.onopen = function() {
-        $('#modalError').removeClass('md-show');
-        requestLog(60*60*1,true);
-        requestLog(60*60*24,false);
-        requestHistory(null,null);
-    };
-
-    webGI.websockets.log.onclose = function() {
-        webGI.websockets.log = new WebSocket(webGI.conf.websocket_host+"/ws_log");
-        showErrorModal(
-            'Websocket Error',
-            '<p>Wheeeeh, I lost my sockets. Either the server has gone down or the network connection is unreliable or stalled.</p><b>Possible solutions:</b></p><ul><li>Is the pyGI daemon running on the Pi?</li><li>Enable/toggle your WIFI connection</li></ul>'
-        );
-        //console.log ("Log socket reset");
-    };
-
-    webGI.websockets.log.onmessage = function(e) {
-        var msg = JSON.parse(e.data);
-        //console.log(msg);
-        switch(msg.type) {
-            case "geigerjson":
-                webGI.livechart.update(msg);
-            break;
-            case "history":
-                webGI.livechart.updateBacklog(msg);
-            break;
-            case "static_history":
-                webGI.history.update(msg);
-            break;
-            default:
-                console.log("INVALID MESSAGE",msg)
-        }
-    }
-}
 
 function initUI() {
     // Bind UI events
@@ -259,41 +217,20 @@ function updateConfig() {
     console.log("Writing config to local storage")
 }
 
-function requestLog(age,hd) {
-    var cmd = {
-        "cmd" : "read",
-        "age" : age,
-        "hd": hd
-    }
-
-    webGI.websockets.log.send(JSON.stringify(cmd));
-    //console.log ("Requesting log (age " +webGI.log.chart_age +" )");
-}
-
-function requestHistory(from,to) {
-    var cmd = {
-        "cmd" : "history",
-        "from" : from,
-        "to" : to
-    }
-
-    webGI.websockets.log.send(JSON.stringify(cmd));
-    //console.log ("Requesting history");
-}
-
-function pushAnnotation(ts,text) {
-    var cmd = {
-        "cmd" : "annotation",
-        "timestamp" : ts,
-        "text": text
-    }
-
-    webGI.websockets.log.send(JSON.stringify(cmd));
-    //console.log ("Requesting history");
-}
 
 $(document).ready(function() {
+    if(!("WebSocket" in window)) {
+        $('<p>Oh no, you need a modern browser that supports WebSockets. How about <a href="http://www.google.com/chrome">Google Chrome</a>?</p>').appendTo('#container');
+        return;
+    }
+
     webGI.spinner.init();
+    
+    //Start websocket stuff for status and log (livechart and history)
+    webGI.livechart.init_socket();
+    webGI.status.init_socket();
+    
+    //Set callbacks to updateLayout on window resize and url-hash change (panels)
     $(window).resize(updateLayout);
     window.onhashchange = updateLayout; // should have been replaced by pageAnimationEnd event but doesn't work as well
 
@@ -301,12 +238,8 @@ $(document).ready(function() {
     if ($.support.touch) { webGI.conf.ui_action = 'touchend'; }
     else { webGI.conf.ui_action  = 'click'; }
 
-    initWebsockets();
-    webGI.status.init();
     initUI();
 
-    webGI.livechart.init()
-    webGI.history.init();
     webGI.gauge.init();
     webGI.geo.init();
     updateLayout();

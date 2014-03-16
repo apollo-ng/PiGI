@@ -15,7 +15,7 @@
    id="svg3777"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="orm_new_dark.svg">
+   sodipodi:docname="orm_new_dark_web.svg">
   <defs
      id="defs3779">
     <linearGradient
@@ -247,7 +247,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.903"
      inkscape:cx="500"
-     inkscape:cy="468.13405"
+     inkscape:cy="500"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -259,8 +259,8 @@
      inkscape:snap-bbox-edge-midpoints="true"
      inkscape:window-width="1625"
      inkscape:window-height="1063"
-     inkscape:window-x="131"
-     inkscape:window-y="58"
+     inkscape:window-x="124"
+     inkscape:window-y="46"
      inkscape:window-maximized="0">
     <sodipodi:guide
        orientation="1,0"
@@ -395,25 +395,25 @@
        d="m 602,451.5 a 177.5,177.5 0 1 1 -355,0 177.5,177.5 0 1 1 355,0 z"
        transform="matrix(-2.2161731,0,0,-2.2161731,1440.4901,1552.7216)" />
     <path
-       transform="matrix(2.0604736,-0.87528843,0.87528843,2.0604736,-771.89146,-235.72196)"
+       transform="matrix(2.0604736,-0.87528843,0.87528843,2.0604736,-769.89146,-237.72196)"
        d="m 410.00001,548.79077 a 26.428572,26.428572 0 1 1 -52.85714,0 26.428572,26.428572 0 1 1 52.85714,0 z"
        sodipodi:ry="26.428572"
        sodipodi:rx="26.428572"
        sodipodi:cy="548.79077"
        sodipodi:cx="383.57144"
        id="path3847"
-       style="fill:#22221f;fill-opacity:1;stroke:#000000;stroke-width:1.93993688000000009;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#22221f;fill-opacity:1;stroke:#000000;stroke-width:1.93993688;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        sodipodi:type="arc" />
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:0.42081448;stroke-dasharray:none;font-family:Sans"
        id="text6691"
        sodipodi:linespacing="125%"
-       transform="translate(0,-4)"><textPath
+       transform="matrix(0.99718155,0,0,1.0073482,2.6673627,-0.08037805)"><textPath
          xlink:href="#path3789-5-2-5"
          id="textPath6695"
-         style="font-size:64px;font-weight:bold;fill:#1f1f1f;fill-opacity:1;stroke:#ffffff;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;-inkscape-font-specification:Sans Bold"
-         dx="63.492081">OPEN RADIATION MONITORING</textPath></text>
+         style="font-size:72px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#1f1f1f;fill-opacity:1;stroke:#ffffff;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold"
+         dx="-5.3603592">OPEN RADIATION MONITORING</textPath></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-opacity:0.42081448;stroke-dasharray:none;font-family:Sans"

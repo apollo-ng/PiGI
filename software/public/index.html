@@ -59,9 +59,9 @@
      <div id="chartContainer" class="instrument-container" style="display: none"></div>
      <div id="traceContainer" class="instrument-container" style="display: none"><canvas id="traceCanvas"></canvas></div>
      <div class="instrument-control-container">
-      <a href="#" id="toggleGauge" class="instrument-control viewableControl big-icon icon-gauge-1"></a>
+      <a href="#" id="toggleGauge" class="instrument-control viewableControl big-icon icon-gauge-1 enabled"></a>
       <a href="#" id="toggleTrace" class="instrument-control big-icon icon-eye-1"></a>
-      <a href="#" id="live15m" class="instrument-control live-control icon-chart-area enabled" data-seconds=900>15M</a>
+      <a href="#" id="live15m" class="instrument-control live-control icon-chart-area " data-seconds=900>15M</a>
       <a href="#" id="live60m" class="instrument-control live-control icon-chart-area" data-seconds=3600>60M</a>
       <a href="#" id="live24h" class="instrument-control live-control icon-chart-area" data-seconds=86400>24H</a>
       <a href="#" id="toggleAudio" class="instrument-control big-icon icon-volume-down-1"></a>
@@ -121,9 +121,9 @@
       <li class="geo-suboptions">
        <input type="radio" name="geoMode" value="static" title="" id="server_cnf_gps_mode_static" /><label for="server_cnf_gps_mode_static" class="input-action-label">Stationary</label>
        <div class="geo-suboptions-container options-inline-text">
-        <div style="width: 33% !important; max-width: 33% !important; min-width: 33% !important; margin-left: 7px !important;" class="options-display" style="margin-left: 7px !important;"><label for="server_cnf_node_lat">Lat</label><input type="text" id="server_cnf_node_lat" value="00.00000" /></div>
-        <div style="width: 33% !important; max-width: 33% !important; min-width: 33% !important;" class="options-display"><label for="server_cnf_node_lon">Lon</label><input type="text" id="server_cnf_node_lon" value="00.00000" /></div>
-        <div style="width: 17% !important; max-width: 17% !important; min-width: 17% !important;" class="options-display"><label for="server_cnf_node_alt">Alt</label><input type="text" id="server_cnf_node_alt" value="0" /></div>
+        <div style="width: 33% !important; max-width: 33% !important; min-width: 33% !important; margin-left: 7px !important;" class="options-display" style="margin-left: 7px !important;"><label for="server_cnf_node_lat">Lat</label><input type="number" id="server_cnf_node_lat" value="00.00000" min="-90" max="90" /></div>
+        <div style="width: 33% !important; max-width: 33% !important; min-width: 33% !important;" class="options-display"><label for="server_cnf_node_lon">Lon</label><input type="number" id="server_cnf_node_lon" value="00.00000" min="-180" max="180" /></div>
+        <div style="width: 17% !important; max-width: 17% !important; min-width: 17% !important;" class="options-display"><label for="server_cnf_node_alt">Alt</label><input type="number" id="server_cnf_node_alt" value="0" min="-1000" max="20000" /></div>
         <div style="width: 10% !important; max-width: 10% !important; min-width: 10% !important; margin: 0 !important; color: #75890c; font-size: 24px" class="options-button"><span id="geoSnapshot" class="icon-target" style="text-align: center; margin: 0; padding: 0; height: 35px; line-height: 35px; display: inline-block; text-overflow: ellipsis;"></span></div>
        </div>
       </li>
@@ -143,7 +143,7 @@
       <li class="sim-suboptions">
        <input type="radio" name="source" value="sim" title="" id="server_cnf_opmode_sim" checked="checked" /><label for="server_cnf_opmode_sim" class="input-action-label">Tick Simulator</label>
        <div class="options-inline-text sim-suboptions-container">
-        <div style="width: 29% !important; max-width: 29% !important; min-width: 29% !important; margin: 0 !important;margin-top: 6px !important;margin-left: 7px !important;" class="options-display"><label for="server_cnf_sim_dose_rate">&micro;Sv/h</label><input type="text" id="server_cnf_sim_dose_rate" /></div>
+        <div style="width: 29% !important; max-width: 29% !important; min-width: 29% !important; margin: 0 !important;margin-top: 6px !important;margin-left: 7px !important;" class="options-display"><label for="server_cnf_sim_dose_rate">&micro;Sv/h</label><input type="number" id="server_cnf_sim_dose_rate" min="0.01" max="1000" /></div>
         <div style="border: 0px solid red;height: 37px;width: 69% !important; max-width: 69% !important; min-width: 69% !important; margin: 0 !important; display: inline-block; text-align: center;"><input type="range" min="0" max="100" value="1" step="1" id="simRanger" class="options-range-input"></div>
        </div>
       </li>

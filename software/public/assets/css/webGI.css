@@ -1123,19 +1123,31 @@ keyframes simNotify {
     margin-right: 4px !important;
 }
 
-.options-inline-text input[type=text] {
+.options-inline-text input[type=number] {
     display: inline-block;
     width: 65% !important;
     font-family: "Digi" !important;
     font-size: 28px !important;
     font-weight: normal;
-    height: 35px;
+    height: 36px;
     line-height: 35px;
     vertical-align: middle;
     text-align: center;
     color: #d8d3c5;
     padding: 0 !important;
     background: rgba(63, 62, 58, 0.2) !important;
+}
+
+.options-inline-text input[type=number]:invalid {
+    -webkit-box-shadow:
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.options-inline-text input[type=number]:-moz-focusring {
+    -webkit-box-shadow:
+    -moz-box-shadow: none;
+    box-shadow: none;
 }
 
 .options-inline-text label {

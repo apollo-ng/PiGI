@@ -84,7 +84,7 @@ webGI.options = (function($) {
         var minv = Math.log(0.01);
         var maxv = Math.log(1000);
         var scale = (maxv-minv) / (maxp-minp);
-        return (Math.exp(minv + scale*(position-minp))).toFixed(2);
+        return Math.exp(minv + scale*(position-minp));
     }
 
     my.log2lin = function(value) {
@@ -93,7 +93,7 @@ webGI.options = (function($) {
         var minv = Math.log(0.01);
         var maxv = Math.log(1000);
         var scale = (maxv-minv) / (maxp-minp);
-        return ((Math.log(value)-minv) / scale + minp).toFixed(2);
+        return (Math.log(value)-minv) / scale + minp;
     }
 
     my.geoSnapshotCallback = function (position) {

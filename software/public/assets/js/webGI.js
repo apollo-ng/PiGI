@@ -78,17 +78,22 @@ function initUI() {
     });
 
     // Audio
-    $('#toggleAudio').bind(webGI.conf.ui_action,function() {
-        if(webGI.ticker.enabled) {
+    $('#toggleAudio').bind(webGI.conf.ui_action,function()
+    {
+        if(webGI.ticker.enabled)
+        {
             $('#toggleAudio').removeClass('enabled');
             webGI.ticker.disable();
-        } else {
+        }
+        else
+        {
             $('#toggleAudio').addClass('enabled');
             webGI.ticker.enable();
         }
     });
 
-    $('#toggleLogScale').bind(webGI.conf.ui_action,function() {
+    $('#toggleLogScale').bind(webGI.conf.ui_action,function()
+    {
         if(!webGI.history.log_scale) {
             webGI.history.set_log_scale(true);
             $('#toggleLogScale').addClass('enabled');
@@ -132,8 +137,10 @@ function initUI() {
         webGI.options.save();
     });
 
-    $('#simRanger').bind('input', function() {
-        var val = parseFloat(webGI.options.lin2log(this.value));
+    $('#simRanger').bind('input', function()
+    {
+        var val = webGI.options.lin2log(this.value);
+
         if (val >= 10)
         {
             val = val.toFixed(0);
@@ -141,13 +148,26 @@ function initUI() {
         }
         else
         {
+            val = val.toFixed(2);
             $('#server_cnf_sim_dose_rate').css({ "color": "#75890c" });
         }
+
         $('#server_cnf_sim_dose_rate').val(val);
     });
 
-    $('#server_cnf_sim_dose_rate').bind('input', function() {
-        $('#simRanger').val(webGI.options.log2lin(parseFloat(this.value)));
+    $('#server_cnf_sim_dose_rate').bind('input', function()
+    {
+        $('#simRanger').val(webGI.options.log2lin(this.valueAsNumber));
+        var val = webGI.options.lin2log(this.valueAsNumber);
+
+        if (val >= 10)
+        {
+            $('#server_cnf_sim_dose_rate').css({ "color": "#F5C43C" });
+        }
+        else
+        {
+            $('#server_cnf_sim_dose_rate').css({ "color": "#75890c" });
+        }
     });
 
 

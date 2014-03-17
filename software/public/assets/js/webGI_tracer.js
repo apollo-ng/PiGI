@@ -10,12 +10,13 @@ webGI.tracer = (function($) {
     //Public
     var my = {};
     my.container_id = "traceContainer";
-    
+    my.canvas_id = "traceCanvas";
+
     //Private
     var particles = {};
     var draw_interval = null;
     var active = false;
-    
+
     function createParticle() {
         this.x = Math.random()*canvas.width;
         this.y = 0; //-Math.random()*webGI.trace.canvas.height;
@@ -30,7 +31,7 @@ webGI.tracer = (function($) {
     my.enable = function() {
         $("#"+my.container_id).show();
         active = true;
-        canvas = document.getElementById(my.container_id);
+        canvas = document.getElementById(my.canvas_id);
         var ctx = canvas.getContext("2d");
         particles = {};
         draw_interval = setInterval(draw, 33);
@@ -41,7 +42,7 @@ webGI.tracer = (function($) {
         particles = {};
         if (draw_interval !== null) clearInterval(draw_interval);
     };
-    
+
     my.add = function(amount) {
         if(active)
         {
@@ -88,6 +89,6 @@ webGI.tracer = (function($) {
             }
         });
     }
-    
+
     return my;
 }($));

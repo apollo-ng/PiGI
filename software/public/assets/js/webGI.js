@@ -197,12 +197,13 @@ function updateLayout() {
     var h_offset = 150;
     var w_offset = 48;
 
-    $('.instrument') .css({'height': h-100+'px'});
+    $('.instrument') .css({'height': h-99+'px'});
 
     var new_h = h-h_offset;
     var new_w = $('#mainInstrument').width();
 
     $('.instrument-container').css({'height': new_h+'px', 'width': new_w+'px'}).attr('height',new_h).attr('width',new_w);
+    $('#traceCanvas').css({'height': new_h+'px', 'width': new_w+'px'}).attr('height',new_h).attr('width',new_w);
 
     new_w = $('#historyInstrument').width();
     $('#historyContainer') .css({'height': new_h+'px', 'width': new_w-15+'px'}).attr('height',new_h).attr('width',new_w-15);

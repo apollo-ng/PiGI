@@ -50,15 +50,14 @@
 
     <!-- Main Instrument -->
     <div id="mainInstrument" class="instrument">
-     <div id="gaugeContainer" class="instrument-container" style="display: none">
+     <div id="gaugeContainer" class="instrument-container" >
       <div class="options-inline-text sim-suboptions-container">
         <div style="width: 29% !important; max-width: 29% !important; min-width: 29% !important; margin: 0 !important;margin-top: 6px !important;margin-left: 7px !important;" class="options-display">&micro;Sv/h</div>
         <div style="border: 0px solid red;height: 37px;width: 69% !important; max-width: 69% !important; min-width: 69% !important; margin: 0 !important; display: inline-block; text-align: center;"><progress id="statusGauge" max="100" value="60" style="width: 100%; height: 25px; border-radius: 5px; background: #282828;"><strong>0.27 uSv/h</strong></progress></div>
        </div>
-
      </div>
-     <div id="chartContainer" class="instrument-container"></div>
-     <canvas id="traceContainer" class="instrument-container" style="display: none"></canvas>
+     <div id="chartContainer" class="instrument-container" style="display: none"></div>
+     <div id="traceContainer" class="instrument-container" style="display: none"><canvas id="traceCanvas"></canvas></div>
      <div class="instrument-control-container">
       <a href="#" id="toggleGauge" class="instrument-control viewableControl big-icon icon-gauge-1"></a>
       <a href="#" id="toggleTrace" class="instrument-control big-icon icon-eye-1"></a>

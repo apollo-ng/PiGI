@@ -18,13 +18,39 @@ webGI.history = (function($) {
     var chart = null
     var data = [];
     var annotations = [];
-    
+
     //Public Function
     my.init = function() {
         if (data.length==0)
         {
             return;
         }
+
+        var clickCallback = function(e)
+        {
+            var x = e.offsetX;
+            var y = e.offsetY;
+            var dataXY = chart.toDataCoords(x, y);
+            $('#eventTS').html(new Date(dataXY[0]));
+            $('#eventText').val("Enter your annotation text here...");
+            annotation_ts = dataXY[0]/1000;
+            $('#eventEDR').html(dataXY[1].toFixed(2));
+            $('#modalAnnotation').addClass('md-show');
+        }
+
+        var annotationClickCallback = function(annotation, point)
+        {
+            console.log(annotation.xval);
+            console.log(annotation.text);
+            console.log(point.yval);
+            console.log(point.yval);
+            annotation_ts = annotation.xval/1000;
+            $('#eventTS').html(new Date(annotation.xval));
+            $('#eventEDR').html(point.yval.toFixed(2));
+            $('#eventText').val(annotation.text);
+            $('#modalAnnotation').addClass('md-show');
+        }
+
         chart = new Dygraph(my.container_id, data,
         {
             //interactionModel : {
@@ -60,12 +86,17 @@ webGI.history = (function($) {
             //zoomCallback: function(min,max,y) {
             //    webGI.history.chart.updateOptions({valueRange: [0.01, null]});
             //},
+            interactionModel: {
+                'click' : clickCallback
+            },
+            annotationClickHandler: annotationClickCallback,
+            /*
             clickCallback: function(e, x, pts) {
                 console.log("Click " + pts_info(e,x,pts));
               },
             pointClickCallback: function(e, p) {
                 console.log("Point Click " + p.name + ": " + p.x);
-            },
+            },*/
             //includeZero: true,
             //connectSeparatedPoints: true,
             labels: ['time','µSv/h','µSv/h (15m avg)'],
@@ -84,6 +115,9 @@ webGI.history = (function($) {
         });
         chart.setAnnotations(annotations);
     }
+
+
+
 
     my.update = function(msg) {
         //console.log("HISTORY");
@@ -117,7 +151,7 @@ webGI.history = (function($) {
             chart.updateOptions({ file: webGI.history.data });
             chart.setAnnotations(annotations);
         }
-        
+
     }
 
     my.set_log_scale = function(enabled) {

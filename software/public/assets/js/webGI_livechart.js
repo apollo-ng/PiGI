@@ -26,7 +26,7 @@ webGI.livechart = (function($) {
     var edr_avg_24h = 0.1; //FIXME this does not belong here
     var chart_colors = ['#677712','yellow'];
     var ws_log = null;
-    
+
     my.init_socket = function() {
         ws_log = new WebSocket(webGI.conf.websocket_host+"/ws_log");
 
@@ -66,12 +66,12 @@ webGI.livechart = (function($) {
             }
         }
     };
-        
+
     //Public Function
     my.init = function() {
         container = $("#"+my.container_id);
-        
-        
+
+
         //console.log("Init log");
         if (data.length==0)
         {
@@ -84,7 +84,7 @@ webGI.livechart = (function($) {
             var y = e.offsetY;
             var dataXY = chart.toDataCoords(x, y);
             $('#eventTS').html(new Date(dataXY[0]));
-            $('#eventText').val("Annotation");
+            $('#eventText').val("Enter your annotation text here...");
             annotation_ts = dataXY[0]/1000;
             $('#eventEDR').html(dataXY[1].toFixed(2));
             $('#modalAnnotation').addClass('md-show');

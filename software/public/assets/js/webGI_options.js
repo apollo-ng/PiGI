@@ -39,17 +39,17 @@ webGI.options = (function($) {
         if ($('#server_cnf_gps_mode_mobile').is(':checked')){
             my.server.opmode = "mobile";
         } else {
-            my.server.opmode = "static";
+            my.server.opmode = "stationary";
             my.server.lat = parseFloat($('#server_cnf_node_lat').val());
             my.server.lon = parseFloat($('#server_cnf_node_lon').val());
             my.server.alt = parseFloat($('#server_cnf_node_alt').val());
         };
 
-        if ($('#server_cnf_opmode_env').is(':checked')){
+        if ($('#server_cnf_source_env').is(':checked')){
             my.server.source = "env";
-        } else if ($('#server_cnf_opmode_test').is(':checked')){
+        } else if ($('#server_cnf_source_test').is(':checked')){
             my.server.source = "test";
-        } else if ($('#server_cnf_opmode_sim').is(':checked')){
+        } else if ($('#server_cnf_source_sim').is(':checked')){
             my.server.source = "sim";
         }
 
@@ -129,7 +129,7 @@ webGI.options = (function($) {
         $('#server_cnf_node_alt').val(msg.alt);
 
         if(msg.opmode==="stationary"){
-            $('#server_cnf_gps_mode_static').prop('checked',true);
+            $('#server_cnf_gps_mode_stationary').prop('checked',true);
         } else if (msg.opmode==="mobile") {
             $('#server_cnf_gps_mode_mobile').prop('checked',true);
         }

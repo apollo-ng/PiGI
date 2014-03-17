@@ -119,7 +119,7 @@
       <ul class="rounded">
       <li><input type="radio" name="geoMode" value="mobile" title="" id="server_cnf_gps_mode_mobile" checked="checked" /><label for="server_cnf_gps_mode_mobile" class="input-action-label">Mobile</label></li>
       <li class="geo-suboptions">
-       <input type="radio" name="geoMode" value="static" title="" id="server_cnf_gps_mode_static" /><label for="server_cnf_gps_mode_static" class="input-action-label">Stationary</label>
+       <input type="radio" name="geoMode" value="stationary" title="" id="server_cnf_gps_mode_stationary" /><label for="server_cnf_gps_mode_stationary" class="input-action-label">Stationary</label>
        <div class="geo-suboptions-container options-inline-text">
         <div style="width: 33% !important; max-width: 33% !important; min-width: 33% !important; margin-left: 7px !important;" class="options-display" style="margin-left: 7px !important;"><label for="server_cnf_node_lat">Lat</label><input type="number" id="server_cnf_node_lat" value="00.00000" min="-90" max="90" /></div>
         <div style="width: 33% !important; max-width: 33% !important; min-width: 33% !important;" class="options-display"><label for="server_cnf_node_lon">Lon</label><input type="number" id="server_cnf_node_lon" value="00.00000" min="-180" max="180" /></div>
@@ -131,7 +131,7 @@
       <h2>Data Sources</h2>
       <ul class="rounded">
       <li class="env-suboptions">
-       <input type="radio" name="source" value="env" title="" id="server_cnf_opmode_env" /><label for="server_cnf_opmode_env" class="input-action-label">Environment</label>
+       <input type="radio" name="source" value="env" title="" id="server_cnf_source_env" /><label for="server_cnf_source_env" class="input-action-label">Environment</label>
        <div class="env-suboptions-container options-inline-radio">
         Window/tube capabilities:
         <div><input type="radio" value="c" title="" id="cgw_c" name="server_cnf_geigercounter_window" /><label class="corner-top-right corner-bottom-right" for="cgw_c">&gamma; only</label></div>
@@ -139,16 +139,27 @@
         <div><input type="radio" value="abc" title="" id="cgw_abc" name="server_cnf_geigercounter_window" checked="checked" /><label class="corner-top-left corner-bottom-left" for="cgw_abc">&alpha;,&beta;,&gamma;</label></div>
        </div>
       </li>
-      <li><input type="radio" name="source" value="test" title="" id="server_cnf_opmode_test" /><label for="server_cnf_opmode_test" class="input-action-label">Test</label></li>
+      <li><input type="radio" name="source" value="test" title="" id="server_cnf_source_test" /><label for="server_cnf_source_test" class="input-action-label">Test</label></li>
       <li class="sim-suboptions">
-       <input type="radio" name="source" value="sim" title="" id="server_cnf_opmode_sim" checked="checked" /><label for="server_cnf_opmode_sim" class="input-action-label">Tick Simulator</label>
+       <input type="radio" name="source" value="sim" title="" id="server_cnf_source_sim" checked="checked" /><label for="server_cnf_source_sim" class="input-action-label">Tick Simulator</label>
        <div class="options-inline-text sim-suboptions-container">
         <div style="width: 29% !important; max-width: 29% !important; min-width: 29% !important; margin: 0 !important;margin-top: 6px !important;margin-left: 7px !important;" class="options-display"><label for="server_cnf_sim_dose_rate">&micro;Sv/h</label><input type="number" id="server_cnf_sim_dose_rate" min="0.01" max="1000" /></div>
         <div style="border: 0px solid red;height: 37px;width: 69% !important; max-width: 69% !important; min-width: 69% !important; margin: 0 !important; display: inline-block; text-align: center;"><input type="range" min="0" max="100" value="1" step="1" id="simRanger" class="options-range-input"></div>
        </div>
       </li>
      </ul>
+     <h2>Entropy</h2>
+     <ul class="rounded">
+      <li><input type="checkbox" value="on" checked="checked" title="" id="cnf_entropy_enabled"/><label for="cnf_entropy_enabled" class="input-action-label">Enable Entropy Generator</label></li>
+      <li class="entropy-suboptions">
+       <div class="entropy-suboptions-container options-inline-text">
+        <div style="width: 33% !important; max-width: 33% !important; min-width: 33% !important; margin-left: 7px !important;" class="options-display" style="margin-left: 7px !important;"><label for="server_entropy_pool">Byte</label><input type="text" id="server_entropy_pool" value="4" disabled /></div>
+        <div style="width: 10% !important; max-width: 10% !important; min-width: 10% !important; margin: 0 !important; color: #75890c; font-size: 24px" class="options-button"><span id="startEntropyDownload" class="icon-filter" style="text-align: center; margin: 0; padding: 0; height: 35px; line-height: 35px; display: inline-block; text-overflow: ellipsis;"></span></div>
+       </div>
+      </li>
+     </ul>
      <a href="#" class="grayButton" id="showModalAuth">Save Server Settings</a>
+     <a href="#" class="grayButton" id="resetConf">Restore Initial Settings</a>
     </div>
    </div>
 

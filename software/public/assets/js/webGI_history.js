@@ -33,7 +33,8 @@ webGI.history = (function($) {
             var dataXY = chart.toDataCoords(x, y);
             $('#eventTS').html(new Date(dataXY[0]));
             $('#eventText').val("Enter your annotation text here...");
-            annotation_ts = dataXY[0]/1000;
+            webGI.livechart.annotation_ts = dataXY[0]/1000;
+            console.log("HA:",webGI.livechart.annotation_ts);
             $('#eventEDR').html(dataXY[1].toFixed(2));
             $('#modalAnnotation').addClass('md-show');
         }
@@ -44,7 +45,8 @@ webGI.history = (function($) {
             console.log(annotation.text);
             console.log(point.yval);
             console.log(point.yval);
-            annotation_ts = annotation.xval/1000;
+            webGI.livechart.annotation_ts = annotation.xval/1000;
+            console.log("HAA:",webGI.livechart.annotation_ts);
             $('#eventTS').html(new Date(annotation.xval));
             $('#eventEDR').html(point.yval.toFixed(2));
             $('#eventText').val(annotation.text);

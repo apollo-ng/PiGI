@@ -12,6 +12,7 @@ webGI.livechart = (function($) {
     my.container_id = "chartContainer";
     my.chart_age = 60*15;
     my.now = Date.now();
+    my.annotation_ts = null;
 
     //Private attributes
     var container = null;
@@ -21,7 +22,6 @@ webGI.livechart = (function($) {
     var data_ld = [];
     var desired_range = null;
     var animtimer = null;
-    var annotation_ts = null;
     var annotations = [];
     var edr_avg_24h = 0.1; //FIXME this does not belong here
     var chart_colors = ['#677712','yellow'];
@@ -85,7 +85,7 @@ webGI.livechart = (function($) {
             var dataXY = chart.toDataCoords(x, y);
             $('#eventTS').html(new Date(dataXY[0]));
             $('#eventText').val("Enter your annotation text here...");
-            annotation_ts = dataXY[0]/1000;
+            my.annotation_ts = dataXY[0]/1000;
             $('#eventEDR').html(dataXY[1].toFixed(2));
             $('#modalAnnotation').addClass('md-show');
         }
@@ -96,7 +96,7 @@ webGI.livechart = (function($) {
             console.log(annotation.text);
             console.log(point.yval);
             console.log(point.yval);
-            annotation_ts = annotation.xval/1000;
+            my.annotation_ts = annotation.xval/1000;
             $('#eventTS').html(new Date(annotation.xval));
             $('#eventEDR').html(point.yval.toFixed(2));
             $('#eventText').val(annotation.text);
@@ -105,8 +105,8 @@ webGI.livechart = (function($) {
 
         my.save_annotation = function() {
             var annotation_text = $('#eventText').val();
-            console.log(annotation_ts,annotation_text);
-            my.pushAnnotation(annotation_ts,annotation_text);
+            console.log(my.annotation_ts,annotation_text);
+            my.pushAnnotation(my.annotation_ts,annotation_text);
             my.requestLog(60*60*24,false);
         };
 

@@ -60,7 +60,9 @@ webGI.options = (function($) {
         } else if ($('#cgw_c').is(':checked')){
             my.server.source = "c";
         }
-
+        
+        my.server.entropy=$('#cnf_entropy_enabled').is(':checked')
+        
         var cmd = {
             "cmd" : "save",
             "conf": my.server
@@ -134,6 +136,9 @@ webGI.options = (function($) {
             $('#server_cnf_gps_mode_mobile').prop('checked',true);
         }
 
+        $('#cnf_entropy_enabled').prop('checked',msg.entropy);
+        $('#server_entropy_pool').val(msg.entropy_pool);
+        
         $('#server_cnf_opmode_'+msg.source).prop('checked',true);
 
         $('#cgw_'+msg.window).prop('checked',true);

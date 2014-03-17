@@ -116,6 +116,10 @@ def handle_ws_conf():
             log.info("Received : %s" % message)
             msg = json.loads(message)
             if msg.get("cmd") == "get":
+                try:
+                    entropy_pool = os.path.getsize(cfg.get('entropy','filename'))
+                except IOError:
+                    entropy_pool = 0
                 conf = {
                     "type": "geigerconf",
                     "uuid": cfg.get('node','uuid'),
@@ -127,6 +131,8 @@ def handle_ws_conf():
                     "sim_dose_rate": cfg.getfloat('geigercounter','sim_dose_rate'),
                     "window": cfg.get('geigercounter','window'),
                     "source": cfg.get('geigercounter','source') if geigercounter.gpio_available else "sim",
+                    "entropy": cfg.getboolean('entropy','enable'),
+                    "entropy_pool": entropy_pool
                 }
                 wsock.send(json.dumps(conf))
             elif msg.get("cmd") == "save":
@@ -139,6 +145,10 @@ def handle_ws_conf():
                     val = msg["conf"].get(field)
                     if not val is None:
                         cfg.set('geigercounter',field,str(val))
+                
+                entropy_enable = msg["conf"].get("entropy")
+                if not entropy_enable is None:
+                    cfg.set('entropy','enable',str(entropy_enable))
                 
                 cfg.write_dynamic()
                 cfg.read_dynamic()

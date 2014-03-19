@@ -91,7 +91,11 @@ body {
     background: #323128;
     font-family: Helvetica, Arial, sans-serif;
     height: 100% !important;
+    -webkit-font-smoothing: antialiased;
 }
+
+
+
 
 div#jqt #about p {
 font-size: 14px;
@@ -104,8 +108,6 @@ text-shadow: rgba(255,255,255,0.4) 0 1px 0;
 /* Multi Function Display (Top) */
 
 .mfd {
-    position: relative;
-    top: -11px;
     width: 60%;
     margin: 0 auto;
     height: 37px;
@@ -376,6 +378,114 @@ keyframes blinker {
 .dygraphDefaultAnnotation {
     border: 1px solid red !important;
 }
+
+
+
+progress,          /* All HTML5 progress enabled browsers */
+progress[role]     /* polyfill */
+{
+
+	/* Turns off styling - not usually needed, but good to know. */
+	appearance: none;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+
+	/* gets rid of default border in Firefox and Opera. */
+	border: none;
+
+	/* Needs to be in here for Safari polyfill so background images work as expected. */
+	background-size: auto;
+
+	/* Dimensions */
+	width: 400px;
+	height: 60px;
+
+}
+
+/* Polyfill */
+progress[role]:after {
+	background-image: none; /* removes default background from polyfill */
+}
+
+/* Ensure fallback text doesn't appear in polyfill */
+progress[role] strong {
+	display: none;
+}
+
+progress,                          /* Firefox  */
+progress[role][aria-valuenow] {    /* Polyfill */
+    background: #282828 !important; /* !important is needed by the polyfill */
+    height: 35px;
+    border-radius: 5px;
+}
+
+/* Chrome */
+progress::-webkit-progress-bar {
+    background: #282828;
+    height: 35px;
+    border-radius: 5px;
+}
+
+progress {
+-moz-box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+-webkit-box-shadow: inset 0 0 10px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+text-shadow: 0 -1px 1px #333;
+background: rgb(164,179,87);
+background: -moz-linear-gradient(top, rgba(164,179,87,0.8) 0%, rgba(117,137,12,0.8) 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(164,179,87,0.8)), color-stop(100%,rgba(117,137,12,0.8)));
+background: -webkit-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: -o-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: -ms-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: linear-gradient(to bottom, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+}
+
+/* Firefox */
+progress::-moz-progress-bar {
+-moz-box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+-webkit-box-shadow: inset 0 0 10px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+text-shadow: 0 -1px 1px #333;
+background: rgb(164,179,87);
+background: -moz-linear-gradient(top, rgba(164,179,87,0.8) 0%, rgba(117,137,12,0.8) 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(164,179,87,0.8)), color-stop(100%,rgba(117,137,12,0.8)));
+background: -webkit-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: -o-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: -ms-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: linear-gradient(to bottom, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+}
+
+/* Chrome */
+progress::-webkit-progress-value {
+-moz-box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+-webkit-box-shadow: inset 0 0 10px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+text-shadow: 0 -1px 1px #333;
+background: rgb(164,179,87);
+background: -moz-linear-gradient(top, rgba(164,179,87,0.8) 0%, rgba(117,137,12,0.8) 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(164,179,87,0.8)), color-stop(100%,rgba(117,137,12,0.8)));
+background: -webkit-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: -o-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: -ms-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: linear-gradient(to bottom, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+}
+
+/* Polyfill */
+progress[aria-valuenow]:before  {
+-moz-box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+-webkit-box-shadow: inset 0 0 10px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+text-shadow: 0 -1px 1px #333;
+background: rgb(164,179,87);
+background: -moz-linear-gradient(top, rgba(164,179,87,0.8) 0%, rgba(117,137,12,0.8) 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(164,179,87,0.8)), color-stop(100%,rgba(117,137,12,0.8)));
+background: -webkit-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: -o-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: -ms-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: linear-gradient(to bottom, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+}
+
+
 
 .md-modal {
     position: absolute !important;
@@ -886,6 +996,74 @@ keyframes simNotify {
     border-bottom-right-radius: 7px;
 }
 
+/*
+ *  Options
+ */
+
+.options-button {
+    height: 36px;
+    width: 40px;
+    color: #fafafa !important;
+    text-align: center;
+    background-size: 7px 18px;
+    border: 1px solid #555;
+    border-top: 1px solid rgba(216, 211, 197, 0.5);
+    border-bottom: 1px solid #111;
+    border-radius: 6px;
+    -moz-box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+    -webkit-box-shadow: inset 0 0 10px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+    box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
+    text-shadow: 0 -1px 1px #444, 0 1px 1px #FFFFFF;
+    background: rgb(164,179,87);
+    background: -moz-linear-gradient(top, rgba(164,179,87,0.8) 0%, rgba(117,137,12,0.8) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(164,179,87,0.8)), color-stop(100%,rgba(117,137,12,0.8)));
+    background: -webkit-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+    background: -o-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+    background: -ms-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+    background: linear-gradient(to bottom, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+}
+
+.options-inline-container {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    height: 50px;
+    overflow: hidden;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid rgba(200, 200, 200, 0.35);
+    background: #3F3E3A url('../img/panel_bg.png') repeat;
+    -webkit-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
+    -moz-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
+    box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
+    -webkit-transition: all 0.3s ease-in-out !important;
+    -moz-transition: all 0.3s ease-in-out !important;
+    transition: all 0.3s ease-in-out !important;
+}
+
+.options-inline-container div {
+    display: inline-block;
+}
+
+.options-inline-container label {
+    display: inline-block;
+    width: 35% !important;
+    height: 36px;
+    line-height: 36px;
+    vertical-align: middle;
+    font-family: Arial, sans;
+    font-size: 16px;
+    background: -moz-linear-gradient(top, rgba(216,211,197,0.8) 0%, rgba(242,238,222,0.4) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(216,211,197,0.6)), color-stop(100%,rgba(242,238,222,0.3)));
+    background: -webkit-linear-gradient(top, rgba(216,211,197,0.8) 0%,rgba(242,238,222,0.4) 100%);
+    background: -o-linear-gradient(top, rgba(216,211,197,0.8) 0%,rgba(242,238,222,0.4) 100%);
+    background: -ms-linear-gradient(top, rgba(216,211,197,0.8) 0%,rgba(242,238,222,0.4) 100%);
+    background: linear-gradient(to bottom, rgba(216,211,197,0.8) 0%,rgba(242,238,222,0.4) 100%);
+    text-shadow: 0 1px 1px rgba(255,255,255,0.5);
+}
+
 .options-display {
     display: inline-block;
     font-family: "Digi";
@@ -1019,16 +1197,7 @@ keyframes simNotify {
     transform:rotate(90deg);
 }
 
-/*
-  Active state
-*/
-
 .options-inline-radio {
-    border-radius: 7px;
-    background: #3F3E3A url('../img/panel_bg.png') repeat;
-    -webkit-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
-    -moz-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
-    box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
     height: 40px;
     line-height: 40px;
     overflow: hidden;
@@ -1036,11 +1205,6 @@ keyframes simNotify {
     padding-right: 5px;
     font-size: 14px;
     font-weight: normal;
-    border-radius: 7px;
-    background: #3F3E3A url('../img/panel_bg.png') repeat;
-    -webkit-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
-    -moz-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
-    box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
 }
 
 .options-inline-radio div {
@@ -1052,7 +1216,6 @@ keyframes simNotify {
     position: relative;
     display: inline-block;
     width: 15%;
-    -webkit-font-smoothing: antialiased;
 }
 
 .options-inline-radio input[type=radio] {
@@ -1095,27 +1258,13 @@ keyframes simNotify {
 }
 
 .options-inline-text {
-    border-radius: 7px;
-    background: #3F3E3A url('../img/panel_bg.png') repeat;
-    -webkit-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
-    -moz-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
-    box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
-    height: 47px;
-    overflow: hidden;
-    margin-bottom: 0;
     font-size: 14px;
     font-weight: normal;
-    border-radius: 7px;
-    background: #3F3E3A url('../img/panel_bg.png') repeat;
-    -webkit-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
-    -moz-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
-    box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
     white-space: nowrap;
 }
 
 
 .options-inline-text div {
-    display: inline-block;
     width: 29% !important;
     color: #1F1E1A;
     max-width: 29%;
@@ -1150,93 +1299,57 @@ keyframes simNotify {
     box-shadow: none;
 }
 
+.options-inline-text input::-webkit-outer-spin-button,
+.options-inline-text input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
 .options-inline-text label {
-    display: inline-block;
     width: 35% !important;
-    height: 36px;
-    line-height: 36px;
-    vertical-align: middle;
-    font-family: Arial, sans;
-    font-size: 16px;
-    background: -moz-linear-gradient(top, rgba(216,211,197,0.8) 0%, rgba(242,238,222,0.4) 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(216,211,197,0.8)), color-stop(100%,rgba(242,238,222,0.4)));
-    background: -webkit-linear-gradient(top, rgba(216,211,197,0.8) 0%,rgba(242,238,222,0.4) 100%);
-    background: -o-linear-gradient(top, rgba(216,211,197,0.8) 0%,rgba(242,238,222,0.4) 100%);
-    background: -ms-linear-gradient(top, rgba(216,211,197,0.8) 0%,rgba(242,238,222,0.4) 100%);
-    background: linear-gradient(to bottom, rgba(216,211,197,0.8) 0%,rgba(242,238,222,0.4) 100%);
-    text-shadow: 0 1px 1px rgba(255,255,255,0.5);
 }
 
-#serverOptionsPanel li.geo-suboptions input[type=radio] ~ .geo-suboptions-container {
-    height: 0 !important;
-    width: 100% !important;
-    min-width: 100% !important;
-    max-width: 100% !important;
-    padding: 0 !important;
+li.geo-suboptions input[type=radio] ~ .geo-suboptions-container {
     opacity: 0;
+    height: 0 !important;
     border: none;
-    margin: 0;
-    -webkit-transition: all 0.3s ease-in-out !important;
-    -moz-transition: all 0.3s ease-in-out !important;
-    transition: all 0.3s ease-in-out !important;
-    padding-left: 8px;
-    padding-right: 7px;
-    height: 50px;
 }
 
-#serverOptionsPanel li.geo-suboptions input[type=radio]:checked ~ .geo-suboptions-container {
+li.geo-suboptions input[type=radio]:checked ~ .geo-suboptions-container {
     height: 50px !important;
     opacity: 1;
-    margin-top: 10px;
-    border-bottom: 1px solid rgba(200, 200, 200, 0.4) !important;
-    border-top: 1px solid #000 !important;
-}
-
-#serverOptionsPanel li.env-suboptions input[type=radio] ~ .env-suboptions-container {
-    height: 0 !important;
-    opacity: 0;
-    border: none;
-    margin: 0;
-    line-height: 50px;
-    padding-left: 10px;
-    -webkit-transition: all 0.3s ease-in-out !important;
-    -moz-transition: all 0.3s ease-in-out !important;
-    transition: all 0.3s ease-in-out !important;
-}
-
-#serverOptionsPanel li.env-suboptions input[type=radio]:checked ~ .env-suboptions-container {
-    height: 50px !important;
-    opacity: 1;
-    margin-top: 10px;
-    border-bottom: 1px solid rgba(200, 200, 200, 0.4) !important;
-    border-top: 1px solid #000 !important;
-}
-
-#serverOptionsPanel li.sim-suboptions input[type=radio] ~ .sim-suboptions-container {
-    height: 0 !important;
-    width: 100% !important;
-    min-width: 100% !important;
-    max-width: 100% !important;
-    opacity: 0;
-    overflow: hidden;
-    border: none;
-    -webkit-transition: all 0.3s ease-in-out !important;
-    -moz-transition: all 0.3s ease-in-out !important;
-    transition: all 0.3s ease-in-out !important;
-    padding: 0 !important;
-    border-radius: 7px;
-    background: #3F3E3A url('../img/panel_bg.png') repeat;
-    -webkit-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
-    -moz-box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
-    box-shadow: inset 0 0 12px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.45);
-}
-
-#serverOptionsPanel li.sim-suboptions input[type=radio]:checked ~ .sim-suboptions-container {
-    height: 50px !important;
-    opacity: 1;
-    margin-top: 10px;
     border-bottom: 1px solid rgba(200, 200, 200, 0.4);
     border-top: 1px solid #000;
+    margin-top: 10px;
+}
+
+li.env-suboptions input[type=radio] ~ .env-suboptions-container {
+    height: 0 !important;
+    opacity: 0;
+    border: none;
+}
+
+li.env-suboptions input[type=radio]:checked ~ .env-suboptions-container {
+    height: 50px !important;
+    opacity: 1;
+    border-bottom: 1px solid rgba(200, 200, 200, 0.35);
+    border-top: 1px solid #000;
+    margin-top: 10px;
+}
+
+li.sim-suboptions input[type=radio] ~ .sim-suboptions-container {
+    height: 0 !important;
+    opacity: 0;
+    border: none;
+}
+
+li.sim-suboptions input[type=radio]:checked ~ .sim-suboptions-container {
+    height: 50px !important;
+    opacity: 1;
+    border-bottom: 1px solid rgba(200, 200, 200, 0.35);
+    border-top: 1px solid #000;
+    margin-top: 10px;
 }
 
 ul.rounded li input[type=radio]:checked ~ .input-action-label {
@@ -1251,132 +1364,3 @@ ul.rounded li input[type=radio]:checked ~ .input-action-label {
     color: #fafafa !important;
 }
 
-.options-button {
-    height: 36px;
-    width: 40px;
-    color: #fafafa !important;
-    text-align: center;
-    background-size: 7px 18px;
-    border: 1px solid #555;
-    border-top: 1px solid rgba(216, 211, 197, 0.5);
-    border-bottom: 1px solid #111;
-    border-radius: 6px;
-    -moz-box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
-    -webkit-box-shadow: inset 0 0 10px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
-    box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
-    text-shadow: 0 -1px 1px #444, 0 1px 1px #FFFFFF;
-    background: rgb(164,179,87);
-    background: -moz-linear-gradient(top, rgba(164,179,87,0.8) 0%, rgba(117,137,12,0.8) 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(164,179,87,0.8)), color-stop(100%,rgba(117,137,12,0.8)));
-    background: -webkit-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
-    background: -o-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
-    background: -ms-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
-    background: linear-gradient(to bottom, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
-}
-
-
-
-
-progress,          /* All HTML5 progress enabled browsers */
-progress[role]     /* polyfill */
-{
-
-	/* Turns off styling - not usually needed, but good to know. */
-	appearance: none;
-	-moz-appearance: none;
-	-webkit-appearance: none;
-
-	/* gets rid of default border in Firefox and Opera. */
-	border: none;
-
-	/* Needs to be in here for Safari polyfill so background images work as expected. */
-	background-size: auto;
-
-	/* Dimensions */
-	width: 400px;
-	height: 60px;
-
-}
-
-/* Polyfill */
-progress[role]:after {
-	background-image: none; /* removes default background from polyfill */
-}
-
-/* Ensure fallback text doesn't appear in polyfill */
-progress[role] strong {
-	display: none;
-}
-
-progress,                          /* Firefox  */
-progress[role][aria-valuenow] {    /* Polyfill */
-    background: #282828 !important; /* !important is needed by the polyfill */
-    height: 35px;
-    border-radius: 5px;
-}
-
-/* Chrome */
-progress::-webkit-progress-bar {
-    background: #282828;
-    height: 35px;
-    border-radius: 5px;
-}
-
-progress {
--moz-box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
--webkit-box-shadow: inset 0 0 10px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
-box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
-text-shadow: 0 -1px 1px #333;
-background: rgb(164,179,87);
-background: -moz-linear-gradient(top, rgba(164,179,87,0.8) 0%, rgba(117,137,12,0.8) 100%);
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(164,179,87,0.8)), color-stop(100%,rgba(117,137,12,0.8)));
-background: -webkit-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
-background: -o-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
-background: -ms-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
-background: linear-gradient(to bottom, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
-}
-
-/* Firefox */
-progress::-moz-progress-bar {
--moz-box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
--webkit-box-shadow: inset 0 0 10px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
-box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
-text-shadow: 0 -1px 1px #333;
-background: rgb(164,179,87);
-background: -moz-linear-gradient(top, rgba(164,179,87,0.8) 0%, rgba(117,137,12,0.8) 100%);
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(164,179,87,0.8)), color-stop(100%,rgba(117,137,12,0.8)));
-background: -webkit-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
-background: -o-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
-background: -ms-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
-background: linear-gradient(to bottom, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
-}
-
-/* Chrome */
-progress::-webkit-progress-value {
--moz-box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
--webkit-box-shadow: inset 0 0 10px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
-box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
-text-shadow: 0 -1px 1px #333;
-background: rgb(164,179,87);
-background: -moz-linear-gradient(top, rgba(164,179,87,0.8) 0%, rgba(117,137,12,0.8) 100%);
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(164,179,87,0.8)), color-stop(100%,rgba(117,137,12,0.8)));
-background: -webkit-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
-background: -o-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
-background: -ms-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
-background: linear-gradient(to bottom, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
-}
-
-/* Polyfill */
-progress[aria-valuenow]:before  {
--moz-box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
--webkit-box-shadow: inset 0 0 10px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
-box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.75);
-text-shadow: 0 -1px 1px #333;
-background: rgb(164,179,87);
-background: -moz-linear-gradient(top, rgba(164,179,87,0.8) 0%, rgba(117,137,12,0.8) 100%);
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(164,179,87,0.8)), color-stop(100%,rgba(117,137,12,0.8)));
-background: -webkit-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
-background: -o-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
-background: -ms-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
-background: linear-gradient(to bottom, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
-}

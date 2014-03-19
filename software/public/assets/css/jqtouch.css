@@ -1,20 +1,20 @@
 /**
  * Background noise recipe
- * 
+ *
  * This recipe use a sass function to generate a .png file
- * 
+ *
  * Inspired by a jQuery plugin "Noisy" by Daniel Rapp @DanielRapp
  * @link https://github.com/DanielRapp/Noisy
- * 
+ *
  * Converted using Sass by Aaron Russell @aaronrussell & Philipp Bosch @philippbosch
  * @link https://gist.github.com/1021332
- * 
+ *
  * Ported to a sass gem by Antti Salonen @antsa
  * @link https://github.com/antsa/sassy_noise
- * 
+ *
  * Mixin:        background-noise
  * Function:     background_noise
- * 
+ *
  * @author Daniel Rapp @DanielRapp
  * @author Aaron Russell @aaronrussell
  * @author Philipp Bosch @philippbosch
@@ -29,31 +29,31 @@
  */
 /**
  * Adds a background gradient into a specified selector.
- * 
+ *
  *     @include background-gradient(#444, 'glossy');
- * 
+ *
  * You can also use color-stops if you want full control of the gradient:
- * 
+ *
  *     @include background-gradient(#444, color-stops(#333, #222, #111));
- * 
+ *
  * @param {color} $bg-color
  * The base color of the gradient.
- * 
+ *
  * @param {string/list} $type
  * The style of the gradient, one of five pre-defined options: matte, bevel, glossy, recessed, or linear:
  *
  *     @include background-gradient(red, 'glossy');
  *
  * It can also accept a list of color-stop values:;
- * 
+ *
  *     @include background-gradient(black, color-stops(#333, #111, #000));
- * 
+ *
  * @param {string} $direction
  * The direction of the gradient.
  */
 /**
  * Blueprint grid background pattern
- * 
+ *
  * @link http://lea.verou.me/css3patterns/#blueprint-grid
  *
  * @author Lea Verou http://lea.verou.me/ for the original pattern
@@ -61,12 +61,12 @@
  */
 /**
  * Background overlay inspired by Google Chrome modal overlay
- * 
+ *
  * @author Maxime Thirouin @MoOx maxime.thirouin@gmail.com
  */
 /**
  * Striped background pattern
- * 
+ *
  * @link http://lea.verou.me/css3patterns/
  *
  * @author Lea Verou http://lea.verou.me/ for the original pattern
@@ -96,7 +96,7 @@
 /**
  * Normalize.css
  * Opposite approche from CSS reset
- * 
+ *
  * Based on normalize.css commit 9576d48fc234c5224b1fc4dccba2f5965243843d
  *
  * @link http://github.com/necolas/normalize.css
@@ -152,7 +152,7 @@
 /**
  * Glass effect
  * Use this on image for better effect render
- * 
+ *
  * Inspired from Simurai's IMDB redisign
  *
  * @link http://lab.simurai.com/redesign/imdb
@@ -166,10 +166,10 @@
  */
 /**
  * Scotch tape effect with pure CSS
- * 
+ *
  * @thanks Nick La @nickla for original concept
  * @link http://webdesignerwall.com/tutorials/css3-image-styles
- * 
+ *
  * @author David Kaneda http://www.davidkaneda.com
  *
  */
@@ -181,11 +181,11 @@
  */
 /**
  * Corner folded with pure CSS
- * 
+ *
  * Known support: Firefox 3.5+, Chrome 4+, Safari 4+, Opera 10+, IE 9+.
  * IE8 is not supported because it not render properly box-shadow and
  * pseudo element should be selected with ::element and not :element
- * 
+ *
  * @thanks Nicolas Gallagher @necolas
  * @link http://nicolasgallagher.com/pure-css-folded-corner-effect/demo/
  * @todo Nix in .4
@@ -198,11 +198,11 @@
  */
 /**
  * Corner folded with pure CSS
- * 
+ *
  * Known support: Firefox 3.5+, Chrome 4+, Safari 4+, Opera 10+, IE 9+.
  * IE8 is not supported because it not render properly box-shadow and
  * pseudo element should be selected with ::element and not :element
- * 
+ *
  * @thanks Nicolas Gallagher @necolas
  * @link http://nicolasgallagher.com/pure-css-folded-corner-effect/demo/
  */
@@ -222,15 +222,15 @@
 /**
  * Vertical alignement for page
  * Inspired by http://css-tricks.com/snippets/css/center-div-with-dynamic-height/
- * 
+ *
  * Usage:
- * 
+ *
  * SCSS
  * @include vertical-align-requirement;
  * .v-align-container { @include vertical-align-container }
  * .v-align-content-container { @include vertical-align-content-container }
  * .v-align-content { @include vertical-align-content }
- * 
+ *
  * HTML
  * <body>
  *     <div class="v-align-container">
@@ -238,7 +238,7 @@
  *             <div class="v-align-content">
  *             Your content !
  *             </div>
- *         </div> 
+ *         </div>
  *     </div>
  * </body>
  *
@@ -247,9 +247,9 @@
  */
 /**
  * Media Queries Mixins
- * 
+ *
  * @todo Do we have to take care of print ?
- * 
+ *
  * @require sass-3.2 (you need eventually to do "sudo gem install sass --pre")
  * @author Maxime Thirouin <maxime.thirouin@gmail.com>
  */
@@ -260,9 +260,9 @@ $media-query-width-small: 480px;
 */
 /**
  * Drop shadow mixins from Nicolas Gallagher demo
- * 
+ *
  * @thanks Nicolas Gallagher @necolas, @simurai, @cameronmoll, @matthamm
- * 
+ *
  * @link http://nicolasgallagher.com/css-drop-shadows-without-images/demo/
  */
 /**
@@ -303,7 +303,7 @@ $media-query-width-small: 480px;
  */
 /**
  * Drop shadow rules required for transform on drop shadow
- * 
+ *
  * /!\ This is required if you want to apply some transform on the element using drop shadow
  *
  * @thanks Nicolas Gallagher @necolas
@@ -311,13 +311,13 @@ $media-query-width-small: 480px;
  */
 /**
  * Shadow along the top edge of the browser viewport
- * 
+ *
  * @link http://playground.genelocklin.com/depth/
  */
 /**
 * Shapes !
 * Polygons, ellipses and symbols
-* 
+*
 * @thanks Chris Coyier @chriscoyier
 * @link http://css-tricks.com/examples/ShapesOfCSS/
 * @author Maxime Thirouin maxime.thirouin@gmail.com @MoOx
@@ -392,7 +392,7 @@ $media-query-width-small: 480px;
  * Shape/Symbol/Diamond
  *
  * @todo add height support
- * 
+ *
  * @author Alexander Futekov
  * @author Maxime Thirouin maxime.thirouin@gmail.com @MoOx
  */
@@ -403,13 +403,13 @@ $media-query-width-small: 480px;
  */
 /**
  * Shape/Symbol/Heart
- * 
+ *
  * @author Nicolas Gallagher @necolas
  * @author Maxime Thirouin maxime.thirouin@gmail.com @MoOx
  */
 /**
  * Shape/Symbol/Infinity
- * 
+ *
  * @author Nicolas Gallagher @necolas
  * @author Maxime Thirouin maxime.thirouin@gmail.com @MoOx
  */
@@ -426,7 +426,7 @@ $media-query-width-small: 480px;
  */
 /**
  * Micro clearfix hack
- * 
+ *
  * The clearfix hack is a popular way to clear floats without resorting to using presentational markup. This article presents an update to the clearfix method that further reduces the amount of CSS required.
  * Known support: Firefox 2+, Safari 2+, Chrome, Opera 9.27+, IE 6+, IE Mac.
  *
@@ -483,12 +483,12 @@ $media-query-width-small: 480px;
 */
 /**
  * Ui background overlay inspired by Google Chrome modal overlay
- * 
+ *
  * @author Maxime Thirouin @MoOx maxime.thirouin@gmail.com
  */
 /**
  * Background overlay inspired by Google Chrome modal overlay
- * 
+ *
  * @author Maxime Thirouin @MoOx maxime.thirouin@gmail.com
  */
 /**
@@ -501,7 +501,7 @@ $media-query-width-small: 480px;
  */
 /**
  * Micro clearfix hack
- * 
+ *
  * The clearfix hack is a popular way to clear floats without resorting to using presentational markup. This article presents an update to the clearfix method that further reduces the amount of CSS required.
  * Known support: Firefox 2+, Safari 2+, Chrome, Opera 9.27+, IE 6+, IE Mac.
  *
@@ -522,49 +522,49 @@ $media-query-width-small: 480px;
  */
 /**
  * Adds a background gradient into a specified selector.
- * 
+ *
  *     @include background-gradient(#444, 'glossy');
- * 
+ *
  * You can also use color-stops if you want full control of the gradient:
- * 
+ *
  *     @include background-gradient(#444, color-stops(#333, #222, #111));
- * 
+ *
  * @param {color} $bg-color
  * The base color of the gradient.
- * 
+ *
  * @param {string/list} $type
  * The style of the gradient, one of five pre-defined options: matte, bevel, glossy, recessed, or linear:
  *
  *     @include background-gradient(red, 'glossy');
  *
  * It can also accept a list of color-stop values:;
- * 
+ *
  *     @include background-gradient(black, color-stops(#333, #111, #000));
- * 
+ *
  * @param {string} $direction
  * The direction of the gradient.
  */
 /**
  * @class Webfont Icon
  * Great to use with the [Pictos font](http://pictos.drewwilson.com/)
- * 
+ *
  */
 /**
  * @cfg {color} $webfont-icon-base-color
  * The default color of icons when using the {@link #webfont-icon} mixin.
- * 
+ *
  * Defaults to `white`.
  */
 /**
  * @cfg {color} $webfont-icon-default-stroke
  * The default color to use on the border of icons, when using the {@link #webfont-icon} mixin.
- * 
+ *
  * Defaults to `null`.
  */
 /**
  * @cfg {string} $webfont-icon-default-gradient
  * The default gradient to use when using the {@link #webfont-icon} mixin.
- * 
+ *
  * Defaults to `matte`.
  */
 /* line 41, ../../../submodules/compass-recipes/stylesheets/recipes/_webfont-icon.scss */
@@ -583,18 +583,18 @@ $media-query-width-small: 480px;
 
 /**
  * Includes a character into the specified selector, styled as an icon.
- * 
+ *
  *     @include webfont-icon('a');
- * 
+ *
  * @param {color} $color
  * The color of the icon. Defaults to {@link #$webfont-icon-default-background $webfont-icon-default-background}.
- * 
+ *
  * @param {measurement} $size
  * The size of the icon
- * 
+ *
  * @param {color} $stroke
  * The color of the border. Defautls to {@link #$webfont-icon-default-border $webfont-icon-default-border}.
- * 
+ *
  * @param {boolean} $include-staes
  * True to include states for hover and active. Defaults to `true`.
  */
@@ -1350,8 +1350,7 @@ body {
   border-bottom: 1px solid black;
   z-index: 10;
   position: relative;
-  padding: 10px;
-  height: 44px;
+  height: 50px;
   -webkit-box-shadow: rgba(0, 0, 0, 0.4) 0 1px 6px;
   box-shadow: rgba(0, 0, 0, 0.4) 0 1px 6px;
 }
@@ -1387,11 +1386,11 @@ body {
   position: absolute;
   overflow: hidden;
   width: auto;
-  height: 30px;
+  height: 34px;
   font-family: inherit;
   font-size: 12px;
   font-weight: bold;
-  line-height: 30px;
+  line-height: 34px;
   text-overflow: ellipsis;
   text-decoration: none;
   white-space: nowrap;
@@ -1973,13 +1972,7 @@ body {
 }
 /* line 22, ../../../themes/scss/jqtouch.scss */
 #jqt .toolbar {
-  background-image: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 12.5, color-stop(12.5%, #181819), color-stop(12.5%, rgba(11, 11, 12, 0))), -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 12.5, color-stop(12.5%, #181819), color-stop(12.5%, rgba(11, 11, 12, 0))), -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 12.5, color-stop(12.5%, rgba(255, 255, 255, 0.1)), color-stop(12.5%, rgba(255, 255, 255, 0))), -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 12.5, color-stop(12.5%, rgba(255, 255, 255, 0.1)), color-stop(12.5%, rgba(255, 255, 255, 0)));
-  background-image: -webkit-radial-gradient(#181819 12.5%, rgba(11, 11, 12, 0) 12.5%), -webkit-radial-gradient(#181819 12.5%, rgba(11, 11, 12, 0) 12.5%), -webkit-radial-gradient(rgba(255, 255, 255, 0.1) 12.5%, rgba(255, 255, 255, 0) 12.5%), -webkit-radial-gradient(rgba(255, 255, 255, 0.1) 12.5%, rgba(255, 255, 255, 0) 12.5%);
-  background-image: radial-gradient(#181819 12.5%, rgba(11, 11, 12, 0) 12.5%), radial-gradient(#181819 12.5%, rgba(11, 11, 12, 0) 12.5%), radial-gradient(rgba(255, 255, 255, 0.1) 12.5%, rgba(255, 255, 255, 0) 12.5%), radial-gradient(rgba(255, 255, 255, 0.1) 12.5%, rgba(255, 255, 255, 0) 12.5%);
-  background-repeat: repeat;
-  background-position: 0 0, 8px 8px, 0 1px, 8px 9px;
-  background-color: #2f3031;
-  background-size: 16px 16px;
+    background: #3F3E3A url('../img/panel_bg.png') repeat;
 }
 /* line 31, ../../../themes/scss/jqtouch.scss */
 #jqt ul li {

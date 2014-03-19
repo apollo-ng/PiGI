@@ -214,10 +214,10 @@ function updateLayout() {
     // Make the modals stack and sticky
     $('.md-modal').css({'top': '80px', 'left': (w/2)-($('#modalAuth').width()/2)+'px'})
 
-    var h_offset = 150;
-    var w_offset = 48;
+    var h_offset = 138;
+    var w_offset = 0;
 
-    $('.instrument') .css({'height': h-99+'px'});
+    $('.instrument') .css({'height': h-85+'px'});
 
     var new_h = h-h_offset;
     var new_w = $('#mainInstrument').width();
@@ -226,7 +226,7 @@ function updateLayout() {
     $('#traceCanvas').css({'height': new_h+'px', 'width': new_w+'px'}).attr('height',new_h).attr('width',new_w);
 
     new_w = $('#historyInstrument').width();
-    $('#historyContainer') .css({'height': new_h+'px', 'width': new_w-15+'px'}).attr('height',new_h).attr('width',new_w-15);
+    $('#historyContainer') .css({'height': new_h+'px', 'width': new_w+'px'}).attr('height',new_h).attr('width',new_w);
 
     //ugly, but we seem to need it
     webGI.livechart.init();

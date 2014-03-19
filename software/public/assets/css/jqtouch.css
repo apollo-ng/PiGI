@@ -1347,12 +1347,10 @@ body {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   background-color: #2f3031;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #000;
   z-index: 10;
   position: relative;
   height: 50px;
-  -webkit-box-shadow: rgba(0, 0, 0, 0.4) 0 1px 6px;
-  box-shadow: rgba(0, 0, 0, 0.4) 0 1px 6px;
 }
 /* line 54, ../../../themes/scss/include/_skeleton.scss */
 #jqt .toolbar > h1 {
@@ -1386,11 +1384,11 @@ body {
   position: absolute;
   overflow: hidden;
   width: auto;
-  height: 34px;
+  height: 36px;
   font-family: inherit;
   font-size: 12px;
   font-weight: bold;
-  line-height: 34px;
+  line-height: 36px;
   text-overflow: ellipsis;
   text-decoration: none;
   white-space: nowrap;

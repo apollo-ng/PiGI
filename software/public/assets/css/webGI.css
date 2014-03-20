@@ -62,71 +62,80 @@ html {
 }
 
 @font-face {
-    font-family: 'pigi';
-    src:  url('../font/pigi.eot?4489260');
-    src:  url('../font/pigi.eot?4489260#iefix') format('embedded-opentype'),
-          url('../font/pigi.woff?4489260') format('woff'),
-          url('../font/pigi.ttf?4489260') format('truetype'),
-          url('../font/pigi.svg?4489260#pigi') format('svg');
+    font-family: 'webgi';
+    src: url('../font/webgi.eot?73544496');
+    src: url('../font/webgi.eot?73544496#iefix') format('embedded-opentype'),
+         url('../font/webgi.woff?73544496') format('woff'),
+         url('../font/webgi.ttf?73544496') format('truetype'),
+         url('../font/webgi.svg?73544496#webgi') format('svg');
     font-weight: normal;
     font-style: normal;
 }
 
 [class^="icon-"]:before, [class*=" icon-"]:before {
-    font-family: "pigi";
-    font-style: normal;
-    font-weight: normal;
-    speak: none;
+  font-family: "webgi";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
 
-    display: inline-block;
-    text-decoration: none;
-    width: 1em;
-    margin-right: .2em;
-    text-align: center;
-    /* opacity: .8; */
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
 
-    /* For safety - reset parent styles, that can break glyph codes*/
-    font-variant: normal;
-    text-transform: none;
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
 
-    /* fix buttons height, for twitter bootstrap */
-    line-height: 1em;
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
 
-    /* Animation center compensation - margins should be symmetric */
-    /* remove if not needed */
-    margin-left: .2em;
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
 
-    /* you can be more comfortable with increased icons size */
-    /*font-size: 120%; */
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
 
-    /* Uncomment for 3D effect */
-    text-shadow: rgba(0,0,0,0.5) 0px 1px 1px;
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
 
-.icon-eye:before { content: '\e800'; }
-.icon-volume-down-1:before { content: '\e80a'; }
-.icon-menu:before { content: '\e801'; }
-.icon-cog:before { content: '\e802'; }
-.icon-volume-down:before { content: '\e804'; }
-.icon-book:before { content: '\e814'; }
-.icon-dot-circled:before { content: '\e805'; }
-.icon-filter:before { content: '\e815'; }
-.icon-gauge:before { content: '\e811'; }
-.icon-target:before { content: '\e806'; }
-.icon-chart-bar:before { content: '\e807'; }
-.icon-chart-area:before { content: '\e812'; }
-.icon-attention:before { content: '\e803'; }
-.icon-gauge-1:before { content: '\e816'; }
-.icon-target-1:before { content: '\e808'; }
-.icon-ok:before { content: '\e80b'; }
-.icon-ok-circled:before { content: '\e80c'; }
-.icon-cancel:before { content: '\e80d'; }
-.icon-cancel-circled:before { content: '\e80e'; }
-.icon-plus:before { content: '\e80f'; }
-.icon-eye-2:before { content: '\e810'; }
-.icon-eye-1:before { content: '\e809'; }
-.icon-calendar:before { content: '\e813'; }
-.icon-database:before { content: '\e817'; }
+.icon-music:before { content: '\e818'; } /* '' */
+.icon-tick-on:before { content: '\e80a'; } /* '' */
+.icon-eye:before { content: '\e800'; } /* '' */
+.icon-menu:before { content: '\e801'; } /* '' */
+.icon-cog:before { content: '\e802'; } /* '' */
+.icon-book:before { content: '\e814'; } /* '' */
+.icon-geo-locked:before { content: '\e805'; } /* '' */
+.icon-filter:before { content: '\e815'; } /* '' */
+.icon-target:before { content: '\e806'; } /* '' */
+.icon-network:before { content: '\e81a'; } /* '' */
+.icon-download:before { content: '\e821'; } /* '' */
+.icon-chart-bar:before { content: '\e807'; } /* '' */
+.icon-chart-area:before { content: '\e812'; } /* '' */
+.icon-air:before { content: '\e803'; } /* '' */
+.icon-database:before { content: '\e817'; } /* '' */
+.icon-gauge:before { content: '\e816'; } /* '' */
+.icon-search:before { content: '\e819'; } /* '' */
+.icon-attention:before { content: '\e81e'; } /* '' */
+.icon-info:before { content: '\e81f'; } /* '' */
+.icon-question:before { content: '\e820'; } /* '' */
+.icon-ok:before { content: '\e80b'; } /* '' */
+.icon-ok-circled:before { content: '\e80c'; } /* '' */
+.icon-cancel:before { content: '\e80d'; } /* '' */
+.icon-cancel-circled:before { content: '\e80e'; } /* '' */
+.icon-plus:before { content: '\e80f'; } /* '' */
+.icon-eye-2:before { content: '\e810'; } /* '' */
+.icon-eye-1:before { content: '\e809'; } /* '' */
+.icon-bookmark:before { content: '\e81c'; } /* '' */
+.icon-pencil:before { content: '\e81b'; } /* '' */
+.icon-calendar:before { content: '\e813'; } /* '' */
+.icon-tick-off:before { content: '\e822'; } /* '' */
+.icon-geo-unlocked:before { content: '\e808'; } /* '' */
+
 
 /* JQT */
 

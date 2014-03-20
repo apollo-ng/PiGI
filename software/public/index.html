@@ -8,7 +8,6 @@
   <meta name="MobileOptimized" content="480">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
 
-  <link rel="stylesheet" href="assets/css/jqtouch.css" title="jQTouch">
   <link rel="stylesheet" href="assets/css/webGI.css">
   <script src="assets/js/spin.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/webGI_spinner.js" type="text/javascript" charset="utf-8"></script>
@@ -66,8 +65,9 @@
       <a href="#" id="live24h" class="instrument-control live-control icon-chart-area" data-seconds=86400>24H</a>
       <a href="#" id="toggleAudio" class="instrument-control big-icon icon-volume-down-1"></a>
      </div>
+     <div id="simNotify">Simulated Data</div>
     </div>
-    <div id="simNotify">Simulated Data</div>
+
    </div>
 
    <!-- History Panel -->
@@ -94,6 +94,7 @@
       <ul class="rounded">
       <li><input type="checkbox" value="on" checked="checked" title="" id="cnf_dtc_enabled"/><label for="cnf_dtc_enabled" class="input-action-label">Enable Dead-Time Compensation</label></li>
       <li><input type="checkbox" value="off" title="" id="cnf_gps_hacc"/><label for="cnf_gps_hacc" class="input-action-label">Enable GPS High Accuracy Mode</label></li>
+      <li><input type="checkbox" value="off" title="" id="cnf_silent"/><label for="cnf_silent" class="input-action-label">Enable Silent Mode (No Audio Feedback/Alerts)</label></li>
       </ul>
       <ul class="rounded">
       <li class="arrow"><a href="#serverOptionsPanel" class="dissolve">Server Settings</a></li>

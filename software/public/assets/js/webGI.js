@@ -214,7 +214,7 @@ function updateLayout() {
     // Make the modals stack and sticky
     $('.md-modal').css({'top': '80px', 'left': (w/2)-($('#modalAuth').width()/2)+'px'})
 
-    var h_offset = 138;
+    var h_offset = 137;
     var w_offset = 0;
 
     $('.instrument') .css({'height': h-85+'px'});

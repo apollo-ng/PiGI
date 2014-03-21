@@ -1010,10 +1010,11 @@ background: linear-gradient(to bottom, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0
   border-top-left-radius: 8px;
   -webkit-border-top-right-radius: 8px;
   border-top-right-radius: 8px;
-  background: -moz-linear-gradient(top, rgba(211,211,207,0.24) 0%, rgba(255,255,255,0) 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(211,211,207,0.24)), color-stop(100%,rgba(255,255,255,0)));
-    background: -webkit-linear-gradient(top, rgba(211,211,207,0.24) 0%,rgba(255,255,255,0) 100%);
-    background: linear-gradient(to bottom, rgba(211,211,207,0.24) 0%,rgba(255,255,255,0) 100%);
+background: -moz-linear-gradient(top, rgba(211,211,207,0.15) 0%, rgba(235,235,233,0) 55%, rgba(255,255,255,0) 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(211,211,207,0.15)), color-stop(55%,rgba(235,235,233,0)), color-stop(100%,rgba(255,255,255,0)));
+background: -webkit-linear-gradient(top, rgba(211,211,207,0.15) 0%,rgba(235,235,233,0) 55%,rgba(255,255,255,0) 100%);
+background: linear-gradient(to bottom, rgba(211,211,207,0.15) 0%,rgba(235,235,233,0) 55%,rgba(255,255,255,0) 100%);
+
 }
 /* line 451, ../../../themes/scss/include/_skeleton.scss */
 #jqt ul.rounded li:last-child, #jqt ul.rounded li:last-child a {

@@ -13,7 +13,6 @@ webGI.options = (function($) {
     my.client.show_dtc = true;
     my.server = {};
 
-
     //Private attributes
     var ws_conf = new WebSocket(webGI.conf.websocket_host+"/ws_conf");
     ws_conf.onopen = function() {
@@ -83,6 +82,10 @@ webGI.options = (function($) {
         }
         ws_conf.send(JSON.stringify(cmd));
         //console.log("Requesting options");
+    }
+
+    my.reset = function() {
+        console.log("FIXME: I should clear dynamic.cfg");
     }
 
     my.lin2log = function(position) {

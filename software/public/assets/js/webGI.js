@@ -127,14 +127,20 @@ function initUI() {
         webGI.jQT.goTo('#mainPanel', 'slideleft');
     });
 
-
-    //Options stuff
-    $('#geoSnapshot').bind(webGI.conf.ui_action,function() {
+   $('#geoSnapshot').bind(webGI.conf.ui_action,function() {
         webGI.geo.getCurrentPosition(webGI.options.geoSnapshotCallback);
     });
 
     $('#saveServerSettings').bind(webGI.conf.ui_action,function() {
         webGI.options.save();
+    });
+
+    $('#reloadSettings').bind(webGI.conf.ui_action,function() {
+        webGI.options.request();
+    });
+
+    $('#resetSettings').bind(webGI.conf.ui_action,function() {
+        webGI.options.reset();
     });
 
     $('#simRanger').bind('input', function()
@@ -169,9 +175,6 @@ function initUI() {
             $('#server_cnf_sim_dose_rate').css({ "color": "#75890c" });
         }
     });
-
-
-
 
 /*
     $('#jqt').bind('pageAnimationEnd', function(e, info)

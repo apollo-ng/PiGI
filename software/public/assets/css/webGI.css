@@ -111,7 +111,7 @@ html {
 }
 
 .icon-music:before { content: '\e818'; } /* '' */
-.icon-tick-on:before { content: '\e80a'; } /* '' */
+.icon-reload:before { content: '\e804'; } /* '' */
 .icon-eye:before { content: '\e800'; } /* '' */
 .icon-menu:before { content: '\e801'; } /* '' */
 .icon-cog:before { content: '\e802'; } /* '' */
@@ -141,6 +141,7 @@ html {
 .icon-pencil:before { content: '\e81b'; } /* '' */
 .icon-calendar:before { content: '\e813'; } /* '' */
 .icon-tick-off:before { content: '\e822'; } /* '' */
+.icon-tick-on:before { content: '\e80a'; } /* '' */
 .icon-geo-unlocked:before { content: '\e808'; } /* '' */
 
 
@@ -535,7 +536,6 @@ body {
   font-size: 30px;
   line-height: 38px;
   font-weight: bold;
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=60);
   opacity: 0.6;
   position: absolute;
   right: 0;
@@ -560,6 +560,7 @@ body {
 /* line 35, ../../../themes/scss/include/_skeleton.scss */
 #jqt h1, #jqt h2 {
   font-size: 22px;
+  line-height: 30px;
   font-weight: bold;
   margin: 10px 20px 6px;
   color: #bbbcbe;
@@ -774,13 +775,15 @@ body {
 }
 /* line 231, ../../../themes/scss/include/_skeleton.scss */
 #jqt .greenButton {
-  background-image: none;
-  background-color: #53b401;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #76fe04), color-stop(50%, #5fcd01), color-stop(51%, #53b401), color-stop(100%, #479b01));
-  background-image: -webkit-linear-gradient(top, #76fe04, #5fcd01 50%, #53b401 51%, #479b01);
-  background-image: linear-gradient(top, #76fe04, #5fcd01 50%, #53b401 51%, #479b01);
-  color: white;
-  text-shadow: #3c8101 0 -1px 0;
+color: #fff;
+font-weight: normal;
+text-shadow: 0 -1px 1px #444, 0 1px 1px #FFFFFF;
+background: rgb(164,179,87);
+background: -moz-linear-gradient(top, rgba(164,179,87,0.8) 0%, rgba(117,137,12,0.8) 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(164,179,87,0.8)), color-stop(100%,rgba(117,137,12,0.8)));
+background: -webkit-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+background: linear-gradient(to bottom, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
+
 }
 /* line 235, ../../../themes/scss/include/_skeleton.scss */
 #jqt .greenButton.active, #jqt .greenButton:active {
@@ -827,7 +830,7 @@ body {
   list-style-type: none;
   overflow: hidden;
   padding: 10px;
-  -webkit-transform: translate3d(0, 0, 0);
+  /* -webkit-transform: translate3d(0, 0, 0); */
   /* expensive way to avoid flickr */
 }
 /* line 279, ../../../themes/scss/include/_skeleton.scss */
@@ -847,11 +850,9 @@ body {
 /* line 291, ../../../themes/scss/include/_skeleton.scss */
 #jqt ul li a.active, #jqt ul li a.selected {
   background-image: none;
-  background-color: #53b401;
+  background-color: rgb(164,179,87);
   color: white;
   text-shadow: #3c8101 0 -1px 0;
-  -webkit-box-shadow: #5cc801 0 1px 0px inset;
-  box-shadow: #5cc801 0 1px 0px inset;
 }
 /* line 299, ../../../themes/scss/include/_skeleton.scss */
 #jqt ul li a.active small, #jqt ul li a.selected small {
@@ -970,11 +971,6 @@ body {
   height: 24px;
   -webkit-border-radius: 12px;
   border-radius: 12px;
-  background-image: none;
-  background-color: #53b401;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #76fe04), color-stop(50%, #5fcd01), color-stop(51%, #53b401), color-stop(100%, #479b01));
-  background-image: -webkit-linear-gradient(top, #76fe04, #5fcd01 50%, #53b401 51%, #479b01);
-  background-image: linear-gradient(top, #76fe04, #5fcd01 50%, #53b401 51%, #479b01);
   border: 2px solid #fff;
   -webkit-box-sizing: border-box;
   padding: 0;
@@ -1002,6 +998,10 @@ body {
 #jqt ul.rounded {
   -webkit-border-radius: 8px;
   border-radius: 8px;
+  background: rgba(59, 58, 53, 0.61);
+    -webkit-box-shadow: 0 0 1.1em 0 rgba(0,0,0,0.45);
+    -moz-box-shadow: 0 0 1.1em 0 rgba(0,0,0,0.45);
+    box-shadow: 0 0 1.1em 0 rgba(0,0,0,0.45);
 }
 /* line 447, ../../../themes/scss/include/_skeleton.scss */
 #jqt ul.rounded li:first-child, #jqt ul.rounded li:first-child a {
@@ -1010,6 +1010,10 @@ body {
   border-top-left-radius: 8px;
   -webkit-border-top-right-radius: 8px;
   border-top-right-radius: 8px;
+  background: -moz-linear-gradient(top, rgba(211,211,207,0.24) 0%, rgba(255,255,255,0) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(211,211,207,0.24)), color-stop(100%,rgba(255,255,255,0)));
+    background: -webkit-linear-gradient(top, rgba(211,211,207,0.24) 0%,rgba(255,255,255,0) 100%);
+    background: linear-gradient(to bottom, rgba(211,211,207,0.24) 0%,rgba(255,255,255,0) 100%);
 }
 /* line 451, ../../../themes/scss/include/_skeleton.scss */
 #jqt ul.rounded li:last-child, #jqt ul.rounded li:last-child a {
@@ -1017,6 +1021,7 @@ body {
   border-bottom-left-radius: 8px;
   -webkit-border-bottom-right-radius: 8px;
   border-bottom-right-radius: 8px;
+  border-bottom: 0;
 }
 /* line 457, ../../../themes/scss/include/_skeleton.scss */
 #jqt ul.form li {
@@ -1195,12 +1200,8 @@ body {
 }
 /* line 31, ../../../themes/scss/jqtouch.scss */
 #jqt ul li {
-  border-top: 1px solid #48494b;
-  background-image: none;
-  background-color: rgba(85, 86, 88, 0.2);
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, rgba(123, 124, 127, 0.2)), color-stop(3%, rgba(98, 99, 101, 0.2)), color-stop(100%, rgba(72, 73, 75, 0.2)));
-  background-image: -webkit-linear-gradient(top, rgba(123, 124, 127, 0.2), rgba(98, 99, 101, 0.2) 3%, rgba(72, 73, 75, 0.2));
-  background-image: linear-gradient(top, rgba(123, 124, 127, 0.2), rgba(98, 99, 101, 0.2) 3%, rgba(72, 73, 75, 0.2));
+  border-top: 1px solid #666;
+  border-bottom: 1px solid #222;
 }
 /* line 35, ../../../themes/scss/jqtouch.scss */
 #jqt ul li a {

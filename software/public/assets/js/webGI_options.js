@@ -36,6 +36,8 @@ webGI.options = (function($) {
     //Public Function
     my.save = function() {
         my.server.sim_dose_rate = parseFloat($('#server_cnf_sim_dose_rate').val());
+
+        // Get OpMode
         if ($('#server_cnf_gps_mode_mobile').is(':checked')){
             my.server.opmode = "mobile";
         } else {
@@ -45,6 +47,7 @@ webGI.options = (function($) {
             my.server.alt = parseFloat($('#server_cnf_node_alt').val());
         };
 
+        // Get Source Selection
         if ($('#server_cnf_source_env').is(':checked')){
             my.server.source = "env";
         } else if ($('#server_cnf_source_test').is(':checked')){
@@ -53,16 +56,18 @@ webGI.options = (function($) {
             my.server.source = "sim";
         }
 
+        // Get Window/Sensitivity/Capability
         if ($('#cgw_abc').is(':checked')){
             my.server.window = "abc";
         } else if ($('#cgw_bc').is(':checked')){
             my.server.window = "bc";
         } else if ($('#cgw_c').is(':checked')){
-            my.server.source = "c";
+            my.server.window = "c";
         }
-        
-        my.server.entropy=$('#cnf_entropy_enabled').is(':checked')
-        
+
+        // Get Entropy Generator Setting
+        my.server.entropy=$('#server_cnf_entropy_enabled').is(':checked')
+
         var cmd = {
             "cmd" : "save",
             "conf": my.server
@@ -136,10 +141,10 @@ webGI.options = (function($) {
             $('#server_cnf_gps_mode_mobile').prop('checked',true);
         }
 
-        $('#cnf_entropy_enabled').prop('checked',msg.entropy);
+        $('#server_cnf_entropy_enabled').prop('checked',msg.entropy);
         $('#server_entropy_pool').val(msg.entropy_pool);
-        
-        $('#server_cnf_opmode_'+msg.source).prop('checked',true);
+
+        $('#server_cnf_source_'+msg.source).prop('checked',true);
 
         $('#cgw_'+msg.window).prop('checked',true);
 

@@ -158,7 +158,7 @@
        <div class="options-inline-container" style="width:100%">
         <div class="options-inline-text" style="width: 60%">
         <div style="width: 70% !important; max-width: 70% !important; min-width: 70% !important; margin-left: 7px !important;" class="options-display" style="margin-left: 7px !important;"><label for="server_entropy_pool">Byte</label><input type="number" id="server_entropy_pool" value="4" disabled /></div>
-        <div style="width: 25% !important; max-width: 25% !important; min-width: 25% !important; margin: 0 !important; color: #75890c; font-size: 24px" class="options-button"><span id="startEntropyDownload" class="icon-filter" style="text-align: center; margin: 0; padding: 0; height: 35px; line-height: 35px; display: inline-block; text-overflow: ellipsis;"></span></div>
+        <div style="width: 25% !important; max-width: 50px !important; margin: 0 !important; color: #75890c; font-size: 24px" class="options-button"><span id="startEntropyDownload" class="icon-download" style="text-align: center; margin: 0; padding: 0; height: 35px; line-height: 35px; display: inline-block; text-overflow: ellipsis;"></span></div>
         </div>
         <div class="options-inline-radio" style="width:30%; max-width: 30%; min-width: 30%">
          <div style="width: 45%"><input type="radio" value="on" id="server_cnf_entropy_enabled" name="server_cnf_entropy" /><label class="corner-top-right corner-bottom-right" for="server_cnf_entropy_enabled">ON</label></div>
@@ -167,8 +167,9 @@
        </div>
       </li>
      </ul>
-     <a href="#" class="grayButton" id="showModalAuth">Save Server Settings</a>
-     <a href="#" class="grayButton" id="resetConf">Restore Initial Settings</a>
+     <a href="#" class="grayButton icon-refresh" style="display: inline-block" id="reloadConf">R</a>
+     <a href="#" class="grayButton" style="display: inline-block" id="resetConf">Restore Initial Settings</a>
+     <a href="#" class="greenButton" style="display: inline-block" id="showModalAuth">Save Server Settings</a>
     </div>
    </div>
 
@@ -180,16 +181,8 @@
          <div style="display: inline-block; width: 49%;  min-width: 200px; text-align: center;"><img src="assets/img/apollo-ng-badge.svg" width="205" alt="Apollo-NG Mission Badge" /></div>
         <div style="display: inline-block; width: 49%; min-width: 200px; text-align: center;"><img src="assets/img/orm_new_dark_web.svg" width="200" alt="ORM Mission Badge" /></div>
          </div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lacinia
-        varius odio, vel lobortis neque luctus vel. Etiam euismod turpis a augue
-        laoreet eu rutrum lectus vehicula. Integer elementum tellus non erat
-        dapibus et venenatis augue condimentum. Nullam pretium scelerisque purus
-        sed auctor. Proin id augue quis massa dictum tempus in a magna. Morbi vitae
-        bibendum orci. Curabitur quis orci tellus, id dignissim erat. Sed eros
-        elit, dapibus eu tincidunt quis, sagittis ut nulla. Vivamus ornare ultrices
-        fermentum. Cras ornare tempor lacus, eget scelerisque lacus pretium sit
-        amet.</p>
-        <h3>Attributions</h3>
+        <p></p>
+        <h2>Attributions</h2>
         <table style="width: 100%">
          <tr><td>zepto.js</td><td>Aerogel-weight jQuery-compatible JavaScript library</td><td>MIT</td></tr>
          <tr><td>jqtouch</td><td>A Zepto/jQuery plugin focussed on mobile web development</td><td>MIT</td></tr>
@@ -198,7 +191,7 @@
          <tr><td>ui-bell.mp3</td><td><a href="http://www.freesound.org/people/unfa/sounds/215416/" target="_blank">Freesound/Unfa</a></td><td>CC-BY</td></tr>
         </table>
         <a class="donateLink" href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&amp;business=paypal@domain.net&amp;item_name=Donation">Donate</a>
-        <h3>License</h3>
+        <h2>License</h2>
         <p>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
            the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
         <p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of

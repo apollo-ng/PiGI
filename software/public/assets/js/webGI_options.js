@@ -85,7 +85,11 @@ webGI.options = (function($) {
     }
 
     my.reset = function() {
-        console.log("FIXME: I should clear dynamic.cfg");
+        console.log("FIXME: I should clear pyGI conf/dynamic.cfg");
+    }
+
+    my.startEntropyDownload = function() {
+        console.log("FIXME: I should trigger the download/delete routine in pyGI");
     }
 
     my.lin2log = function(position) {

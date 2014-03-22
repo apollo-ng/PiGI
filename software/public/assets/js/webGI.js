@@ -127,7 +127,7 @@ function initUI() {
         webGI.jQT.goTo('#mainPanel', 'slideleft');
     });
 
-   $('#geoSnapshot').bind(webGI.conf.ui_action,function() {
+    $('#geoSnapshot').bind(webGI.conf.ui_action,function() {
         webGI.geo.getCurrentPosition(webGI.options.geoSnapshotCallback);
     });
 
@@ -142,6 +142,11 @@ function initUI() {
     $('#resetSettings').bind(webGI.conf.ui_action,function() {
         webGI.options.reset();
     });
+
+    $('#startEntropyDownload').bind(webGI.conf.ui_action,function() {
+        webGI.options.startEntropyDownload();
+    });
+
 
     $('#simRanger').bind('input', function()
     {

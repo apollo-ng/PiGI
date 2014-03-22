@@ -92,13 +92,22 @@
       </ul>
       <h2>webGI Options</h2>
       <ul class="rounded">
-      <li><input type="checkbox" value="on" checked="checked" title="" id="cnf_dtc_enabled"/><label for="cnf_dtc_enabled" class="input-action-label">Enable Dead-Time Compensation</label></li>
-      <li><input type="checkbox" value="off" title="" id="cnf_gps_hacc"/><label for="cnf_gps_hacc" class="input-action-label">Enable GPS High Accuracy Mode</label></li>
-      <li><input type="checkbox" value="off" title="" id="cnf_silent"/><label for="cnf_silent" class="input-action-label">Enable Silent Mode (No Audio Feedback/Alerts)</label></li>
+       <li>
+        <input type="checkbox" value="on"  id="cnf_dtc_enabled" checked="checked" />
+        <label for="cnf_dtc_enabled" class="input-action-label">Enable Dead-Time Compensation</label>
+       </li>
+       <li>
+        <input type="checkbox" value="off" id="cnf_gps_hacc" />
+        <label for="cnf_gps_hacc" class="input-action-label">Enable GPS High Accuracy Mode</label>
+       </li>
+       <li>
+        <input type="checkbox" value="off" id="cnf_silent" />
+        <label for="cnf_silent" class="input-action-label">Enable Silent Mode (No Audio Feedback/Alerts)</label>
+       </li>
       </ul>
       <ul class="rounded">
-      <li class="arrow"><a href="#serverOptionsPanel" class="dissolve">Server Settings</a></li>
-      <li class="arrow"><a href="#about" class="dissolve">About</a></li>
+      <li><a href="#serverOptionsPanel" class="dissolve">Server Settings</a></li>
+      <li><a href="#about" class="dissolve">About</a></li>
      </ul>
     </div>
    </div>
@@ -122,9 +131,9 @@
       <li class="geo-suboptions">
        <input type="radio" name="geoMode" value="stationary" title="" id="server_cnf_gps_mode_stationary" /><label for="server_cnf_gps_mode_stationary" class="input-action-label">Stationary</label>
        <div class="options-inline-container geo-suboptions-container options-inline-text">
-        <div style="width: 33% !important; max-width: 33% !important; min-width: 33% !important; margin-left: 7px !important;" class="options-display" style="margin-left: 7px !important;"><label for="server_cnf_node_lat">Lat</label><input type="number" id="server_cnf_node_lat" value="00.00000" min="-90" max="90" /></div>
-        <div style="width: 33% !important; max-width: 33% !important; min-width: 33% !important;" class="options-display"><label for="server_cnf_node_lon">Lon</label><input type="number" id="server_cnf_node_lon" value="00.00000" min="-180" max="180" /></div>
-        <div style="width: 17% !important; max-width: 17% !important; min-width: 17% !important;" class="options-display"><label for="server_cnf_node_alt">Alt</label><input type="number" id="server_cnf_node_alt" value="0" min="-1000" max="20000" /></div>
+        <div style="width: 33% !important; max-width: 33% !important; min-width: 33% !important; margin-left: 7px !important;" class="options-display" style="margin-left: 7px !important;"><label for="server_cnf_node_lat"><span>Lat</span></label><input type="number" id="server_cnf_node_lat" value="00.00000" min="-90" max="90" /></div>
+        <div style="width: 33% !important; max-width: 33% !important; min-width: 33% !important;" class="options-display"><label for="server_cnf_node_lon"><span>Lon</span></label><input type="number" id="server_cnf_node_lon" value="00.00000" min="-180" max="180" /></div>
+        <div style="width: 17% !important; max-width: 17% !important; min-width: 17% !important;" class="options-display"><label for="server_cnf_node_alt"><span>Alt</span></label><input type="number" id="server_cnf_node_alt" value="0" min="-1000" max="20000" /></div>
         <div style="width: 10% !important; max-width: 10% !important; min-width: 10% !important; margin: 0 !important; color: #75890c; font-size: 24px" class="options-button"><span id="geoSnapshot" class="icon-target" style="text-align: center; margin: 0; padding: 0; height: 35px; line-height: 35px; display: inline-block; text-overflow: ellipsis;"></span></div>
        </div>
       </li>
@@ -146,7 +155,7 @@
       <li class="sim-suboptions">
        <input type="radio" name="source" value="sim" title="" id="server_cnf_source_sim" checked="checked" /><label for="server_cnf_source_sim" class="input-action-label">Tick Simulator</label>
        <div class="options-inline-container options-inline-text sim-suboptions-container">
-        <div style="width: 29% !important; max-width: 29% !important; min-width: 29% !important; margin: 0 !important;margin-top: 6px !important;margin-left: 7px !important;" class="options-display"><label for="server_cnf_sim_dose_rate">&micro;Sv/h</label><input type="number" id="server_cnf_sim_dose_rate" min="0.01" max="1000" /></div>
+        <div style="width: 29% !important; max-width: 29% !important; min-width: 29% !important; margin: 0 !important;margin-top: 6px !important;margin-left: 7px !important;" class="options-display"><label for="server_cnf_sim_dose_rate"><span>&micro;Sv/h</span></label><input type="number" id="server_cnf_sim_dose_rate" min="0.01" max="1000" /></div>
         <div style="border: 0px solid red;height: 37px;width: 69% !important; max-width: 69% !important; min-width: 69% !important; margin: 0 !important; display: inline-block; text-align: center;"><input type="range" min="0" max="100" value="1" step="1" id="simRanger" class="options-range-input"></div>
        </div>
       </li>
@@ -157,7 +166,7 @@
       <li>
        <div class="options-inline-container" style="width:100%">
         <div class="options-inline-text" style="width: 60%">
-        <div style="width: 70% !important; max-width: 70% !important; min-width: 70% !important; margin-left: 7px !important;" class="options-display" style="margin-left: 7px !important;"><label for="server_entropy_pool">Byte</label><input type="number" id="server_entropy_pool" value="4" disabled /></div>
+        <div style="width: 70% !important; max-width: 70% !important; min-width: 70% !important; margin-left: 7px !important;" class="options-display" style="margin-left: 7px !important;"><label for="server_entropy_pool"><span>Byte</span></label><input type="number" id="server_entropy_pool" value="4" disabled /></div>
         <div style="width: 25% !important; max-width: 50px !important; margin: 0 !important; color: #75890c; font-size: 24px" class="options-button"><span id="startEntropyDownload" class="icon-download" style="text-align: center; margin: 0; padding: 0; height: 35px; line-height: 35px; display: inline-block; text-overflow: ellipsis;"></span></div>
         </div>
         <div class="options-inline-radio" style="width:30%; max-width: 30%; min-width: 30%">
@@ -207,7 +216,7 @@
   <!-- Modals -->
   <div id="modalAuth" class="md-modal md-animation">
    <div class="md-content red">
-    <h3 class="icon-attention md-red"> &nbsp;Authorization required</h3>
+    <h3 class="icon-attention md-red">&nbsp;Authorization required</h3>
     <div>
      <input type="password" placeholder="Please enter your password as stored in local.cfg">
     </div>
@@ -220,7 +229,7 @@
 
   <div id="modalAnnotation" class="md-modal md-animation">
    <div class="md-content">
-    <h3 class="icon-edit"> &nbsp;Event Annotation</h3>
+    <h3 class="icon-pencil">&nbsp;Event Annotation<a href="#mainPanel" class="button icon-cancel" onclick="$('#modalRADCON').removeClass('md-show');"></a></h3>
     <div>
      <span id="eventTS">2014.03.08</span>
      <span id="eventEDR">20 uSv/h</span>
@@ -237,7 +246,7 @@
 
   <div id="modalDateRanger" class="md-modal md-animation">
    <div class="md-content green">
-    <h3 class="icon-attention md-green"> &nbsp;Select date range</h3>
+    <h3 class="icon-attention md-green">&nbsp;Select date range</h3>
     <div id="calendarContainer">
       <label for="calendarYear">Year</label>
       <select id="calendarYear" name="year">

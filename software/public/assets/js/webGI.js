@@ -82,12 +82,12 @@ function initUI() {
     {
         if(webGI.ticker.enabled)
         {
-            $('#toggleAudio').removeClass('enabled');
+            $('#toggleAudio').removeClass('enabled icon-tick-on');
             webGI.ticker.disable();
         }
         else
         {
-            $('#toggleAudio').addClass('enabled');
+            $('#toggleAudio').addClass('enabled icon-tick-on');
             webGI.ticker.enable();
         }
     });

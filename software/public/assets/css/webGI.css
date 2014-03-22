@@ -150,7 +150,6 @@ html {
 body {
     background: #323128;
     height: 100% !important;
-    -webkit-font-smoothing: antialiased;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     -webkit-touch-callout: none;
 }
@@ -1451,13 +1450,13 @@ keyframes blinker {
 
 .instrument-control {
     display: inline-block !important;
-    font-size: 1.2em;
+    font-size: 1.8em;
     font-weight: bold !important;
     text-align: center;
     margin: 0 !important;
     height: 50px;
     width: 15.5%;
-    line-height: 48px !important;
+    line-height: 50px !important;
     overflow: hidden;
     color: #d8d3c5;
     border-top: 1px solid #5F5E5A;
@@ -1990,7 +1989,7 @@ div#jqt #about a {
     background: #3F3E3A url('../img/panel_bg.png') repeat;
 }
 
-#modalRADCON h3 a {
+.md-modal h3 a {
     width: 30px !important;
     float: right;
     height: 30px;
@@ -2225,6 +2224,7 @@ keyframes simNotify {
     height: 36px;
     line-height: 36px;
     vertical-align: middle;
+    font-family: "Arimo", sans-serif;
     font-size: 16px;
     background: -moz-linear-gradient(top, rgba(216,211,197,0.8) 0%, rgba(242,238,222,0.4) 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(216,211,197,0.6)), color-stop(100%,rgba(242,238,222,0.3)));
@@ -2538,7 +2538,8 @@ ul.rounded li input[type=radio]:checked ~ .input-action-label {
 
 @media (max-width: 480px ) {
 
-    .options-inline-container label {
+    .options-inline-container label span {
+    display: inline-block;
         transform-origin: 50% 50%;
         -moz-transform: rotate(-90deg);
         -webkit-transform: rotate(-90deg);
@@ -2546,4 +2547,7 @@ ul.rounded li input[type=radio]:checked ~ .input-action-label {
         font-size: 12px;
     }
 
+    .options-inline-radio label {
+        font-size: 14px !important;
+    }
 }

@@ -64,6 +64,7 @@ function initUI() {
        webGI.tracer.disable();
        webGI.livechart.disable();
        webGI.status.enable();
+       updateLayout();
 
        $('#toggleGauge').addClass('enabled');
        $('.live-control, #toggleTrace').removeClass('enabled');
@@ -73,6 +74,7 @@ function initUI() {
        webGI.livechart.disable();
        webGI.status.disable();
        webGI.tracer.enable();
+       updateLayout();
 
        $('#toggleTrace').addClass('enabled');
        $('.live-control, #toggleGauge').removeClass('enabled');
@@ -186,7 +188,7 @@ function initUI() {
         }
     });
 
-/*
+ /*
     $('#jqt').bind('pageAnimationEnd', function(e, info)
     {
         console.log('Page animation finished');
@@ -260,11 +262,11 @@ $(document).ready(function() {
 
     webGI.spinner.init();
 
-    //Start websocket stuff for status and log (livechart and history)
+    // Start websocket stuff for status and log (livechart and history)
     webGI.livechart.init_socket();
     webGI.status.init_socket();
 
-    //Set callbacks to updateLayout on window resize and url-hash change (panels)
+    // Set callbacks to updateLayout on window resize and url-hash change (panels)
     $(window).resize(updateLayout);
     window.onhashchange = updateLayout; // should have been replaced by pageAnimationEnd event but doesn't work as well
 
@@ -273,14 +275,13 @@ $(document).ready(function() {
     else { webGI.conf.ui_action  = 'click'; }
 
     initUI();
-
     webGI.geo.init();
-    updateLayout();
 
+    // Give client some time to settle in
     setTimeout(function() {
-        webGI.spinner.disable();
         $('.splash').addClass('splash-hidden');
-    },500);
+        webGI.spinner.disable();
+        updateLayout();
+    },1000);
 
-    //setTimeout(function () { geoToggle(); },5000);
 });

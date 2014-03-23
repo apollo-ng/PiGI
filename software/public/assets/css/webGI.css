@@ -558,7 +558,7 @@ body {
 /* line 35, ../../../themes/scss/include/_skeleton.scss */
 #jqt h1, #jqt h2 {
   font-size: 22px;
-  line-height: 30px;
+  line-height: 22px;
   font-weight: bold;
   margin: 10px 20px 6px;
   color: #bbbcbe;
@@ -1468,8 +1468,12 @@ keyframes blinker {
     background: linear-gradient(to bottom, rgba(146,145,136,0.25) 0%,rgba(146,145,136,0.29) 16%,rgba(82,81,72,0.36) 42%,rgba(82,81,72,0.5) 100%);
 }
 
+.instrument-control .text-icon {
+    font-size: 0.9em;
+}
 .enabled {
     text-shadow: 0 -1px 1px #333;
+    color: #fafafa;
     background: rgb(164,179,87);
     background: -moz-linear-gradient(top, rgba(164,179,87,0.8) 0%, rgba(117,137,12,0.8) 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(164,179,87,0.8)), color-stop(100%,rgba(117,137,12,0.8)));
@@ -1504,10 +1508,10 @@ keyframes blinker {
 }
 
 .dygraph-rangesel-bgcanvas {
- margin-top: 10px;
+    margin-top: 10px;
     height: 35px !important;
     background: #3F3E3A url('../img/panel_bg.png') repeat;
-   -webkit-border-radius: 9px;
+    -webkit-border-radius: 9px;
     -moz-border-radius: 9px;
     border-radius: 9px;
     overflow: hidden;  }
@@ -1527,29 +1531,32 @@ keyframes blinker {
 .dygraph-legend {
     position: relative;
     top: 0px !important;
-    left: 0px !important;
+    right: 0px !important;
+    left: auto !important;
     height: 25px;
     -webkit-border-radius: 9px;
     -moz-border-radius: 9px;
     border-radius: 9px;
     width: 99.9% !important;
     color: #d8d3c5;
-    padding-right: 15px !important;
+    padding-right: 10px !important;
     line-height: 25px !important;
     text-align: right !important;
     background: rgba(17,16,12,0.4) !important;
 }
 
 .dygraphDefaultAnnotation {
-    border: 1px solid red !important;
+    border: 1px solid #222 !important;
+    height: 25px !important;
+    line-height: 25px !important;
+    background: #d8d3c5 !important;
+    cursor: pointer !important;
 }
-
 
 
 progress,          /* All HTML5 progress enabled browsers */
 progress[role]     /* polyfill */
 {
-
 	/* Turns off styling - not usually needed, but good to know. */
 	appearance: none;
 	-moz-appearance: none;
@@ -1564,7 +1571,6 @@ progress[role]     /* polyfill */
 	/* Dimensions */
 	width: 400px;
 	height: 60px;
-
 }
 
 /* Polyfill */
@@ -1857,7 +1863,6 @@ background: linear-gradient(to bottom, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0
     content: "";
     width: 100%;
     display: inline-block !important;
-
 }
 
 .md-footer a {
@@ -1940,8 +1945,8 @@ div#jqt #about a {
 .spinner {
     margin-top: 100px !important;
     transition: opacity .25s ease-in-out;
-   -moz-transition: opacity .25s ease-in-out;
-   -webkit-transition: opacity .25s ease-in-out;
+    -moz-transition: opacity .25s ease-in-out;
+    -webkit-transition: opacity .25s ease-in-out;
 }
 
 .splash {
@@ -1955,17 +1960,16 @@ div#jqt #about a {
     left: 0 !important;
     z-index: 100000;
     opacity: 1;
-    visibility: visible;
-    -webkit-transition: all 1s ease-in-out !important;
-    -moz-transition: all 1s ease-in-out !important;
-    transition: all 1s ease-in-out !important;
 }
 
 .splash-hidden {
     opacity: 0 !important;
     height: 0 !important;
-    visibility: hidden !important;
+    -webkit-transition: all 0.7s ease-in-out !important;
+    -moz-transition: all 0.7s ease-in-out !important;
+    transition: all 0.7s ease-in-out !important;
 }
+
 /*
 .splash:after {
     display: none !important;
@@ -2096,43 +2100,38 @@ div#jqt #about a {
 }
 
 @-webkit-keyframes simNotify {
-    0% {  opacity: 0 }
-    100% { opacity: 0.3}
+    0% {  opacity: 0.0 }
+    100% { opacity: 0.8}
 }
 
 @keyframes simNotify {
-    0% { opacity: 0 }
-    100% { opacity: 0.3 }
+    0% { opacity: 0.0 }
+    100% { opacity: 0.8 }
 }
 
 keyframes simNotify {
-    0% { opacity: 0 }
-    100% { opacity: 0.3 }
+    0% { opacity: 0.0 }
+    100% { opacity: 0.8 }
 }
 
 .init-simNotify {
-    opacity: 0;
-    position: relative;
-    bottom: 55%;
-    z-index: 100;
-    width: 30%;
-    margin: 0 auto;
-    padding: 10px;
-    color: rgba(0, 0, 0, 0.6);
-    font-size: 1.4em;
-    text-align: center;
-    background: rgb(164,179,87);
-    background: -moz-linear-gradient(top, rgba(164,179,87,0.8) 0%, rgba(117,137,12,0.8) 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(164,179,87,0.8)), color-stop(100%,rgba(117,137,12,0.8)));
-    background: -webkit-linear-gradient(top, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
-    background: linear-gradient(to bottom, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0.8) 100%);
-    border: 1px solid #000;
-    -webkit-border-radius: 9px;
-    -moz-border-radius: 9px;
-    border-radius: 9px;
-    -webkit-box-shadow: inset 0 0 10px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.95);
-    -moz-box-shadow: inset 0 0 10px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.95);
-    box-shadow: inset 0 0 14px 0 rgba(157, 177, 52, 1), 0 0 1.1em 0 rgba(0,0,0,0.95);
+    position: relative !important;
+    bottom: 100% !important;
+    z-index: 1000 !important;
+    height: 25px !important;
+    line-height: 25px;
+    color: white;
+    font-size: 1.1em;
+    text-align: left;
+    border: none;
+    padding-left: 10px;
+    background-color: rgba(250, 250, 250, 0.3) !important;
+    -webkit-border-top-left-radius: 9px;
+    -moz-border-radius-topleft: 9px;
+    border-top-left-radius: 9px;
+    -webkit-border-top-right-radius: 9px;
+    -moz-border-radius-topright: 9px;
+    border-top-right-radius: 9px;
     -webkit-animation-name: simNotify;
     -webkit-animation-iteration-count: infinite;
     -webkit-animation-timing-function: ease-in-out;

@@ -88,7 +88,6 @@ html {
   display: inline-block;
   text-decoration: inherit;
   width: 1em;
-  margin-right: .2em;
   text-align: center;
   /* opacity: .8; */
 
@@ -101,7 +100,7 @@ html {
 
   /* Animation center compensation - margins should be symmetric */
   /* remove if not needed */
-  margin-left: .2em;
+
 
   /* you can be more comfortable with increased icons size */
   /* font-size: 120%; */
@@ -1456,7 +1455,7 @@ keyframes blinker {
     margin: 0 !important;
     height: 50px;
     width: 15.5%;
-    line-height: 50px !important;
+    line-height: 52px !important;
     overflow: hidden;
     color: #d8d3c5;
     border-top: 1px solid #5F5E5A;
@@ -2112,6 +2111,7 @@ keyframes simNotify {
 }
 
 .init-simNotify {
+    opacity: 0;
     position: relative;
     bottom: 55%;
     z-index: 100;
@@ -2550,4 +2550,14 @@ ul.rounded li input[type=radio]:checked ~ .input-action-label {
     .options-inline-radio label {
         font-size: 14px !important;
     }
+
+    .instrument-control {
+        font-size: 1em;
+        width: 14%;
+    }
+
+    .hide-on-480 {
+        display: none;
+    }
+
 }

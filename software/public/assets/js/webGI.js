@@ -20,16 +20,17 @@ function initUI() {
 
     // livechart (15m/60m/24h)
     $('.live-control').bind(webGI.conf.ui_action,function(event) {
+
+        $('#toggleGauge,#toggleTrace').removeClass('enabled');
+        $('.live-control').removeClass('enabled');
+        $(this).addClass('enabled')
+
         webGI.status.disable();
         webGI.tracer.disable();
         webGI.livechart.enable();
-
-        $('.live-control').removeClass('enabled');
-        $('#toggleGauge,#toggleTrace').removeClass('enabled');
-        $(event.target).addClass('enabled');
-
         updateLayout();
-        webGI.livechart.set_age(parseInt($(event.target).attr("data-seconds")));
+        webGI.livechart.set_age(parseInt($(this).attr("data-seconds")));
+
     });
 
     $('#lvl_val, #lvl_unit').bind(webGI.conf.ui_action,function() {
@@ -82,12 +83,16 @@ function initUI() {
     {
         if(webGI.ticker.enabled)
         {
-            $('#toggleAudio').removeClass('enabled icon-tick-on');
+            $('#toggleAudio').removeClass('enabled');
+            $('#toggleAudio span:first-child').removeClass('icon-tick-on');
+            $('#toggleAudio span:first-child').addClass('icon-tick-off');
             webGI.ticker.disable();
         }
         else
         {
-            $('#toggleAudio').addClass('enabled icon-tick-on');
+            $('#toggleAudio').addClass('enabled');
+            $('#toggleAudio span:first-child').removeClass('icon-tick-off');
+            $('#toggleAudio span:first-child').addClass('icon-tick-on');
             webGI.ticker.enable();
         }
     });

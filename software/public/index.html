@@ -101,30 +101,33 @@
    <!-- Options Panel -->
    <div id="optionsPanel">
     <div class="toolbar"><h1>Options</h1><a href="#" class="goback button leftButton">Back</a><a href="#mainPanel" class="button rightButton slideleft">Live</a></div>
+     <br />
      <div class="scroll">
-     <h2>Websocket URL</h2>
-     <ul class="rounded">
-      <li><input type="url" placeholder="http://host:port/" id="websocket_url" /></li>
-      </ul>
-      <h2>webGI Options</h2>
+      <h2>Client Settings</h2>
       <ul class="rounded">
-       <li>
+       <li><input type="url" placeholder="http://host:port/" id="cnf_ws_url" /></li>
+       <li class="option-checkbox">
+        <input type="checkbox" value="on"  id="cnf_alerts_enabled" checked="checked" />
+        <label for="cnf_alerts_enabled"><span class="input-container"></span><span class="label-text">Radiation Alerts</span></label>
+       </li>
+       <li class="option-checkbox">
         <input type="checkbox" value="on"  id="cnf_dtc_enabled" checked="checked" />
-        <label for="cnf_dtc_enabled" class="input-action-label">Enable Dead-Time Compensation</label>
+        <label for="cnf_dtc_enabled"><span class="input-container"></span><span class="label-text">Dead-Time Compensation</span></label>
        </li>
-       <li>
+       <li class="option-checkbox">
         <input type="checkbox" value="off" id="cnf_gps_hacc" />
-        <label for="cnf_gps_hacc" class="input-action-label">Enable GPS High Accuracy Mode</label>
+        <label for="cnf_gps_hacc"><span class="input-container"></span><span class="label-text">GPS High Accuracy Mode</span></label>
        </li>
-       <li>
+       <li class="option-checkbox">
         <input type="checkbox" value="off" id="cnf_silent" />
-        <label for="cnf_silent" class="input-action-label">Enable Silent Mode (No Audio Feedback/Alerts)</label>
+        <label for="cnf_silent"><span class="input-container"></span><span class="label-text">Silent Mode (No Audio Feedback/Alerts)</span></label>
        </li>
       </ul>
       <ul class="rounded">
       <li><a href="#serverOptionsPanel" class="dissolve">Server Settings</a></li>
       <li><a href="#about" class="dissolve">About</a></li>
      </ul>
+     <br />
     </div>
    </div>
 
@@ -143,7 +146,10 @@
 
       <h2>OPMode</h2>
       <ul class="rounded">
-      <li><input type="radio" name="geoMode" value="mobile" title="" id="server_cnf_gps_mode_mobile" checked="checked" /><label for="server_cnf_gps_mode_mobile" class="input-action-label">Mobile</label></li>
+      <li class="options-radio">
+       <input type="radio" name="geoMode" value="mobile" title="" id="server_cnf_gps_mode_mobile" checked="checked" />
+       <label for="server_cnf_gps_mode_mobile" class="input-action-label">Mobile</label>
+      </li>
       <li class="geo-suboptions">
        <input type="radio" name="geoMode" value="stationary" title="" id="server_cnf_gps_mode_stationary" /><label for="server_cnf_gps_mode_stationary" class="input-action-label">Stationary</label>
        <div class="options-inline-container geo-suboptions-container options-inline-text">

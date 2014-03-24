@@ -16,6 +16,8 @@ webGI.jQT = new $.jQTouch ({
 
 
 function initUI() {
+    $('#cnf_ws_url').val("ws://" + window.location.hostname + ":" +window.location.port)
+
     // Bind UI events
 
     // livechart (15m/60m/24h)

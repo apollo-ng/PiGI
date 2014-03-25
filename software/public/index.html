@@ -11,7 +11,7 @@
   <script src="assets/js/spin.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/webGI_spinner.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
-  <script src="assets/js/jqtouch.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="assets/js/jqtouch.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/dygraph-combined.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/webGI.js" type="text/javascript" charset="utf-8"></script>
   <script src="assets/js/webGI_tracer.js" type="text/javascript" charset="utf-8"></script>
@@ -108,7 +108,6 @@
       <li><a href="#serverOptionsPanel" class="dissolve">Server Settings</a></li>
       <li><a href="#about" class="dissolve">About</a></li>
      </ul>
-     <br />
     </div>
    </div>
 
@@ -117,7 +116,7 @@
     <div class="toolbar">
      <a href="#" class="goback button leftButton">Back</a>
      <a href="#mainPanel" class="button rightButton slideleft">Live</a>
-     <div style="width: 65% !important; margin: 0 auto; border: 0px solid red; text-align: center;">
+     <div style="width: 65% !important; margin: 0 auto; margin-top: 6px; border: 0px solid red; text-align: center;">
       <div id="cnf_node_name" style="color: #ffffff; font-weight: bold;">Node Name</div>
       <div id="cnf_node_uuid" style="color: #d8d3c5; height: 20px; line-height: 20px; font-size: 10px; overflow: hidden; text-overflow: ellipsis">00000000-0000-0000-0000-000000000000</div>
      </div>
@@ -125,47 +124,69 @@
 
     <div class="scroll">
 
-      <h2>OPMode</h2>
-      <ul class="rounded">
-      <li class="options-radio">
-       <input type="radio" name="geoMode" value="mobile" title="" id="server_cnf_gps_mode_mobile" checked="checked" />
-       <label for="server_cnf_gps_mode_mobile" class="input-action-label">Mobile</label>
+     <h2>OPMode</h2>
+     <ul class="rounded">
+      <li class="option_radio">
+       <input type="radio" name="geoMode" value="mobile" id="server_cnf_gps_mode_mobile" checked="checked" />
+       <label for="server_cnf_gps_mode_mobile" class="action">
+        <span class="input_container"></span>
+        <span class="label_text">Mobile</span>
+       </label>
       </li>
-      <li class="geo-suboptions">
-       <input type="radio" name="geoMode" value="stationary" title="" id="server_cnf_gps_mode_stationary" /><label for="server_cnf_gps_mode_stationary" class="input-action-label">Stationary</label>
-       <div class="options-inline-container geo-suboptions-container options-inline-text">
+      <li class="option_radio">
+       <input type="radio" name="geoMode" value="stationary" id="server_cnf_gps_mode_stationary" />
+       <label for="server_cnf_gps_mode_stationary" class="action">
+        <span class="input_container"></span>
+        <span class="label_text">Stationary</span>
+       </label>
+       <section class="options-inline-container geo-suboptions-container options-inline-text">
         <div style="width: 33% !important; max-width: 33% !important; min-width: 33% !important; margin-left: 7px !important;" class="options-display" style="margin-left: 7px !important;"><label for="server_cnf_node_lat"><span>Lat</span></label><input type="number" id="server_cnf_node_lat" value="00.00000" min="-90" max="90" /></div>
         <div style="width: 33% !important; max-width: 33% !important; min-width: 33% !important;" class="options-display"><label for="server_cnf_node_lon"><span>Lon</span></label><input type="number" id="server_cnf_node_lon" value="00.00000" min="-180" max="180" /></div>
         <div style="width: 17% !important; max-width: 17% !important; min-width: 17% !important;" class="options-display"><label for="server_cnf_node_alt"><span>Alt</span></label><input type="number" id="server_cnf_node_alt" value="0" min="-1000" max="20000" /></div>
         <div style="width: 10% !important; max-width: 10% !important; min-width: 10% !important; margin: 0 !important; color: #75890c; font-size: 24px" class="options-button"><span id="geoSnapshot" class="icon-target" style="text-align: center; margin: 0; padding: 0; height: 35px; line-height: 35px; display: inline-block; text-overflow: ellipsis;"></span></div>
-       </div>
+       </section>
       </li>
-      </ul>
-      <h2>Data Sources</h2>
-      <ul class="rounded">
-      <li class="env-suboptions">
-       <input type="radio" name="source" value="env" title="" id="server_cnf_source_env" /><label for="server_cnf_source_env" class="input-action-label">Environment</label>
-       <div class="env-suboptions-container options-inline-container">
+     </ul>
+
+     <h2>Data Sources</h2>
+     <ul class="rounded">
+      <li class="option_radio">
+       <input type="radio" name="source" value="env" id="server_cnf_source_env" />
+       <label for="server_cnf_source_env" class="action">
+        <span class="input_container"></span>
+        <span class="label_text">Environment</span>
+       </label>
+       <section class="env-suboptions-container options-inline-container">
         <div style="line-height: 50px; width: 35%; padding-left: 7px">Capability/Sensitivity</div>
         <div class="options-inline-radio" style="width:60%; max-width: 60%; min-width: 60%">
          <div style="width: 30%"><input type="radio" value="c" title="" id="cgw_c" name="server_cnf_geigercounter_window" /><label class="corner-top-right corner-bottom-right" for="cgw_c">&gamma; only</label></div>
          <div style="width: 30%"><input type="radio" value="bc" title="" id="cgw_bc" name="server_cnf_geigercounter_window" /><label for="cgw_bc">&beta;,&gamma;</label></div>
          <div style="width: 30%"><input type="radio" value="abc" title="" id="cgw_abc" name="server_cnf_geigercounter_window" checked="checked" /><label class="corner-top-left corner-bottom-left" for="cgw_abc">&alpha;,&beta;,&gamma;</label></div>
         </div>
-       </div>
+       </section>
       </li>
-      <li><input type="radio" name="source" value="test" title="" id="server_cnf_source_test" /><label for="server_cnf_source_test" class="input-action-label">Test</label></li>
-      <li class="sim-suboptions">
-       <input type="radio" name="source" value="sim" title="" id="server_cnf_source_sim" checked="checked" /><label for="server_cnf_source_sim" class="input-action-label">Tick Simulator</label>
-       <div class="options-inline-container options-inline-text sim-suboptions-container">
+      <li class="option_radio">
+       <input type="radio" name="source" value="test" id="server_cnf_source_test" />
+       <label for="server_cnf_source_test" class="action">
+        <span class="input_container"></span>
+        <span class="label_text">Test</span>
+       </label>
+      </li>
+      <li class="option_radio">
+       <input type="radio" name="source" value="sim" id="server_cnf_source_sim" checked="checked" />
+       <label for="server_cnf_source_sim" class="action">
+        <span class="input_container"></span>
+        <span class="label_text">Tick Simulator</span>
+       </label>
+       <section class="options-inline-container options-inline-text sim-suboptions-container">
         <div style="width: 29% !important; max-width: 29% !important; min-width: 29% !important; margin: 0 !important;margin-top: 6px !important;margin-left: 7px !important;" class="options-display"><label for="server_cnf_sim_dose_rate"><span>&micro;Sv/h</span></label><input type="number" id="server_cnf_sim_dose_rate" min="0.01" max="1000" /></div>
         <div style="border: 0px solid red;height: 37px;width: 69% !important; max-width: 69% !important; min-width: 69% !important; margin: 0 !important; display: inline-block; text-align: center;"><input type="range" min="0" max="100" value="1" step="1" id="simRanger" class="options-range-input"></div>
-       </div>
+       </section>
       </li>
      </ul>
+
      <h2>Entropy Generator</h2>
      <ul class="rounded">
-      <!--<li><input type="checkbox" value="on" checked="checked" title="" id="cnf_entropy_enabled"/><label for="cnf_entropy_enabled" class="input-action-label">Enable Entropy Generator</label></li>-->
       <li>
        <div class="options-inline-container" style="width:100%">
         <div class="options-inline-text" style="width: 60%">

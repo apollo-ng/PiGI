@@ -33,7 +33,7 @@
             orientation='portrait',
             touchSelectors=[],
             publicObj={},
-            tapBuffer=100, // High click delay = ~350, quickest animation (slide) = 250
+            tapBuffer=250, // High click delay = ~350, quickest animation (slide) = 250
             extensions=$.jQTouch.prototype.extensions,
             extTapHandlers=$.jQTouch.prototype.tapHandlers,
             tapHandlers=[],
@@ -857,8 +857,8 @@
             settings: jQTSettings,
             submitForm: submitHandler
         };
-        
-        // must be called publicObj assignement to prevent timing problem with extension loading. 
+
+        // must be called publicObj assignement to prevent timing problem with extension loading.
         jQTSettings.starter(start);
 
         return publicObj;

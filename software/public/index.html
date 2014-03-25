@@ -180,7 +180,7 @@
        </label>
        <section class="options-inline-container options-inline-text sim-suboptions-container">
         <div style="width: 29% !important; max-width: 29% !important; min-width: 29% !important; margin: 0 !important;margin-top: 6px !important;margin-left: 7px !important;" class="options-display"><label for="server_cnf_sim_dose_rate"><span>&micro;Sv/h</span></label><input type="number" id="server_cnf_sim_dose_rate" min="0.01" max="1000" /></div>
-        <div style="border: 0px solid red;height: 37px;width: 69% !important; max-width: 69% !important; min-width: 69% !important; margin: 0 !important; display: inline-block; text-align: center;"><input type="range" min="0" max="100" value="1" step="1" id="simRanger" class="options-range-input"></div>
+        <div style="height: 40px; width: 69% !important; max-width: 69% !important; min-width: 69% !important; margin: 0 !important; display: inline-block; text-align: center;"><input type="range" min="0" max="100" value="1" step="1" id="simRanger" class="options-range-input"></div>
        </section>
       </li>
      </ul>
@@ -238,7 +238,7 @@
   <!-- End Jqt control -->
 
   <!-- Modals -->
-  <div id="modalAuth" class="md-modal md-animation">
+  <div id="modalAuth" class="modal md-animation">
    <div class="md-content red">
     <h3 class="icon-attention md-red">&nbsp;Authorization required</h3>
     <div>
@@ -251,7 +251,7 @@
    </div>
   </div>
 
-  <div id="modalAnnotation" class="md-modal md-animation">
+  <div id="modalAnnotation" class="modal md-animation">
    <div class="md-content">
     <h3 class="icon-pencil">&nbsp;Event Annotation<a href="#mainPanel" class="button icon-cancel" onclick="$('#modalRADCON').removeClass('md-show');"></a></h3>
     <div>
@@ -268,7 +268,7 @@
    </div>
   </div>
 
-  <div id="modalDateRanger" class="md-modal md-animation">
+  <div id="modalDateRanger" class="modal md-animation">
    <div class="md-content green">
     <h3 class="icon-attention md-green">&nbsp;Select date range</h3>
     <div id="calendarContainer">
@@ -291,7 +291,7 @@
    </div>
   </div>
 
-  <div id="modalRADCON" class="md-modal md-animation">
+  <div id="modalRADCON" class="modal md-animation">
    <div class="md-content">
     <h3>RADCON<a href="#mainPanel" class="button icon-cancel" onclick="$('#modalRADCON').removeClass('md-show');"></a></h3>
     <div class="display">
@@ -312,7 +312,7 @@
    </div>
   </div>
 
-  <div id="modalError" class="md-modal md-animation">
+  <div id="modalError" class="modal md-animation">
    <div class="md-content red">
     <h3 id="modalErrorTitle" class="icon-attention md-red"></h3>
     <div id="modalErrorMsg"></div>

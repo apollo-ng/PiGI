@@ -228,7 +228,7 @@ function updateLayout() {
     var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 
     // Make the modals stack and sticky
-    $('.md-modal').css({'top': '80px', 'left': (w/2)-($('#modalAuth').width()/2)+'px'})
+    $('.modal').css({'top': '80px', 'left': (w/2)-($('#modalAuth').width()/2)+'px'})
 
     var h_offset = 137;
     var w_offset = 0;

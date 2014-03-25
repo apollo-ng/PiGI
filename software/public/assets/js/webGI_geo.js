@@ -3,24 +3,27 @@ if (typeof webGI === 'undefined') {
     webGI = {}
 }
 
-//Add module to webGI namespace
+// Add module to webGI namespace
 webGI.geo = (function($) {
-    //We have jquery/zepto available ($)
+    // We have jquery/zepto available ($)
 
-    //Public attributes
+    // Public attributes
     var my = {};
     my.container_id_status = "userGeoStatus";
     my.container_id_loc = "userGeoLoc";
 
-    //Private attributes
+    // Private attributes
     var watcher = null;
     var lat = 0;
     var lon = 0;
     var alt = 0;
     var acc = 0;
 
-    //Public Function
-    my.init = function() {
+    // Public Functions
+    my.init = function()
+    {
+        // Add Checkbox to client settings panel
+        webGI.options.addOptionCheckbox('client_settings', 'cnf_gps_hacc', 'GPS High Accuracy Mode');
 
         var target = document.getElementById(my.container_id);
         container_status = $("#"+my.container_id_status);
@@ -107,7 +110,8 @@ webGI.geo = (function($) {
 
     function geoError(error)
     {
-        var errors = {
+        var errors =
+        {
             1: 'Permission denied',
             2: 'Position unavailable',
             3: 'Request timeout',

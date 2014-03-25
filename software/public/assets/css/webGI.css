@@ -2538,15 +2538,15 @@ ul.rounded li input[type=radio]:checked ~ .input-action-label {
 }
 
 /* SQUARED ONE */
-.option-checkbox {
+.option_checkbox {
     position: relative;
 }
 
-.option-checkbox input[type=checkbox] {
+.option_checkbox input[type=checkbox] {
     opacity: 0;
 }
 
-.option-checkbox label {
+.option_checkbox label {
     position: absolute;
     left: 0px;
     top: 0px;
@@ -2557,7 +2557,7 @@ ul.rounded li input[type=radio]:checked ~ .input-action-label {
     cursor: pointer;
 }
 
-.option-checkbox label .input-container {
+.option_checkbox label .input_container {
     position: absolute;
     width: 20px;
     height: 20px;
@@ -2572,7 +2572,7 @@ ul.rounded li input[type=radio]:checked ~ .input-action-label {
     box-shadow: inset 0 0 12px 0 #000, 0px 1px 0px rgba(255,255,255,0.4), 0 0 1.1em 0 rgba(0,0,0,0.45);
 }
 
-.option-checkbox label .label-text {
+.option_checkbox label .label_text {
     padding-left: 38px;
     font-weight: normal;
     font-size: 18px;
@@ -2582,7 +2582,7 @@ ul.rounded li input[type=radio]:checked ~ .input-action-label {
     transition: all 0.15s ease-in-out !important;
 }
 
-.option-checkbox label:after {
+.option_checkbox label:after {
     opacity: 0;
     content: '';
     position: absolute;
@@ -2606,11 +2606,11 @@ ul.rounded li input[type=radio]:checked ~ .input-action-label {
     transition: all 0.15s ease-in-out !important;
 }
 
-.option-checkbox input[type=checkbox]:checked + label:after {
+.option_checkbox input[type=checkbox]:checked + label:after {
     opacity: 1;
 }
 
-.option-checkbox input[type=checkbox]:checked + label .label-text {
+.option_checkbox input[type=checkbox]:checked + label .label_text {
     color: #fafafa !important;
 }
 

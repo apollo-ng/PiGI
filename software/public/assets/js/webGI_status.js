@@ -1,30 +1,39 @@
-//Create webGI object if neccessary
+// Create webGI object if neccessary
 if (typeof webGI === 'undefined') {
     webGI = {}
 }
 
-//Add module to webGI namespace
+// Add module to webGI namespace
 webGI.status = (function($) {
-    //We have jquery/zepto available ($)
+    // We have jquery/zepto available ($)
 
-    //Public attributes
+    // Public attributes
     var my = {};
 
-    //Private attributes
+    // Private attributes
     var count_unit = "CPM";
     var ws_status = null;
-    //Public Function
 
+    // Public Functions
+    my.init = function()
+    {
+        // Add Checkboxes to client settings panel
+        webGI.options.addOptionCheckbox('client_settings', 'cnf_alerts_enabled', 'Radiation Alerts', true);
+        webGI.options.addOptionCheckbox('client_settings', 'cnf_dtc_enabled', 'Dead-Time Compensation', true);
+    }
 
-    my.init_socket = function() {
+    my.init_socket = function()
+    {
         ws_status = new WebSocket(webGI.conf.websocket_host+"/ws_status");
 
-        ws_status.onopen = function() {
+        ws_status.onopen = function()
+        {
             $('#modalError').removeClass('md-show');
             //console.log('Status Update socket opened');
         };
 
-        ws_status.onmessage = function(e) {
+        ws_status.onmessage = function(e)
+        {
            var msg = JSON.parse(e.data);
            //console.log(msg);
            switch(msg.type) {
@@ -40,7 +49,8 @@ webGI.status = (function($) {
             }
         };
 
-        ws_status.onclose = function() {
+        ws_status.onclose = function()
+        {
             ws_status = new WebSocket(webGI.conf.websocket_host+"/ws_status");
 
             showErrorModal(
@@ -53,19 +63,23 @@ webGI.status = (function($) {
         };
     };
 
-    my.enable = function() {
+    my.enable = function()
+    {
         $('#gaugeContainer').show();
     }
 
-    my.disable = function() {
+    my.disable = function()
+    {
         $('#gaugeContainer').hide();
     }
 
-    my.show_radcon = function() {
+    my.show_radcon = function()
+    {
         $('#modalRADCON').addClass('md-show');
     };
 
-    my.toggle_counter_unit = function() {
+    my.toggle_counter_unit = function()
+    {
         if(count_unit=="CPM")
         {
             $('#count_unit').html('CPS');
@@ -76,11 +90,12 @@ webGI.status = (function($) {
             $('#count_unit').html('CPM');
             count_unit = "CPM";
         }
-        }
+    }
 
 
-    my.update = function(msg) {
-        
+    my.update = function(msg)
+    {
+
         if(count_unit=="CPM") $('#count_val').html(parseInt(msg.data.cpm_dtc));
         if(count_unit=="CPS") $('#count_val').html(parseInt(msg.data.cps_dtc));
 
@@ -116,7 +131,7 @@ webGI.status = (function($) {
             if(edr < s)
             {
                 $('#statusGauge').attr('max',s);
-                
+
                 $('#lvl_val').html(c);
                 $('.rc-row').removeClass('current');
                 $('#rc'+c).addClass('current');
@@ -171,9 +186,9 @@ webGI.status = (function($) {
         }
 
         $('#edr_val').html(edr.toFixed(2));
-        
+
         $('#statusGauge').val(edr);
-        
+
     }
 
     //Do not forget to return my, otherwise nothing will work.

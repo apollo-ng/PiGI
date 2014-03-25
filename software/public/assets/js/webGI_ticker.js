@@ -1,23 +1,29 @@
-//Create webGI object if neccessary
+// Create webGI object if neccessary
 if (typeof webGI === 'undefined') {
     webGI = {}
 }
 
-//Add module to webGI namespace
+// Add module to webGI namespace
 webGI.ticker = (function($) {
-    //We have jquery/zepto available ($)
+    // We have jquery/zepto available ($)
 
-    //Public attributes
+    // Public attributes
     var my = {};
     my.enabled = false;
-    
-    //Private attributes
+
+    // Private attributes
     var ws_ticks = null;
     var tick_snd = new Audio("assets/snd/tock.wav");
-    //Public Function
-    
 
-    my.enable = function() {
+    // Public Functions
+    my.init = function()
+    {
+        // Add Checkbox to client settings panel
+        webGI.options.addOptionCheckbox('client_settings', 'cnf_silent', 'Silent Mode (No Audio Feedback/Alerts)');
+    }
+
+    my.enable = function()
+    {
         my.enabled=true;
         ws_ticks = new WebSocket(webGI.conf.websocket_host+"/ws_ticks");
         ws_ticks.onmessage = function(e)
@@ -37,20 +43,18 @@ webGI.ticker = (function($) {
                     }
                break;
                default:
-
             }
         }
     }
-    
-    my.disable = function() {
+
+    my.disable = function()
+    {
         my.enabled=false;
         ws_ticks.close();
     }
-    
-    
-    //Private Function
-    
-    
+
+    // Private Function
+
     //Do not forget to return my, otherwise nothing will work.
     return my;
 }($));  //Pass jq/zepto to the module construction function call

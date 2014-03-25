@@ -14,7 +14,6 @@ webGI.jQT = new $.jQTouch ({
     preloadImages: []
 });
 
-
 function initUI() {
     $('#cnf_ws_url').val("ws://" + window.location.hostname + ":" +window.location.port)
 
@@ -248,25 +247,23 @@ function updateLayout() {
     //ugly, but we seem to need it
     webGI.livechart.init();
     webGI.history.init();
-    //webGI.gauge.init()
 }
 
 function updateConfig() {
     console.log("Writing config to local storage")
 }
 
-
 $(document).ready(function() {
     if(!("WebSocket" in window)) {
         $('<p>Oh no, you need a modern browser that supports WebSockets. How about <a href="http://www.google.com/chrome">Google Chrome</a>?</p>').appendTo('#container');
         return;
     }
-
     webGI.spinner.init();
-
-    // Start websocket stuff for status and log (livechart and history)
     webGI.livechart.init_socket();
+    webGI.status.init();
     webGI.status.init_socket();
+    webGI.geo.init();
+    webGI.ticker.init();
 
     // Set callbacks to updateLayout on window resize and url-hash change (panels)
     $(window).resize(updateLayout);
@@ -277,9 +274,8 @@ $(document).ready(function() {
     else { webGI.conf.ui_action  = 'click'; }
 
     initUI();
-    webGI.geo.init();
 
-    // Give client some time to settle in
+    // Give client some time to settle
     setTimeout(function() {
         $('.splash').addClass('splash-hidden');
         webGI.spinner.disable();

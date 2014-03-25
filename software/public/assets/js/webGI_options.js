@@ -117,6 +117,19 @@ webGI.options = (function($) {
         $('#server_cnf_node_alt').val(position.coords.altitude);
     }
 
+    my.addOptionCheckbox = function (parent_id, id, label, checked) {
+        checked = (typeof checked === "undefined") ? false : checked;
+        var content  = '<li class="option_checkbox">';
+            content += '<input type="checkbox" id="' + id + '" '+(checked ? 'checked="checked"' : '')+' />';
+            content += '<label for="' + id + '">';
+            content += '<span class="input_container"></span>';
+            content += '<span class="label_text">' + label + '</span>';
+            content += '</label>';
+            content += '</li>';
+        $('#'+parent_id).append(content);
+    }
+
+
     //Private Function
     function update(msg) {
         console.log("Options:",msg)

@@ -4,7 +4,8 @@ if (typeof webGI === 'undefined') {
 }
 
 //Add module to webGI namespace
-webGI.options = (function($) {
+webGI.options = (function($)
+{
     //We have jquery/zepto available ($)
 
     //Public attributes
@@ -19,12 +20,14 @@ webGI.options = (function($) {
         my.request();
     }
 
-    ws_conf.onmessage = function(e) {
+    ws_conf.onmessage = function(e)
+    {
        var msg = JSON.parse(e.data);
        //console.log(msg);
-       switch(msg.type) {
+       switch(msg.type)
+       {
             case "geigerconf":
-                update(msg)
+                update(msg);
             break;
 
             default:
@@ -33,18 +36,22 @@ webGI.options = (function($) {
     }
 
     //Public Function
-    my.save = function() {
+    my.save = function()
+    {
         my.server.sim_dose_rate = parseFloat($('#server_cnf_sim_dose_rate').val());
 
         // Get OpMode
-        if ($('#server_cnf_gps_mode_mobile').is(':checked')){
+        if ($('#server_cnf_gps_mode_mobile').is(':checked'))
+        {
             my.server.opmode = "mobile";
-        } else {
+        }
+        else
+        {
             my.server.opmode = "stationary";
             my.server.lat = parseFloat($('#server_cnf_node_lat').val());
             my.server.lon = parseFloat($('#server_cnf_node_lon').val());
             my.server.alt = parseFloat($('#server_cnf_node_alt').val());
-        };
+        }
 
         // Get Source Selection
         if ($('#server_cnf_source_env').is(':checked')){
@@ -65,21 +72,26 @@ webGI.options = (function($) {
         }
 
         // Get Entropy Generator Setting
-        my.server.entropy=$('#server_cnf_entropy_enabled').is(':checked')
+        my.server.entropy=$('#server_cnf_entropy_enabled').is(':checked');
 
-        var cmd = {
+        var cmd =
+        {
             "cmd" : "save",
             "conf": my.server
         };
+
         ws_conf.send(JSON.stringify(cmd));
         console.log("Saving options", my.server);
-        my.request()
+        my.request();
     }
 
-    my.request = function() {
-        var cmd = {
-        "cmd" : "get",
+    my.request = function()
+    {
+        var cmd =
+        {
+            "cmd" : "get"
         }
+
         ws_conf.send(JSON.stringify(cmd));
         //console.log("Requesting options");
     }
@@ -92,7 +104,8 @@ webGI.options = (function($) {
         console.log("FIXME: I should trigger the download/delete routine in pyGI");
     }
 
-    my.lin2log = function(position) {
+    my.lin2log = function(position)
+    {
         var minp = 0;
         var maxp = 100;
         var minv = Math.log(0.01);
@@ -101,7 +114,8 @@ webGI.options = (function($) {
         return Math.exp(minv + scale*(position-minp));
     }
 
-    my.log2lin = function(value) {
+    my.log2lin = function(value)
+    {
         var minp = 0;
         var maxp = 100;
         var minv = Math.log(0.01);
@@ -110,14 +124,16 @@ webGI.options = (function($) {
         return (Math.log(value)-minv) / scale + minp;
     }
 
-    my.geoSnapshotCallback = function (position) {
+    my.geoSnapshotCallback = function (position)
+    {
         //console.log(position);
         $('#server_cnf_node_lat').val(position.coords.latitude.toFixed(5));
         $('#server_cnf_node_lon').val(position.coords.longitude.toFixed(5));
         $('#server_cnf_node_alt').val(position.coords.altitude);
     }
 
-    my.addOptionCheckbox = function (parent_id, id, label, checked) {
+    my.addOptionCheckbox = function (parent_id, id, label, checked)
+    {
         checked = (typeof checked === "undefined") ? false : checked;
         var content  = '<li class="option_checkbox">';
             content += '<input type="checkbox" id="' + id + '" '+(checked ? 'checked="checked"' : '')+' />';
@@ -130,12 +146,35 @@ webGI.options = (function($) {
     }
 
 
-    //Private Function
-    function update(msg) {
-        console.log("Options:",msg)
+    // Private Function
+    function update(msg)
+    {
+        console.log("Options:",msg);
         $('#cnf_node_uuid').text(msg.uuid);
         $('#cnf_node_name').text(msg.name);
 
+        // OPMode
+        if(msg.opmode==="stationary")
+        {
+            $('#server_cnf_gps_mode_stationary').prop('checked',true);
+        }
+        else if (msg.opmode==="mobile")
+        {
+            $('#server_cnf_gps_mode_mobile').prop('checked',true);
+        }
+
+        // Geostamp
+        $('#server_cnf_node_lat').val(msg.lat);
+        $('#server_cnf_node_lon').val(msg.lon);
+        $('#server_cnf_node_alt').val(msg.alt);
+
+        // Data Sources
+        $('#server_cnf_source_'+msg.source).prop('checked',true);
+
+        // Window/Capabilties/Sensitivity
+        $('#cgw_'+msg.window).prop('checked',true);
+
+        // Tick Simulator Dose Rate
         my.server.sim_dose_rate = msg.sim_dose_rate;
         $('#simRanger').val(webGI.options.log2lin(my.server.sim_dose_rate));
 
@@ -151,23 +190,17 @@ webGI.options = (function($) {
 
         $('#server_cnf_sim_dose_rate').val(my.server.sim_dose_rate);
 
-        $('#server_cnf_node_lat').val(msg.lat);
-        $('#server_cnf_node_lon').val(msg.lon);
-        $('#server_cnf_node_alt').val(msg.alt);
-
-        if(msg.opmode==="stationary"){
-            $('#server_cnf_gps_mode_stationary').prop('checked',true);
-        } else if (msg.opmode==="mobile") {
-            $('#server_cnf_gps_mode_mobile').prop('checked',true);
+        // Entropy Generator
+        if (msg.entropy===false)
+        {
+            $('#server_cnf_entropy_disabled').prop('checked',true);
+        }
+        else
+        {
+            $('#server_cnf_entropy_enabled').prop('checked',true);
         }
 
-        $('#server_cnf_entropy_enabled').prop('checked',msg.entropy);
         $('#server_entropy_pool').val(msg.entropy_pool);
-
-        $('#server_cnf_source_'+msg.source).prop('checked',true);
-
-        $('#cgw_'+msg.window).prop('checked',true);
-
     }
 
     //Do not forget to return my, otherwise nothing will work.

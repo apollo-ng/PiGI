@@ -116,8 +116,8 @@
     <div class="toolbar">
      <a href="#" class="goback button leftButton">Back</a>
      <a href="#mainPanel" class="button rightButton slideleft">Live</a>
-     <div style="width: 65% !important; margin: 0 auto; margin-top: 6px; border: 0px solid red; text-align: center;">
-      <div id="cnf_node_name" style="color: #ffffff; font-weight: bold;">Node Name</div>
+     <div style="width: 65% !important; margin: 0 auto; border: 0px solid red; text-align: center;">
+      <div id="cnf_node_name" style="color: #ffffff; font-weight: bold; padding-top: 10px;">Node Name</div>
       <div id="cnf_node_uuid" style="color: #d8d3c5; height: 20px; line-height: 20px; font-size: 10px; overflow: hidden; text-overflow: ellipsis">00000000-0000-0000-0000-000000000000</div>
      </div>
     </div>
@@ -140,7 +140,7 @@
         <span class="label_text">Stationary</span>
        </label>
        <section class="options-inline-container geo-suboptions-container options-inline-text">
-        <div style="width: 33% !important; max-width: 33% !important; min-width: 33% !important; margin-left: 7px !important;" class="options-display" style="margin-left: 7px !important;"><label for="server_cnf_node_lat"><span>Lat</span></label><input type="number" id="server_cnf_node_lat" value="00.00000" min="-90" max="90" /></div>
+        <div style="width: 33% !important; max-width: 33% !important; min-width: 33% !important; margin-left: 7px !important;" class="options-display"><label for="server_cnf_node_lat"><span>Lat</span></label><input type="number" id="server_cnf_node_lat" value="00.00000" min="-90" max="90" /></div>
         <div style="width: 33% !important; max-width: 33% !important; min-width: 33% !important;" class="options-display"><label for="server_cnf_node_lon"><span>Lon</span></label><input type="number" id="server_cnf_node_lon" value="00.00000" min="-180" max="180" /></div>
         <div style="width: 17% !important; max-width: 17% !important; min-width: 17% !important;" class="options-display"><label for="server_cnf_node_alt"><span>Alt</span></label><input type="number" id="server_cnf_node_alt" value="0" min="-1000" max="20000" /></div>
         <div style="width: 10% !important; max-width: 10% !important; min-width: 10% !important; margin: 0 !important; color: #75890c; font-size: 24px" class="options-button"><span id="geoSnapshot" class="icon-target" style="text-align: center; margin: 0; padding: 0; height: 35px; line-height: 35px; display: inline-block; text-overflow: ellipsis;"></span></div>
@@ -190,12 +190,12 @@
       <li>
        <div class="options-inline-container" style="width:100%">
         <div class="options-inline-text" style="width: 60%">
-        <div style="width: 70% !important; max-width: 70% !important; min-width: 70% !important; margin-left: 7px !important;" class="options-display" style="margin-left: 7px !important;"><label for="server_entropy_pool"><span>Byte</span></label><input type="number" id="server_entropy_pool" value="4" disabled /></div>
+        <div style="width: 70% !important; max-width: 70% !important; min-width: 70% !important; margin-left: 7px !important;" class="options-display"><label for="server_entropy_pool"><span>Byte</span></label><input type="number" id="server_entropy_pool" value="4" disabled /></div>
         <div style="width: 25% !important; max-width: 50px !important; margin: 0 !important; color: #75890c; font-size: 24px" class="options-button"><span id="startEntropyDownload" class="icon-download" style="text-align: center; margin: 0; padding: 0; height: 35px; line-height: 35px; display: inline-block; text-overflow: ellipsis;"></span></div>
         </div>
         <div class="options-inline-radio" style="width:30%; max-width: 30%; min-width: 30%">
          <div style="width: 45%"><input type="radio" value="on" id="server_cnf_entropy_enabled" name="server_cnf_entropy" /><label class="corner-top-right corner-bottom-right" for="server_cnf_entropy_enabled">ON</label></div>
-         <div style="width: 45%"><input type="radio" value="off" id="server_cnf_entropy_disabled" name="server_cnf_entropy" checked="checked" /><label class="corner-top-left corner-bottom-left" for="server_cnf_entropy_disabled">OFF</label></div>
+         <div style="width: 45%"><input type="radio" value="off" id="server_cnf_entropy_disabled" name="server_cnf_entropy" /><label class="corner-top-left corner-bottom-left" for="server_cnf_entropy_disabled">OFF</label></div>
         </div>
        </div>
       </li>

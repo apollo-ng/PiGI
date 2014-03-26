@@ -20,6 +20,7 @@ webGI.livechart = (function($) {
     var data = [];
     var data_hd = [];
     var data_ld = [];
+    var data_ld_all = null;
     var desired_range = null;
     var animtimer = null;
     var annotations = [];
@@ -150,10 +151,12 @@ webGI.livechart = (function($) {
 
         //FIXME: push ld data less often
         data_ld.push([ts,msg.data.edr,msg.data.edr_avg]);
-
+        data_ld_all.push(msg);
+        
         var left_end_ld = new Date((msg.timestamp-60*60*24)*1000)
         while(data_ld[0][0] < left_end_ld) data_ld.shift();
-
+        while(data_ld_all[0].timestamp < msg.timestamp-60*60*24) data_ld_all.shift();
+        
         var left_end_hd = new Date((msg.timestamp-60*60*1)*1000)
         while(data_hd[0][0] < left_end_hd) data_hd.shift();
 
@@ -165,7 +168,6 @@ webGI.livechart = (function($) {
     }
 
     my.updateBacklog = function(msg){
-
         //console.log("LOGHISTORY");
         if (msg.hd) {
             data_hd = [];
@@ -180,6 +182,7 @@ webGI.livechart = (function($) {
                 data_hd.push([ts,v.data.edr,v.data.edr_avg]);
             });
         } else {
+            data_ld_all = msg.log;
             data_ld = [];
             var edr_avg=0;
             annotations = [];
@@ -295,7 +298,21 @@ webGI.livechart = (function($) {
         ws_log.send(JSON.stringify(cmd));
         //console.log ("Requesting history");
     };
-
+    
+    my.getDoseRateAvg15m = function() {
+        return data_hd[data_hd.length-1][2]
+    }
+    
+    my.getDose24h = function() {
+        var first = data_ld_all[0];
+        var last = data_ld_all[data_ld_all.length-1];
+        var counts = last.data.totalcount_dtc-first.data.totalcount_dtc;
+        var cpm = counts/(24*60);
+        var d24h = cpm * last.parameters.tube_factor * 24;
+        return parseFloat(d24h.toFixed(3));
+    }
+    
+    
     my.pushAnnotation=function(ts,text) {
         var cmd = {
             "cmd" : "annotation",

@@ -96,16 +96,14 @@ webGI.status = (function($) {
     my.update = function(msg)
     {
 
-
         if(count_unit=="CPM")
         {
             $('#count_val').html(parseInt(msg.data.cpm_dtc));
-            $('#status_count_val').val(parseInt(msg.data.cpm_dtc));
+
         }
         else if(count_unit=="CPS")
         {
             $('#count_val').html(parseInt(msg.data.cps_dtc));
-            $('#status_count_val').val(parseInt(msg.data.cps_dtc));
         }
 
         if (msg.data.source == "sim")
@@ -120,10 +118,14 @@ webGI.status = (function($) {
 
         var edr = parseFloat(msg.data.edr);
 
+        $('#status_cps').val(parseInt(msg.data.cps_dtc));
+        $('#status_cpm').val(parseInt(msg.data.cpm_dtc));
         $('#status_rem').val(parseInt(edr*100));
-        $('#status_rad').val(parseInt(edr*100));
-        $('#status_bcq').val(parseInt(msg.data.cps_dtc));
-$('#status_cur').val(msg.data.cps_dtc/37000000000);
+
+        var etm = 1000/edr;
+
+        $('#status_etm').val(etm);
+
         // EDR Watchdog firing above 20% increase compared to 24h EDR avg
         /*
         if(edr > (webGI.log.edr_avg_24*1.2))

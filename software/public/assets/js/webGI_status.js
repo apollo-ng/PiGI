@@ -96,8 +96,17 @@ webGI.status = (function($) {
     my.update = function(msg)
     {
 
-        if(count_unit=="CPM") $('#count_val').html(parseInt(msg.data.cpm_dtc));
-        if(count_unit=="CPS") $('#count_val').html(parseInt(msg.data.cps_dtc));
+
+        if(count_unit=="CPM")
+        {
+            $('#count_val').html(parseInt(msg.data.cpm_dtc));
+            $('#status_count_val').val(parseInt(msg.data.cpm_dtc));
+        }
+        else if(count_unit=="CPS")
+        {
+            $('#count_val').html(parseInt(msg.data.cps_dtc));
+            $('#status_count_val').val(parseInt(msg.data.cps_dtc));
+        }
 
         if (msg.data.source == "sim")
         {
@@ -111,6 +120,10 @@ webGI.status = (function($) {
 
         var edr = parseFloat(msg.data.edr);
 
+        $('#status_rem').val(parseInt(edr*100));
+        $('#status_rad').val(parseInt(edr*100));
+        $('#status_bcq').val(parseInt(msg.data.cps_dtc));
+$('#status_cur').val(msg.data.cps_dtc/37000000000);
         // EDR Watchdog firing above 20% increase compared to 24h EDR avg
         /*
         if(edr > (webGI.log.edr_avg_24*1.2))
@@ -133,6 +146,7 @@ webGI.status = (function($) {
                 $('#statusGauge').attr('max',s);
 
                 $('#lvl_val').html(c);
+                $('#status_radcon').val(c);
                 $('.rc-row').removeClass('current');
                 $('#rc'+c).addClass('current');
 
@@ -140,24 +154,24 @@ webGI.status = (function($) {
                 {
                     $('.rc-cat').removeClass('current');
                     $('#rcCatLow').addClass('current');
-                    $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('yellow red');
-                    $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').addClass('green');
+                    $('#edr_val, #status_edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('yellow red');
+                    $('#edr_val, #status_edr_val, #edr_unit, #lvl_val, #lvl_unit').addClass('green');
                     //webGI.livechart.set_colors(['#677712','yellow']);
                 }
                 else if (c<6)
                 {
                     $('.rc-cat').removeClass('current');
                     $('#rcCatMed').addClass('current');
-                    $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('green red');
-                    $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').addClass('yellow');
+                    $('#edr_val, #status_edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('green red');
+                    $('#edr_val, #status_edr_val, #edr_unit, #lvl_val, #lvl_unit').addClass('yellow');
                     //webGI.livechart.set_colors(['#F5C43C','yellow']);
                 }
                 else
                 {
                     $('.rc-cat').removeClass('current');
                     $('#rcCatHigh').addClass('current');
-                    $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('green yellow');
-                    $('#edr_val, #edr_unit, #lvl_val, #lvl_unit').addClass('red');
+                    $('#edr_val, #status_edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('green yellow');
+                    $('#edr_val, #status_edr_val, #edr_unit, #lvl_val, #lvl_unit').addClass('red');
                     //webGI.livechart.set_colors(['#ff0000','yellow']);
                 }
 
@@ -186,6 +200,7 @@ webGI.status = (function($) {
         }
 
         $('#edr_val').html(edr.toFixed(2));
+        $('#status_edr_val').val(edr.toFixed(2));
 
         $('#statusGauge').val(edr);
 

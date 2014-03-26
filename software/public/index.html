@@ -49,8 +49,35 @@
     <!-- Main Instrument -->
     <div id="mainInstrument" class="instrument">
      <div id="gaugeContainer" class="instrument-container" >
-      <br /><br />
-      <div style="border: 0px solid red;height: 37px;width: 90% !important; max-width: 90% !important; min-width: 90% !important; margin: 0 auto !important; display: inline-block; text-align: center;"><progress id="statusGauge" max="100" value="60" style="width: 100%; height: 25px; border-radius: 5px; background: #282828;"><strong>0.27 uSv/h</strong></progress></div>
+
+      <div style="padding-top: 40px; border: 0px solid red; height: 5%; min-height: 50px; width: 99% !important; max-width: 99% !important; min-width: 99% !important; margin: 0 auto !important; display: inline-block; text-align: center;">
+       <progress id="statusGauge" max="100" value="60" style="width: 100%; height: 25px; border-radius: 5px; background: #282828;"><strong>0.27 uSv/h</strong></progress>
+      </div>
+
+      <div class="status_big">
+
+        <div style="width: 40% !important; max-width: 40% !important; min-width: 40% !important; display: inline-block">
+         <label for="server_cnf_node_lat" style="display: block;">CPM</label>
+         <input type="text" id="server_cnf_node_lat" value="547" disabled="disabled" />
+        </div>
+
+        <div style="width: 40% !important; max-width: 40% !important; min-width: 40% !important; display: inline-block">
+         <label for="server_cnf_node_lat1" style="display: block;">uSv/h</label>
+         <input type="text" id="server_cnf_node_lat1" value="0.83" disabled="disabled" />
+        </div>
+
+        <div style="width: 15% !important; max-width: 15% !important; min-width: 15% !important; display: inline-block">
+         <label for="server_cnf_node_lat2" style="display: block;">RADCON</label>
+         <input type="text" id="server_cnf_node_lat2" value="1" disabled="disabled" />
+        </div>
+
+      </div>
+     <div style="border: 0px solid blue; height: 35%; width: 99% !important; max-width: 99% !important; min-width: 99% !important; margin: 0 auto !important; display: block; text-align: center;">
+
+      </div>
+    <div style="border: 0px solid green; height: 35%; width: 99% !important; max-width: 99% !important; min-width: 99% !important; margin: 0 auto !important; display: block; text-align: center;">
+
+      </div>
 
      </div>
      <div id="chartContainer" class="instrument-container" style="display: none"></div>

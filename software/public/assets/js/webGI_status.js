@@ -98,12 +98,14 @@ webGI.status = (function($) {
 
         if(count_unit=="CPM")
         {
-            $('#count_val').html(parseInt(msg.data.cpm_dtc));
+            document.getElementById("count_val").innerHTML = parseInt(msg.data.cpm_dtc);
+            //$('#count_val').html(parseInt(msg.data.cpm_dtc));
 
         }
         else if(count_unit=="CPS")
         {
-            $('#count_val').html(parseInt(msg.data.cps_dtc));
+            document.getElementById("count_val").innerHTML = parseInt(msg.data.cps_dtc);
+            //$('#count_val').html(parseInt(msg.data.cps_dtc));
         }
 
         if (msg.data.source == "sim")
@@ -115,24 +117,7 @@ webGI.status = (function($) {
             $('#simNotify').removeClass('init-simNotify');
         }
 
-
         var edr = parseFloat(msg.data.edr);
-
-        $('#status_cps').val(parseInt(msg.data.cps_dtc));
-        $('#status_cpm').val(parseInt(msg.data.cpm_dtc));
-        $('#status_rem').val(edr/10);
-
-        $('#status_avg_15min').val(webGI.livechart.getDoseRateAvg15m());
-        $('#status_24h_dose').val(webGI.livechart.getDose24h());
-
-        var etm = 10000/edr;
-
-        var d = parseInt(etm/24);
-        var h = parseInt(etm%24);
-
-        $('#status_etm').val(d+' '+ h);
-
-
 
         // EDR Watchdog firing above 20% increase compared to 24h EDR avg
         /*
@@ -155,8 +140,10 @@ webGI.status = (function($) {
             {
                 $('#statusGauge').attr('max',s);
 
-                $('#lvl_val').html(c);
-                $('#status_radcon').val(c);
+                document.getElementById("lvl_val").innerHTML = c;
+                //$('#lvl_val').html(c);
+                document.getElementById("status_radcon").value = c;
+                //$('#status_radcon').val(c);
                 $('.rc-row').removeClass('current');
                 $('#rc'+c).addClass('current');
 
@@ -196,23 +183,45 @@ webGI.status = (function($) {
         // Automatic unit switching
         if(edr < 1000)
         {
-            $('#edr_unit').html('uSv/h');
+            document.getElementById("edr_unit").innerHTML = 'uSv/h';
         }
         else if (edr < 1000000)
         {
-            $('#edr_unit').html('mSv/h');
+            document.getElementById("edr_unit").innerHTML = 'mSv/h';
             edr = edr/1000;
         }
         else
         {
-            $('#edr_unit').html('Sv/h');
+            document.getElementById("edr_unit").innerHTML = 'Sv/h';
             edr = edr/1000000;
         }
 
-        $('#edr_val').html(edr.toFixed(2));
-        $('#status_edr_val').val(edr.toFixed(2));
+        document.getElementById("edr_val").innerHTML = edr.toFixed(2);
+        document.getElementById("status_edr_val").value = edr.toFixed(2);
+        document.getElementById("statusGauge").value = edr;
+        document.getElementById("status_cps").value = parseInt(msg.data.cps_dtc);
+        document.getElementById("status_cpm").value = parseInt(msg.data.cpm_dtc);
+        document.getElementById("status_rem").value = (edr/10).toFixed(2);
+        document.getElementById("status_avg_15min").value = webGI.livechart.getDoseRateAvg15m();
+        document.getElementById("status_24h_dose").value = webGI.livechart.getDose24h();
 
-        $('#statusGauge').val(edr);
+        var etm = 10000/edr;
+        var d = parseInt(etm/24);
+        var h = parseInt(etm%24);
+
+        if (d > 365)
+        {
+          document.getElementById("status_etm").value = "Indefinitely";
+          //$('#status_etm').val(d+' '+ h);
+        }
+        else if (d > 100 )
+        {
+          document.getElementById("status_etm").value = d;
+        }
+        else
+        {
+          document.getElementById("status_etm").value = d+ ' ' +h;
+        }
 
     }
 

@@ -54,59 +54,59 @@
        <progress id="statusGauge" max="100" value="60" style="width: 100%; height: 25px; border-radius: 5px; background: #282828;"><strong>0.27 uSv/h</strong></progress>
       </div>
 
-      <div class="status_big">
 
-        <div style="width: 45% !important; max-width: 40% !important; min-width: 40% !important; display: inline-block">
-         <label for="status_cps" style="display: block;">CPS</label>
+<div class="section group status_big">
+	<div class="col span_1_of_3">
+        <label for="status_cps" style="display: block;">CPS (Counts per Second)</label>
          <input type="text" id="status_cps" value="547" disabled="disabled" />
-        </div>
-
-        <div style="width: 45% !important; max-width: 40% !important; min-width: 40% !important; display: inline-block">
-         <label for="status_cpm" style="display: block;">CPM</label>
+	</div>
+	<div class="col span_1_of_3">
+         <label for="status_cpm" style="display: block;">CPM (Counts per Minute)</label>
          <input type="text" id="status_cpm" value="547" disabled="disabled" />
-        </div>
+	</div>
+<div class="col span_1_of_3">
+         <label for="status_lvl" style="display: block;">RADCON</label>
+         <input type="text" id="status_radcon" value="0" disabled="disabled" />
+	</div>
+</div>
 
-      </div>
 
-     <div class="status_big">
-       <div style="width: 45% !important; max-width: 40% !important; min-width: 40% !important; display: inline-block">
-         <label for="status_edr_val" style="display: block;">uSv/h</label>
+
+<div class="section group status_big">
+	<div class="col span_1_of_2">
+     <label for="status_edr_val" style="display: block;">Equivalent Dose Rate (EDR) in uSv/h</label>
          <input type="text" id="status_edr_val" value="0.83" disabled="disabled" />
-        </div>
-
-        <div style="width: 45% !important; max-width: 40% !important; min-width: 40% !important; display: inline-block">
-         <label for="status_rem" style="display: block;">mREM/h</label>
+	</div>
+	<div class="col span_1_of_2">
+       <label for="status_rem" style="display: block;">mREM/h</label>
          <input type="text" id="status_rem" value="0.83" disabled="disabled" />
-        </div>
+	</div>
+</div>
 
-     </div>
-    <div class="status_big">
-
-       <div style="width: 49% !important; max-width: 40% !important; min-width: 40% !important; display: inline-block">
-         <label for="status_avg_15min" style="display: block;">Avg 15 Min</label>
+<div class="section group status_big">
+	<div class="col span_1_of_2">
+        <label for="status_avg_15min" style="display: block;">Avg 15 Min Equivalent Dose Rate</label>
          <input type="text" id="status_avg_15min" value="547" disabled="disabled" />
-        </div>
-
-        <div style="width: 49% !important; max-width: 40% !important; min-width: 40% !important; display: inline-block">
-         <label for="status_24h_dose" style="display: block;">24H Dose</label>
+  </div>
+	<div class="col span_1_of_2">
+        <label for="status_24h_dose" style="display: block;">24H Dose</label>
          <input type="text" id="status_24h_dose" value="0.83" disabled="disabled" />
-        </div>
+	</div>
+</div>
 
-     </div>
 
-   <div class="status_big">
-
-       <div style="width: 49% !important; max-width: 40% !important; min-width: 40% !important; display: inline-block">
-         <label for="status_etm" style="display: block;">ETM</label>
+<div class="section group status_big">
+	<div class="col span_1_of_2">
+        <label for="status_etm" style="display: block;">ETM</label>
          <input type="text" id="status_etm" value="00:00" disabled="disabled" />
-        </div>
+  </div>
+	<div class="col span_1_of_2">
+       <label for="status_24h_dose" style="display: block;">Dosimeter</label>
+         <input type="text" id="status_24h_dose" value="00000" disabled="disabled" />
+	</div>
+</div>
 
-        <div style="width: 49% !important; max-width: 40% !important; min-width: 40% !important; display: inline-block">
-         <label for="status_24h_dose" style="display: block;">24H Dose</label>
-         <input type="text" id="status_24h_dose" value="0.83" disabled="disabled" />
-        </div>
 
-     </div>
 
      </div>
      <div id="chartContainer" class="instrument-container" style="display: none"></div>
@@ -369,7 +369,7 @@
   </div>
 
   <div id="modalError" class="modal md-animation">
-   <div class="md-content red">
+   <div class="md-content">
     <h3 id="modalErrorTitle" class="icon-attention md-red"></h3>
     <div id="modalErrorMsg"></div>
     <div id="modalErrorAction" class="md-footer"></div>

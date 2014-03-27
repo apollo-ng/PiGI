@@ -120,11 +120,19 @@ webGI.status = (function($) {
 
         $('#status_cps').val(parseInt(msg.data.cps_dtc));
         $('#status_cpm').val(parseInt(msg.data.cpm_dtc));
-        $('#status_rem').val(parseInt(edr*100));
+        $('#status_rem').val(edr/10);
 
-        var etm = 1000/edr;
+        $('#status_avg_15min').val(webGI.livechart.getDoseRateAvg15m());
+        $('#status_24h_dose').val(webGI.livechart.getDose24h());
 
-        $('#status_etm').val(etm);
+        var etm = 10000/edr;
+
+        var d = parseInt(etm/24);
+        var h = parseInt(etm%24);
+
+        $('#status_etm').val(d+' '+ h);
+
+
 
         // EDR Watchdog firing above 20% increase compared to 24h EDR avg
         /*

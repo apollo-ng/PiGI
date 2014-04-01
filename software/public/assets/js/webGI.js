@@ -171,12 +171,14 @@ function initUI() {
             $('#server_cnf_sim_dose_rate').css({ "color": "#75890c" });
         }
 
-        $('#server_cnf_sim_dose_rate').val(val);
+        //$('#server_cnf_sim_dose_rate').val(val);
+        document.getElementById("server_cnf_sim_dose_rate").value = val;
     });
 
     $('#server_cnf_sim_dose_rate').bind('input', function()
     {
-        $('#simRanger').val(webGI.options.log2lin(this.valueAsNumber));
+        //$('#simRanger').val(webGI.options.log2lin(this.valueAsNumber));
+        document.getElementById("simRanger").value = webGI.options.log2lin(this.valueAsNumber);
         var val = webGI.options.lin2log(this.valueAsNumber);
 
         if (val >= 10)
@@ -199,13 +201,16 @@ function initUI() {
 }
 
 function showErrorModal(title, msg, action) {
-    $('#body').find('.md-modal').removeClass('md-show');
+    //$('#body').find('.md-modal').removeClass('md-show');
+    $('.md-show').removeClass('md-show');
     webGI.conf.bell_snd.play();
 
     setTimeout(function()
     {
-        $('#modalErrorTitle').html(title);
-        $('#modalErrorMsg').html(msg);
+        document.getElementById("modalErrorTitle").innerHTML = title;
+        //$('#modalErrorTitle').html(title);
+        document.getElementById("modalErrorMsg").innerHTML = msg;
+        //$('#modalErrorMsg').html(msg);
 
         var buttons = '<a class="md-close" onclick="$(\'#modalError\').removeClass(\'md-show\');">Ack</a>';
 
@@ -213,10 +218,11 @@ function showErrorModal(title, msg, action) {
             buttons = buttons + action;
         }
 
-        $('#modalErrorAction').html(buttons);
+        //$('#modalErrorAction').html(buttons);
+        document.getElementById("modalErrorAction").innerHTML = buttons;
         $('#modalError').addClass('md-show');
     },
-    300);
+    200);
 }
 
 function updateLayout() {

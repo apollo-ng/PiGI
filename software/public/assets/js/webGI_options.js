@@ -150,8 +150,10 @@ webGI.options = (function($)
     function update(msg)
     {
         console.log("Options:",msg);
-        $('#cnf_node_uuid').text(msg.uuid);
-        $('#cnf_node_name').text(msg.name);
+        document.getElementById('cnf_node_uuid').innerHTML = msg.uuid;
+        document.getElementById('cnf_node_name').innerHTML = msg.name;
+        //$('#cnf_node_uuid').text(msg.uuid);
+        //$('#cnf_node_name').text(msg.name);
 
         // OPMode
         if(msg.opmode==="stationary")
@@ -164,9 +166,12 @@ webGI.options = (function($)
         }
 
         // Geostamp
-        $('#server_cnf_node_lat').val(msg.lat);
-        $('#server_cnf_node_lon').val(msg.lon);
-        $('#server_cnf_node_alt').val(msg.alt);
+        document.getElementById('server_cnf_node_lat').value = msg.lat;
+        document.getElementById('server_cnf_node_lon').value = msg.lon;
+        document.getElementById('server_cnf_node_alt').value = msg.alt;
+        //$('#server_cnf_node_lat').val(msg.lat);
+        //$('#server_cnf_node_lon').val(msg.lon);
+        //$('#server_cnf_node_alt').val(msg.alt);
 
         // Data Sources
         $('#server_cnf_source_'+msg.source).prop('checked',true);
@@ -176,7 +181,9 @@ webGI.options = (function($)
 
         // Tick Simulator Dose Rate
         my.server.sim_dose_rate = msg.sim_dose_rate;
-        $('#simRanger').val(webGI.options.log2lin(my.server.sim_dose_rate));
+
+        document.getElementById('simRanger').value = webGI.options.log2lin(my.server.sim_dose_rate);
+        //$('#simRanger').val(webGI.options.log2lin(my.server.sim_dose_rate));
 
         if (my.server.sim_dose_rate >= 10)
         {
@@ -188,7 +195,8 @@ webGI.options = (function($)
             $('#server_cnf_sim_dose_rate').css({ "color": "#75890c" });
         }
 
-        $('#server_cnf_sim_dose_rate').val(my.server.sim_dose_rate);
+        document.getElementById('server_cnf_sim_dose_rate').value = my.server.sim_dose_rate;
+        //$('#server_cnf_sim_dose_rate').val(my.server.sim_dose_rate);
 
         // Entropy Generator
         if (msg.entropy===false)
@@ -200,7 +208,8 @@ webGI.options = (function($)
             $('#server_cnf_entropy_enabled').prop('checked',true);
         }
 
-        $('#server_entropy_pool').val(msg.entropy_pool);
+        document.getElementById('server_entropy_pool').value = msg.entropy_pool;
+        //$('#server_entropy_pool').val(msg.entropy_pool);
     }
 
     //Do not forget to return my, otherwise nothing will work.

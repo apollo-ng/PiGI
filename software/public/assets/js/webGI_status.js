@@ -141,9 +141,7 @@ webGI.status = (function($) {
                 $('#statusGauge').attr('max',s);
 
                 document.getElementById("lvl_val").innerHTML = c;
-                //$('#lvl_val').html(c);
-                document.getElementById("status_radcon").value = c;
-                //$('#status_radcon').val(c);
+                document.getElementById("status_radcon").innerHTML = c;
                 $('.rc-row').removeClass('current');
                 $('#rc'+c).addClass('current');
 
@@ -197,13 +195,13 @@ webGI.status = (function($) {
         }
 
         document.getElementById("edr_val").innerHTML = edr.toFixed(2);
-        document.getElementById("status_edr_val").value = edr.toFixed(2);
+        document.getElementById("status_edr_val").innerHTML = edr.toFixed(2);
         document.getElementById("statusGauge").value = edr;
-        document.getElementById("status_cps").value = parseInt(msg.data.cps_dtc);
-        document.getElementById("status_cpm").value = parseInt(msg.data.cpm_dtc);
-        document.getElementById("status_rem").value = (edr/10).toFixed(2);
-        document.getElementById("status_avg_15min").value = webGI.livechart.getDoseRateAvg15m();
-        document.getElementById("status_24h_dose").value = webGI.livechart.getDose24h();
+        document.getElementById("status_cps").innerHTML = parseInt(msg.data.cps_dtc);
+        document.getElementById("status_cpm").innerHTML = parseInt(msg.data.cpm_dtc);
+        document.getElementById("status_rem").innerHTML = (edr/10).toFixed(2);
+        document.getElementById("status_avg_15min").innerHTML = webGI.livechart.getDoseRateAvg15m();
+        document.getElementById("status_24h_dose").innerHTML = webGI.livechart.getDose24h();
 
         var etm = 10000/edr;
         var d = parseInt(etm/24);
@@ -211,16 +209,16 @@ webGI.status = (function($) {
 
         if (d > 365)
         {
-          document.getElementById("status_etm").value = "Indefinitely";
+          document.getElementById("status_etm").innerHTML = "Indefinitely";
           //$('#status_etm').val(d+' '+ h);
         }
         else if (d > 100 )
         {
-          document.getElementById("status_etm").value = d;
+          document.getElementById("status_etm").innerHTML = d;
         }
         else
         {
-          document.getElementById("status_etm").value = d+ ' ' +h;
+          document.getElementById("status_etm").innerHTML = d+ ' ' +h;
         }
 
     }

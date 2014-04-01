@@ -71,6 +71,7 @@ webGI.status = (function($) {
     my.disable = function()
     {
         $('#gaugeContainer').hide();
+
     }
 
     my.show_radcon = function()

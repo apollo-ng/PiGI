@@ -82,12 +82,13 @@ html {
 [class^="icon-"]:before, [class*=" icon-"]:before {
   font-family: "webgi";
   font-style: normal;
+  font-size: 1.3em;
   font-weight: normal;
+  min-width: 40px;
   speak: none;
 
   display: inline-block;
   text-decoration: inherit;
-  width: 1em;
   text-align: center;
   /* opacity: .8; */
 
@@ -550,7 +551,8 @@ body {
  font-family: inherit;
   font-size: 12px;
   font-weight: bold;
-  line-height: 36px;
+  line-height: 40px;
+  text-align: center;
   text-overflow: ellipsis;
   text-decoration: none;
   overflow: hidden;
@@ -800,7 +802,8 @@ background: linear-gradient(to bottom, rgba(164,179,87,0.8) 0%,rgba(117,137,12,0
 #jqt ul li textarea, #jqt ul li select {
   color: white;
   text-shadow: #3c3d3e 0 -1px 0;
-  background: transparent url("data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==");
+  /* background: transparent url("data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="); */
+  background: rgba(20, 19, 19, 0.4);
   border: 0;
   padding: 0;
   display: inline-block;
@@ -1873,8 +1876,8 @@ keyframes simNotify {
  *  Options
  */
 
-.options-button {
-    height: 36px;
+.options .button {
+    height: 38px;
     width: 40px;
     color: #d8d3c5 !important;
     line-height: 39px;
@@ -2116,7 +2119,6 @@ keyframes simNotify {
 }
 
 .options-inline-text input[type=number] {
-    display: inline-block;
     width: 65% !important;
     font-size: 30px !important;
     height: 36px;
@@ -2382,7 +2384,6 @@ keyframes simNotify {
     border-radius: 5px;
     border: 1px solid #3F3E3A;
     border-bottom: 1px solid #7F7E7A;
-    background: rgba(63, 62, 58, 0.11);
 }
 
 .options-display {
@@ -2443,6 +2444,7 @@ keyframes simNotify {
     height: 100%;
     border: 1px solid #3F3E3A;
     border-bottom: 1px solid #7F7E7A;
+    background: rgba(20, 19, 19, 0.4);
     -webkit-border-radius: 7px;
     -moz-border-radius: 7px;
     border-radius: 7px;

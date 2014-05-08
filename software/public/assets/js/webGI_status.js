@@ -3,9 +3,8 @@ if (typeof webGI === 'undefined') {
     webGI = {};
 }
 
-// Add module to webGI namespace
+// Add status module to webGI namespace
 webGI.status = (function($) {
-    // We have jquery/zepto available ($)
 
     // Public attributes
     var my = {};
@@ -14,8 +13,9 @@ webGI.status = (function($) {
     var count_unit = "CPM";
     var ws_status = null;
     var radcon_alert_ack_lvl = 0;
+    var radcon_alert_last_ts = 0;
 
-    // Public Functions
+    // Public functions
     my.init = function() {
         // Add Checkboxes to client settings panel and set check status according to config
         webGI.options.addOptionCheckbox('client_settings', 'cnf_alerts_enabled', 'Radiation Alerts', (webGI.conf.alerts_enabled === 1) ? true : false);
@@ -108,18 +108,6 @@ webGI.status = (function($) {
 
         var edr = parseFloat(msg.data.edr);
 
-        // EDR Watchdog firing above 20% increase compared to 24h EDR avg
-        /*
-        if(edr > (webGI.log.edr_avg_24*1.2))
-        {
-            console.log('EDR Watchdog fired');
-
-            showErrorModal(
-                'RADIATION Warning',
-                '<p>Wow, that tube is really cracking and sparkling now...</p>'
-            );
-        }*/
-
         // RADCON class identification and UI reaction
         var s = 0.1;
         var last = document.getElementById("lvl_val").innerHTML;
@@ -159,17 +147,30 @@ webGI.status = (function($) {
             }
         }
 
+        // EDR Watchdog firing above 20% increase compared to 24h EDR avg
+        /*
+        if(edr > (webGI.log.edr_avg_24*1.2))
+        {
+            console.log('EDR Watchdog fired');
+
+            showErrorModal(
+                'RADIATION Warning',
+                '<p>Wow, that tube is really cracking and sparkling now...</p>'
+            );
+        }*/
+
         // RADCON level change alerting
-        if (c > radcon_alert_ack_lvl && webGI.conf.alerts_enabled === 1) {
+        var test1 = Math.round(new Date().getTime() / 1000);
+        if (webGI.conf.alerts_enabled === 1 && c > radcon_alert_ack_lvl && test1-radcon_alert_last_ts > 5 ) {
+            radcon_alert_last_ts = test1;
             showErrorModal(
                 'RADIATION Warning',
                 '<p>RADCON level increased to <b>' + c + '</b></p>',
                 '<a class="md-close" onclick="webGI.status.ack_alert_lvl(' + c + ')">Acknowledged</a>'
             );
-        } else {
+        } else if (c < radcon_alert_ack_lvl) {
             radcon_alert_ack_lvl = c;
         }
-
 
         // Automatic unit switching
         if (edr < 1000) {
@@ -206,6 +207,6 @@ webGI.status = (function($) {
 
     };
 
-    //Do not forget to return my, otherwise nothing will work.
     return my;
-}($)); //Pass jq/zepto to the module construction function call
+
+}($));

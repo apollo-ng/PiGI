@@ -1,380 +1,497 @@
 <!DOCTYPE html>
 <html class="no-js">
- <head>
-  <title>webGI</title>
-  <meta charset="utf-8">
-  <meta name="description" content="">
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="480">
-  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
-  <link rel="stylesheet" href="assets/css/webGI.css">
-  <script src="assets/js/spin.min.js" charset="utf-8"></script>
-  <script src="assets/js/webGI_spinner.js" charset="utf-8"></script>
-  <script src="assets/js/zepto.min.js" charset="utf-8"></script>
-  <script src="assets/js/jqtouch.js" charset="utf-8"></script>
-  <script src="assets/js/dygraph-combined.js" charset="utf-8"></script>
-  <script src="assets/js/webGI.js" charset="utf-8"></script>
-  <script src="assets/js/webGI_tracer.js" charset="utf-8"></script>
-  <script src="assets/js/webGI_ticker.js"charset="utf-8"></script>
-  <script src="assets/js/webGI_geo.js" charset="utf-8"></script>
-  <script src="assets/js/webGI_livechart.js" charset="utf-8"></script>
-  <script src="assets/js/webGI_history.js" charset="utf-8"></script>
-  <script src="assets/js/webGI_status.js" charset="utf-8"></script>
-  <script src="assets/js/webGI_options.js" charset="utf-8"></script>
- </head>
- <body id="body">
 
-  <div id="jqt">
+<head>
+    <title>webGI</title>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+    <link rel="stylesheet" href="assets/css/webGI.css">
+    <script src="assets/js/zepto.min.js" charset="utf-8"></script>
+    <script src="assets/js/jqtouch.js" charset="utf-8"></script>
+    <script src="assets/js/dygraph-combined.js" charset="utf-8"></script>
+    <script src="assets/js/webGI.js" charset="utf-8"></script>
+    <script src="assets/js/webGI_tracer.js" charset="utf-8"></script>
+    <script src="assets/js/webGI_ticker.js" charset="utf-8"></script>
+    <script src="assets/js/webGI_geo.js" charset="utf-8"></script>
+    <script src="assets/js/webGI_livechart.js" charset="utf-8"></script>
+    <script src="assets/js/webGI_history.js" charset="utf-8"></script>
+    <script src="assets/js/webGI_status.js" charset="utf-8"></script>
+    <script src="assets/js/webGI_options.js" charset="utf-8"></script>
+</head>
 
-   <!-- Live/Main Panel -->
-   <div id="mainPanel">
+<body id="body">
 
-    <!-- Main Toolbar -->
-    <div class="toolbar">
-     <a href="#optionsPanel" class="button leftButton slideright big-icon icon-menu"></a>
-     <a href="#historyPanel" class="button rightButton slideleft big-icon icon-database"></a>
-     <!-- Multi Function Display -->
-     <div class="mfd">
-      <span id="count_val" class="mfd-display">00000</span>
-      <span id="count_unit" class="mfd-unit">CPM</span>
-      <span id="edr_val" class="mfd-display">00000</span>
-      <span id="edr_unit" class="mfd-unit">uSv</span>
-      <span id="lvl_val" class="mfd-display">0</span>
-      <span id="lvl_unit" class="mfd-unit">RC</span>
-      <span id="userGeoStatus" class="mfd-display mfd-icon icon-geo-unlocked"></span>
-      <span id="userGeoLoc" class="mfd-display"></span>
-     </div>
-    </div>
+    <div id="jqt">
 
-    <!-- Main Instrument -->
-    <div id="mainInstrument" class="instrument">
+        <!-- Live/Main Panel -->
+        <div id="mainPanel">
 
-     <div id="gaugeContainer" class="instrument-container">
+            <!-- Main Toolbar -->
+            <div class="toolbar">
+                <a href="#optionsPanel" class="button leftButton slideright big-icon icon-menu"></a>
+                <a href="#historyPanel" class="button rightButton slideleft big-icon icon-database"></a>
+                <!-- Multi Function Display -->
+                <div class="mfd">
+                    <span id="count_val" class="mfd-display">00000</span>
+                    <span id="count_unit" class="mfd-unit">CPM</span>
+                    <span id="edr_val" class="mfd-display">00000</span>
+                    <span id="edr_unit" class="mfd-unit">uSv</span>
+                    <span id="lvl_val" class="mfd-display">0</span>
+                    <span id="lvl_unit" class="mfd-unit">RC</span>
+                    <span id="userGeoStatus" class="mfd-display mfd-icon icon-geo-unlocked"></span>
+                    <span id="userGeoLoc" class="mfd-display"></span>
+                </div>
+            </div>
 
-      <div style="padding-top: 40px; border: 0px solid red; height: 5%; min-height: 50px; width: 99% !important; max-width: 99% !important; min-width: 99% !important; margin: 0 auto !important; display: inline-block; text-align: center;">
-       <div id="status_radcon" >0</div>
-       <progress id="statusGauge" max="100" value="60" style="width: 100%; height: 25px; border-radius: 5px; background: #282828;"><strong>0.27 uSv/h</strong></progress>
-       <div id="status_radcon_next" >2</div>
-      </div>
+            <!-- Main Instrument -->
+            <div id="mainInstrument" class="instrument">
 
+                <div id="gaugeContainer" class="instrument-container">
 
-     <div id="status_big_wrap" style="height: 100%; width: 99%; margin: 0 auto;">
-      <div class="section group status_big">
-	     <div class="col span_1_of_2">
-        <div class="display_label"><span class="label_txt">CPS</span></div>
-        <div id="status_cps" class="display_num">5</div>
-	     </div>
-	     <div class="col span_1_of_2">
-        <div class="display_label">CPM</div>
-        <div id="status_cpm" class="display_num">52</div>
-       </div>
-     </div>
+                    <div style="padding-top: 40px; border: 0px solid red; height: 5%; min-height: 50px; width: 99% !important; max-width: 99% !important; min-width: 99% !important; margin: 0 auto !important; display: inline-block; text-align: center;">
+                        <div id="status_radcon">0</div>
+                        <progress id="statusGauge" max="100" value="60" style="width: 100%; height: 25px; border-radius: 5px; background: #282828;"><strong>0.27 uSv/h</strong>
+                        </progress>
+                        <div id="status_radcon_next">2</div>
+                    </div>
 
 
-     <div class="section group status_big">
-	     <div class="col span_1_of_2">
-        <div class="display_label">EDR</div>
-        <div id="status_edr_val" class="display_num">5</div>
-	     </div>
-	     <div class="col span_1_of_2">
-        <div class="display_label">mREM/h</div>
-        <div id="status_rem" class="display_num">52</div>
-       </div>
-     </div>
+                    <div id="status_big_wrap" style="height: 100%; width: 99%; margin: 0 auto;">
+                        <div class="section group status_big">
+                            <div class="col span_1_of_2">
+                                <div class="display_label"><span class="label_txt">CPS</span>
+                                </div>
+                                <div id="status_cps" class="display_num">5</div>
+                            </div>
+                            <div class="col span_1_of_2">
+                                <div class="display_label">CPM</div>
+                                <div id="status_cpm" class="display_num">52</div>
+                            </div>
+                        </div>
 
-     <div class="section group status_big">
-	     <div class="col span_1_of_2">
-        <div class="display_label">Avg 15M EDR</div>
-        <div id="status_avg_15min" class="display_num">5</div>
-	     </div>
-	     <div class="col span_1_of_2">
-        <div class="display_label">24H Dose</div>
-        <div id="status_24h_dose" class="display_num">52</div>
-       </div>
-     </div>
 
-     <div class="section group status_big">
-	    <div class="col span_1_of_2">
-       <div class="display_label">ETMAD</div>
-       <div id="status_etm" class="display_num">5</div>
-	    </div>
-	    <div class="col span_1_of_2">
-       <div class="display_label">Dosimeter</div>
-       <div id="status_dosiemeter" class="display_num">52</div>
-       </div>
-     </div>
-    </div>
+                        <div class="section group status_big">
+                            <div class="col span_1_of_2">
+                                <div class="display_label">EDR</div>
+                                <div id="status_edr_val" class="display_num">5</div>
+                            </div>
+                            <div class="col span_1_of_2">
+                                <div class="display_label">mREM/h</div>
+                                <div id="status_rem" class="display_num">52</div>
+                            </div>
+                        </div>
 
-     </div>
-     <div id="chartContainer" class="instrument-container" style="display: none"></div>
-     <div id="traceContainer" class="instrument-container" style="display: none"><canvas id="traceCanvas"></canvas></div>
-     <div class="instrument-control-container">
-      <a href="#" id="toggleGauge" class="instrument-control viewableControl enabled">
-       <span class="icon-gauge"></span>
-       <span class="text-icon hide-on-900">Meters</span>
-      </a>
-      <a href="#" id="toggleTrace" class="instrument-control">
-       <span class="big-icon icon-eye-1"></span>
-       <span class="text-icon hide-on-900">Tracer</span>
-      </a>
-      <a href="#" id="live15m" class="instrument-control live-control" data-seconds=900>
-       <span>15M</span>
-       <span class="icon-chart-area hide-on-900"></span>
-      </a>
-      <a href="#" id="live60m" class="instrument-control live-control" data-seconds=3600>
-       <span>60M</span>
-       <span class="icon-chart-area hide-on-900"></span>
-      </a>
-      <a href="#" id="live24h" class="instrument-control live-control" data-seconds=86400>
-       <span>24H</span>
-       <span class="icon-chart-area hide-on-900"></span>
-      </a>
-      <a href="#" id="toggleAudio" class="instrument-control">
-       <span class="icon-tick-off"></span>
-       <span class="text-icon hide-on-900">Ticks</span>
-      </a>
-     </div>
-     <div id="simNotify1">Simulation</div>
-    </div>
+                        <div class="section group status_big">
+                            <div class="col span_1_of_2">
+                                <div class="display_label">Avg 15M EDR</div>
+                                <div id="status_avg_15min" class="display_num">5</div>
+                            </div>
+                            <div class="col span_1_of_2">
+                                <div class="display_label">24H Dose</div>
+                                <div id="status_24h_dose" class="display_num">52</div>
+                            </div>
+                        </div>
 
-   </div>
+                        <div class="section group status_big">
+                            <div class="col span_1_of_2">
+                                <div class="display_label">ETMAD</div>
+                                <div id="status_etm" class="display_num">5</div>
+                            </div>
+                            <div class="col span_1_of_2">
+                                <div class="display_label">Dosimeter</div>
+                                <div id="status_dosiemeter" class="display_num">52</div>
+                            </div>
+                        </div>
+                    </div>
 
-   <!-- History Panel -->
-   <div id="historyPanel">
-    <div class="toolbar"><h1>History</h1><a href="#mainPanel" class="button leftButton slideright">Live</a></div>
-    <div id="historyInstrument" class="instrument">
-     <div id="historyContainer" class="instrument-container"></div>
-     <div class="instrument-control-container">
-      <a href="#" id="showModalDateRanger" class="instrument-control">CAL</a>
-      <a href="#" id="toggleLogScale" class="instrument-control">LOG</a>
-     </div>
-    </div>
-   </div>
+                </div>
+                <div id="chartContainer" class="instrument-container" style="display: none"></div>
+                <div id="traceContainer" class="instrument-container" style="display: none">
+                    <canvas id="traceCanvas"></canvas>
+                </div>
+                <div class="instrument-control-container">
+                    <a href="#" id="toggleGauge" class="instrument-control viewableControl enabled">
+                        <span class="icon-gauge"></span>
+                        <span class="text-icon hide-on-900">Meters</span>
+                    </a>
+                    <a href="#" id="toggleTrace" class="instrument-control">
+                        <span class="big-icon icon-eye-1"></span>
+                        <span class="text-icon hide-on-900">Tracer</span>
+                    </a>
+                    <a href="#" id="live15m" class="instrument-control live-control" data-seconds=900>
+                        <span>15M</span>
+                        <span class="icon-chart-area hide-on-900"></span>
+                    </a>
+                    <a href="#" id="live60m" class="instrument-control live-control" data-seconds=3600>
+                        <span>60M</span>
+                        <span class="icon-chart-area hide-on-900"></span>
+                    </a>
+                    <a href="#" id="live24h" class="instrument-control live-control" data-seconds=86400>
+                        <span>24H</span>
+                        <span class="icon-chart-area hide-on-900"></span>
+                    </a>
+                    <a href="#" id="toggleAudio" class="instrument-control">
+                        <span class="icon-tick-off"></span>
+                        <span class="text-icon hide-on-900">Ticks</span>
+                    </a>
+                </div>
+                <div id="simNotify1">Simulation</div>
+            </div>
 
-   <!-- Options Panel -->
-   <div id="optionsPanel">
-    <div class="toolbar"><h1>Options</h1><a href="#" class="goback button leftButton">Back</a><a href="#mainPanel" class="button rightButton slideleft">Live</a></div>
-     <div class="scroll">
-      <h2>Client Settings</h2>
-      <ul class="rounded" id="client_settings"><li><input type="url" placeholder="http://host:port/" id="cnf_ws_url" /></li></ul>
-      <ul class="rounded">
-      <li><a href="#serverOptionsPanel" class="dissolve">Server Settings</a></li>
-      <li><a href="#about" class="dissolve">About</a></li>
-     </ul>
-    </div>
-   </div>
-
-   <!-- Server Options Panel -->
-   <div id="serverOptionsPanel">
-    <div class="toolbar">
-     <a href="#" class="goback button leftButton">Back</a>
-     <a href="#mainPanel" class="button rightButton slideleft">Live</a>
-     <div style="width: 65% !important; margin: 0 auto; border: 0px solid red; text-align: center;">
-      <div id="cnf_node_name" style="color: #ffffff; font-weight: bold; padding-top: 10px;">Node Name</div>
-      <div id="cnf_node_uuid" style="color: #d8d3c5; height: 20px; line-height: 20px; font-size: 10px; overflow: hidden; text-overflow: ellipsis">00000000-0000-0000-0000-000000000000</div>
-     </div>
-    </div>
-
-    <div class="scroll">
-
-     <h2>OPMode</h2>
-     <ul class="rounded">
-      <li class="option_radio">
-       <input type="radio" name="geoMode" value="mobile" id="server_cnf_gps_mode_mobile" checked="checked" />
-       <label for="server_cnf_gps_mode_mobile" class="action">
-        <span class="input_container"></span>
-        <span class="label_text">Mobile</span>
-       </label>
-      </li>
-      <li class="option_radio">
-       <input type="radio" name="geoMode" value="stationary" id="server_cnf_gps_mode_stationary" />
-       <label for="server_cnf_gps_mode_stationary" class="action">
-        <span class="input_container"></span>
-        <span class="label_text">Stationary</span>
-       </label>
-       <section class="options-inline-container geo-suboptions-container options-inline-text">
-        <div style="width: 33% !important; max-width: 33% !important; min-width: 33% !important; margin-left: 7px !important;" class="display options-display"><label for="server_cnf_node_lat" class="display_label"><span>Lat</span></label><input type="number" id="server_cnf_node_lat" class="display_num" value="00.00000" min="-90" max="90" /></div>
-        <div style="width: 33% !important; max-width: 33% !important; min-width: 33% !important;" class="display options-display"><label for="server_cnf_node_lon" class="display_label"><span>Lon</span></label><input type="number" id="server_cnf_node_lon" class="display_num" value="00.00000" min="-180" max="180" /></div>
-        <div style="width: 17% !important; max-width: 17% !important; min-width: 17% !important;" class="display options-display"><label for="server_cnf_node_alt" class="display_label"><span>Alt</span></label><input type="number" id="server_cnf_node_alt" class="display_num" value="0" min="-1000" max="20000" /></div>
-        <div style="width: 10% !important; max-width: 10% !important; min-width: 10% !important; margin: 0 !important;"><span id="geoSnapshot" class="button icon-target" style="text-align: center; margin: 0; padding: 0; height: 35px; line-height: 35px; display: inline-block; text-overflow: ellipsis;"></span></div>
-       </section>
-      </li>
-     </ul>
-
-     <h2>Data Sources</h2>
-     <ul class="rounded">
-      <li class="option_radio">
-       <input type="radio" name="source" value="env" id="server_cnf_source_env" />
-       <label for="server_cnf_source_env" class="action">
-        <span class="input_container"></span>
-        <span class="label_text">Environment</span>
-       </label>
-       <section class="env-suboptions-container options-inline-container">
-        <div style="line-height: 50px; width: 35%; padding-left: 7px">Capability/Sensitivity</div>
-        <div class="options-inline-radio" style="width:60%; max-width: 60%; min-width: 60%">
-         <div style="width: 30%"><input type="radio" value="c" title="" id="cgw_c" name="server_cnf_geigercounter_window" /><label class="corner-top-right corner-bottom-right" for="cgw_c">&gamma; only</label></div>
-         <div style="width: 30%"><input type="radio" value="bc" title="" id="cgw_bc" name="server_cnf_geigercounter_window" /><label for="cgw_bc">&beta;,&gamma;</label></div>
-         <div style="width: 30%"><input type="radio" value="abc" title="" id="cgw_abc" name="server_cnf_geigercounter_window" checked="checked" /><label class="corner-top-left corner-bottom-left" for="cgw_abc">&alpha;,&beta;,&gamma;</label></div>
         </div>
-       </section>
-      </li>
-      <li class="option_radio">
-       <input type="radio" name="source" value="test" id="server_cnf_source_test" />
-       <label for="server_cnf_source_test" class="action">
-        <span class="input_container"></span>
-        <span class="label_text">Test</span>
-       </label>
-      </li>
-      <li class="option_radio">
-       <input type="radio" name="source" value="sim" id="server_cnf_source_sim" checked="checked" />
-       <label for="server_cnf_source_sim" class="action">
-        <span class="input_container"></span>
-        <span class="label_text">Tick Simulator</span>
-       </label>
-       <section class="options-inline-container options-inline-text sim-suboptions-container">
-        <div style="width: 29% !important; max-width: 29% !important; min-width: 29% !important; margin: 0 !important;margin-top: 6px !important;margin-left: 7px !important;" class="display options-display"><label for="server_cnf_sim_dose_rate" class="display_label"><span>&micro;Sv/h</span></label><input type="number" id="server_cnf_sim_dose_rate" class="display_num" min="0.01" max="1000" /></div>
-        <div style="height: 40px; width: 69% !important; max-width: 69% !important; min-width: 69% !important; margin: 0 !important; display: inline-block; text-align: center;"><input type="range" min="0" max="100" value="1" step="1" id="simRanger" class="options-range-input"></div>
-       </section>
-      </li>
-     </ul>
 
-     <h2>Entropy Generator</h2>
-     <ul class="rounded">
-      <li>
-       <div class="options-inline-container" style="width:100%">
-        <div class="options-inline-text" style="width: 60%">
-        <div style="width: 70% !important; max-width: 70% !important; min-width: 70% !important; margin-left: 7px !important;" class="display options-display"><label for="server_entropy_pool" class="display_label"><span>Byte</span></label><input type="number" id="server_entropy_pool" class="display_num" value="4" disabled /></div>
-        <div style="width: 25% !important; max-width: 50px !important; margin: 0 !important; color: #75890c; font-size: 24px" class="button options-button"><span id="startEntropyDownload" class="icon-download" style="text-align: center; margin: 0; padding: 0; height: 35px; line-height: 35px; display: inline-block; text-overflow: ellipsis;"></span></div>
+        <!-- History Panel -->
+        <div id="historyPanel">
+            <div class="toolbar">
+                <h1>History</h1><a href="#mainPanel" class="button leftButton slideright">Live</a>
+            </div>
+            <div id="historyInstrument" class="instrument">
+                <div id="historyContainer" class="instrument-container"></div>
+                <div class="instrument-control-container">
+                    <a href="#" id="showModalDateRanger" class="instrument-control">CAL</a>
+                    <a href="#" id="toggleLogScale" class="instrument-control">LOG</a>
+                </div>
+            </div>
         </div>
-        <div class="options-inline-radio" style="width:30%; max-width: 30%; min-width: 30%">
-         <div style="width: 45%"><input type="radio" value="on" id="server_cnf_entropy_enabled" name="server_cnf_entropy" /><label class="corner-top-right corner-bottom-right" for="server_cnf_entropy_enabled">ON</label></div>
-         <div style="width: 45%"><input type="radio" value="off" id="server_cnf_entropy_disabled" name="server_cnf_entropy" /><label class="corner-top-left corner-bottom-left" for="server_cnf_entropy_disabled">OFF</label></div>
+
+        <!-- Options Panel -->
+        <div id="optionsPanel">
+            <div class="toolbar">
+                <h1>Options</h1><a href="#" class="goback button leftButton">Back</a><a href="#mainPanel" class="button rightButton slideleft">Live</a>
+            </div>
+            <div class="scroll">
+                <h2>Client Settings</h2>
+                <ul class="rounded" id="client_settings">
+                    <li>
+                        <input type="url" placeholder="http://host:port/" id="cnf_ws_url" />
+                    </li>
+                </ul>
+                <ul class="rounded">
+                    <li><a href="#serverOptionsPanel" class="dissolve">Server Settings</a>
+                    </li>
+                    <li><a href="#about" class="dissolve">About</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-       </div>
-      </li>
-     </ul>
-     <a href="#" class="button icon-reload" style="display: inline-block" id="reloadSettings"></a>
-     <a href="#" class="button" style="display: inline-block" id="resetSettings">Restore Defaults</a>
-     <a href="#" class="button green" style="display: inline-block" id="showModalAuth">Save Settings</a>
-    </div>
-   </div>
 
-   <!-- About -->
-   <div id="about">
-    <div class="toolbar"><h1>About</h1><a href="#" class="goback button leftButton">Back</a><a href="#mainPanel" class="button rightButton slideleft">Live</a></div>
-    <div class="info view scroll" style="text-align: justify; max-width: 850px !important; margin: 0 auto; padding: 15px !important; background: transparent !important;">
-        <div style="width: 100%; text-align: center;">
-         <div style="display: inline-block; width: 49%;  min-width: 200px; text-align: center;"><img src="assets/img/apollo-ng-badge.svg" width="205" alt="Apollo-NG Mission Badge" /></div>
-        <div style="display: inline-block; width: 49%; min-width: 200px; text-align: center;"><img src="assets/img/orm_new_dark_web.svg" width="200" alt="ORM Mission Badge" /></div>
-         </div>
-        <p></p>
-        <h2>Attributions</h2>
-        <table style="width: 100%">
-         <tr><td>zepto.js</td><td>Aerogel-weight jQuery-compatible JavaScript library</td><td>MIT</td></tr>
-         <tr><td>jqtouch</td><td>A Zepto/jQuery plugin focussed on mobile web development</td><td>MIT</td></tr>
-         <tr><td>dygraphs</td><td>Fast, flexible and lightweight JavaScript charting library</td><td>MIT</td></tr>
-         <tr><td><a href="http://fgnass.github.io/spin.js/" target="_blank">spin.js</a></td><td>Dynamically creates spinning activity indicators</td><td>MIT</td></tr>
-         <tr><td>ui-bell.mp3</td><td><a href="http://www.freesound.org/people/unfa/sounds/215416/" target="_blank">Freesound/Unfa</a></td><td>CC-BY</td></tr>
-        </table>
-        <a class="donateLink" href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&amp;business=paypal@domain.net&amp;item_name=Donation">Donate</a>
-        <h2>License</h2>
-        <p>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
-           the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
-        <p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-           MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</p>
-        <p>You should have received a copy of the GNU General Public License along with this program.
-           If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
-    </div>
-   </div>
+        <!-- Server Options Panel -->
+        <div id="serverOptionsPanel">
+            <div class="toolbar">
+                <a href="#" class="goback button leftButton">Back</a>
+                <a href="#mainPanel" class="button rightButton slideleft">Live</a>
+                <div style="width: 65% !important; margin: 0 auto; border: 0px solid red; text-align: center;">
+                    <div id="cnf_node_name" style="color: #ffffff; font-weight: bold; padding-top: 10px;">Node Name</div>
+                    <div id="cnf_node_uuid" style="color: #d8d3c5; height: 20px; line-height: 20px; font-size: 10px; overflow: hidden; text-overflow: ellipsis">00000000-0000-0000-0000-000000000000</div>
+                </div>
+            </div>
 
-  </div>
-  <!-- End Jqt control -->
+            <div class="scroll">
 
-  <!-- Modals -->
-  <div id="modalAuth" class="modal md-animation">
-   <div class="md-content red">
-    <h3 class="icon-attention md-red">&nbsp;Authorization required</h3>
-    <div>
-     <input type="password" placeholder="Please enter your password as stored in local.cfg">
-    </div>
-    <div class="md-footer">
-     <a class="md-close" onclick="$('#modalAuth').removeClass('md-show');">Cancel</a>
-     <a class="md-close md-green dissolve" id="saveServerSettings" href="#serverOptionsPanel" onclick="$('#modalAuth').removeClass('md-show');">Save</a>
-    </div>
-   </div>
-  </div>
+                <h2>OPMode</h2>
+                <ul class="rounded">
+                    <li class="option_radio">
+                        <input type="radio" name="geoMode" value="mobile" id="server_cnf_gps_mode_mobile" checked="checked" />
+                        <label for="server_cnf_gps_mode_mobile" class="action">
+                            <span class="input_container"></span>
+                            <span class="label_text">Mobile</span>
+                        </label>
+                    </li>
+                    <li class="option_radio">
+                        <input type="radio" name="geoMode" value="stationary" id="server_cnf_gps_mode_stationary" />
+                        <label for="server_cnf_gps_mode_stationary" class="action">
+                            <span class="input_container"></span>
+                            <span class="label_text">Stationary</span>
+                        </label>
+                        <section class="options-inline-container geo-suboptions-container options-inline-text">
+                            <div style="width: 33% !important; max-width: 33% !important; min-width: 33% !important; margin-left: 7px !important;" class="display options-display">
+                                <label for="server_cnf_node_lat" class="display_label"><span>Lat</span>
+                                </label>
+                                <input type="number" id="server_cnf_node_lat" class="display_num" value="00.00000" min="-90" max="90" />
+                            </div>
+                            <div style="width: 33% !important; max-width: 33% !important; min-width: 33% !important;" class="display options-display">
+                                <label for="server_cnf_node_lon" class="display_label"><span>Lon</span>
+                                </label>
+                                <input type="number" id="server_cnf_node_lon" class="display_num" value="00.00000" min="-180" max="180" />
+                            </div>
+                            <div style="width: 17% !important; max-width: 17% !important; min-width: 17% !important;" class="display options-display">
+                                <label for="server_cnf_node_alt" class="display_label"><span>Alt</span>
+                                </label>
+                                <input type="number" id="server_cnf_node_alt" class="display_num" value="0" min="-1000" max="20000" />
+                            </div>
+                            <div style="width: 10% !important; max-width: 10% !important; min-width: 10% !important; margin: 0 !important;"><span id="geoSnapshot" class="button icon-target" style="text-align: center; margin: 0; padding: 0; height: 35px; line-height: 35px; display: inline-block; text-overflow: ellipsis;"></span>
+                            </div>
+                        </section>
+                    </li>
+                </ul>
 
-  <div id="modalAnnotation" class="modal md-animation">
-   <div class="md-content">
-    <h3 class="icon-pencil">&nbsp;Event Annotation<a href="#mainPanel" class="button icon-cancel" onclick="$('#modalRADCON').removeClass('md-show');"></a></h3>
-    <div>
-     <span id="eventTS">2014.03.08</span>
-     <span id="eventEDR">20 uSv/h</span>
-    </div>
-    <div class="textarea">
-     <textarea id="eventText">Enter your text here...</textarea>
-    </div>
-    <div class="md-footer">
-     <a class="md-close" onclick="$('#modalAnnotation').removeClass('md-show');">Cancel</a>
-     <a id='annotationSave' class="md-close md-green dissolve"  onclick="$('#modalAnnotation').removeClass('md-show');">Save</a>
-    </div>
-   </div>
-  </div>
+                <h2>Data Sources</h2>
+                <ul class="rounded">
+                    <li class="option_radio">
+                        <input type="radio" name="source" value="env" id="server_cnf_source_env" />
+                        <label for="server_cnf_source_env" class="action">
+                            <span class="input_container"></span>
+                            <span class="label_text">Environment</span>
+                        </label>
+                        <section class="env-suboptions-container options-inline-container">
+                            <div style="line-height: 50px; width: 35%; padding-left: 7px">Capability/Sensitivity</div>
+                            <div class="options-inline-radio" style="width:60%; max-width: 60%; min-width: 60%">
+                                <div style="width: 30%">
+                                    <input type="radio" value="c" title="" id="cgw_c" name="server_cnf_geigercounter_window" />
+                                    <label class="corner-top-right corner-bottom-right" for="cgw_c">&gamma; only</label>
+                                </div>
+                                <div style="width: 30%">
+                                    <input type="radio" value="bc" title="" id="cgw_bc" name="server_cnf_geigercounter_window" />
+                                    <label for="cgw_bc">&beta;,&gamma;</label>
+                                </div>
+                                <div style="width: 30%">
+                                    <input type="radio" value="abc" title="" id="cgw_abc" name="server_cnf_geigercounter_window" checked="checked" />
+                                    <label class="corner-top-left corner-bottom-left" for="cgw_abc">&alpha;,&beta;,&gamma;</label>
+                                </div>
+                            </div>
+                        </section>
+                    </li>
+                    <li class="option_radio">
+                        <input type="radio" name="source" value="test" id="server_cnf_source_test" />
+                        <label for="server_cnf_source_test" class="action">
+                            <span class="input_container"></span>
+                            <span class="label_text">Test</span>
+                        </label>
+                    </li>
+                    <li class="option_radio">
+                        <input type="radio" name="source" value="sim" id="server_cnf_source_sim" checked="checked" />
+                        <label for="server_cnf_source_sim" class="action">
+                            <span class="input_container"></span>
+                            <span class="label_text">Tick Simulator</span>
+                        </label>
+                        <section class="options-inline-container options-inline-text sim-suboptions-container">
+                            <div style="width: 29% !important; max-width: 29% !important; min-width: 29% !important; margin: 0 !important;margin-top: 6px !important;margin-left: 7px !important;" class="display options-display">
+                                <label for="server_cnf_sim_dose_rate" class="display_label"><span>&micro;Sv/h</span>
+                                </label>
+                                <input type="number" id="server_cnf_sim_dose_rate" class="display_num" min="0.01" max="1000" />
+                            </div>
+                            <div style="height: 40px; width: 69% !important; max-width: 69% !important; min-width: 69% !important; margin: 0 !important; display: inline-block; text-align: center;">
+                                <input type="range" min="0" max="100" value="1" step="1" id="simRanger" class="options-range-input">
+                            </div>
+                        </section>
+                    </li>
+                </ul>
 
-  <div id="modalDateRanger" class="modal md-animation">
-   <div class="md-content green">
-    <h3 class="icon-attention md-green">&nbsp;Select date range</h3>
-    <div id="calendarContainer">
-      <label for="calendarYear">Year</label>
-      <select id="calendarYear" name="year">
-       <option value="ALL" selected>all</option>
-       <option value="2014">2014</option>
-      </select>
-      <br />
-      <label for="calendarMonth">Month</label>
-      <select id="calendarMonth" name="month">
-       <option value="ALL" selected>all</option>
-       <option value="2">Feb</option>
-       <option value="3">Mar</option>
-      </select>
+                <h2>Entropy Generator</h2>
+                <ul class="rounded">
+                    <li>
+                        <div class="options-inline-container" style="width:100%">
+                            <div class="options-inline-text" style="width: 60%">
+                                <div style="width: 70% !important; max-width: 70% !important; min-width: 70% !important; margin-left: 7px !important;" class="display options-display">
+                                    <label for="server_entropy_pool" class="display_label"><span>Byte</span>
+                                    </label>
+                                    <input type="number" id="server_entropy_pool" class="display_num" value="4" disabled />
+                                </div>
+                                <div style="width: 25% !important; max-width: 50px !important; margin: 0 !important; color: #75890c; font-size: 24px" class="button options-button"><span id="startEntropyDownload" class="icon-download" style="text-align: center; margin: 0; padding: 0; height: 35px; line-height: 35px; display: inline-block; text-overflow: ellipsis;"></span>
+                                </div>
+                            </div>
+                            <div class="options-inline-radio" style="width:30%; max-width: 30%; min-width: 30%">
+                                <div style="width: 45%">
+                                    <input type="radio" value="on" id="server_cnf_entropy_enabled" name="server_cnf_entropy" />
+                                    <label class="corner-top-right corner-bottom-right" for="server_cnf_entropy_enabled">ON</label>
+                                </div>
+                                <div style="width: 45%">
+                                    <input type="radio" value="off" id="server_cnf_entropy_disabled" name="server_cnf_entropy" />
+                                    <label class="corner-top-left corner-bottom-left" for="server_cnf_entropy_disabled">OFF</label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <a href="#" class="button icon-reload" style="display: inline-block" id="reloadSettings"></a>
+                <a href="#" class="button" style="display: inline-block" id="resetSettings">Restore Defaults</a>
+                <a href="#" class="button green" style="display: inline-block" id="showModalAuth">Save Settings</a>
+            </div>
+        </div>
+
+        <!-- About -->
+        <div id="about">
+            <div class="toolbar">
+                <h1>About</h1><a href="#" class="goback button leftButton">Back</a><a href="#mainPanel" class="button rightButton slideleft">Live</a>
+            </div>
+            <div class="info view scroll" style="text-align: justify; max-width: 850px !important; margin: 0 auto; padding: 15px !important; background: transparent !important;">
+                <div style="width: 100%; text-align: center;">
+                    <div style="display: inline-block; width: 49%;  min-width: 200px; text-align: center;">
+                        <img src="assets/img/apollo-ng-badge.svg" width="205" alt="Apollo-NG Mission Badge" />
+                    </div>
+                    <div style="display: inline-block; width: 49%; min-width: 200px; text-align: center;">
+                        <img src="assets/img/orm_new_dark_web.svg" width="200" alt="ORM Mission Badge" />
+                    </div>
+                </div>
+                <p></p>
+                <h2>Attributions</h2>
+                <table style="width: 100%">
+                    <tr>
+                        <td>zepto.js</td>
+                        <td>Aerogel-weight jQuery-compatible JavaScript library</td>
+                        <td>MIT</td>
+                    </tr>
+                    <tr>
+                        <td>jqtouch</td>
+                        <td>A Zepto/jQuery plugin focussed on mobile web development</td>
+                        <td>MIT</td>
+                    </tr>
+                    <tr>
+                        <td>dygraphs</td>
+                        <td>Fast, flexible and lightweight JavaScript charting library</td>
+                        <td>MIT</td>
+                    </tr>
+                    <tr>
+                        <td><a href="http://fgnass.github.io/spin.js/" target="_blank">spin.js</a>
+                        </td>
+                        <td>Dynamically creates spinning activity indicators</td>
+                        <td>MIT</td>
+                    </tr>
+                    <tr>
+                        <td>ui-bell.mp3</td>
+                        <td><a href="http://www.freesound.org/people/unfa/sounds/215416/" target="_blank">Freesound/Unfa</a>
+                        </td>
+                        <td>CC-BY</td>
+                    </tr>
+                </table>
+                <a class="donateLink" href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&amp;business=paypal@domain.net&amp;item_name=Donation">Donate</a>
+                <h2>License</h2>
+                <p>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+                <p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</p>
+                <p>You should have received a copy of the GNU General Public License along with this program. If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
+            </div>
+        </div>
+
     </div>
-    <div class="md-footer">
-     <a class="md-close" onclick="$('#modalDateRanger').removeClass('md-show');">Cancel</a>
+    <!-- End Jqt control -->
+
+    <!-- Modals -->
+    <div id="modalAuth" class="modal md-animation">
+        <div class="md-content red">
+            <h3 class="icon-attention md-red">&nbsp;Authorization required</h3>
+            <div>
+                <input type="password" placeholder="Please enter your password as stored in local.cfg">
+            </div>
+            <div class="md-footer">
+                <a class="md-close" onclick="$('#modalAuth').removeClass('md-show');">Cancel</a>
+                <a class="md-close md-green dissolve" id="saveServerSettings" href="#serverOptionsPanel" onclick="$('#modalAuth').removeClass('md-show');">Save</a>
+            </div>
+        </div>
     </div>
-   </div>
-  </div>
 
-  <div id="modalRADCON" class="modal md-animation">
-   <div class="md-content">
-    <h3>RADCON<a href="#mainPanel" class="button icon-cancel" onclick="$('#modalRADCON').removeClass('md-show');"></a></h3>
-    <div class="display">
-     <table>
-      <tbody>
-       <tr id="rc0" class="rc-row green"><td class="rc-cat green corner-top-left" id="rcCatLow" rowspan="3"><span class="side">LOW</span></td><td class="num">0</td><td class="edr">0 - 0.1 &micro;Sv/h</td><td class="corner-top-right">Background/Most Cities </td></tr>
-       <tr id="rc1" class="rc-row green"><td class="num">1</td><td class="edr">0.1 - 1 uSv/h</td><td>Airplane / High Jet </td></tr>
-       <tr id="rc2" class="rc-row green"><td class="num">2</td><td class="edr">1 - 10 uSv/h</td><td>Max. for nuclear Workers </td></tr>
-       <tr id="rc3" class="rc-row yellow"><td class="rc-cat yellow" id="rcCatMed" rowspan="3"><span class="side">MED</span></td><td class="num">3</td><td class="edr">10 - 100 uSv/h</td><td></td></tr>
-       <tr id="rc4" class="rc-row yellow"><td class="num">4</td><td class="edr">100 - 1000 uSv/h</td><td>Fukushima Prefecture </td></tr>
-       <tr id="rc5" class="rc-row yellow"><td class="num">5</td><td class="edr">1 - 10 mSv/h</td><td>Fukushima Plant </td></tr>
-       <tr id="rc6" class="rc-row red"><td class="rc-cat red corner-bottom-left" id="rcCatHigh" rowspan="3"><span class="side">HIGH</span></td><td class="num">6</td><td class="edr">10 - 100 mSv/h</td><td>Radiation Poisoning starts </td></tr>
-       <tr id="rc7" class="rc-row red"><td class="num">7</td><td class="edr">100 - 1000 mSv/h</td><td>Chernobyl Worker avg. </td></tr>
-       <tr id="rc8" class="rc-row red"><td class="num">8</td><td class="edr">> 1 Sv/h</td><td class="corner-bottom-right">Chernobyl Core </td></tr>
-      </tbody>
-     </table>
+    <div id="modalAnnotation" class="modal md-animation">
+        <div class="md-content">
+            <h3 class="icon-pencil">&nbsp;Event Annotation<a href="#mainPanel" class="button icon-cancel" onclick="$('#modalRADCON').removeClass('md-show');"></a></h3>
+            <div>
+                <span id="eventTS">2014.03.08</span>
+                <span id="eventEDR">20 uSv/h</span>
+            </div>
+            <div class="textarea">
+                <textarea id="eventText">Enter your text here...</textarea>
+            </div>
+            <div class="md-footer">
+                <a class="md-close" onclick="$('#modalAnnotation').removeClass('md-show');">Cancel</a>
+                <a id='annotationSave' class="md-close md-green dissolve" onclick="$('#modalAnnotation').removeClass('md-show');">Save</a>
+            </div>
+        </div>
     </div>
-   </div>
-  </div>
 
-  <div id="modalError" class="modal md-animation">
-   <div class="md-content">
-    <h3 id="modalErrorTitle" class="icon-attention md-red"></h3>
-    <div id="modalErrorMsg"></div>
-    <div id="modalErrorAction" class="md-footer"></div>
-   </div>
-  </div>
+    <div id="modalDateRanger" class="modal md-animation">
+        <div class="md-content green">
+            <h3 class="icon-attention md-green">&nbsp;Select date range</h3>
+            <div id="calendarContainer">
+                <label for="calendarYear">Year</label>
+                <select id="calendarYear" name="year">
+                    <option value="ALL" selected>all</option>
+                    <option value="2014">2014</option>
+                </select>
+                <br />
+                <label for="calendarMonth">Month</label>
+                <select id="calendarMonth" name="month">
+                    <option value="ALL" selected>all</option>
+                    <option value="2">Feb</option>
+                    <option value="3">Mar</option>
+                </select>
+            </div>
+            <div class="md-footer">
+                <a class="md-close" onclick="$('#modalDateRanger').removeClass('md-show');">Cancel</a>
+            </div>
+        </div>
+    </div>
 
-  <div class="md-overlay"></div>
-  <div class="splash"></div>
+    <div id="modalRADCON" class="modal md-animation">
+        <div class="md-content">
+            <h3>RADCON<a href="#mainPanel" class="button icon-cancel" onclick="$('#modalRADCON').removeClass('md-show');"></a></h3>
+            <div class="display">
+                <table>
+                    <tbody>
+                        <tr id="rc0" class="rc-row green">
+                            <td class="rc-cat green corner-top-left" id="rcCatLow" rowspan="3"><span class="side">LOW</span></td>
+                            <td class="num">0</td>
+                            <td class="edr">0 - 0.1 &micro;Sv/h</td>
+                            <td class="corner-top-right">Background/Most Cities</td>
+                        </tr>
+                        <tr id="rc1" class="rc-row green">
+                            <td class="num">1</td>
+                            <td class="edr">0.1 - 1 uSv/h</td>
+                            <td>Airplane / High Jet</td>
+                        </tr>
+                        <tr id="rc2" class="rc-row green">
+                            <td class="num">2</td>
+                            <td class="edr">1 - 10 uSv/h</td>
+                            <td>Max. for nuclear Workers</td>
+                        </tr>
+                        <tr id="rc3" class="rc-row yellow">
+                            <td class="rc-cat yellow" id="rcCatMed" rowspan="3"><span class="side">MED</span></td>
+                            <td class="num">3</td>
+                            <td class="edr">10 - 100 uSv/h</td>
+                            <td></td>
+                        </tr>
+                        <tr id="rc4" class="rc-row yellow">
+                            <td class="num">4</td>
+                            <td class="edr">100 - 1000 uSv/h</td>
+                            <td>Fukushima Prefecture</td>
+                        </tr>
+                        <tr id="rc5" class="rc-row yellow">
+                            <td class="num">5</td>
+                            <td class="edr">1 - 10 mSv/h</td>
+                            <td>Fukushima Plant</td>
+                        </tr>
+                        <tr id="rc6" class="rc-row red">
+                            <td class="rc-cat red corner-bottom-left" id="rcCatHigh" rowspan="3"><span class="side">HIGH</span></td>
+                            <td class="num">6</td>
+                            <td class="edr">10 - 100 mSv/h</td>
+                            <td>Radiation Poisoning starts</td>
+                        </tr>
+                        <tr id="rc7" class="rc-row red">
+                            <td class="num">7</td>
+                            <td class="edr">100 - 1000 mSv/h</td>
+                            <td>Chernobyl Worker avg.</td>
+                        </tr>
+                        <tr id="rc8" class="rc-row red">
+                            <td class="num">8</td>
+                            <td class="edr">> 1 Sv/h</td>
+                            <td class="corner-bottom-right">Chernobyl Core</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
- </body>
+    <div id="modalError" class="modal md-animation">
+        <div class="md-content">
+            <h3 id="modalErrorTitle" class="icon-attention md-red"></h3>
+            <div id="modalErrorMsg"></div>
+            <div id="modalErrorAction" class="md-footer"></div>
+        </div>
+    </div>
+
+    <div class="md-overlay"></div>
+    <div class="splash"></div>
+
+</body>
 </html>

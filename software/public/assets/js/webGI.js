@@ -3,27 +3,27 @@ if (typeof webGI === 'undefined') {
 }
 
 webGI.conf = {
-    websocket_host : "ws://" + window.location.hostname + ":" +window.location.port,
-    bell_snd : new Audio("assets/snd/ui-bell.mp3"),
-    ui_action : 'click',
-    alerts_enabled : 1,
-    dtc_enabled : 1,
-    gps_hacc : 0
+    websocket_host: "ws://" + window.location.hostname + ":" + window.location.port,
+    bell_snd: new Audio("assets/snd/ui-bell.mp3"),
+    ui_action: 'click',
+    alerts_enabled: 1,
+    dtc_enabled: 1,
+    gps_hacc: 0
 };
 
-webGI.jQT = new $.jQTouch ({
+webGI.jQT = new $.jQTouch({
     icon: 'jqtouch.png',
     statusBar: 'black-translucent',
     preloadImages: []
 });
 
 function initUI() {
-    $('#cnf_ws_url').val("ws://" + window.location.hostname + ":" +window.location.port);
+    $('#cnf_ws_url').val("ws://" + window.location.hostname + ":" + window.location.port);
 
     // Bind UI events
 
     // livechart (15m/60m/24h)
-    $('.live-control').bind(webGI.conf.ui_action,function(event) {
+    $('.live-control').bind(webGI.conf.ui_action, function(event) {
 
         $('#toggleGauge,#toggleTrace').removeClass('enabled');
         $('.live-control').removeClass('enabled');
@@ -37,65 +37,61 @@ function initUI() {
 
     });
 
-    $('#lvl_val, #lvl_unit').bind(webGI.conf.ui_action,function() {
+    $('#lvl_val, #lvl_unit').bind(webGI.conf.ui_action, function() {
         webGI.status.show_radcon();
     });
 
     // CPS/CPM Toggle
-    $('#count_val, #count_unit').bind(webGI.conf.ui_action,function() {
+    $('#count_val, #count_unit').bind(webGI.conf.ui_action, function() {
         webGI.status.toggle_counter_unit();
     });
 
-    $('#userGeoStatus').bind(webGI.conf.ui_action,function() {
+    $('#userGeoStatus').bind(webGI.conf.ui_action, function() {
         webGI.geo.toggle();
     });
 
-    $('#showModalDateRanger').bind(webGI.conf.ui_action,function() {
+    $('#showModalDateRanger').bind(webGI.conf.ui_action, function() {
         $('#modalDateRanger').addClass('md-show');
     });
 
-    $('#showModalAuth').bind(webGI.conf.ui_action,function() {
+    $('#showModalAuth').bind(webGI.conf.ui_action, function() {
         $('#modalAuth').addClass('md-show');
     });
 
-    $('#annotationSave').bind(webGI.conf.ui_action,function() {
+    $('#annotationSave').bind(webGI.conf.ui_action, function() {
         webGI.livechart.save_annotation();
     });
 
-    $('#toggleGauge').bind(webGI.conf.ui_action,function() {
-       $('#toggleTrace').hide(); //FIXME This is bogus???
+    $('#toggleGauge').bind(webGI.conf.ui_action, function() {
+        $('#toggleTrace').hide(); //FIXME This is bogus???
 
-       webGI.tracer.disable();
-       webGI.livechart.disable();
-       webGI.status.enable();
-       updateLayout();
+        webGI.tracer.disable();
+        webGI.livechart.disable();
+        webGI.status.enable();
+        updateLayout();
 
-       $('#toggleGauge').addClass('enabled');
-       $('.live-control, #toggleTrace').removeClass('enabled');
+        $('#toggleGauge').addClass('enabled');
+        $('.live-control, #toggleTrace').removeClass('enabled');
     });
 
-    $('#toggleTrace').bind(webGI.conf.ui_action,function() {
-       webGI.livechart.disable();
-       webGI.status.disable();
-       webGI.tracer.enable();
-       updateLayout();
+    $('#toggleTrace').bind(webGI.conf.ui_action, function() {
+        webGI.livechart.disable();
+        webGI.status.disable();
+        webGI.tracer.enable();
+        updateLayout();
 
-       $('#toggleTrace').addClass('enabled');
-       $('.live-control, #toggleGauge').removeClass('enabled');
+        $('#toggleTrace').addClass('enabled');
+        $('.live-control, #toggleGauge').removeClass('enabled');
     });
 
     // Audio
-    $('#toggleAudio').bind(webGI.conf.ui_action,function()
-    {
-        if(webGI.ticker.enabled)
-        {
+    $('#toggleAudio').bind(webGI.conf.ui_action, function() {
+        if (webGI.ticker.enabled) {
             $('#toggleAudio').removeClass('enabled');
             $('#toggleAudio span:first-child').removeClass('icon-tick-on');
             $('#toggleAudio span:first-child').addClass('icon-tick-off');
             webGI.ticker.disable();
-        }
-        else
-        {
+        } else {
             $('#toggleAudio').addClass('enabled');
             $('#toggleAudio span:first-child').removeClass('icon-tick-off');
             $('#toggleAudio span:first-child').addClass('icon-tick-on');
@@ -103,9 +99,8 @@ function initUI() {
         }
     });
 
-    $('#toggleLogScale').bind(webGI.conf.ui_action,function()
-    {
-        if(!webGI.history.log_scale) {
+    $('#toggleLogScale').bind(webGI.conf.ui_action, function() {
+        if (!webGI.history.log_scale) {
             webGI.history.set_log_scale(true);
             $('#toggleLogScale').addClass('enabled');
         } else {
@@ -138,69 +133,68 @@ function initUI() {
         webGI.jQT.goTo('#mainPanel', 'slideleft');
     });
 
-    $('#geoSnapshot').bind(webGI.conf.ui_action,function() {
+    $('#geoSnapshot').bind(webGI.conf.ui_action, function() {
         webGI.geo.getCurrentPosition(webGI.options.geoSnapshotCallback);
     });
 
-    $('#saveServerSettings').bind(webGI.conf.ui_action,function() {
+    $('#saveServerSettings').bind(webGI.conf.ui_action, function() {
         webGI.options.save();
     });
 
-    $('#reloadSettings').bind(webGI.conf.ui_action,function() {
+    $('#reloadSettings').bind(webGI.conf.ui_action, function() {
         webGI.options.request();
     });
 
-    $('#resetSettings').bind(webGI.conf.ui_action,function() {
+    $('#resetSettings').bind(webGI.conf.ui_action, function() {
         webGI.options.reset();
     });
 
-    $('#startEntropyDownload').bind(webGI.conf.ui_action,function() {
+    $('#startEntropyDownload').bind(webGI.conf.ui_action, function() {
         webGI.options.startEntropyDownload();
     });
 
 
-    $('#simRanger').bind('input', function()
-    {
+    $('#simRanger').bind('input', function() {
         var val = webGI.options.lin2log(this.value);
 
-        if (val >= 10)
-        {
+        if (val >= 10) {
             val = val.toFixed(0);
-            $('#server_cnf_sim_dose_rate').css({ "color": "#F5C43C" });
-        }
-        else
-        {
+            $('#server_cnf_sim_dose_rate').css({
+                "color": "#F5C43C"
+            });
+        } else {
             val = val.toFixed(2);
-            $('#server_cnf_sim_dose_rate').css({ "color": "#75890c" });
+            $('#server_cnf_sim_dose_rate').css({
+                "color": "#75890c"
+            });
         }
 
         //$('#server_cnf_sim_dose_rate').val(val);
         document.getElementById("server_cnf_sim_dose_rate").value = val;
     });
 
-    $('#server_cnf_sim_dose_rate').bind('input', function()
-    {
+    $('#server_cnf_sim_dose_rate').bind('input', function() {
         //$('#simRanger').val(webGI.options.log2lin(this.valueAsNumber));
         document.getElementById("simRanger").value = webGI.options.log2lin(this.valueAsNumber);
         var val = webGI.options.lin2log(this.valueAsNumber);
 
-        if (val >= 10)
-        {
-            $('#server_cnf_sim_dose_rate').css({ "color": "#F5C43C" });
-        }
-        else
-        {
-            $('#server_cnf_sim_dose_rate').css({ "color": "#75890c" });
+        if (val >= 10) {
+            $('#server_cnf_sim_dose_rate').css({
+                "color": "#F5C43C"
+            });
+        } else {
+            $('#server_cnf_sim_dose_rate').css({
+                "color": "#75890c"
+            });
         }
     });
 
- /*
+    /*
     $('#jqt').bind('pageAnimationEnd', function(e, info)
     {
         console.log('Page animation finished');
         updateLayout();
-    });
-*/
+    });*/
 }
 
 function showErrorModal(title, msg, action) {
@@ -208,24 +202,23 @@ function showErrorModal(title, msg, action) {
     $('.md-show').removeClass('md-show');
     webGI.conf.bell_snd.play();
 
-    setTimeout(function()
-    {
-        document.getElementById("modalErrorTitle").innerHTML = title;
-        //$('#modalErrorTitle').html(title);
-        document.getElementById("modalErrorMsg").innerHTML = msg;
-        //$('#modalErrorMsg').html(msg);
+    setTimeout(function() {
+            document.getElementById("modalErrorTitle").innerHTML = title;
+            //$('#modalErrorTitle').html(title);
+            document.getElementById("modalErrorMsg").innerHTML = msg;
+            //$('#modalErrorMsg').html(msg);
 
-        var buttons = '<a class="md-close" onclick="$(\'#modalError\').removeClass(\'md-show\');">Ack</a>';
+            var buttons = '<a class="md-close" onclick="$(\'#modalError\').removeClass(\'md-show\');">Close</a>';
 
-        if (action) {
-            buttons = buttons + action;
-        }
+            if (action) {
+                buttons = buttons + action;
+            }
 
-        //$('#modalErrorAction').html(buttons);
-        document.getElementById("modalErrorAction").innerHTML = buttons;
-        $('#modalError').addClass('md-show');
-    },
-    200);
+            //$('#modalErrorAction').html(buttons);
+            document.getElementById("modalErrorAction").innerHTML = buttons;
+            $('#modalError').addClass('md-show');
+        },
+        500);
 }
 
 function popModal(type, title, msg, action) {
@@ -233,24 +226,23 @@ function popModal(type, title, msg, action) {
     $('.md-show').removeClass('md-show');
     webGI.conf.bell_snd.play();
 
-    setTimeout(function()
-    {
-        document.getElementById("modalErrorTitle").innerHTML = title;
-        //$('#modalErrorTitle').html(title);
-        document.getElementById("modalErrorMsg").innerHTML = msg;
-        //$('#modalErrorMsg').html(msg);
+    setTimeout(function() {
+            document.getElementById("modalErrorTitle").innerHTML = title;
+            //$('#modalErrorTitle').html(title);
+            document.getElementById("modalErrorMsg").innerHTML = msg;
+            //$('#modalErrorMsg').html(msg);
 
-        var buttons = '<a class="md-close" onclick="$(\'#modalError\').removeClass(\'md-show\');">Ack</a>';
+            var buttons = '<a class="md-close" onclick="$(\'#modalError\').removeClass(\'md-show\');">Ack</a>';
 
-        if (action) {
-            buttons = buttons + action;
-        }
+            if (action) {
+                buttons = buttons + action;
+            }
 
-        //$('#modalErrorAction').html(buttons);
-        document.getElementById("modalErrorAction").innerHTML = buttons;
-        $('#modalError').addClass('md-show');
-    },
-    200);
+            //$('#modalErrorAction').html(buttons);
+            document.getElementById("modalErrorAction").innerHTML = buttons;
+            $('#modalError').addClass('md-show');
+        },
+        200);
 }
 
 
@@ -263,21 +255,35 @@ function updateLayout() {
     var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 
     // Make the modals stack and sticky
-    $('.modal').css({'top': '80px', 'left': (w/2)-($('#modalAuth').width()/2)+'px'});
+    $('.modal').css({
+        'top': '80px',
+        'left': (w / 2) - ($('#modalAuth').width() / 2) + 'px'
+    });
 
     var h_offset = 137;
     var w_offset = 0;
 
-    $('.instrument') .css({'height': h-85+'px'});
+    $('.instrument').css({
+        'height': h - 85 + 'px'
+    });
 
-    var new_h = h-h_offset;
+    var new_h = h - h_offset;
     var new_w = $('#mainInstrument').width();
 
-    $('.instrument-container').css({'height': new_h+'px', 'width': new_w+'px'}).attr('height',new_h).attr('width',new_w);
-    $('#traceCanvas').css({'height': new_h+'px', 'width': new_w+'px'}).attr('height',new_h).attr('width',new_w);
+    $('.instrument-container').css({
+        'height': new_h + 'px',
+        'width': new_w + 'px'
+    }).attr('height', new_h).attr('width', new_w);
+    $('#traceCanvas').css({
+        'height': new_h + 'px',
+        'width': new_w + 'px'
+    }).attr('height', new_h).attr('width', new_w);
 
     new_w = $('#historyInstrument').width();
-    $('#historyContainer') .css({'height': new_h+'px', 'width': new_w+'px'}).attr('height',new_h).attr('width',new_w);
+    $('#historyContainer').css({
+        'height': new_h + 'px',
+        'width': new_w + 'px'
+    }).attr('height', new_h).attr('width', new_w);
 
     //ugly, but we seem to need it
     webGI.livechart.init();
@@ -289,11 +295,13 @@ function updateConfig() {
 }
 
 $(document).ready(function() {
-    if(!("WebSocket" in window)) {
-        $('<p>Oh no, you need a modern browser that supports WebSockets. How about <a href="http://www.google.com/chrome">Google Chrome</a>?</p>').appendTo('#container');
+
+    // Make sure we've got a capable browser
+    if (!("WebSocket" in window)) {
+        $('<p>Oh no, you need a modern browser that supports WebSockets. How about <a href="http://www.chromium.org/">Chromium</a>?</p>').appendTo('#container');
         return;
     }
-    webGI.spinner.init();
+
     webGI.livechart.init_socket();
     webGI.status.init();
     webGI.status.init_socket();
@@ -301,20 +309,24 @@ $(document).ready(function() {
     webGI.ticker.init();
 
     // Set callbacks to updateLayout on window resize and url-hash change (panels)
+    // Should have been replaced by pageAnimationEnd event but doesn't work as well
     $(window).resize(updateLayout);
-    window.onhashchange = updateLayout; // should have been replaced by pageAnimationEnd event but doesn't work as well
+    window.onhashchange = updateLayout;
 
     // Switch UI click/tap event handler action for stupid apple browsers
-    if ($.support.touch) { webGI.conf.ui_action = 'touchend'; }
-    else { webGI.conf.ui_action  = 'click'; }
+    if ($.support.touch) {
+        webGI.conf.ui_action = 'touchend';
+    } else {
+        webGI.conf.ui_action = 'click';
+    }
 
     initUI();
 
     // Give client some time to settle
     setTimeout(function() {
         $('.splash').addClass('splash-hidden');
-        webGI.spinner.disable();
+        //webGI.spinner.disable();
         updateLayout();
-    },1200);
+    }, 1200);
 
 });

@@ -1,6 +1,6 @@
 //Create webGI object if neccessary
 if (typeof webGI === 'undefined') {
-    webGI = {}
+    webGI = {};
 }
 
 //Add module to webGI namespace
@@ -8,10 +8,10 @@ webGI.spinner = (function() {
 
     //Public attributes
     var my = {};
-    
+
     //Private attributes
-    var spinner = null
-    
+    var spinner = null;
+
     //Public Function
     my.init = function() {
         var opts =
@@ -37,20 +37,20 @@ webGI.spinner = (function() {
         //console.log(document.getElementById('body'));
         spinner = new Spinner(opts).spin(document.getElementById('body'));
         //disable();
-    }
+    };
 
     my.enable = function() {
         spinner.spin(document.getElementById('body'));
-    }
-    
+    };
+
     my.disable = function() {
         spinner.stop();
-    }
-    
+    };
+
     //Create the spinner immedeatly
     //FIXME does not work, body is not ready :(
     //my.init();
-    
+
     //Do not forget to return my, otherwise nothing will work.
     return my;
-}());  
+}());

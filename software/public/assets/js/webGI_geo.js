@@ -1,6 +1,6 @@
 //Create webGI object if neccessary
 if (typeof webGI === 'undefined') {
-    webGI = {}
+    webGI = {};
 }
 
 // Add module to webGI namespace
@@ -22,13 +22,13 @@ webGI.geo = (function($) {
     // Public Functions
     my.init = function()
     {
-        // Add Checkbox to client settings panel
-        webGI.options.addOptionCheckbox('client_settings', 'cnf_gps_hacc', 'GPS High Accuracy Mode');
+        // Add Checkbox to client settings panel and set check status according to config
+        webGI.options.addOptionCheckbox('client_settings', 'cnf_gps_hacc', 'GPS High Accuracy Mode', (webGI.conf.gps_hacc === 1) ? true : false);
 
         var target = document.getElementById(my.container_id);
         container_status = $("#"+my.container_id_status);
         container_loc = $("#"+my.container_id_loc);
-    }
+    };
 
     my.toggle = function()
     {
@@ -67,12 +67,12 @@ webGI.geo = (function($) {
                 '<p>It seems your browser/device does not support geolocation</p>'
             );
         }
-    }
+    };
 
     my.getCurrentPosition = function(callback)
     {
         navigator.geolocation.getCurrentPosition(callback);
-    }
+    };
 
     //Private Function
     function geoUpdate(position)
@@ -105,7 +105,7 @@ webGI.geo = (function($) {
         container_loc.html(
             position.coords.latitude.toString().substr(0,8) + ' ' +
             position.coords.longitude.toString().substr(0,8)
-        )
+        );
     }
 
     function geoError(error)

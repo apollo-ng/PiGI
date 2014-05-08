@@ -1,11 +1,14 @@
 if (typeof webGI === 'undefined') {
-    webGI = {}
+    webGI = {};
 }
 
 webGI.conf = {
     websocket_host : "ws://" + window.location.hostname + ":" +window.location.port,
     bell_snd : new Audio("assets/snd/ui-bell.mp3"),
-    ui_action : 'click'
+    ui_action : 'click',
+    alerts_enabled : 1,
+    dtc_enabled : 1,
+    gps_hacc : 0
 };
 
 webGI.jQT = new $.jQTouch ({
@@ -15,7 +18,7 @@ webGI.jQT = new $.jQTouch ({
 });
 
 function initUI() {
-    $('#cnf_ws_url').val("ws://" + window.location.hostname + ":" +window.location.port)
+    $('#cnf_ws_url').val("ws://" + window.location.hostname + ":" +window.location.port);
 
     // Bind UI events
 
@@ -24,7 +27,7 @@ function initUI() {
 
         $('#toggleGauge,#toggleTrace').removeClass('enabled');
         $('.live-control').removeClass('enabled');
-        $(this).addClass('enabled')
+        $(this).addClass('enabled');
 
         webGI.status.disable();
         webGI.tracer.disable();
@@ -234,7 +237,7 @@ function updateLayout() {
     var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 
     // Make the modals stack and sticky
-    $('.modal').css({'top': '80px', 'left': (w/2)-($('#modalAuth').width()/2)+'px'})
+    $('.modal').css({'top': '80px', 'left': (w/2)-($('#modalAuth').width()/2)+'px'});
 
     var h_offset = 137;
     var w_offset = 0;
@@ -256,7 +259,7 @@ function updateLayout() {
 }
 
 function updateConfig() {
-    console.log("Writing config to local storage")
+    console.log("Writing config to local storage");
 }
 
 $(document).ready(function() {
@@ -286,6 +289,6 @@ $(document).ready(function() {
         $('.splash').addClass('splash-hidden');
         webGI.spinner.disable();
         updateLayout();
-    },1000);
+    },1200);
 
 });

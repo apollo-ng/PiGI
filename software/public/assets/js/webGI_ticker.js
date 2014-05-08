@@ -1,6 +1,6 @@
 // Create webGI object if neccessary
 if (typeof webGI === 'undefined') {
-    webGI = {}
+    webGI = {};
 }
 
 // Add module to webGI namespace
@@ -20,7 +20,7 @@ webGI.ticker = (function($) {
     {
         // Add Checkbox to client settings panel
         webGI.options.addOptionCheckbox('client_settings', 'cnf_silent', 'Silent Mode (No Audio Feedback/Alerts)');
-    }
+    };
 
     my.enable = function()
     {
@@ -44,14 +44,14 @@ webGI.ticker = (function($) {
                break;
                default:
             }
-        }
-    }
+        };
+    };
 
     my.disable = function()
     {
         my.enabled=false;
         ws_ticks.close();
-    }
+    };
 
     // Private Function
 

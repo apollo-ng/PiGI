@@ -1,6 +1,6 @@
 //Create webGI object if neccessary
 if (typeof webGI === 'undefined') {
-    webGI = {}
+    webGI = {};
 }
 
 //Add module to webGI namespace
@@ -10,11 +10,11 @@ webGI.gauge = (function($) {
     //Public attributes
     var my = {};
     my.container_id = "gaugeContainer";
-    
+
     //Private attributes
     var container = null;
-    var gauge = null
-    
+    var gauge = null;
+
     //Public Function
     my.init = function() {
         var opts = {
@@ -38,25 +38,25 @@ webGI.gauge = (function($) {
         gauge.maxValue = 1;
         gauge.animationSpeed = 64;
         gauge.set(0);
-    }
+    };
 
     my.enable = function() {
-        container.show()
-    }
-    
+        container.show();
+    };
+
     my.disable = function() {
-        container.hide()
-    }
-    
+        container.hide();
+    };
+
     my.set = function(val) {
-        gauge.set(val)
-    }
-    
+        gauge.set(val);
+    };
+
     //Private Function
     function private_function() {
         console.log(private_attr);
     }
-    
+
     //Do not forget to return my, otherwise nothing will work.
     return my;
 }($));  //Pass jq/zepto to the module construction function call

@@ -1,5 +1,5 @@
 if (typeof webGI === 'undefined') {
-    webGI = {}
+    webGI = {};
 }
 
 webGI.tracer = (function($) {
@@ -85,7 +85,7 @@ webGI.tracer = (function($) {
             if(p.x > W) p.x = -50;
             if(p.y > H)
             {
-                delete particles[t]
+                delete particles[t];
             }
         });
     }

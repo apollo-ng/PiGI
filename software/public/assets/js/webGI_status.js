@@ -1,6 +1,6 @@
 // Create webGI object if neccessary
 if (typeof webGI === 'undefined') {
-    webGI = {}
+    webGI = {};
 }
 
 // Add module to webGI namespace
@@ -8,19 +8,21 @@ webGI.status = (function($) {
     // We have jquery/zepto available ($)
 
     // Public attributes
-    var my = {};
+    var my = {
+    };
 
     // Private attributes
     var count_unit = "CPM";
     var ws_status = null;
+    var alert_ack_lvl = 0;
 
     // Public Functions
     my.init = function()
     {
-        // Add Checkboxes to client settings panel
-        webGI.options.addOptionCheckbox('client_settings', 'cnf_alerts_enabled', 'Radiation Alerts', true);
-        webGI.options.addOptionCheckbox('client_settings', 'cnf_dtc_enabled', 'Dead-Time Compensation', true);
-    }
+        // Add Checkboxes to client settings panel and set check status according to config
+        webGI.options.addOptionCheckbox('client_settings', 'cnf_alerts_enabled', 'Radiation Alerts', (webGI.conf.alerts_enabled === 1) ? true : false);
+        webGI.options.addOptionCheckbox('client_settings', 'cnf_dtc_enabled', 'Dead-Time Compensation', (webGI.conf.dtc_enabled === 1) ? true : false);
+    };
 
     my.init_socket = function()
     {
@@ -66,13 +68,13 @@ webGI.status = (function($) {
     my.enable = function()
     {
         $('#gaugeContainer').show();
-    }
+    };
 
     my.disable = function()
     {
         $('#gaugeContainer').hide();
 
-    }
+    };
 
     my.show_radcon = function()
     {
@@ -91,9 +93,13 @@ webGI.status = (function($) {
             $('#count_unit').html('CPM');
             count_unit = "CPM";
         }
-    }
+    };
 
-
+    my.ack_alert_lvl = function(level)
+    {
+        alert_ack_lvl = level;
+        $('#modalError').removeClass('md-show');
+    };
     my.update = function(msg)
     {
 
@@ -134,6 +140,7 @@ webGI.status = (function($) {
 
         // RADCON class identification and UI reaction
         var s = 0.1;
+        var last = document.getElementById("lvl_val").innerHTML;
 
         for(var c=0;c<=8;c++)
         {
@@ -179,6 +186,21 @@ webGI.status = (function($) {
             }
         }
 
+        // RADCON level change alerting
+        if(c > alert_ack_lvl && webGI.conf.alerts_enabled === 1)
+        {
+            showErrorModal(
+                'RADIATION Warning',
+                '<p>RADCON level increased to <b>'+c+'</b></p>',
+                '<a class="md-close" onclick="webGI.status.ack_alert_lvl('+c+')">Acknowledged</a>'
+            );
+        }
+        else
+        {
+            alert_ack_lvl = c;
+        }
+
+
         // Automatic unit switching
         if(edr < 1000)
         {
@@ -222,7 +244,7 @@ webGI.status = (function($) {
           document.getElementById("status_etm").innerHTML = d+ ' ' +h;
         }
 
-    }
+    };
 
     //Do not forget to return my, otherwise nothing will work.
     return my;

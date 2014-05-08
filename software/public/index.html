@@ -48,30 +48,32 @@
 
     <!-- Main Instrument -->
     <div id="mainInstrument" class="instrument">
-     <div id="gaugeContainer" class="instrument-container" >
+
+     <div id="gaugeContainer" class="instrument-container">
 
       <div style="padding-top: 40px; border: 0px solid red; height: 5%; min-height: 50px; width: 99% !important; max-width: 99% !important; min-width: 99% !important; margin: 0 auto !important; display: inline-block; text-align: center;">
+       <div id="status_radcon" >0</div>
        <progress id="statusGauge" max="100" value="60" style="width: 100%; height: 25px; border-radius: 5px; background: #282828;"><strong>0.27 uSv/h</strong></progress>
+       <div id="status_radcon_next" >2</div>
       </div>
 
-      <div class="section group status_big" style="height: 20%">
-	     <div class="col span_1_of_3">
-        <div class="display_label">CPS (Counts per Second)</div>
+
+     <div id="status_big_wrap" style="height: 100%; width: 99%; margin: 0 auto;">
+      <div class="section group status_big">
+	     <div class="col span_1_of_2">
+        <div class="display_label"><span class="label_txt">CPS</span></div>
         <div id="status_cps" class="display_num">5</div>
 	     </div>
-	     <div class="col span_1_of_3">
-        <div class="display_label">CPM (Counts per Minute)</div>
+	     <div class="col span_1_of_2">
+        <div class="display_label">CPM</div>
         <div id="status_cpm" class="display_num">52</div>
        </div>
-       <div class="col span_1_of_3">
-        <div class="display_label">RADCON</div>
-        <div id="status_radcon" class="display_num">0</div>
-     	</div>
      </div>
+
 
      <div class="section group status_big">
 	     <div class="col span_1_of_2">
-        <div class="display_label">Equivalent Dose Rate (EDR) in uSv/h</div>
+        <div class="display_label">EDR</div>
         <div id="status_edr_val" class="display_num">5</div>
 	     </div>
 	     <div class="col span_1_of_2">
@@ -82,7 +84,7 @@
 
      <div class="section group status_big">
 	     <div class="col span_1_of_2">
-        <div class="display_label">Avg 15 Min Equivalent Dose Rate</div>
+        <div class="display_label">Avg 15M EDR</div>
         <div id="status_avg_15min" class="display_num">5</div>
 	     </div>
 	     <div class="col span_1_of_2">
@@ -93,7 +95,7 @@
 
      <div class="section group status_big">
 	    <div class="col span_1_of_2">
-       <div class="display_label">Estimated time to MAD</div>
+       <div class="display_label">ETMAD</div>
        <div id="status_etm" class="display_num">5</div>
 	    </div>
 	    <div class="col span_1_of_2">
@@ -101,6 +103,7 @@
        <div id="status_dosiemeter" class="display_num">52</div>
        </div>
      </div>
+    </div>
 
      </div>
      <div id="chartContainer" class="instrument-container" style="display: none"></div>
@@ -108,30 +111,30 @@
      <div class="instrument-control-container">
       <a href="#" id="toggleGauge" class="instrument-control viewableControl enabled">
        <span class="icon-gauge"></span>
-       <span class="text-icon hide-on-480">Meters</span>
+       <span class="text-icon hide-on-900">Meters</span>
       </a>
       <a href="#" id="toggleTrace" class="instrument-control">
        <span class="big-icon icon-eye-1"></span>
-       <span class="text-icon hide-on-480">Tracer</span>
+       <span class="text-icon hide-on-900">Tracer</span>
       </a>
       <a href="#" id="live15m" class="instrument-control live-control" data-seconds=900>
        <span>15M</span>
-       <span class="icon-chart-area hide-on-480"></span>
+       <span class="icon-chart-area hide-on-900"></span>
       </a>
       <a href="#" id="live60m" class="instrument-control live-control" data-seconds=3600>
        <span>60M</span>
-       <span class="icon-chart-area hide-on-480"></span>
+       <span class="icon-chart-area hide-on-900"></span>
       </a>
       <a href="#" id="live24h" class="instrument-control live-control" data-seconds=86400>
        <span>24H</span>
-       <span class="icon-chart-area hide-on-480"></span>
+       <span class="icon-chart-area hide-on-900"></span>
       </a>
       <a href="#" id="toggleAudio" class="instrument-control">
        <span class="icon-tick-off"></span>
-       <span class="text-icon hide-on-480">Ticks</span>
+       <span class="text-icon hide-on-900">Ticks</span>
       </a>
      </div>
-     <div id="simNotify">Simulation</div>
+     <div id="simNotify1">Simulation</div>
     </div>
 
    </div>

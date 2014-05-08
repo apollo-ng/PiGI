@@ -1,6 +1,6 @@
 //Create webGI object if neccessary
 if (typeof webGI === 'undefined') {
-    webGI = {}
+    webGI = {};
 }
 
 //Add module to webGI namespace
@@ -16,7 +16,7 @@ webGI.livechart = (function($) {
 
     //Private attributes
     var container = null;
-    var chart = null
+    var chart = null;
     var data = [];
     var data_hd = [];
     var data_ld = [];
@@ -63,18 +63,27 @@ webGI.livechart = (function($) {
                     webGI.history.update(msg);
                 break;
                 default:
-                    console.log("INVALID MESSAGE",msg)
+                    console.log("INVALID MESSAGE",msg);
             }
-        }
+        };
     };
 
     //Public Function
     my.init = function() {
         container = $("#"+my.container_id);
 
+function objToString (obj) {
+    var tabjson=[];
+    for (var p in obj) {
+        if (obj.hasOwnProperty(p)) {
+            tabjson.push('"'+p +'"'+ ':' + obj[p]);
+        }
+    }  tabjson.push();
+    return '{'+tabjson.join(',')+'}';
+}
 
         //console.log("Init log");
-        if (data.length==0)
+        if (data.length===0)
         {
             return;
         }
@@ -84,12 +93,13 @@ webGI.livechart = (function($) {
             var x = e.offsetX;
             var y = e.offsetY;
             var dataXY = chart.toDataCoords(x, y);
-            $('#eventTS').html(new Date(dataXY[0]));
+            alert(objToString(e));
+            $('#eventTS').html(new Date(parseInt(dataXY[0])));
             $('#eventText').val("Enter your annotation text here...");
             my.annotation_ts = dataXY[0]/1000;
             $('#eventEDR').html(dataXY[1].toFixed(2));
             $('#modalAnnotation').addClass('md-show');
-        }
+        };
 
         var annotationClickCallback = function(annotation, point)
         {
@@ -102,7 +112,7 @@ webGI.livechart = (function($) {
             $('#eventEDR').html(point.yval.toFixed(2));
             $('#eventText').val(annotation.text);
             $('#modalAnnotation').addClass('md-show');
-        }
+        };
 
         my.save_annotation = function() {
             var annotation_text = $('#eventText').val();
@@ -141,7 +151,7 @@ webGI.livechart = (function($) {
                 fillGraph: false,
             }
         });
-    }
+    };
 
     my.update = function(msg) {
         //console.log("UPDATE")
@@ -152,12 +162,12 @@ webGI.livechart = (function($) {
         //FIXME: push ld data less often
         data_ld.push([ts,msg.data.edr,msg.data.edr_avg]);
         data_ld_all.push(msg);
-        
-        var left_end_ld = new Date((msg.timestamp-60*60*24)*1000)
+
+        var left_end_ld = new Date((msg.timestamp-60*60*24)*1000);
         while(data_ld[0][0] < left_end_ld) data_ld.shift();
         while(data_ld_all[0].timestamp < msg.timestamp-60*60*24) data_ld_all.shift();
-        
-        var left_end_hd = new Date((msg.timestamp-60*60*1)*1000)
+
+        var left_end_hd = new Date((msg.timestamp-60*60*1)*1000);
         while(data_hd[0][0] < left_end_hd) data_hd.shift();
 
 
@@ -165,7 +175,7 @@ webGI.livechart = (function($) {
             file: data,
             dateWindow: [ my.now - my.chart_age*1000, my.now]
         });
-    }
+    };
 
     my.updateBacklog = function(msg){
         //console.log("LOGHISTORY");
@@ -194,7 +204,7 @@ webGI.livechart = (function($) {
                 //{
                 //    return;
                 //}
-                if(! v.annotation == "") {
+                if(v.annotation !== "") {
                     annotations.push( {
                       series: 'µSv/h',
                       x: v.timestamp*1000,
@@ -220,7 +230,7 @@ webGI.livechart = (function($) {
             data = data_hd;
             //console.log("HD",webGI.log.data.length)
         }
-        if (chart == null) {
+        if (chart === null) {
             my.init();
         } else {
             chart.updateOptions({
@@ -230,22 +240,22 @@ webGI.livechart = (function($) {
         }
         //console.log(annotations);
         chart.setAnnotations(annotations);
-    }
+    };
 
 
     my.set_log_scale = function(enabled) {
         if (chart) chart.updateOptions({ logscale: enabled });
         my.log_scale = enabled;
-    }
+    };
 
     my.set_colors = function(c) {
         if (chart) chart.updateOptions({ colors: c });
-        my.chart_colors = c
-    }
+        my.chart_colors = c;
+    };
 
     my.set_age = function(seconds) {
-        my.chart_age = seconds
-        if (animtimer != null) {
+        my.chart_age = seconds;
+        if (animtimer !== null) {
             clearTimeout(animtimer);
         }
 
@@ -256,7 +266,7 @@ webGI.livechart = (function($) {
             data = data_hd;
         }
 
-        if (chart == null)
+        if (chart === null)
         {
             my.init();
         } else {
@@ -270,11 +280,11 @@ webGI.livechart = (function($) {
     };
 
     my.enable = function() {
-        container.show()
+        container.show();
     };
 
     my.disable = function() {
-        container.hide()
+        container.hide();
     };
 
     my.requestLog=function(age,hd) {
@@ -282,7 +292,7 @@ webGI.livechart = (function($) {
             "cmd" : "read",
             "age" : age,
             "hd": hd
-        }
+        };
 
         ws_log.send(JSON.stringify(cmd));
         //console.log ("Requesting log (age " +webGI.log.chart_age +" )");
@@ -293,16 +303,16 @@ webGI.livechart = (function($) {
             "cmd" : "history",
             "from" : from,
             "to" : to
-        }
+        };
 
         ws_log.send(JSON.stringify(cmd));
         //console.log ("Requesting history");
     };
-    
+
     my.getDoseRateAvg15m = function() {
-        return data_hd[data_hd.length-1][2]
-    }
-    
+        return data_hd[data_hd.length-1][2];
+    };
+
     my.getDose24h = function() {
         var first = data_ld_all[0];
         var last = data_ld_all[data_ld_all.length-1];
@@ -310,15 +320,15 @@ webGI.livechart = (function($) {
         var cpm = counts/(24*60);
         var d24h = cpm * last.parameters.tube_factor * 24;
         return parseFloat(d24h.toFixed(3));
-    }
-    
-    
+    };
+
+
     my.pushAnnotation=function(ts,text) {
         var cmd = {
             "cmd" : "annotation",
             "timestamp" : ts,
             "text": text
-        }
+        };
 
         ws_log.send(JSON.stringify(cmd));
         //console.log ("Requesting history");

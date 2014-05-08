@@ -1,6 +1,6 @@
 //Create webGI object if neccessary
 if (typeof webGI === 'undefined') {
-    webGI = {}
+    webGI = {};
 }
 
 //Add module to webGI namespace
@@ -18,7 +18,7 @@ webGI.options = (function($)
     var ws_conf = new WebSocket(webGI.conf.websocket_host+"/ws_conf");
     ws_conf.onopen = function() {
         my.request();
-    }
+    };
 
     ws_conf.onmessage = function(e)
     {
@@ -33,7 +33,7 @@ webGI.options = (function($)
             default:
                 console.log("INVALID MESSAGE",msg);
         }
-    }
+    };
 
     //Public Function
     my.save = function()
@@ -83,26 +83,26 @@ webGI.options = (function($)
         ws_conf.send(JSON.stringify(cmd));
         console.log("Saving options", my.server);
         my.request();
-    }
+    };
 
     my.request = function()
     {
         var cmd =
         {
             "cmd" : "get"
-        }
+        };
 
         ws_conf.send(JSON.stringify(cmd));
         //console.log("Requesting options");
-    }
+    };
 
     my.reset = function() {
         console.log("FIXME: I should clear pyGI conf/dynamic.cfg");
-    }
+    };
 
     my.startEntropyDownload = function() {
         console.log("FIXME: I should trigger the download/delete routine in pyGI");
-    }
+    };
 
     my.lin2log = function(position)
     {
@@ -112,7 +112,7 @@ webGI.options = (function($)
         var maxv = Math.log(1000);
         var scale = (maxv-minv) / (maxp-minp);
         return Math.exp(minv + scale*(position-minp));
-    }
+    };
 
     my.log2lin = function(value)
     {
@@ -122,7 +122,7 @@ webGI.options = (function($)
         var maxv = Math.log(1000);
         var scale = (maxv-minv) / (maxp-minp);
         return (Math.log(value)-minv) / scale + minp;
-    }
+    };
 
     my.geoSnapshotCallback = function (position)
     {
@@ -130,7 +130,7 @@ webGI.options = (function($)
         $('#server_cnf_node_lat').val(position.coords.latitude.toFixed(5));
         $('#server_cnf_node_lon').val(position.coords.longitude.toFixed(5));
         $('#server_cnf_node_alt').val(position.coords.altitude);
-    }
+    };
 
     my.addOptionCheckbox = function (parent_id, id, label, checked)
     {
@@ -143,7 +143,7 @@ webGI.options = (function($)
             content += '</label>';
             content += '</li>';
         $('#'+parent_id).append(content);
-    }
+    };
 
 
     // Private Function

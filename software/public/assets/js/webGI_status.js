@@ -8,119 +8,101 @@ webGI.status = (function($) {
     // We have jquery/zepto available ($)
 
     // Public attributes
-    var my = {
-    };
+    var my = {};
 
     // Private attributes
     var count_unit = "CPM";
     var ws_status = null;
-    var alert_ack_lvl = 0;
+    var radcon_alert_ack_lvl = 0;
 
     // Public Functions
-    my.init = function()
-    {
+    my.init = function() {
         // Add Checkboxes to client settings panel and set check status according to config
         webGI.options.addOptionCheckbox('client_settings', 'cnf_alerts_enabled', 'Radiation Alerts', (webGI.conf.alerts_enabled === 1) ? true : false);
         webGI.options.addOptionCheckbox('client_settings', 'cnf_dtc_enabled', 'Dead-Time Compensation', (webGI.conf.dtc_enabled === 1) ? true : false);
     };
 
-    my.init_socket = function()
-    {
-        ws_status = new WebSocket(webGI.conf.websocket_host+"/ws_status");
+    my.init_socket = function() {
+        ws_status = new WebSocket(webGI.conf.websocket_host + "/ws_status");
 
-        ws_status.onopen = function()
-        {
+        ws_status.onopen = function() {
             $('#modalError').removeClass('md-show');
             //console.log('Status Update socket opened');
         };
 
-        ws_status.onmessage = function(e)
-        {
-           var msg = JSON.parse(e.data);
-           //console.log(msg);
-           switch(msg.type) {
+        ws_status.onmessage = function(e) {
+            var msg = JSON.parse(e.data);
+            //console.log(msg);
+            switch (msg.type) {
                 case "geigerjson":
                     my.update(msg);
-                    webGI.livechart.now = parseInt(msg.timestamp)*1000;
+                    webGI.livechart.now = parseInt(msg.timestamp) * 1000;
                     //webGI.gauge.set(parseFloat(msg.data.edr));
                     webGI.tracer.add(parseInt(msg.data.cps_dtc));
-                break;
+                    break;
 
                 default:
-                    console.log("INVALID MESSAGE",msg);
+                    console.log("INVALID MESSAGE", msg);
             }
         };
 
-        ws_status.onclose = function()
-        {
-            ws_status = new WebSocket(webGI.conf.websocket_host+"/ws_status");
+        ws_status.onclose = function() {
+            ws_status = new WebSocket(webGI.conf.websocket_host + "/ws_status");
 
             showErrorModal(
                 'Websocket Error',
                 '<p>Wheeeeh, I lost my sockets. Either the server has gone down or the network connection is unreliable or stalled.</p><b>Possible solutions:</b></p><ul><li>Is the pyGI daemon running on the Pi?</li><li>Enable/toggle your WIFI connection</li></ul>'
             );
 
-            setTimeout(function(){my.init_socket(); webGI.livechart.init_socket();}, 5000);
+            setTimeout(function() {
+                my.init_socket();
+                webGI.livechart.init_socket();
+            }, 5000);
             //console.log ("Status socket reset");
         };
     };
 
-    my.enable = function()
-    {
+    my.enable = function() {
         $('#gaugeContainer').show();
     };
 
-    my.disable = function()
-    {
+    my.disable = function() {
         $('#gaugeContainer').hide();
 
     };
 
-    my.show_radcon = function()
-    {
+    my.show_radcon = function() {
         $('#modalRADCON').addClass('md-show');
     };
 
-    my.toggle_counter_unit = function()
-    {
-        if(count_unit=="CPM")
-        {
+    my.toggle_counter_unit = function() {
+        if (count_unit == "CPM") {
             $('#count_unit').html('CPS');
             count_unit = "CPS";
-        }
-        else
-        {
+        } else {
             $('#count_unit').html('CPM');
             count_unit = "CPM";
         }
     };
 
-    my.ack_alert_lvl = function(level)
-    {
-        alert_ack_lvl = level;
+    my.ack_alert_lvl = function(level) {
+        radcon_alert_ack_lvl = level;
         $('#modalError').removeClass('md-show');
     };
-    my.update = function(msg)
-    {
+    my.update = function(msg) {
 
-        if(count_unit=="CPM")
-        {
+        if (count_unit == "CPM") {
             document.getElementById("count_val").innerHTML = parseInt(msg.data.cpm_dtc);
             //$('#count_val').html(parseInt(msg.data.cpm_dtc));
 
-        }
-        else if(count_unit=="CPS")
-        {
+        } else if (count_unit == "CPS") {
             document.getElementById("count_val").innerHTML = parseInt(msg.data.cps_dtc);
             //$('#count_val').html(parseInt(msg.data.cps_dtc));
         }
 
-        if (msg.data.source == "sim")
-        {
+        if (msg.data.source == "sim") {
             $('#simNotify').addClass('init-simNotify');
-        }
-        else
-        {
+        } else {
             $('#simNotify').removeClass('init-simNotify');
         }
 
@@ -142,35 +124,28 @@ webGI.status = (function($) {
         var s = 0.1;
         var last = document.getElementById("lvl_val").innerHTML;
 
-        for(var c=0;c<=8;c++)
-        {
-            if(edr < s)
-            {
-                $('#statusGauge').attr('max',s);
+        for (var c = 0; c <= 8; c++) {
+            if (edr < s) {
+                $('#statusGauge').attr('max', s);
 
                 document.getElementById("lvl_val").innerHTML = c;
                 document.getElementById("status_radcon").innerHTML = c;
                 $('.rc-row').removeClass('current');
-                $('#rc'+c).addClass('current');
+                $('#rc' + c).addClass('current');
 
-                if(c<3)
-                {
+                if (c < 3) {
                     $('.rc-cat').removeClass('current');
                     $('#rcCatLow').addClass('current');
                     $('#edr_val, #status_edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('yellow red');
                     $('#edr_val, #status_edr_val, #edr_unit, #lvl_val, #lvl_unit').addClass('green');
                     //webGI.livechart.set_colors(['#677712','yellow']);
-                }
-                else if (c<6)
-                {
+                } else if (c < 6) {
                     $('.rc-cat').removeClass('current');
                     $('#rcCatMed').addClass('current');
                     $('#edr_val, #status_edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('green red');
                     $('#edr_val, #status_edr_val, #edr_unit, #lvl_val, #lvl_unit').addClass('yellow');
                     //webGI.livechart.set_colors(['#F5C43C','yellow']);
-                }
-                else
-                {
+                } else {
                     $('.rc-cat').removeClass('current');
                     $('#rcCatHigh').addClass('current');
                     $('#edr_val, #status_edr_val, #edr_unit, #lvl_val, #lvl_unit').removeClass('green yellow');
@@ -179,42 +154,32 @@ webGI.status = (function($) {
                 }
 
                 break;
-            }
-            else
-            {
-                s=s*10;
+            } else {
+                s = s * 10;
             }
         }
 
         // RADCON level change alerting
-        if(c > alert_ack_lvl && webGI.conf.alerts_enabled === 1)
-        {
+        if (c > radcon_alert_ack_lvl && webGI.conf.alerts_enabled === 1) {
             showErrorModal(
                 'RADIATION Warning',
-                '<p>RADCON level increased to <b>'+c+'</b></p>',
-                '<a class="md-close" onclick="webGI.status.ack_alert_lvl('+c+')">Acknowledged</a>'
+                '<p>RADCON level increased to <b>' + c + '</b></p>',
+                '<a class="md-close" onclick="webGI.status.ack_alert_lvl(' + c + ')">Acknowledged</a>'
             );
-        }
-        else
-        {
-            alert_ack_lvl = c;
+        } else {
+            radcon_alert_ack_lvl = c;
         }
 
 
         // Automatic unit switching
-        if(edr < 1000)
-        {
+        if (edr < 1000) {
             document.getElementById("edr_unit").innerHTML = 'uSv/h';
-        }
-        else if (edr < 1000000)
-        {
+        } else if (edr < 1000000) {
             document.getElementById("edr_unit").innerHTML = 'mSv/h';
-            edr = edr/1000;
-        }
-        else
-        {
+            edr = edr / 1000;
+        } else {
             document.getElementById("edr_unit").innerHTML = 'Sv/h';
-            edr = edr/1000000;
+            edr = edr / 1000000;
         }
 
         document.getElementById("edr_val").innerHTML = edr.toFixed(2);
@@ -222,30 +187,25 @@ webGI.status = (function($) {
         document.getElementById("statusGauge").value = edr;
         document.getElementById("status_cps").innerHTML = parseInt(msg.data.cps_dtc);
         document.getElementById("status_cpm").innerHTML = parseInt(msg.data.cpm_dtc);
-        document.getElementById("status_rem").innerHTML = (edr/10).toFixed(2);
+        document.getElementById("status_rem").innerHTML = (edr / 10).toFixed(2);
         document.getElementById("status_avg_15min").innerHTML = webGI.livechart.getDoseRateAvg15m();
         document.getElementById("status_24h_dose").innerHTML = webGI.livechart.getDose24h();
 
-        var etm = 10000/edr;
-        var d = parseInt(etm/24);
-        var h = parseInt(etm%24);
+        var etm = 10000 / edr;
+        var d = parseInt(etm / 24);
+        var h = parseInt(etm % 24);
 
-        if (d > 365)
-        {
-          document.getElementById("status_etm").innerHTML = "Indefinitely";
-          //$('#status_etm').val(d+' '+ h);
-        }
-        else if (d > 100 )
-        {
-          document.getElementById("status_etm").innerHTML = d;
-        }
-        else
-        {
-          document.getElementById("status_etm").innerHTML = d+ ' ' +h;
+        if (d > 365) {
+            document.getElementById("status_etm").innerHTML = "Indefinitely";
+            //$('#status_etm').val(d+' '+ h);
+        } else if (d > 100) {
+            document.getElementById("status_etm").innerHTML = d;
+        } else {
+            document.getElementById("status_etm").innerHTML = d + ' ' + h;
         }
 
     };
 
     //Do not forget to return my, otherwise nothing will work.
     return my;
-}($));  //Pass jq/zepto to the module construction function call
+}($)); //Pass jq/zepto to the module construction function call

@@ -228,6 +228,32 @@ function showErrorModal(title, msg, action) {
     200);
 }
 
+function popModal(type, title, msg, action) {
+    //$('#body').find('.md-modal').removeClass('md-show');
+    $('.md-show').removeClass('md-show');
+    webGI.conf.bell_snd.play();
+
+    setTimeout(function()
+    {
+        document.getElementById("modalErrorTitle").innerHTML = title;
+        //$('#modalErrorTitle').html(title);
+        document.getElementById("modalErrorMsg").innerHTML = msg;
+        //$('#modalErrorMsg').html(msg);
+
+        var buttons = '<a class="md-close" onclick="$(\'#modalError\').removeClass(\'md-show\');">Ack</a>';
+
+        if (action) {
+            buttons = buttons + action;
+        }
+
+        //$('#modalErrorAction').html(buttons);
+        document.getElementById("modalErrorAction").innerHTML = buttons;
+        $('#modalError').addClass('md-show');
+    },
+    200);
+}
+
+
 function updateLayout() {
     // This is called on DOMReady and on resize/rotate
     // FIXME: Nasty hack to keep everything in flux state :)

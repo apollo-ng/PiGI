@@ -245,11 +245,9 @@ function popModal(type, title, msg, action) {
         200);
 }
 
-
 function updateLayout() {
     // This is called on DOMReady and on resize/rotate
     // FIXME: Nasty hack to keep everything in flux state :)
-    //console.log("Updating Layout");
 
     var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
     var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
@@ -325,7 +323,6 @@ $(document).ready(function() {
     // Give client some time to settle
     setTimeout(function() {
         $('.splash').addClass('splash-hidden');
-        //webGI.spinner.disable();
         updateLayout();
     }, 1200);
 

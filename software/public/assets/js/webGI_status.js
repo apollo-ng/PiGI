@@ -10,12 +10,14 @@ webGI.status = (function($) {
     var my = {};
 
     // Private attributes
-    var count_unit = "CPM";
+    var count_unit = 'CPM';
     var ws_status = null;
     var radcon_alert_ack_lvl = 0;
     var radcon_alert_last_ts = 0;
 
-    // Public functions
+    /***************************************************************************
+     * Public functions ********************************************************/
+
     my.init = function() {
         // Add Checkboxes to client settings panel and set check status according to config
         webGI.options.addOptionCheckbox('client_settings', 'cnf_alerts_enabled', 'Radiation Alerts', (webGI.conf.alerts_enabled === 1) ? true : false);
@@ -34,10 +36,9 @@ webGI.status = (function($) {
             var msg = JSON.parse(e.data);
             //console.log(msg);
             switch (msg.type) {
-                case "geigerjson":
+                case 'geigerjson':
                     my.update(msg);
-                    webGI.livechart.now = parseInt(msg.timestamp) * 1000;
-                    //webGI.gauge.set(parseFloat(msg.data.edr));
+                    webGI.livechart.now = parseInt(msg.timestamp * 1000);
                     webGI.tracer.add(parseInt(msg.data.cps_dtc));
                     break;
 
@@ -160,9 +161,9 @@ webGI.status = (function($) {
         }*/
 
         // RADCON level change alerting
-        var test1 = Math.round(new Date().getTime() / 1000);
-        if (webGI.conf.alerts_enabled === 1 && c > radcon_alert_ack_lvl && test1-radcon_alert_last_ts > 5 ) {
-            radcon_alert_last_ts = test1;
+        var ts = Math.round(new Date().getTime() / 1000);
+        if (webGI.conf.alerts_enabled === 1 && c > radcon_alert_ack_lvl && ts - radcon_alert_last_ts > 10) {
+            radcon_alert_last_ts = ts;
             showErrorModal(
                 'RADIATION Warning',
                 '<p>RADCON level increased to <b>' + c + '</b></p>',
@@ -206,6 +207,9 @@ webGI.status = (function($) {
         }
 
     };
+
+    /***************************************************************************
+     * Private functions *******************************************************/
 
     return my;
 

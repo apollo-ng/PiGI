@@ -8,10 +8,10 @@ webGI.livechart = (function($) {
 
     // Public attributes
     var my = {
-        container_id : 'chartContainer',
-        chart_age : 60 * 15,
-        now : Date.now(),
-        annotation_ts : null
+        container_id: 'chartContainer',
+        chart_age: 60 * 15,
+        now: Date.now(),
+        annotation_ts: null
     };
 
     // Private attributes
@@ -28,24 +28,13 @@ webGI.livechart = (function($) {
     var chart_colors = ['#677712', 'yellow'];
     var ws_log = null;
 
-    // Public functions
+    /***************************************************************************
+     * Public functions ********************************************************/
 
     my.init = function() {
 
         container = $("#" + my.container_id);
 
-        function objToString(obj) {
-            var tabjson = [];
-            for (var p in obj) {
-                if (obj.hasOwnProperty(p)) {
-                    tabjson.push('"' + p + '"' + ':' + obj[p]);
-                }
-            }
-            tabjson.push();
-            return '{' + tabjson.join(',') + '}';
-        }
-
-        //console.log("Init log");
         if (data.length === 0) {
             return;
         }
@@ -54,7 +43,6 @@ webGI.livechart = (function($) {
             var x = e.offsetX;
             var y = e.offsetY;
             var dataXY = chart.toDataCoords(x, y);
-            alert(objToString(e));
             $('#eventTS').html(new Date(parseInt(dataXY[0])));
             $('#eventText').val("Enter your annotation text here...");
             my.annotation_ts = dataXY[0] / 1000;
@@ -63,10 +51,6 @@ webGI.livechart = (function($) {
         };
 
         var annotationClickCallback = function(annotation, point) {
-            console.log(annotation.xval);
-            console.log(annotation.text);
-            console.log(point.yval);
-            console.log(point.yval);
             my.annotation_ts = annotation.xval / 1000;
             $('#eventTS').html(new Date(annotation.xval));
             $('#eventEDR').html(point.yval.toFixed(2));
@@ -76,7 +60,7 @@ webGI.livechart = (function($) {
 
         my.save_annotation = function() {
             var annotation_text = $('#eventText').val();
-            console.log(my.annotation_ts, annotation_text);
+            //console.log(my.annotation_ts, annotation_text);
             my.pushAnnotation(my.annotation_ts, annotation_text);
             my.requestLog(60 * 60 * 24, false);
         };
@@ -320,7 +304,6 @@ webGI.livechart = (function($) {
         return parseFloat(d24h.toFixed(3));
     };
 
-
     my.pushAnnotation = function(ts, text) {
         var cmd = {
             "cmd": "annotation",
@@ -332,7 +315,8 @@ webGI.livechart = (function($) {
         //console.log ("Requesting history");
     };
 
-    // Private functions
+    /***************************************************************************
+     * Private functions *******************************************************/
 
     function chartApproachRange() {
         if (!desired_range) return;

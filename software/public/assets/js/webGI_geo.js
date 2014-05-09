@@ -19,7 +19,9 @@ webGI.geo = (function($) {
     var alt = 0;
     var acc = 0;
 
-    // Public Functions
+    /***************************************************************************
+     * Public functions ********************************************************/
+
     my.init = function()
     {
         // Add Checkbox to client settings panel and set check status according to config
@@ -74,7 +76,9 @@ webGI.geo = (function($) {
         navigator.geolocation.getCurrentPosition(callback);
     };
 
-    //Private Function
+    /***************************************************************************
+     * Private functions *******************************************************/
+
     function geoUpdate(position)
     {
         container_status.removeClass('init-blinker icon-target-1');

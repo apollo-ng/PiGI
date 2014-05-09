@@ -19,7 +19,9 @@ webGI.history = (function($) {
     var data = [];
     var annotations = [];
 
-    //Public Function
+    /***************************************************************************
+     * Public functions ********************************************************/
+
     my.init = function() {
         if (data.length === 0) {
             return;
@@ -151,7 +153,8 @@ webGI.history = (function($) {
         my.log_scale = enabled;
     };
 
-    //Private Function
+    /***************************************************************************
+     * Private functions *******************************************************/
 
     return my;
 

@@ -1,3 +1,7 @@
+/*
+ * Status/Data websocket module
+ */
+
 // Create webGI object if neccessary
 if (typeof webGI === 'undefined') {
     webGI = {};
@@ -6,26 +10,37 @@ if (typeof webGI === 'undefined') {
 // Add status module to webGI namespace
 webGI.status = (function($) {
 
-    // Public attributes
+    /***************************************************************************
+     * Public attributes ******************************************************/
+
     var my = {};
 
-    // Private attributes
+
+    /***************************************************************************
+     * Private attributes ******************************************************/
+
     var count_unit = 'CPM';
     var ws_status = null;
-    var radcon_alert_ack_lvl = 0;
-    var radcon_alert_last_ts = 0;
+
 
     /***************************************************************************
      * Public functions ********************************************************/
 
     my.init = function() {
-        // Add Checkboxes to client settings panel and set check status according to config
-        webGI.options.addOptionCheckbox('client_settings', 'cnf_alerts_enabled', 'Radiation Alerts', (webGI.conf.alerts_enabled === 1) ? true : false);
-        webGI.options.addOptionCheckbox('client_settings', 'cnf_dtc_enabled', 'Dead-Time Compensation', (webGI.conf.dtc_enabled === 1) ? true : false);
+
+        // Add Checkboxes to client settings panel
+        // and set check status according to config
+
+        webGI.options.addOptionCheckbox(
+            'client_settings',
+            'cnf_dtc_enabled',
+            'Dead-Time Compensation',
+            (webGI.conf.dtc_enabled === 1) ? true : false
+        );
     };
 
     my.init_socket = function() {
-        ws_status = new WebSocket(webGI.conf.websocket_host + "/ws_status");
+        ws_status = new WebSocket(webGI.conf.websocket_host + '/ws_status');
 
         ws_status.onopen = function() {
             $('#modalError').removeClass('md-show');
@@ -43,7 +58,7 @@ webGI.status = (function($) {
                     break;
 
                 default:
-                    console.log("INVALID MESSAGE", msg);
+                    console.log('INVALID MESSAGE', msg);
             }
         };
 
@@ -77,31 +92,27 @@ webGI.status = (function($) {
     };
 
     my.toggle_counter_unit = function() {
-        if (count_unit == "CPM") {
+        if (count_unit == 'CPM') {
             $('#count_unit').html('CPS');
-            count_unit = "CPS";
+            count_unit = 'CPS';
         } else {
             $('#count_unit').html('CPM');
-            count_unit = "CPM";
+            count_unit = 'CPM';
         }
     };
 
-    my.ack_alert_lvl = function(level) {
-        radcon_alert_ack_lvl = level;
-        $('#modalError').removeClass('md-show');
-    };
     my.update = function(msg) {
 
-        if (count_unit == "CPM") {
-            document.getElementById("count_val").innerHTML = parseInt(msg.data.cpm_dtc);
+        if (count_unit == 'CPM') {
+            document.getElementById('count_val').innerHTML = parseInt(msg.data.cpm_dtc);
             //$('#count_val').html(parseInt(msg.data.cpm_dtc));
 
-        } else if (count_unit == "CPS") {
-            document.getElementById("count_val").innerHTML = parseInt(msg.data.cps_dtc);
+        } else if (count_unit == 'CPS') {
+            document.getElementById('count_val').innerHTML = parseInt(msg.data.cps_dtc);
             //$('#count_val').html(parseInt(msg.data.cps_dtc));
         }
 
-        if (msg.data.source == "sim") {
+        if (msg.data.source == 'sim') {
             $('#simNotify').addClass('init-simNotify');
         } else {
             $('#simNotify').removeClass('init-simNotify');
@@ -111,14 +122,14 @@ webGI.status = (function($) {
 
         // RADCON class identification and UI reaction
         var s = 0.1;
-        var last = document.getElementById("lvl_val").innerHTML;
+        //var last = document.getElementById('lvl_val').innerHTML;
 
         for (var c = 0; c <= 8; c++) {
             if (edr < s) {
                 $('#statusGauge').attr('max', s);
 
-                document.getElementById("lvl_val").innerHTML = c;
-                document.getElementById("status_radcon").innerHTML = c;
+                document.getElementById('lvl_val').innerHTML = c;
+                document.getElementById('status_radcon').innerHTML = c;
                 $('.rc-row').removeClass('current');
                 $('#rc' + c).addClass('current');
 
@@ -148,68 +159,48 @@ webGI.status = (function($) {
             }
         }
 
-        // EDR Watchdog firing above 20% increase compared to 24h EDR avg
-        /*
-        if(edr > (webGI.log.edr_avg_24*1.2))
-        {
-            console.log('EDR Watchdog fired');
-
-            showErrorModal(
-                'RADIATION Warning',
-                '<p>Wow, that tube is really cracking and sparkling now...</p>'
-            );
-        }*/
-
-        // RADCON level change alerting
-        var ts = Math.round(new Date().getTime() / 1000);
-        if (webGI.conf.alerts_enabled === 1 && c > radcon_alert_ack_lvl && ts - radcon_alert_last_ts > 10) {
-            radcon_alert_last_ts = ts;
-            showErrorModal(
-                'RADIATION Warning',
-                '<p>RADCON level increased to <b>' + c + '</b></p>',
-                '<a class="md-close" onclick="webGI.status.ack_alert_lvl(' + c + ')">Acknowledged</a>'
-            );
-        } else if (c < radcon_alert_ack_lvl) {
-            radcon_alert_ack_lvl = c;
-        }
-
         // Automatic unit switching
         if (edr < 1000) {
-            document.getElementById("edr_unit").innerHTML = 'uSv/h';
+            document.getElementById('edr_unit').innerHTML = 'uSv/h';
         } else if (edr < 1000000) {
-            document.getElementById("edr_unit").innerHTML = 'mSv/h';
+            document.getElementById('edr_unit').innerHTML = 'mSv/h';
             edr = edr / 1000;
         } else {
-            document.getElementById("edr_unit").innerHTML = 'Sv/h';
+            document.getElementById('edr_unit').innerHTML = 'Sv/h';
             edr = edr / 1000000;
         }
 
-        document.getElementById("edr_val").innerHTML = edr.toFixed(2);
-        document.getElementById("status_edr_val").innerHTML = edr.toFixed(2);
-        document.getElementById("statusGauge").value = edr;
-        document.getElementById("status_cps").innerHTML = parseInt(msg.data.cps_dtc);
-        document.getElementById("status_cpm").innerHTML = parseInt(msg.data.cpm_dtc);
-        document.getElementById("status_rem").innerHTML = (edr / 10).toFixed(2);
-        document.getElementById("status_avg_15min").innerHTML = webGI.livechart.getDoseRateAvg15m();
-        document.getElementById("status_24h_dose").innerHTML = webGI.livechart.getDose24h();
+        document.getElementById('edr_val').innerHTML = edr.toFixed(2);
+        document.getElementById('status_edr_val').innerHTML = edr.toFixed(2);
+        document.getElementById('statusGauge').value = edr;
+        document.getElementById('status_cps').innerHTML = parseInt(msg.data.cps_dtc);
+        document.getElementById('status_cpm').innerHTML = parseInt(msg.data.cpm_dtc);
+        document.getElementById('status_rem').innerHTML = (edr / 10).toFixed(2);
+        document.getElementById('status_avg_15min').innerHTML = webGI.livechart.getDoseRateAvg15m();
+        document.getElementById('status_24h_dose').innerHTML = webGI.livechart.getDose24h();
 
         var etm = 10000 / edr;
         var d = parseInt(etm / 24);
         var h = parseInt(etm % 24);
 
         if (d > 365) {
-            document.getElementById("status_etm").innerHTML = "Indefinitely";
+            document.getElementById('status_etm').innerHTML = 'Indefinitely';
             //$('#status_etm').val(d+' '+ h);
         } else if (d > 100) {
-            document.getElementById("status_etm").innerHTML = d;
+            document.getElementById('status_etm').innerHTML = d;
         } else {
-            document.getElementById("status_etm").innerHTML = d + ' ' + h;
+            document.getElementById('status_etm').innerHTML = d + ' ' + h;
         }
+
+        // Analyze data for alerts
+        webGI.alert.analyze(edr,c);
 
     };
 
+
     /***************************************************************************
      * Private functions *******************************************************/
+
 
     return my;
 

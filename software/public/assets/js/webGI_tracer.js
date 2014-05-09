@@ -10,16 +10,22 @@ if (typeof webGI === 'undefined') {
 // Add tracer module to webGI namespace
 webGI.tracer = (function($) {
 
-    // Public attributes
+    /***************************************************************************
+     * Public attributes *******************************************************/
+
     var my = {
         container_id: 'traceContainer',
         canvas_id: 'traceCanvas'
     };
 
-    // Private attributes
+
+    /***************************************************************************
+     * Private attributes ******************************************************/
+
     var particles = {};
     var draw_interval = null;
     var active = false;
+
 
     /***************************************************************************
      * Public functions ********************************************************/
@@ -53,6 +59,7 @@ webGI.tracer = (function($) {
             }
         }
     };
+
 
     /***************************************************************************
      * Private functions *******************************************************/
@@ -102,6 +109,7 @@ webGI.tracer = (function($) {
             }
         });
     }
+
 
     return my;
 

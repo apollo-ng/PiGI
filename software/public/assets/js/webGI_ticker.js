@@ -10,24 +10,36 @@ if (typeof webGI === 'undefined') {
 // Add ticker module to webGI namespace
 webGI.ticker = (function($) {
 
-    // Public attributes
+    /***************************************************************************
+     * Public attributes *******************************************************/
+
     var my = {
         enabled: false
     };
 
-    // Private attributes
+
+    /***************************************************************************
+     * Private attributes ******************************************************/
+
     var ws_ticks = null;
     var tick_snd = new Audio("assets/snd/tock.wav");
+
 
     /***************************************************************************
      * Public functions ********************************************************/
 
     my.init = function() {
+
         // Add Checkbox to client settings panel
-        webGI.options.addOptionCheckbox('client_settings', 'cnf_silent', 'Silent Mode (No Audio Feedback/Alerts)');
+        webGI.options.addOptionCheckbox(
+            'client_settings',
+            'cnf_silent',
+            'Silent Mode (No Audio Feedback/Alerts)'
+        );
     };
 
     my.enable = function() {
+
         my.enabled = true;
         ws_ticks = new WebSocket(webGI.conf.websocket_host + "/ws_ticks");
         ws_ticks.onmessage = function(e) {
@@ -53,6 +65,7 @@ webGI.ticker = (function($) {
         my.enabled = false;
         ws_ticks.close();
     };
+
 
     /***************************************************************************
      * Private functions *******************************************************/

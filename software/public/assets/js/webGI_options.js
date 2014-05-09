@@ -10,37 +10,51 @@ if (typeof webGI === 'undefined') {
 // Add module to webGI namespace
 webGI.options = (function($) {
 
-    // Public attributes
+    /***************************************************************************
+     * Public attributes *******************************************************/
+
     var my = {
-        server : {},
-        client : {
-            show_dtc : true
+        server: {},
+        client: {
+            show_dtc: true
         }
     };
 
-    // Private attributes
-    var ws_conf = new WebSocket(webGI.conf.websocket_host + '/ws_conf');
-    ws_conf.onopen = function() {
-        my.request();
-    };
 
-    ws_conf.onmessage = function(e) {
-        var msg = JSON.parse(e.data);
-        //console.log(msg);
-        switch (msg.type) {
-        case 'geigerconf':
-                update(msg);
-                break;
+    /***************************************************************************
+     * Private attributes ******************************************************/
 
-            default:
-                console.log('INVALID MESSAGE', msg);
-        }
-    };
+    var ws_conf = null;
+
 
     /***************************************************************************
      * Public functions ********************************************************/
 
+    my.init = function() {
+
+        ws_conf = new WebSocket(webGI.conf.websocket_host + '/ws_conf');
+
+        ws_conf.onopen = function() {
+            my.request();
+        };
+
+        ws_conf.onmessage = function(e) {
+
+            var msg = JSON.parse(e.data);
+            //console.log(msg);
+            switch (msg.type) {
+                case 'geigerconf':
+                    update(msg);
+                    break;
+
+                default:
+                    console.log('INVALID MESSAGE', msg);
+            }
+        };
+    };
+
     my.save = function() {
+
         my.server.sim_dose_rate = parseFloat($('#server_cnf_sim_dose_rate').val());
 
         // Get OpMode
@@ -85,12 +99,12 @@ webGI.options = (function($) {
     };
 
     my.request = function() {
+
         var cmd = {
-            "cmd": "get"
+            'cmd': 'get'
         };
 
         ws_conf.send(JSON.stringify(cmd));
-        //console.log("Requesting options");
     };
 
     my.reset = function() {
@@ -102,6 +116,7 @@ webGI.options = (function($) {
     };
 
     my.lin2log = function(position) {
+
         var minp = 0;
         var maxp = 100;
         var minv = Math.log(0.01);
@@ -111,6 +126,7 @@ webGI.options = (function($) {
     };
 
     my.log2lin = function(value) {
+
         var minp = 0;
         var maxp = 100;
         var minv = Math.log(0.01);
@@ -120,6 +136,7 @@ webGI.options = (function($) {
     };
 
     my.geoSnapshotCallback = function(position) {
+
         //console.log(position);
         $('#server_cnf_node_lat').val(position.coords.latitude.toFixed(5));
         $('#server_cnf_node_lon').val(position.coords.longitude.toFixed(5));
@@ -127,6 +144,7 @@ webGI.options = (function($) {
     };
 
     my.addOptionCheckbox = function(parent_id, id, label, checked) {
+
         checked = (typeof checked === "undefined") ? false : checked;
         var content = '<li class="option_checkbox">';
         content += '<input type="checkbox" id="' + id + '" ' + (checked ? 'checked="checked"' : '') + ' />';
@@ -137,6 +155,7 @@ webGI.options = (function($) {
         content += '</li>';
         $('#' + parent_id).append(content);
     };
+
 
     /***************************************************************************
      * Private functions *******************************************************/
@@ -199,6 +218,7 @@ webGI.options = (function($) {
         document.getElementById('server_entropy_pool').value = msg.entropy_pool;
         //$('#server_entropy_pool').val(msg.entropy_pool);
     }
+
 
     return my;
 

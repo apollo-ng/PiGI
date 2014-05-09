@@ -1,33 +1,46 @@
-//This is a template for webGI modules
-//Copy and extend...
+/*
+ * This is a skeleton template for webGI modules
+ * Just copy and extend...
+ */
 
-//Create webGI object if neccessary
+// Create webGI object if neccessary
 if (typeof webGI === 'undefined') {
-    webGI = {}
+    webGI = {};
 }
 
-//Add module to webGI namespace
+// Add module_name to webGI namespace
 webGI.module_name = (function($) {
-    //We have jquery/zepto available ($)
 
-    //Public attributes
-    var my = {};
-    my.public_attribute = "foo";
-    
-    //Private attributes
-    var private_attribute = "bar";
-    
-    //Public Function
+    /***************************************************************************
+     * Public attributes *******************************************************/
+
+    var my = {
+        public_attribute : 'foo'
+    };
+
+
+    /***************************************************************************
+     * Private attributes ******************************************************/
+
+    var private_attribute = 'bar';
+
+
+    /***************************************************************************
+     * Public functions ********************************************************/
+
     my.public_function = function() {
         console.log(my.public_attribute);
         private_function();
     };
-    
-    //Private Function
+
+
+    /***************************************************************************
+     * Private functions *******************************************************/
+
     function private_function() {
-        console.log(private_attr);
+        console.log(private_attribute);
     }
-    
-    //Do not forget to return my, otherwise nothing will work.
-    return my;
-}($));  //Pass jq/zepto to the module construction function call
+
+
+    return my; // Do not forget to return my, otherwise nothing will work.
+}($));  // Pass jq/zepto to the module construction function call

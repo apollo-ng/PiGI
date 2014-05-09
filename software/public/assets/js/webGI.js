@@ -300,11 +300,13 @@ $(document).ready(function() {
         return;
     }
 
-    webGI.livechart.init_socket();
+    webGI.options.init();
     webGI.status.init();
     webGI.status.init_socket();
+    webGI.livechart.init_socket();
     webGI.geo.init();
     webGI.ticker.init();
+    webGI.alert.init();
 
     // Set callbacks to updateLayout on window resize and url-hash change (panels)
     // Should have been replaced by pageAnimationEnd event but doesn't work as well

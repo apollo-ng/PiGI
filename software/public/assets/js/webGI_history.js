@@ -1,3 +1,7 @@
+/*
+ * History Chart/Data websocket module
+ */
+
 //Create webGI object if neccessary
 if (typeof webGI === 'undefined') {
     webGI = {};
@@ -5,19 +9,23 @@ if (typeof webGI === 'undefined') {
 
 //Add module to webGI namespace
 webGI.history = (function($) {
-    //We have jquery/zepto available ($)
 
-    //Public attributes
+    /***************************************************************************
+     * Public attributes *******************************************************/
+
     var my = {};
     my.container_id = "historyContainer";
     my.log_scale = false;
 
 
-    //Private attributes
+    /***************************************************************************
+     * Private attributes ******************************************************/
+
     var container = null;
     var chart = null;
     var data = [];
     var annotations = [];
+
 
     /***************************************************************************
      * Public functions ********************************************************/
@@ -153,8 +161,10 @@ webGI.history = (function($) {
         my.log_scale = enabled;
     };
 
+
     /***************************************************************************
      * Private functions *******************************************************/
+
 
     return my;
 

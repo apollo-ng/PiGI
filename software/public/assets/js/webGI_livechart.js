@@ -1,3 +1,7 @@
+/*
+ * Live Chart/Data websocket module
+ */
+
 // Create webGI object if neccessary
 if (typeof webGI === 'undefined') {
     webGI = {};
@@ -6,7 +10,9 @@ if (typeof webGI === 'undefined') {
 // Add livechart module to webGI namespace
 webGI.livechart = (function($) {
 
-    // Public attributes
+    /***************************************************************************
+     * Public attributes *******************************************************/
+
     var my = {
         container_id: 'chartContainer',
         chart_age: 60 * 15,
@@ -14,7 +20,10 @@ webGI.livechart = (function($) {
         annotation_ts: null
     };
 
-    // Private attributes
+
+    /***************************************************************************
+     * Private attributes ******************************************************/
+
     var container = null;
     var chart = null;
     var data = [];
@@ -28,6 +37,7 @@ webGI.livechart = (function($) {
     var chart_colors = ['#677712', 'yellow'];
     var ws_log = null;
 
+
     /***************************************************************************
      * Public functions ********************************************************/
 
@@ -40,6 +50,7 @@ webGI.livechart = (function($) {
         }
 
         var clickCallback = function(e) {
+
             var x = e.offsetX;
             var y = e.offsetY;
             var dataXY = chart.toDataCoords(x, y);
@@ -51,6 +62,7 @@ webGI.livechart = (function($) {
         };
 
         var annotationClickCallback = function(annotation, point) {
+
             my.annotation_ts = annotation.xval / 1000;
             $('#eventTS').html(new Date(annotation.xval));
             $('#eventEDR').html(point.yval.toFixed(2));
@@ -59,6 +71,7 @@ webGI.livechart = (function($) {
         };
 
         my.save_annotation = function() {
+
             var annotation_text = $('#eventText').val();
             //console.log(my.annotation_ts, annotation_text);
             my.pushAnnotation(my.annotation_ts, annotation_text);
@@ -66,6 +79,7 @@ webGI.livechart = (function($) {
         };
 
         chart = new Dygraph(my.container_id, data, {
+
             dateWindow: [my.now - my.chart_age * 1000, my.now],
             title: 'EAR: $$ uSv/h (AVG) - EAD: $$ uSv (Total)',
             titleHeight: 35,
@@ -95,9 +109,11 @@ webGI.livechart = (function($) {
     };
 
     my.init_socket = function() {
+
         ws_log = new WebSocket(webGI.conf.websocket_host + "/ws_log");
 
         ws_log.onopen = function() {
+
             $('#modalError').removeClass('md-show');
             setTimeout(function() {
                 my.requestLog(60 * 60 * 1, true);
@@ -107,6 +123,7 @@ webGI.livechart = (function($) {
         };
 
         ws_log.onclose = function() {
+
             ws_log = new WebSocket(webGI.conf.websocket_host + "/ws_log");
             showErrorModal(
                 'Websocket Error',
@@ -116,6 +133,7 @@ webGI.livechart = (function($) {
         };
 
         ws_log.onmessage = function(e) {
+
             var msg = JSON.parse(e.data);
             //console.log(msg);
             switch (msg.type) {
@@ -135,7 +153,6 @@ webGI.livechart = (function($) {
     };
 
     my.update = function(msg) {
-        //console.log("UPDATE")
 
         var ts = new Date(msg.timestamp * 1000);
         data_hd.push([ts, msg.data.edr, msg.data.edr_avg]);
@@ -151,7 +168,6 @@ webGI.livechart = (function($) {
         var left_end_hd = new Date((msg.timestamp - 60 * 60 * 1) * 1000);
         while (data_hd[0][0] < left_end_hd) data_hd.shift();
 
-
         chart.updateOptions({
             file: data,
             dateWindow: [my.now - my.chart_age * 1000, my.now]
@@ -159,6 +175,7 @@ webGI.livechart = (function($) {
     };
 
     my.updateBacklog = function(msg) {
+
         //console.log("LOGHISTORY");
         if (msg.hd) {
             data_hd = [];
@@ -223,6 +240,7 @@ webGI.livechart = (function($) {
 
 
     my.set_log_scale = function(enabled) {
+
         if (chart) chart.updateOptions({
             logscale: enabled
         });
@@ -230,6 +248,7 @@ webGI.livechart = (function($) {
     };
 
     my.set_colors = function(c) {
+
         if (chart) chart.updateOptions({
             colors: c
         });
@@ -237,6 +256,7 @@ webGI.livechart = (function($) {
     };
 
     my.set_age = function(seconds) {
+
         my.chart_age = seconds;
         if (animtimer !== null) {
             clearTimeout(animtimer);
@@ -270,6 +290,7 @@ webGI.livechart = (function($) {
     };
 
     my.requestLog = function(age, hd) {
+
         var cmd = {
             "cmd": "read",
             "age": age,
@@ -281,6 +302,7 @@ webGI.livechart = (function($) {
     };
 
     my.requestHistory = function(from, to) {
+
         var cmd = {
             "cmd": "history",
             "from": from,
@@ -296,6 +318,7 @@ webGI.livechart = (function($) {
     };
 
     my.getDose24h = function() {
+
         var first = data_ld_all[0];
         var last = data_ld_all[data_ld_all.length - 1];
         var counts = last.data.totalcount_dtc - first.data.totalcount_dtc;
@@ -305,6 +328,7 @@ webGI.livechart = (function($) {
     };
 
     my.pushAnnotation = function(ts, text) {
+
         var cmd = {
             "cmd": "annotation",
             "timestamp": ts,
@@ -315,10 +339,12 @@ webGI.livechart = (function($) {
         //console.log ("Requesting history");
     };
 
+
     /***************************************************************************
      * Private functions *******************************************************/
 
     function chartApproachRange() {
+
         if (!desired_range) return;
         // go halfway there
         var range = chart.xAxisRange();
@@ -353,10 +379,12 @@ webGI.livechart = (function($) {
     }
 
     function zoom(age) {
+
         var w = chart.xAxisRange();
         desired_range = [my.now - age, my.now];
         chartAnimate();
     }
+
 
     return my;
 

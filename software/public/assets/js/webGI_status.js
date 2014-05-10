@@ -129,7 +129,7 @@ webGI.status = (function($) {
                 $('#statusGauge').attr('max', s);
 
                 document.getElementById('lvl_val').innerHTML = c;
-                document.getElementById('status_radcon').innerHTML = c;
+                //document.getElementById('status_radcon').innerHTML = c;
                 $('.rc-row').removeClass('current');
                 $('#rc' + c).addClass('current');
 
@@ -172,7 +172,7 @@ webGI.status = (function($) {
 
         document.getElementById('edr_val').innerHTML = edr.toFixed(2);
         document.getElementById('status_edr_val').innerHTML = edr.toFixed(2);
-        document.getElementById('statusGauge').value = edr;
+        //document.getElementById('statusGauge').value = edr;
         document.getElementById('status_cps').innerHTML = parseInt(msg.data.cps_dtc);
         document.getElementById('status_cpm').innerHTML = parseInt(msg.data.cpm_dtc);
         document.getElementById('status_rem').innerHTML = (edr / 10).toFixed(2);

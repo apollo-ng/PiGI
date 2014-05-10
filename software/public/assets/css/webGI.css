@@ -2123,18 +2123,19 @@ keyframes simNotify {
     width: 65% !important;
     font-size: 30px !important;
     height: 36px;
-    line-height: 36px;
+    line-height: 38px;
     padding: 0 !important;
+	margin-left: -15px !important;
 }
 
 .options-inline-text input[type=number]:invalid {
-    -webkit-box-shadow:
+    -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
 }
 
 .options-inline-text input[type=number]:-moz-focusring {
-    -webkit-box-shadow:
+    -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
 }
@@ -2143,7 +2144,7 @@ keyframes simNotify {
 .options-inline-text input::-webkit-inner-spin-button {
     /* display: none; <- Crashes Chrome on hover */
     -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+    margin: 0 !important; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
 .options-inline-text label {
@@ -2346,13 +2347,13 @@ keyframes simNotify {
 }
 
 .status_big {
-    height: 15%;
+    height: 20%;
     display: inline-block;
 }
 
 .status_big label {
     background: #fafafa;
-    height: 15%;
+    height: 20%;
     line-height: 100%;
     -webkit-border-top-left-radius: 7px;
     -moz-border-radius-topleft: 7px;
@@ -2367,6 +2368,7 @@ keyframes simNotify {
     display: inline-block;
     overflow: hidden;
     vertical-align: middle;
+	line-height: 100%;
     font-size: auto;
 }
 
@@ -2440,8 +2442,7 @@ keyframes simNotify {
     width: 25%;
     overflow: hidden;
     display: inline-block;
-    vertical-align: middle;
-    border: 0px solid red;
+    vertical-align: top;
 }
 
 /*  COLUMN SETUP  */

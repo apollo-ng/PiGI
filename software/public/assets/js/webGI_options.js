@@ -108,11 +108,27 @@ webGI.options = (function($) {
     };
 
     my.reset = function() {
-        console.log("FIXME: I should clear pyGI conf/dynamic.cfg");
+        console.log("clear pyGI conf/dynamic.cfg");
+        ws_conf.send(JSON.stringify({"cmd": "resetDynamicCfg"}));
+        my.request();
     };
 
     my.startEntropyDownload = function() {
-        console.log("FIXME: I should trigger the download/delete routine in pyGI");
+        var hiddenIFrameID = 'hiddenDownloader',
+        iframe = document.getElementById(hiddenIFrameID);
+        if (iframe === null) {
+            iframe = document.createElement('iframe');
+            iframe.id = hiddenIFrameID;
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+        }
+        iframe.src = "/webGI/data/entropy.bin";
+    };
+    
+    my.resetEntropy = function() {
+        console.log("Resetting entropy");
+        ws_conf.send(JSON.stringify({"cmd": "resetEntropy"}));
+        my.request();
     };
 
     my.lin2log = function(position) {

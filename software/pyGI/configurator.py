@@ -54,7 +54,15 @@ class Configurator():
     def write_dynamic(self):
         with open(PATH_DYNAMIC,'wb') as f:
             self.dynamic_conf.write(f)
-            
+    
+    def clear_dynamic(self):
+        try:
+            os.remove(PATH_DYNAMIC)
+        except OSError:
+            pass
+        
+        self.dynamic_conf = ConfigParser.SafeConfigParser()
+        self.read_dynamic()
     
     def get(self,section,option):
         try:

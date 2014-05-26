@@ -59,6 +59,14 @@ function initUI() {
         $('#modalAuth').addClass('md-show');
     });
 
+    $('#showModalResetEntropy').bind(webGI.conf.ui_action, function() {
+        $('#modalResetEntropy').addClass('md-show');
+    });
+    
+    $('#showModalResetSettings').bind(webGI.conf.ui_action, function() {
+        $('#modalResetSettings').addClass('md-show');
+    });
+
     $('#annotationSave').bind(webGI.conf.ui_action, function() {
         webGI.livechart.save_annotation();
     });
@@ -154,6 +162,10 @@ function initUI() {
 
     $('#startEntropyDownload').bind(webGI.conf.ui_action, function() {
         webGI.options.startEntropyDownload();
+    });
+    
+    $('#resetEntropy').bind(webGI.conf.ui_action, function() {
+        webGI.options.resetEntropy();
     });
 
 

@@ -290,7 +290,13 @@
                                     </label>
                                     <input type="number" id="server_entropy_pool" class="display_num" value="4" disabled />
                                 </div>
-                                <div style="width: 25% !important; max-width: 50px !important; margin: 0 !important; color: #75890c; font-size: 24px" class="button options-button"><span id="startEntropyDownload" class="icon-download" style="text-align: center; margin: 0; padding: 0; height: 35px; line-height: 35px; display: inline-block; text-overflow: ellipsis;"></span>
+                                <div style="width: 25% !important; max-width: 50px !important; margin: 0 !important; color: #75890c; font-size: 24px" class="button options-button">
+                                    <span id="startEntropyDownload" class="icon-download" style="text-align: center; margin: 0; padding: 0; height: 35px; line-height: 35px; display: inline-block; text-overflow: ellipsis;">
+                                    </span>
+                                </div>
+                                <div style="width: 25% !important; max-width: 50px !important; margin: 0 !important; color: #75890c; font-size: 24px" class="button options-button">
+                                    <span id="showModalResetEntropy" class="icon-cancel" style="text-align: center; margin: 0; padding: 0; height: 35px; line-height: 35px; display: inline-block; text-overflow: ellipsis;">
+                                    </span>
                                 </div>
                             </div>
                             <div class="options-inline-radio" style="width:30%; max-width: 30%; min-width: 30%">
@@ -307,7 +313,7 @@
                     </li>
                 </ul>
                 <a href="#" class="button icon-reload" style="display: inline-block" id="reloadSettings"></a>
-                <a href="#" class="button" style="display: inline-block" id="resetSettings">Restore Defaults</a>
+                <a href="#" class="button" style="display: inline-block" id="showModalResetSettings">Restore Defaults</a>
                 <a href="#" class="button green" style="display: inline-block" id="showModalAuth">Save Settings</a>
             </div>
         </div>
@@ -378,6 +384,32 @@
             <div class="md-footer">
                 <a class="md-close" onclick="$('#modalAuth').removeClass('md-show');">Cancel</a>
                 <a class="md-close md-green dissolve" id="saveServerSettings" href="#serverOptionsPanel" onclick="$('#modalAuth').removeClass('md-show');">Save</a>
+            </div>
+        </div>
+    </div>
+    
+    <div id="modalResetEntropy" class="modal md-animation">
+        <div class="md-content red">
+            <h3 class="icon-attention md-red">&nbsp;Reset collected entropy</h3>
+            <div>
+                Do you want to delete all collected entropy?
+            </div>
+            <div class="md-footer">
+                <a class="md-close" onclick="$('#modalResetEntropy').removeClass('md-show');">Cancel</a>
+                <a class="md-close md-red dissolve" id="resetEntropy" href="#serverOptionsPanel" onclick="$('#modalResetEntropy').removeClass('md-show');">Delete</a>
+            </div>
+        </div>
+    </div>
+    
+    <div id="modalResetSettings" class="modal md-animation">
+        <div class="md-content red">
+            <h3 class="icon-attention md-red">&nbsp;Reset server options</h3>
+            <div>
+                Do you want to restore the default server options?
+            </div>
+            <div class="md-footer">
+                <a class="md-close" onclick="$('#modalResetSettings').removeClass('md-show');">Cancel</a>
+                <a class="md-close md-red dissolve" id="resetSettings" href="#serverOptionsPanel" onclick="$('#modalResetSettings').removeClass('md-show');">Reset</a>
             </div>
         </div>
     </div>

@@ -18,6 +18,7 @@ log=logging.getLogger(__name__)
 app = bottle.Bottle()
 script_dir = sys.path[0]
 public_dir = os.path.join(script_dir,"public")
+log_dir = os.path.join(script_dir,"log")
 
 wsock_mgr_status = None
 wsock_mgr_ticks = None
@@ -36,6 +37,12 @@ def favicon():
 def send_static(filename):
     log.debug("serving %s" % filename)
     return bottle.static_file(filename, root=public_dir)
+
+
+@app.route('/webGI/data/entropy.bin')
+def send_entropy():
+    log.debug("serving entropy file")
+    return bottle.static_file("entropy.bin", root=log_dir, download=True)
 
 def get_websocket_from_request():
     env = bottle.request.environ
@@ -118,7 +125,7 @@ def handle_ws_conf():
             if msg.get("cmd") == "get":
                 try:
                     entropy_pool = os.path.getsize(cfg.get('entropy','filename'))
-                except IOError:
+                except (IOError, OSError):
                     entropy_pool = 0
                 conf = {
                     "type": "geigerconf",
@@ -152,6 +159,13 @@ def handle_ws_conf():
                 
                 cfg.write_dynamic()
                 cfg.read_dynamic()
+            elif msg.get("cmd") == "resetEntropy":
+                log.info("Resetting entropy file")
+                os.remove(os.path.join(script_dir,cfg.get('entropy','filename')))
+            elif msg.get("cmd") == "resetDynamicCfg":
+                log.info("Resetting client config")
+                cfg.clear_dynamic()
+                
         except WebSocketError:
             break
     log.info("websocket closed (%s)"%wsock.path)

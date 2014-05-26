@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="assets/css/webGI.css">
     <script src="assets/js/zepto.min.js" charset="utf-8"></script>
     <script src="assets/js/jqtouch.js" charset="utf-8"></script>
-    <script src="assets/js/dygraph-combined.js" charset="utf-8"></script>
+    <script src="assets/js/dygraph-combined-dev.js" charset="utf-8"></script>
     <script src="assets/js/webGI.js" charset="utf-8"></script>
     <script src="assets/js/webGI_tracer.js" charset="utf-8"></script>
     <script src="assets/js/webGI_ticker.js" charset="utf-8"></script>
@@ -60,15 +60,14 @@
                     </div>
 -->
 
-                    <div id="status_big_wrap" style="height: 100%; width: 99%; margin: 0 auto;">
+                    <div id="status_big_wrap">
                         <div class="section group status_big">
                             <div class="col span_1_of_2">
-                                <div class="display_label"><span class="label_txt">CPS</span>
-                                </div>
+                                <div class="display_label"><span class="label_txt">CPS</span></div>
                                 <div id="status_cps" class="display_num">5</div>
                             </div>
                             <div class="col span_1_of_2">
-                                <div class="display_label">CPM</div>
+                                <div class="display_label"><span class="label_txt">CPM</span></div>
                                 <div id="status_cpm" class="display_num">52</div>
                             </div>
                         </div>
@@ -76,33 +75,33 @@
 
                         <div class="section group status_big">
                             <div class="col span_1_of_2">
-                                <div class="display_label">EDR</div>
+                                <div class="display_label"><span class="label_txt">EDR</span></div>
                                 <div id="status_edr_val" class="display_num">5</div>
                             </div>
                             <div class="col span_1_of_2">
-                                <div class="display_label">mREM/h</div>
+                                <div class="display_label"><span class="label_txt">mREM/h</span></div>
                                 <div id="status_rem" class="display_num">52</div>
                             </div>
                         </div>
 
                         <div class="section group status_big">
                             <div class="col span_1_of_2">
-                                <div class="display_label">Avg 15M EDR</div>
+                                <div class="display_label"><span class="label_txt">Avg 15M EDR</span></div>
                                 <div id="status_avg_15min" class="display_num">5</div>
                             </div>
                             <div class="col span_1_of_2">
-                                <div class="display_label">24H Dose</div>
+                                <div class="display_label"><span class="label_txt">24H Dose</span></div>
                                 <div id="status_24h_dose" class="display_num">52</div>
                             </div>
                         </div>
 
                         <div class="section group status_big">
                             <div class="col span_1_of_2">
-                                <div class="display_label">ETMAD</div>
+                                <div class="display_label"><span class="label_txt">ETMAD</span></div>
                                 <div id="status_etm" class="display_num">5</div>
                             </div>
                             <div class="col span_1_of_2">
-                                <div class="display_label">Dosimeter</div>
+                                <div class="display_label"><span class="label_txt">Dosimeter</span></div>
                                 <div id="status_dosiemeter" class="display_num">52</div>
                             </div>
                         </div>
@@ -238,7 +237,7 @@
                             <span class="label_text">Environment</span>
                         </label>
                         <section class="env-suboptions-container options-inline-container">
-                            <div style="line-height: 50px; width: 35%; padding-left: 7px">Capability/Sensitivity</div>
+                            <div style="line-height: 50px; width: 35%; padding-left: 7px">Tube Mode</div>
                             <div class="options-inline-radio" style="width:60%; max-width: 60%; min-width: 60%">
                                 <div style="width: 30%">
                                     <input type="radio" value="c" title="" id="cgw_c" name="server_cnf_geigercounter_window" />

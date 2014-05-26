@@ -2329,16 +2329,16 @@ keyframes simNotify {
     display: inline-block;
 }
 
-.status_big label {
-    background: #fafafa;
+.status_big .display_label {
     height: 20%;
-    line-height: 100%;
-    -webkit-border-top-left-radius: 7px;
-    -moz-border-radius-topleft: 7px;
-    border-top-left-radius: 7px;
-    -webkit-border-top-right-radius: 7px;
-    -moz-border-radius-topright: 7px;
-    border-top-right-radius: 7px;
+	  font-size: 1.7em;
+}
+
+.status_big .display_label span {
+border: 1px solid red;
+display: block;
+margin: 0 auto !important;
+font-weight: bold;
 }
 
 .status_big .display_num {
@@ -2346,7 +2346,7 @@ keyframes simNotify {
     display: inline-block;
     overflow: hidden;
     vertical-align: middle;
-	line-height: 100%;
+		line-height: 100%;
     font-size: 4em;
 }
 
@@ -2389,14 +2389,15 @@ keyframes simNotify {
 }
 
 .display_label  {
-    vertical-align: top;
+    vertical-align: middle !important;
+		text-align: center;
     font-family: "Arimo", sans-serif;
-    font-size: 16px;
+		color: rgba(51,46,34,0.84);
+		text-shadow: 0px 1px 0px rgba(255,255,255,0.4), 0px -1px 0px rgba(0,0,0,1);
     background: -moz-linear-gradient(top, rgba(216,211,197,0.8) 0%, rgba(242,238,222,0.4) 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(216,211,197,0.6)), color-stop(100%,rgba(242,238,222,0.3)));
     background: -webkit-linear-gradient(top, rgba(216,211,197,0.8) 0%,rgba(242,238,222,0.4) 100%);
     background: linear-gradient(to bottom, rgba(216,211,197,0.8) 0%,rgba(242,238,222,0.4) 100%);
-    text-shadow: 0 1px 1px rgba(255,255,255,0.5);
 }
 
 
@@ -2404,7 +2405,7 @@ keyframes simNotify {
 .section {
     padding: 0;
     margin: 0;
-    border: 0px solid red;
+    border: 0;
     width: 100%;
     margin-bottom: 15px;
 }
@@ -2420,7 +2421,7 @@ keyframes simNotify {
     width: 25%;
     overflow: hidden;
     display: inline-block;
-    vertical-align: top;
+    vertical-align: middle;
 }
 
 /*  COLUMN SETUP  */
@@ -2530,4 +2531,20 @@ keyframes simNotify {
     .hide-on-900 {
         display: none;
     }
+
+		.section .display_label  {
+			width: 18%;
+		}
+
+		.status_big .display_label span {
+	    	display: block;
+   -o-transform-origin: bottom right;
+    -moz-transform-origin: bottom right;
+    -webkit-transform-origin: bottom right;
+		  -o-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+				font-size: 1.2em;
+				text-shadow: -1px 0px 0px rgba(255,255,255,0.6), 1px 0px 0px rgba(0,0,0,1);
+		}
 }

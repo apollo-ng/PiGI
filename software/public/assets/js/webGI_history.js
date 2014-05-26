@@ -1,5 +1,5 @@
 /*
- * History Chart/Data websocket module
+ * History Chart/Data module
  */
 
 //Create webGI object if neccessary
@@ -35,30 +35,54 @@ webGI.history = (function($) {
             return;
         }
 
-        var clickCallback = function(e) {
+        var objToString = function(obj) {
+            var tabjson=[];
+            for (var p in obj) {
+                if (obj.hasOwnProperty(p)) {
+                    tabjson.push('"'+p +'"'+ ':' + obj[p]);
+                }
+            }
+            tabjson.push();
+            return '{'+tabjson.join(',')+'}';
+        };
+
+        var clickCallback = function(e,z,pts) {
+            alert("e: " + objToString(e));
+            alert("z: " + objToString(z));
+            alert("pts: " + objToString(pts));
             var x = e.offsetX;
             var y = e.offsetY;
             var dataXY = chart.toDataCoords(x, y);
             $('#eventTS').html(new Date(dataXY[0]));
             $('#eventText').val("Enter your annotation text here...");
             webGI.livechart.annotation_ts = dataXY[0] / 1000;
-            console.log("HA:", webGI.livechart.annotation_ts);
             $('#eventEDR').html(dataXY[1].toFixed(2));
             $('#modalAnnotation').addClass('md-show');
         };
 
         var annotationClickCallback = function(annotation, point) {
-            console.log(annotation.xval);
-            console.log(annotation.text);
-            console.log(point.yval);
-            console.log(point.yval);
             webGI.livechart.annotation_ts = annotation.xval / 1000;
-            console.log("HAA:", webGI.livechart.annotation_ts);
             $('#eventTS').html(new Date(annotation.xval));
             $('#eventEDR').html(point.yval.toFixed(2));
-            $('#eventText').val(annotation.text);
+            $('#eventText').val(escapeHTML(annotation.text));
             $('#modalAnnotation').addClass('md-show');
         };
+
+        var pts_info = function(e, x, pts, row) {
+
+            var date = new Date(x).toLocaleString().split(" ");
+            var str = "";
+            var yRangeMaxHighlight = 0;
+
+            for (var i = 0; i < chart.numRows(); i++) {
+                if ( chart.xAxisRange()[0] <= chart.getValue(i, 0) && x >= chart.getValue(i, 0) ) {
+                    yRangeMaxHighlight += chart.getValue(i, 1);
+                }
+            }
+
+            str += " <b><span style=color:#003366;>accumulated</span></b>: " + yRangeMaxHighlight.toFixed(2);
+			return str;
+		};
 
         chart = new Dygraph(my.container_id, data, {
             //interactionModel : {
@@ -74,7 +98,7 @@ webGI.history = (function($) {
             rangeSelectorPlotStrokeColor: '#677712',
             title: 'EAR: $$ uSv/h (AVG) - EAD: $$ uSv (Total)',
             titleHeight: 35,
-            rightGap: 10,
+            rightGap: 15,
             fillAlpha: 0.7,
             fillGraph: true,
             showRoller: false,
@@ -95,7 +119,9 @@ webGI.history = (function($) {
             //    webGI.history.chart.updateOptions({valueRange: [0.01, null]});
             //},
             interactionModel: {
+                'touchend': clickCallback,
                 'click': clickCallback
+
             },
             annotationClickHandler: annotationClickCallback,
             /*

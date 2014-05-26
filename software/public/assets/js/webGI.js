@@ -5,7 +5,7 @@ if (typeof webGI === 'undefined') {
 webGI.conf = {
     websocket_host: "ws://" + window.location.hostname + ":" + window.location.port,
     bell_snd: new Audio("assets/snd/ui-bell.mp3"),
-    ui_action: 'click',
+    ui_action: 'tap',
     alerts_enabled: 1,
     dtc_enabled: 1,
     gps_hacc: 0
@@ -14,6 +14,7 @@ webGI.conf = {
 webGI.jQT = new $.jQTouch({
     icon: 'jqtouch.png',
     statusBar: 'black-translucent',
+    useFastTouch: true,
     preloadImages: []
 });
 
@@ -116,7 +117,9 @@ function initUI() {
 
     // Orientation change callback event
     $('#jqt').bind('turn', function(e, data) {
-        console.log('Orientation changed to: ' + data.orientation);
+        alert('Orientation changed to: ' + data.orientation);
+        $('#jqt').removeClass('portrait');
+        $('#jqt').addClass('landscape');
         updateLayout();
     });
 
@@ -292,6 +295,10 @@ function updateConfig() {
     console.log("Writing config to local storage");
 }
 
+function escapeHTML(str) {
+    return str.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
 $(document).ready(function() {
 
     // Make sure we've got a capable browser
@@ -301,9 +308,9 @@ $(document).ready(function() {
     }
 
     webGI.options.init();
+    webGI.livechart.init_socket();
     webGI.status.init();
     webGI.status.init_socket();
-    webGI.livechart.init_socket();
     webGI.geo.init();
     webGI.ticker.init();
     webGI.alert.init();
@@ -315,7 +322,7 @@ $(document).ready(function() {
 
     // Switch UI click/tap event handler action for stupid apple browsers
     if ($.support.touch) {
-        webGI.conf.ui_action = 'touchend';
+        webGI.conf.ui_action = 'tap';
     } else {
         webGI.conf.ui_action = 'click';
     }

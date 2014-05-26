@@ -78,7 +78,7 @@ webGI.alert = (function($) {
             showErrorModal(
                 'RADIATION Warning',
                 '<p>RADCON level increased to <b>' + lvl + '</b></p>',
-                '<a class="md-close" onclick="webGI.alert.ack_new_lvl(' + lvl + ')">Acknowledged</a>'
+                '<a class="md-close md-green" onclick="webGI.alert.ack_new_lvl(' + lvl + ')">Acknowledged</a>'
             );
         } else if (lvl < radcon_alert_ack_lvl) {
             radcon_alert_ack_lvl = lvl;

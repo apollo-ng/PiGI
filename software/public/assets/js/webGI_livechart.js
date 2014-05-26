@@ -66,7 +66,7 @@ webGI.livechart = (function($) {
             my.annotation_ts = annotation.xval / 1000;
             $('#eventTS').html(new Date(annotation.xval));
             $('#eventEDR').html(point.yval.toFixed(2));
-            $('#eventText').val(annotation.text);
+            $('#eventText').val(escapeHTML(annotation.text));
             $('#modalAnnotation').addClass('md-show');
         };
 

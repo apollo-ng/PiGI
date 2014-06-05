@@ -183,6 +183,7 @@ webGI.status = (function($) {
         var d = parseInt(etm / 24);
         var h = parseInt(etm % 24);
 
+/*
         if (d > 365) {
             document.getElementById('status_etm').innerHTML = 'Indefinitely';
             //$('#status_etm').val(d+' '+ h);
@@ -191,7 +192,7 @@ webGI.status = (function($) {
         } else {
             document.getElementById('status_etm').innerHTML = d + ' ' + h;
         }
-
+*/
         // Analyze data for alerts
         webGI.alert.analyze(edr,c);
 

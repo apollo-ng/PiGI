@@ -48,89 +48,91 @@
             </div>
 
             <!-- Main Instrument -->
-            <div id="mainInstrument" class="instrument">
+            <div id="mainInstrument" class="instrument" style="height: 100%">
 
-                <div id="gaugeContainer" class="instrument-container">
+                <div id="gaugeContainer" class="instrument-container" style="height: 100%;">
 <!--
-                    <div style="padding-top: 40px; border: 0px solid red; height: 5%; min-height: 50px; width: 99% !important; max-width: 99% !important; min-width: 99% !important; margin: 0 auto !important; display: inline-block; text-align: center;">
-                        <div id="status_radcon">0</div>
-                        <progress id="statusGauge" max="100" value="60" style="width: 100%; height: 25px; border-radius: 5px; background: #282828;"><strong>0.27 uSv/h</strong>
-                        </progress>
-                        <div id="status_radcon_next">2</div>
+                    <div style="width: auto; height: 10%; text-align: center">
+                        <div id="status_radcon" style="display: inline-block; width: 10% !important; margin: 0 !important; color: #75890c; font-size: 24px" class="display options-display">
+                            1
+                        </div>
+                        <div style="width: 70% !important; display: inline-block;" class="display">
+                            <progress id="statusGauge" max="100" value="60" style="width: 100%; height: 25px; border-radius: 5px; background: #282828;"><strong>0.27 uSv/h</strong></progress>
+                        </div>
+                        <div id="status_radcon_next" style="width: 10% !important; display: inline-block; margin-left: 7px !important;" class="display options-display">
+                            2
+                        </div>
+                    </div>
+--><br />
+                    <div id="gaugeWrapper">
+                        <div class="col left">
+                            <div class="display">
+                                <span class="display_label"><div class="rotate">CPS</div></span>
+                                <span class="display_num" id="status_cps"></span>
+                            </div>
+                            <div class="display">
+                                <span class="display_label"><div class="rotate">CPM</div></span>
+                                <span class="display_num" id="status_cpm"></span>
+                            </div>
+                            <div class="display">
+                                <span class="display_label"><div class="rotate">mREM/h</div></span>
+                                <span class="display_num" id="status_rem"></span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="display">
+                                <span class="display_label"><div class="rotate">&micro;Sv/h</div></span>
+                                <span class="display_num green" id="status_edr_val"></span>
+                            </div>
+                            <div class="display">
+                                <span class="display_label"><div class="rotate">15M</div></span>
+                                <span class="display_num" id="status_avg_15min"></span>
+                            </div>
+                            <div class="display">
+                                <span class="display_label"><div class="rotate">24H</div></span>
+                                <span class="display_num" id="status_24h_dose"></span>
+                            </div>
+                        </div>
+                    </div>
+<!--
+                    <div style="width: auto; height: 10%; text-align: center">
+                        <div style="display:inline-block; width: 18%; color: #75890c; font-size: 24px" class="button options-button">
+                            <span id="showModalResetDosimeter" class="icon-cancel" style="text-align: center; margin: 0; padding: 0; width: 100px; height: 35px; line-height: 35px; display: inline-block; text-overflow: ellipsis;">Reset</span>
+                        </div>
+                        <div style="width: 45% !important; margin-left: 7px !important; display:inline-block;" class="display">
+                            <span class="display_label"><b>Last Reset</b></span>
+                            <span class="display_num" style="font-size: 2em">2014/06/02 14:37:22</span>
+                        </div>
+                        <div style="width: 25% !important; margin-left: 7px !important; display:inline-block;" class="display">
+                            <span class="display_label"><b>Dose</b></span>
+                            <span class="display_num" style="font-size: 2em">0.187</span>
+                        </div>
                     </div>
 -->
-
-                    <div id="status_big_wrap">
-                        <div class="section group status_big">
-                            <div class="col span_1_of_2">
-                                <div class="display_label"><span class="label_txt">CPS</span></div>
-                                <div id="status_cps" class="display_num">5</div>
-                            </div>
-                            <div class="col span_1_of_2">
-                                <div class="display_label"><span class="label_txt">CPM</span></div>
-                                <div id="status_cpm" class="display_num">52</div>
-                            </div>
-                        </div>
-
-
-                        <div class="section group status_big">
-                            <div class="col span_1_of_2">
-                                <div class="display_label"><span class="label_txt">EDR</span></div>
-                                <div id="status_edr_val" class="display_num">5</div>
-                            </div>
-                            <div class="col span_1_of_2">
-                                <div class="display_label"><span class="label_txt">mREM/h</span></div>
-                                <div id="status_rem" class="display_num">52</div>
-                            </div>
-                        </div>
-
-                        <div class="section group status_big">
-                            <div class="col span_1_of_2">
-                                <div class="display_label"><span class="label_txt">Avg 15M EDR</span></div>
-                                <div id="status_avg_15min" class="display_num">5</div>
-                            </div>
-                            <div class="col span_1_of_2">
-                                <div class="display_label"><span class="label_txt">24H Dose</span></div>
-                                <div id="status_24h_dose" class="display_num">52</div>
-                            </div>
-                        </div>
-
-                        <div class="section group status_big">
-                            <div class="col span_1_of_2">
-                                <div class="display_label"><span class="label_txt">ETMAD</span></div>
-                                <div id="status_etm" class="display_num">5</div>
-                            </div>
-                            <div class="col span_1_of_2">
-                                <div class="display_label"><span class="label_txt">Dosimeter</span></div>
-                                <div id="status_dosiemeter" class="display_num">52</div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
+
                 <div id="chartContainer" class="instrument-container" style="display: none"></div>
-                <div id="traceContainer" class="instrument-container" style="display: none">
-                    <canvas id="traceCanvas"></canvas>
-                </div>
+                <div id="traceContainer" class="instrument-container" style="display: none"><canvas id="traceCanvas"></canvas></div>
+
                 <div class="instrument-control-container">
                     <a href="#" id="toggleGauge" class="instrument-control viewableControl enabled">
                         <span class="icon-gauge"></span>
                         <span class="text-icon hide-on-900">Meters</span>
                     </a>
                     <a href="#" id="toggleTrace" class="instrument-control">
-                        <span class="big-icon icon-eye-1"></span>
+                        <span class="icon-eye-1"></span>
                         <span class="text-icon hide-on-900">Tracer</span>
                     </a>
                     <a href="#" id="live15m" class="instrument-control live-control" data-seconds=900>
-                        <span>15M</span>
+                        <span class="text-icon">15M</span>
                         <span class="icon-chart-area hide-on-900"></span>
                     </a>
                     <a href="#" id="live60m" class="instrument-control live-control" data-seconds=3600>
-                        <span>60M</span>
+                        <span class="text-icon">60M</span>
                         <span class="icon-chart-area hide-on-900"></span>
                     </a>
                     <a href="#" id="live24h" class="instrument-control live-control" data-seconds=86400>
-                        <span>24H</span>
+                        <span class="text-icon">24H</span>
                         <span class="icon-chart-area hide-on-900"></span>
                     </a>
                     <a href="#" id="toggleAudio" class="instrument-control">
@@ -138,9 +140,8 @@
                         <span class="text-icon hide-on-900">Ticks</span>
                     </a>
                 </div>
-                <div id="simNotify1">Simulation</div>
+                <div id="simNotify">Simulation</div>
             </div>
-
         </div>
 
         <!-- History Panel -->
@@ -170,10 +171,8 @@
                     </li>
                 </ul>
                 <ul class="rounded">
-                    <li><a href="#serverOptionsPanel" class="dissolve">Server Settings</a>
-                    </li>
-                    <li><a href="#about" class="dissolve">About</a>
-                    </li>
+                    <li><a href="#serverOptionsPanel" class="dissolve">Server Settings</a></li>
+                    <li><a href="#about" class="dissolve">About</a></li>
                 </ul>
             </div>
         </div>
@@ -190,7 +189,6 @@
             </div>
 
             <div class="scroll">
-
                 <h2>OPMode</h2>
                 <ul class="rounded">
                     <li class="option_radio">
@@ -208,22 +206,18 @@
                         </label>
                         <section class="options-inline-container geo-suboptions-container options-inline-text">
                             <div style="width: 33% !important; max-width: 33% !important; min-width: 33% !important; margin-left: 7px !important;" class="display options-display">
-                                <label for="server_cnf_node_lat" class="display_label"><span>Lat</span>
-                                </label>
+                                <label for="server_cnf_node_lat" class="display_label"><span>Lat</span></label>
                                 <input type="number" id="server_cnf_node_lat" class="display_num" value="00.00000" min="-90" max="90" />
                             </div>
                             <div style="width: 33% !important; max-width: 33% !important; min-width: 33% !important;" class="display options-display">
-                                <label for="server_cnf_node_lon" class="display_label"><span>Lon</span>
-                                </label>
+                                <label for="server_cnf_node_lon" class="display_label"><span>Lon</span></label>
                                 <input type="number" id="server_cnf_node_lon" class="display_num" value="00.00000" min="-180" max="180" />
                             </div>
                             <div style="width: 17% !important; max-width: 17% !important; min-width: 17% !important;" class="display options-display">
-                                <label for="server_cnf_node_alt" class="display_label"><span>Alt</span>
-                                </label>
+                                <label for="server_cnf_node_alt" class="display_label"><span>Alt</span></label>
                                 <input type="number" id="server_cnf_node_alt" class="display_num" value="0" min="-1000" max="20000" />
                             </div>
-                            <div style="width: 10% !important; max-width: 10% !important; min-width: 10% !important; margin: 0 !important;"><span id="geoSnapshot" class="button icon-target" style="text-align: center; margin: 0; padding: 0; height: 35px; line-height: 35px; display: inline-block; text-overflow: ellipsis;"></span>
-                            </div>
+                            <div style="width: 10% !important; max-width: 10% !important; min-width: 10% !important; margin: 0 !important;"><span id="geoSnapshot" class="button icon-target" style="text-align: center; margin: 0; padding: 0; height: 35px; line-height: 35px; display: inline-block; text-overflow: ellipsis;"></span></div>
                         </section>
                     </li>
                 </ul>
@@ -269,8 +263,7 @@
                         </label>
                         <section class="options-inline-container options-inline-text sim-suboptions-container">
                             <div style="width: 29% !important; max-width: 29% !important; min-width: 29% !important; margin: 0 !important;margin-top: 6px !important;margin-left: 7px !important;" class="display options-display">
-                                <label for="server_cnf_sim_dose_rate" class="display_label"><span>&micro;Sv/h</span>
-                                </label>
+                                <label for="server_cnf_sim_dose_rate" class="display_label"><span>&micro;Sv/h</span></label>
                                 <input type="number" id="server_cnf_sim_dose_rate" class="display_num" min="0.01" max="1000" />
                             </div>
                             <div style="height: 40px; width: 69% !important; max-width: 69% !important; min-width: 69% !important; margin: 0 !important; display: inline-block; text-align: center;">
@@ -286,17 +279,14 @@
                         <div class="options-inline-container" style="width:100%">
                             <div class="options-inline-text" style="width: 60%">
                                 <div style="width: 70% !important; max-width: 70% !important; min-width: 70% !important; margin-left: 7px !important;" class="display options-display">
-                                    <label for="server_entropy_pool" class="display_label"><span>Byte</span>
-                                    </label>
+                                    <label for="server_entropy_pool" class="display_label"><span>Byte</span></label>
                                     <input type="number" id="server_entropy_pool" class="display_num" value="4" disabled />
                                 </div>
                                 <div style="width: 25% !important; max-width: 50px !important; margin: 0 !important; color: #75890c; font-size: 24px" class="button options-button">
-                                    <span id="startEntropyDownload" class="icon-download" style="text-align: center; margin: 0; padding: 0; height: 35px; line-height: 35px; display: inline-block; text-overflow: ellipsis;">
-                                    </span>
+                                    <span id="startEntropyDownload" class="icon-download" style="text-align: center; margin: 0; padding: 0; height: 35px; line-height: 35px; display: inline-block; text-overflow: ellipsis;"></span>
                                 </div>
                                 <div style="width: 25% !important; max-width: 50px !important; margin: 0 !important; color: #75890c; font-size: 24px" class="button options-button">
-                                    <span id="showModalResetEntropy" class="icon-cancel" style="text-align: center; margin: 0; padding: 0; height: 35px; line-height: 35px; display: inline-block; text-overflow: ellipsis;">
-                                    </span>
+                                    <span id="showModalResetEntropy" class="icon-cancel" style="text-align: center; margin: 0; padding: 0; height: 35px; line-height: 35px; display: inline-block; text-overflow: ellipsis;"></span>
                                 </div>
                             </div>
                             <div class="options-inline-radio" style="width:30%; max-width: 30%; min-width: 30%">
@@ -351,15 +341,13 @@
                         <td>MIT</td>
                     </tr>
                     <tr>
-                        <td><a href="http://fgnass.github.io/spin.js/" target="_blank">spin.js</a>
-                        </td>
+                        <td><a href="http://fgnass.github.io/spin.js/" target="_blank">spin.js</a></td>
                         <td>Dynamically creates spinning activity indicators</td>
                         <td>MIT</td>
                     </tr>
                     <tr>
                         <td>ui-bell.mp3</td>
-                        <td><a href="http://www.freesound.org/people/unfa/sounds/215416/" target="_blank">Freesound/Unfa</a>
-                        </td>
+                        <td><a href="http://www.freesound.org/people/unfa/sounds/215416/" target="_blank">Freesound/Unfa</a></td>
                         <td>CC-BY</td>
                     </tr>
                 </table>
@@ -387,7 +375,7 @@
             </div>
         </div>
     </div>
-    
+
     <div id="modalResetEntropy" class="modal md-animation">
         <div class="md-content red">
             <h3 class="icon-attention md-red">&nbsp;Reset collected entropy</h3>
@@ -400,7 +388,7 @@
             </div>
         </div>
     </div>
-    
+
     <div id="modalResetSettings" class="modal md-animation">
         <div class="md-content red">
             <h3 class="icon-attention md-red">&nbsp;Reset server options</h3>
@@ -481,7 +469,7 @@
                             <td class="num">3</td>
                             <td class="edr">10 - 100 uSv/h</td>
                             <td></td>
-                        </tr>
+                    </tr>
                         <tr id="rc4" class="rc-row yellow">
                             <td class="num">4</td>
                             <td class="edr">100 - 1000 uSv/h</td>
@@ -516,7 +504,7 @@
 
     <div id="modalError" class="modal md-animation">
         <div class="md-content">
-            <h3 id="modalErrorTitle" class="icon-attention md-red"></h3>
+            <h3 id="modalErrorTitle" class="icon-attention md-red">Error MSG</h3>
             <div id="modalErrorMsg"></div>
             <div id="modalErrorAction" class="md-footer"></div>
         </div>
@@ -526,4 +514,5 @@
     <div class="splash"></div>
 
 </body>
+
 </html>

@@ -2,6 +2,8 @@ if (typeof webGI === 'undefined') {
     webGI = {};
 }
 
+if (typeof getConfig() === 'undefined') {
+
 webGI.conf = {
     websocket_host: "ws://" + window.location.hostname + ":" + window.location.port,
     bell_snd: new Audio("assets/snd/ui-bell.mp3"),
@@ -10,6 +12,11 @@ webGI.conf = {
     dtc_enabled: 1,
     gps_hacc: 0
 };
+
+} else
+{
+    getConfig();
+}
 
 webGI.jQT = new $.jQTouch({
     icon: 'jqtouch.png',
@@ -62,7 +69,7 @@ function initUI() {
     $('#showModalResetEntropy').bind(webGI.conf.ui_action, function() {
         $('#modalResetEntropy').addClass('md-show');
     });
-    
+
     $('#showModalResetSettings').bind(webGI.conf.ui_action, function() {
         $('#modalResetSettings').addClass('md-show');
     });
@@ -163,7 +170,7 @@ function initUI() {
     $('#startEntropyDownload').bind(webGI.conf.ui_action, function() {
         webGI.options.startEntropyDownload();
     });
-    
+
     $('#resetEntropy').bind(webGI.conf.ui_action, function() {
         webGI.options.resetEntropy();
     });
@@ -303,8 +310,14 @@ function updateLayout() {
     webGI.history.init();
 }
 
-function updateConfig() {
+function saveConfig() {
     console.log("Writing config to local storage");
+    localStorage.setItem('webGI-localconf', JSON.stringify(webGI.conf));
+}
+
+function getConfig() {
+    var localConf = localStorage.getItem('webGI-localconf');
+    console.log('Getting local webGI.conf: ', JSON.parse(localConf));
 }
 
 function escapeHTML(str) {

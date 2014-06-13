@@ -1327,7 +1327,7 @@ div#jqt #about a {
 	height: 100%;
 }
 
-#gaugeWrapper .display {
+div #gaugeWrapper .display {
 	display: table;
 	height: 33%;
 	width: 100%;
@@ -1344,7 +1344,7 @@ div#jqt #about a {
 	max-width: 38.4%;
 	height: 100%;
 	font-size: 4em;
-	letter-spacing: -2px;
+	letter-spacing: -4px;
 }
 
 #gaugeWrapper .display_num {
@@ -1363,7 +1363,6 @@ div#jqt #about a {
     font-weight: normal;
     text-align: center;
     color: #d8d3c5;
-    padding: 0 !important;
     overflow: hidden;
     -webkit-box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.2) 0 0px 0 1px;
     -moz-box-shadow: inset 0 0 42px 0 #000, 0 0 1.1em 0 rgba(0,0,0,0.55), rgba(255, 255, 255, 0.2) 0 0px 0 1px;
@@ -1399,6 +1398,16 @@ div#jqt #about a {
 .rotate {
 	display: inline-block;
 }
+
+.dosimeter {
+	display: table;
+	width: 99.8%;
+	height: 79%;
+	border-collapse: separate;
+	border-spacing: 10px;
+	border: 1px solid yellow;
+}
+
 
 @-webkit-keyframes simNotify {
     0% {  opacity: 0.0 }
@@ -2357,6 +2366,29 @@ keyframes simNotify {
     .hide-on-480 {
         display: none;
     }
+
+	.rotate {
+		display: inline-block;
+		transform-origin: 50% 50%;
+		-moz-transform: rotate(-90deg);
+		-webkit-transform: rotate(-90deg);
+		transform: rotate(-90deg);
+		font-size: 0.3em;
+		text-shadow: -1px 0px 0px rgba(255,255,255,0.5), 1px 0px 0px rgba(0,0,0,1);
+		margin-bottom: 20px;
+		letter-spacing: 0px;
+	}
+
+	#gaugeWrapper .display_label {
+		width: 20% !important;
+
+	}
+
+	#gaugeWrapper .display_num {
+		width: 80% !important;
+		font-size: 3.5em !important;
+	}
+
 }
 
 @media only screen and (max-width: 900px ) {
@@ -2377,14 +2409,16 @@ keyframes simNotify {
 	}
 
 	#gaugeWrapper .display_label {
-		width: 25%;
+		width: 35%;
 		font-size: 1.8em;
 		letter-spacing: -1px;
 	}
 
 	#gaugeWrapper .display_num {
-		width: 75%;
-		font-size: 500%;
+		width: 65%;
+		font-size: 450%;
+		text-align: right;
+		padding-right: 15px;
 	}
 
 	#gaugeWrapper .col {
@@ -2396,6 +2430,19 @@ keyframes simNotify {
 	#gaugeWrapper .display {
 		height: 33.3%;
 		border-collapse: separate;
+	}
+
+}
+
+@media only screen and (max-width: 1280px ) {
+
+	#gaugeWrapper .display_label {
+		font-size: 2.5em;
+		letter-spacing: -2px;
+	}
+
+	#gaugeWrapper .display_num {
+		font-size: 550%;
 	}
 
 }

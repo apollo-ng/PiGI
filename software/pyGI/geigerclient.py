@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 
 LOG_UPDATE_RATE = 5
 
-class WebsocketClientConnector():
+class WebSocketClientConnector():
     def __init__(self,ws):
         self.ws = ws
         self.session_id = uuid.uuid1()
@@ -53,6 +53,11 @@ class ClientsHandler():
         for thread in [self.status_thread]:
             thread.daemon = True
             thread.start()
+
+    def add(self,client):
+        if client in self.clients:
+            self.clients.remove(client)
+        self.clients.append(client)
 
     def send_all(self,msg):
         log.debug("broadcasting %s"%msg)

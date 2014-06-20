@@ -24,13 +24,16 @@ geiger = None
 geigerlog = None
 clients_handler = None
 
+
 @app.route('/')
 def index():
     return bottle.redirect('/webGI/index.html')
 
+
 @app.route('/favicon.ico')
 def favicon():
     return bottle.static_file("favicon.ico", root=public_dir)
+
 
 @app.route('/webGI/:filename#.*#')
 def send_static(filename):
@@ -43,80 +46,17 @@ def send_entropy():
     log.debug("serving entropy file")
     return bottle.static_file("entropy.bin", root=log_dir, download=True)
 
-def get_websocket_from_request():
+
+@app.route('/ws')
+def handle_ws():
     env = bottle.request.environ
     wsock = env.get('wsgi.websocket')
     if not wsock:
         abort(400, 'Expected WebSocket request.')
-    return wsock
-
-@app.route('/ws')
-def handle_ws():
-    wsock = get_websocket_from_request()
     log.info("websocket opened (%s)"%wsock.path)
     client = geigerclient.WebSocketClientConnector(wsock)
     clients_handler.add(client)
     client.receive_commands(clients_handler)
-
-@app.route('/ws_conf')
-def handle_ws_conf():
-    wsock = get_websocket_from_request()
-    log.info("websocket opened (%s)"%wsock.path)
-
-    while True:
-        try:
-            message = wsock.receive()
-            if message is None:
-                raise WebSocketError
-            log.info("Received : %s" % message)
-            msg = json.loads(message)
-            if msg.get("cmd") == "get":
-                try:
-                    entropy_pool = os.path.getsize(cfg.get('entropy','filename'))
-                except (IOError, OSError):
-                    entropy_pool = 0
-                conf = {
-                    "type": "geigerconf",
-                    "uuid": cfg.get('node','uuid'),
-                    "name": cfg.get('node','name'),
-                    "opmode": cfg.get('node','opmode'),
-                    "lat": cfg.getfloat('node','lat'),
-                    "lon": cfg.getfloat('node','lon'),
-                    "alt": cfg.getfloat('node','alt'),
-                    "sim_dose_rate": cfg.getfloat('geigercounter','sim_dose_rate'),
-                    "window": cfg.get('geigercounter','window'),
-                    "source": cfg.get('geigercounter','source') if geigercounter.gpio_available else "sim",
-                    "entropy": cfg.getboolean('entropy','enable'),
-                    "entropy_pool": entropy_pool
-                }
-                wsock.send(json.dumps(conf))
-            elif msg.get("cmd") == "save":
-                for field in ["lat","lon","alt","opmode"]:
-                    val = msg["conf"].get(field)
-                    if not val is None:
-                        cfg.set('node',field,str(val))
-
-                for field in ["window","source","sim_dose_rate"]:
-                    val = msg["conf"].get(field)
-                    if not val is None:
-                        cfg.set('geigercounter',field,str(val))
-
-                entropy_enable = msg["conf"].get("entropy")
-                if not entropy_enable is None:
-                    cfg.set('entropy','enable',str(entropy_enable))
-
-                cfg.write_dynamic()
-                cfg.read_dynamic()
-            elif msg.get("cmd") == "resetEntropy":
-                log.info("Resetting entropy file")
-                os.remove(os.path.join(script_dir,cfg.get('entropy','filename')))
-            elif msg.get("cmd") == "resetDynamicCfg":
-                log.info("Resetting client config")
-                cfg.clear_dynamic()
-
-        except WebSocketError:
-            break
-    log.info("websocket closed (%s)"%wsock.path)
 
 
 def start(g,gl):

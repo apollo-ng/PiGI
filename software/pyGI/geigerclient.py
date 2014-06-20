@@ -36,6 +36,8 @@ class WebSocketClientConnector():
             log.error(e)
 
     def receive_commands(self,handler):
+        #FIXME: some commands need clearer names
+        #FIXME: more robust error/edgecase handling
         while True:
             try:
                 message = self.ws.receive()
@@ -131,9 +133,9 @@ class ClientsHandler():
         self.geiger = geiger
         self.geigerlog = geigerlog
 
-        status_thread = threading.Thread(target=self.loop_status)
-        ticks_thread  = threading.Thread(target=self.loop_ticks)
-        log_thread    = threading.Thread(target=self.loop_log)
+        status_thread = threading.Thread(target=self._loop_status)
+        ticks_thread  = threading.Thread(target=self._loop_ticks)
+        log_thread    = threading.Thread(target=self._loop_log)
 
         for thread in [status_thread, ticks_thread, log_thread]:
             thread.daemon = True
@@ -160,7 +162,7 @@ class ClientsHandler():
         else:
             self.clients.remove(client)
 
-    def loop_status(self):
+    def _loop_status(self):
         log.info("Starting status update loop.")
         while True:
             msg = self.geiger.get_state()
@@ -171,7 +173,7 @@ class ClientsHandler():
                     self.send_if_active(client,msg)
             time.sleep(1)
 
-    def loop_ticks(self):
+    def _loop_ticks(self):
         last_ticks = self.geiger.totalcount
         log.info("Starting ticks update loop")
         while True:
@@ -183,7 +185,7 @@ class ClientsHandler():
                         self.send_if_active(client,{"type":"tick", "count":ticks})
             time.sleep(0.2)
 
-    def loop_log(self):
+    def _loop_log(self):
         my_last_log = None
         log.info("Starting log update loop")
         while True:

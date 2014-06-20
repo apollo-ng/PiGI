@@ -31,10 +31,15 @@ webGI.websocket = (function($) {
         ws.onopen = function() {
             $('#modalError').removeClass('md-show');
             console.log('websocket opened');
+
+            //FIXME: do we need the timeout?
             setTimeout(function() {
                 webGI.livechart.requestLog(60 * 60 * 1, true);
                 webGI.livechart.requestLog(60 * 60 * 24, false);
+
+                //FIXME: this belongs to history, not livechart!
                 webGI.livechart.requestHistory(null, null);
+
                 webGI.options.request();
             }, 100);
         };

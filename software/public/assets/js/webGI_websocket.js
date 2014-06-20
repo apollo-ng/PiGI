@@ -35,6 +35,7 @@ webGI.websocket = (function($) {
                 webGI.livechart.requestLog(60 * 60 * 1, true);
                 webGI.livechart.requestLog(60 * 60 * 24, false);
                 webGI.livechart.requestHistory(null, null);
+                webGI.options.request();
             }, 100);
         };
 
@@ -60,6 +61,12 @@ webGI.websocket = (function($) {
                 case "static_history":
                     webGI.history.update(msg);
                     break;
+
+                //Config
+                case 'geigerconf':
+                    webGI.options.update(msg);
+                    break;
+
                 default:
                     console.log('INVALID MESSAGE', msg);
             }

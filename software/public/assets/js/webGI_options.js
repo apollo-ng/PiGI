@@ -24,34 +24,10 @@ webGI.options = (function($) {
     /***************************************************************************
      * Private attributes ******************************************************/
 
-    var ws_conf = null;
 
 
     /***************************************************************************
      * Public functions ********************************************************/
-
-    my.init = function() {
-
-        ws_conf = new WebSocket(webGI.conf.websocket_host + '/ws_conf');
-
-        ws_conf.onopen = function() {
-            my.request();
-        };
-
-        ws_conf.onmessage = function(e) {
-
-            var msg = JSON.parse(e.data);
-            //console.log(msg);
-            switch (msg.type) {
-                case 'geigerconf':
-                    update(msg);
-                    break;
-
-                default:
-                    console.log('INVALID MESSAGE', msg);
-            }
-        };
-    };
 
     my.save = function() {
 
@@ -93,7 +69,7 @@ webGI.options = (function($) {
             "conf": my.server
         };
 
-        ws_conf.send(JSON.stringify(cmd));
+        webGI.websocket.send(cmd);
         console.log("Saving options", my.server);
         my.request();
     };
@@ -104,12 +80,12 @@ webGI.options = (function($) {
             'cmd': 'get'
         };
 
-        ws_conf.send(JSON.stringify(cmd));
+        webGI.websocket.send(cmd);
     };
 
     my.reset = function() {
         console.log("clear pyGI conf/dynamic.cfg");
-        ws_conf.send(JSON.stringify({"cmd": "resetDynamicCfg"}));
+        webGI.websocket.send({"cmd": "resetDynamicCfg"});
         my.request();
     };
 
@@ -124,10 +100,10 @@ webGI.options = (function($) {
         }
         iframe.src = "/webGI/data/entropy.bin";
     };
-    
+
     my.resetEntropy = function() {
         console.log("Resetting entropy");
-        ws_conf.send(JSON.stringify({"cmd": "resetEntropy"}));
+        webGI.websocket.send({"cmd": "resetEntropy"});
         my.request();
     };
 
@@ -172,11 +148,7 @@ webGI.options = (function($) {
         $('#' + parent_id).append(content);
     };
 
-
-    /***************************************************************************
-     * Private functions *******************************************************/
-
-    function update(msg) {
+    my.update = function(msg) {
         //console.log("Options:", msg);
         document.getElementById('cnf_node_uuid').innerHTML = msg.uuid;
         document.getElementById('cnf_node_name').innerHTML = msg.name;
@@ -234,6 +206,10 @@ webGI.options = (function($) {
         document.getElementById('server_entropy_pool').value = msg.entropy_pool;
         //$('#server_entropy_pool').val(msg.entropy_pool);
     }
+    /***************************************************************************
+     * Private functions *******************************************************/
+
+
 
 
     return my;

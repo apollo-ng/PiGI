@@ -10,7 +10,6 @@ import sys
 
 from configurator import cfg
 
-import geigersocket
 import geigercounter
 import geigerclient
 

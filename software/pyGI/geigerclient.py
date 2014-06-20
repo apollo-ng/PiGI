@@ -3,11 +3,17 @@ import json
 import time
 import datetime
 import uuid
+import os
+import sys
 
 from geventwebsocket import WebSocketError
+from configurator import cfg
+import geigercounter
+
 import logging
 
 log = logging.getLogger(__name__)
+script_dir = sys.path[0]
 
 class WebSocketClientConnector():
     def __init__(self,ws):
@@ -68,6 +74,52 @@ class WebSocketClientConnector():
                     text = msg.get("text")
                     handler.geigerlog.set_annotation(ts,text)
                     handler.send_log(start=age_from,end=age_to,amount=1000,static=True)
+
+                #Config
+                elif cmd == "get":
+                    try:
+                        entropy_pool = os.path.getsize(cfg.get('entropy','filename'))
+                    except (IOError, OSError):
+                        entropy_pool = 0
+                    conf = {
+                        "type": "geigerconf",
+                        "uuid": cfg.get('node','uuid'),
+                        "name": cfg.get('node','name'),
+                        "opmode": cfg.get('node','opmode'),
+                        "lat": cfg.getfloat('node','lat'),
+                        "lon": cfg.getfloat('node','lon'),
+                        "alt": cfg.getfloat('node','alt'),
+                        "sim_dose_rate": cfg.getfloat('geigercounter','sim_dose_rate'),
+                        "window": cfg.get('geigercounter','window'),
+                        "source": cfg.get('geigercounter','source') if geigercounter.gpio_available else "sim",
+                        "entropy": cfg.getboolean('entropy','enable'),
+                        "entropy_pool": entropy_pool
+                    }
+                    self.send(conf)
+
+                elif cmd == "save":
+                    for field in ["lat","lon","alt","opmode"]:
+                        val = msg["conf"].get(field)
+                        if not val is None:
+                            cfg.set('node',field,str(val))
+
+                    for field in ["window","source","sim_dose_rate"]:
+                        val = msg["conf"].get(field)
+                        if not val is None:
+                            cfg.set('geigercounter',field,str(val))
+
+                    entropy_enable = msg["conf"].get("entropy")
+                    if not entropy_enable is None:
+                        cfg.set('entropy','enable',str(entropy_enable))
+
+                    cfg.write_dynamic()
+                    cfg.read_dynamic()
+                elif cmd == "resetEntropy":
+                    log.info("Resetting entropy file")
+                    os.remove(os.path.join(script_dir,cfg.get('entropy','filename')))
+                elif cmd == "resetDynamicCfg":
+                    log.info("Resetting client config")
+                    cfg.clear_dynamic()
 
             except WebSocketError:
                 break

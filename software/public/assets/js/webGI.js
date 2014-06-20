@@ -331,12 +331,11 @@ $(document).ready(function() {
         $('<p>Oh no, you need a modern browser that supports WebSockets. How about <a href="http://www.chromium.org/">Chromium</a>?</p>').appendTo('#container');
         return;
     }
-    webGI.options.init();
+    webGI.websocket.init();
     webGI.status.init();
     webGI.geo.init();
     webGI.ticker.init();
     webGI.alert.init();
-    webGI.websocket.init();
     // Set callbacks to updateLayout on window resize and url-hash change (panels)
     // Should have been replaced by pageAnimationEnd event but doesn't work as well
     $(window).resize(updateLayout);

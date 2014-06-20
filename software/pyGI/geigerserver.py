@@ -12,6 +12,7 @@ from configurator import cfg
 
 import geigersocket
 import geigercounter
+import geigerclient
 
 log=logging.getLogger(__name__)
 
@@ -24,6 +25,7 @@ wsock_mgr_status = None
 wsock_mgr_ticks = None
 geiger = None
 geigerlog = None
+clients_handler = None
 
 @app.route('/')
 def index():
@@ -62,10 +64,19 @@ def keep_socket_open(wsock):
             break
     log.info("websocket closed (%s)"%wsock.path)
 
+
+@app.route('/ws')
+def handle_ws():
+    wsock = get_websocket_from_request()
+    log.info("websocket opened (%s)"%wsock.path)
+    client = geigerclient.WebSocketClientConnector(wsock)
+    clients_handler.add(client)
+    client.receive_commands()
+
 @app.route('/ws_status')
 def handle_ws_status():
     wsock = get_websocket_from_request()
-    log.info("websocket opened (%s)"%wsock.path)
+    log.info("websocket (status) opened (%s)"%wsock.path)
     wsock_mgr_status.add_socket(wsock)
     keep_socket_open(wsock)
 
@@ -147,16 +158,16 @@ def handle_ws_conf():
                     val = msg["conf"].get(field)
                     if not val is None:
                         cfg.set('node',field,str(val))
-                        
+
                 for field in ["window","source","sim_dose_rate"]:
                     val = msg["conf"].get(field)
                     if not val is None:
                         cfg.set('geigercounter',field,str(val))
-                
+
                 entropy_enable = msg["conf"].get("entropy")
                 if not entropy_enable is None:
                     cfg.set('entropy','enable',str(entropy_enable))
-                
+
                 cfg.write_dynamic()
                 cfg.read_dynamic()
             elif msg.get("cmd") == "resetEntropy":
@@ -165,18 +176,19 @@ def handle_ws_conf():
             elif msg.get("cmd") == "resetDynamicCfg":
                 log.info("Resetting client config")
                 cfg.clear_dynamic()
-                
+
         except WebSocketError:
             break
     log.info("websocket closed (%s)"%wsock.path)
 
 
 def start(g,gl):
-    global geiger, geigerlog, wsock_mgr_status, wsock_mgr_ticks
+    global geiger, geigerlog, wsock_mgr_status, wsock_mgr_ticks, clients_handler
     geiger = g
     geigerlog = gl
     wsock_mgr_status = geigersocket.StatusWebSocketsManager(geiger)
     wsock_mgr_ticks = geigersocket.TicksWebSocketsManager(geiger)
+    clients_handler = geigerclient.ClientsHandler(geiger)
 
     ip = cfg.get('server','ip')
     port = cfg.getint('server','port')

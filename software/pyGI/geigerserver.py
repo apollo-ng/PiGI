@@ -21,8 +21,6 @@ script_dir = sys.path[0]
 public_dir = os.path.join(script_dir,"public")
 log_dir = os.path.join(script_dir,"log")
 
-wsock_mgr_status = None
-wsock_mgr_ticks = None
 geiger = None
 geigerlog = None
 clients_handler = None
@@ -72,20 +70,6 @@ def handle_ws():
     client = geigerclient.WebSocketClientConnector(wsock)
     clients_handler.add(client)
     client.receive_commands()
-
-@app.route('/ws_status')
-def handle_ws_status():
-    wsock = get_websocket_from_request()
-    log.info("websocket (status) opened (%s)"%wsock.path)
-    wsock_mgr_status.add_socket(wsock)
-    keep_socket_open(wsock)
-
-@app.route('/ws_ticks')
-def handle_ws_ticks():
-    wsock = get_websocket_from_request()
-    log.info("websocket opened (%s)"%wsock.path)
-    wsock_mgr_ticks.add_socket(wsock)
-    keep_socket_open(wsock)
 
 @app.route('/ws_log')
 def handle_ws_log():
@@ -183,11 +167,9 @@ def handle_ws_conf():
 
 
 def start(g,gl):
-    global geiger, geigerlog, wsock_mgr_status, wsock_mgr_ticks, clients_handler
+    global geiger, geigerlog, clients_handler
     geiger = g
     geigerlog = gl
-    wsock_mgr_status = geigersocket.StatusWebSocketsManager(geiger)
-    wsock_mgr_ticks = geigersocket.TicksWebSocketsManager(geiger)
     clients_handler = geigerclient.ClientsHandler(geiger)
 
     ip = cfg.get('server','ip')

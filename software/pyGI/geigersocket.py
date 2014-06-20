@@ -16,7 +16,7 @@ class WebSocketsManager(threading.Thread):
         threading.Thread.__init__(self)
         self.daemon = True
         self.start()
-        
+
     def add_socket(self,socket):
         if socket in self.sockets:
             self.sockets.remove(socket)
@@ -25,7 +25,7 @@ class WebSocketsManager(threading.Thread):
     def send(self,msg_dict):
         if not self.sockets:
             return
-        
+
         log.debug("%s: sending %s"%(self.sockets[0].path, str(msg_dict)))
         msg_json = json.dumps(msg_dict)
         for socket in self.sockets:
@@ -35,25 +35,6 @@ class WebSocketsManager(threading.Thread):
                 self.sockets.remove(socket)
                 log.error("could not write to socket %s"%socket)
                 log.error(e)
-    
-class StatusWebSocketsManager(WebSocketsManager):
-    def run(self):
-        log.info("Starting status websockets manager")
-        while True:
-            self.send(self.geiger.get_state())
-            time.sleep(1)
-
-            
-class TicksWebSocketsManager(WebSocketsManager):
-    def run(self):
-        last_ticks = self.geiger.totalcount
-        log.info("Starting ticks websockets manager")
-        while True:
-            ticks = self.geiger.totalcount-last_ticks
-            last_ticks = self.geiger.totalcount
-            if ticks > 0:
-                self.send({"type":"tick", "count":ticks})
-            time.sleep(0.2)
 
 
 class LogWebSocketManager(threading.Thread):
@@ -66,7 +47,7 @@ class LogWebSocketManager(threading.Thread):
         self.daemon = True
         self.active = True
         self.start()
-        
+
     def send(self,msg_dict):
         msg_json = json.dumps(msg_dict)
         try:
@@ -77,7 +58,7 @@ class LogWebSocketManager(threading.Thread):
         except Exception, e:
             self.active = False
             log.error(e)
-    
+
     def send_log(self,start=None,end=None,age=None,amount=10,static=False):
         if age and age<60*60*2: #2hours
             amount = None
@@ -87,8 +68,8 @@ class LogWebSocketManager(threading.Thread):
         lj = json.dumps({"type":logtype,"log":history,"hd":hd})
         log.info("%s: sending %s"%(self.socket.path,logtype))
         self.socket.send(lj)
-            
-        
+
+
     def run(self):
         my_last_log = None
         while self.active:
@@ -98,8 +79,8 @@ class LogWebSocketManager(threading.Thread):
                 if my_last_log != log_last_log:
                     self.send(log_last_log)
                 my_last_log = log_last_log
-                    
-                
+
+
             #key = datetime.datetime.now().strftime("%s")
             #state = self.geiger.get_state()
             #state["timestamp"] = key

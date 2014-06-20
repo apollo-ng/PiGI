@@ -51,18 +51,6 @@ def get_websocket_from_request():
         abort(400, 'Expected WebSocket request.')
     return wsock
 
-def keep_socket_open(wsock):
-    while True:
-        try:
-            message = wsock.receive()
-            if message is None:
-                raise WebSocketError
-            log.info("Received : %s" % message)
-        except WebSocketError:
-            break
-    log.info("websocket closed (%s)"%wsock.path)
-
-
 @app.route('/ws')
 def handle_ws():
     wsock = get_websocket_from_request()
@@ -70,40 +58,6 @@ def handle_ws():
     client = geigerclient.WebSocketClientConnector(wsock)
     clients_handler.add(client)
     client.receive_commands(clients_handler)
-
-@app.route('/ws_log')
-def handle_ws_log():
-    wsock = get_websocket_from_request()
-    log.info("websocket opened (%s)"%wsock.path)
-
-    log_mgr = geigersocket.LogWebSocketManager(geiger,geigerlog,wsock)
-    #wsock_mgr_log.add_socket(wsock)
-    while True:
-        try:
-            message = wsock.receive()
-            if message is None:
-                raise WebSocketError
-            log.info("Received : %s" % message)
-            msg = json.loads(message)
-            if msg.get("cmd") == "read":
-                age_seconds = int(msg.get("age",60*60));
-                if msg.get("hd"):
-                    log_mgr.send_log(age=age_seconds,amount=None)
-                else:
-                    log_mgr.send_log(age=age_seconds,amount=1000)
-            elif msg.get("cmd") == "history":
-                age_from = msg.get("from")
-                age_to = msg.get("to")
-                #log.info("From %s to %s"%(str(age_from),str(age_to)))
-                log_mgr.send_log(start=age_from,end=age_to,amount=1000,static=True)
-            elif msg.get("cmd") == "annotation":
-                ts = msg.get("timestamp")
-                text = msg.get("text")
-                geigerlog.set_annotation(ts,text)
-                log_mgr.send_log(start=age_from,end=age_to,amount=1000,static=True)
-        except WebSocketError:
-            break
-    log.info("websocket closed (%s)"%wsock.path)
 
 @app.route('/ws_conf')
 def handle_ws_conf():

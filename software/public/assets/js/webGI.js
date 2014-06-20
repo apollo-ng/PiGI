@@ -333,7 +333,6 @@ $(document).ready(function() {
     }
     webGI.options.init();
     webGI.status.init();
-    //webGI.status.init_socket();
     webGI.geo.init();
     webGI.ticker.init();
     webGI.alert.init();

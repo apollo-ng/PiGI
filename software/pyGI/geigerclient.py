@@ -9,8 +9,6 @@ import logging
 
 log = logging.getLogger(__name__)
 
-LOG_UPDATE_RATE = 5
-
 class WebSocketClientConnector():
     def __init__(self,ws):
         self.ws = ws

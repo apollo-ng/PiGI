@@ -332,7 +332,6 @@ $(document).ready(function() {
         return;
     }
     webGI.options.init();
-    webGI.livechart.init_socket();
     webGI.status.init();
     //webGI.status.init_socket();
     webGI.geo.init();

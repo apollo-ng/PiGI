@@ -31,19 +31,34 @@ webGI.websocket = (function($) {
         ws.onopen = function() {
             $('#modalError').removeClass('md-show');
             console.log('websocket opened');
+            setTimeout(function() {
+                webGI.livechart.requestLog(60 * 60 * 1, true);
+                webGI.livechart.requestLog(60 * 60 * 24, false);
+                webGI.livechart.requestHistory(null, null);
+            }, 100);
         };
 
         ws.onmessage = function(e) {
             var msg = JSON.parse(e.data);
-            //console.log(msg);
+            console.log("websocket receiving",msg.type,msg);
             switch (msg.type) {
-                case 'geigerjson':
+                case 'geigerjson-status':
                     webGI.status.update(msg);
                     webGI.livechart.now = parseInt(msg.timestamp * 1000);
                     webGI.tracer.add(parseInt(msg.data.cps_dtc));
                     break;
                 case "tick":
                     webGI.ticker.play_ticks(msg.count);
+                    break;
+                //Log
+                case "geigerjson":
+                    webGI.livechart.update(msg);
+                    break;
+                case "history":
+                    webGI.livechart.updateBacklog(msg);
+                    break;
+                case "static_history":
+                    webGI.history.update(msg);
                     break;
                 default:
                     console.log('INVALID MESSAGE', msg);
@@ -66,6 +81,7 @@ webGI.websocket = (function($) {
     };
 
     my.send = function(msg){
+        console.log("websocket sending ",msg);
         ws.send(JSON.stringify(msg))
     }
 

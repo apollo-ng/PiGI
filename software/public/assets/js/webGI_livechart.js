@@ -106,6 +106,12 @@ webGI.livechart = (function($) {
                 fillGraph: false,
             }
         });
+
+        setTimeout(function() {
+            my.requestLog(60 * 60 * 1, true);
+            my.requestLog(60 * 60 * 24, false);
+            my.requestHistory(null, null);
+        }, 100);
     };
 
     my.init_socket = function() {
@@ -297,7 +303,7 @@ webGI.livechart = (function($) {
             "hd": hd
         };
 
-        ws_log.send(JSON.stringify(cmd));
+        webGI.websocket.send(cmd);
         //console.log ("Requesting log (age " +webGI.log.chart_age +" )");
     };
 
@@ -309,7 +315,7 @@ webGI.livechart = (function($) {
             "to": to
         };
 
-        ws_log.send(JSON.stringify(cmd));
+        webGI.websocket.send(cmd);
         //console.log ("Requesting history");
     };
 
@@ -335,7 +341,7 @@ webGI.livechart = (function($) {
             "text": text
         };
 
-        ws_log.send(JSON.stringify(cmd));
+        webGI.websocket.send(cmd);
         //console.log ("Requesting history");
     };
 

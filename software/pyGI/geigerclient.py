@@ -18,7 +18,7 @@ class WebSocketClientConnector():
         self.active = True
         self.send_ticks = False
         self.send_status = True
-        self.send_log = False
+        self.send_log = True
 
     def send(self,msg):
         msg_json = json.dumps(msg)
@@ -31,7 +31,7 @@ class WebSocketClientConnector():
             self.active = False
             log.error(e)
 
-    def receive_commands(self):
+    def receive_commands(self,handler):
         while True:
             try:
                 message = self.ws.receive()
@@ -44,6 +44,7 @@ class WebSocketClientConnector():
                 if not cmd:
                     log.error("Received something, but not a command: %s"%msg)
 
+                #Ticks
                 if cmd == "send_ticks":
                     if msg.get("state") == "on":
                         self.send_ticks = True
@@ -51,19 +52,40 @@ class WebSocketClientConnector():
                         self.send_ticks = False
                     else:
                         log.error("Invalid set_ticks command: %s"%msg)
+
+                #Log
+                elif cmd == "read":
+                    age_seconds = int(msg.get("age",60*60));
+                    if msg.get("hd"):
+                        handler.send_log(self,age=age_seconds,amount=None)
+                    else:
+                        handler.send_log(self,age=age_seconds,amount=1000)
+                elif cmd == "history":
+                    age_from = msg.get("from")
+                    age_to = msg.get("to")
+                    #log.info("From %s to %s"%(str(age_from),str(age_to)))
+                    handler.send_log(self,start=age_from,end=age_to,amount=1000,static=True)
+                elif cmd == "annotation":
+                    ts = msg.get("timestamp")
+                    text = msg.get("text")
+                    handler.geigerlog.set_annotation(ts,text)
+                    handler.send_log(start=age_from,end=age_to,amount=1000,static=True)
+
             except WebSocketError:
                 break
         log.info("websocket closed %s (client %s)"%(self.ws.path,self.session_id))
 
 class ClientsHandler():
-    def __init__(self,geiger):
+    def __init__(self,geiger,geigerlog):
         self.clients = []
         self.geiger = geiger
+        self.geigerlog = geigerlog
 
         status_thread = threading.Thread(target=self.loop_status)
         ticks_thread  = threading.Thread(target=self.loop_ticks)
+        log_thread    = threading.Thread(target=self.loop_log)
 
-        for thread in [status_thread, ticks_thread]:
+        for thread in [status_thread, ticks_thread, log_thread]:
             thread.daemon = True
             thread.start()
 
@@ -71,6 +93,16 @@ class ClientsHandler():
         if client in self.clients:
             self.clients.remove(client)
         self.clients.append(client)
+
+    def send_log(self,client,start=None,end=None,age=None,amount=10,static=False):
+        if age and age<60*60*2: #2hours
+            amount = None
+        history = self.geigerlog.get_log_entries(start=start,end=end,age=age,amount=amount)
+        logtype = "static_history" if static else "history"
+        hd = False if amount else True
+        msg = {"type":logtype,"log":history,"hd":hd}
+        log.info("sending %s"%(logtype))
+        self.send_if_active(client,msg)
 
     def send_if_active(self,client,msg):
         if client.active:
@@ -82,6 +114,7 @@ class ClientsHandler():
         log.info("Starting status update loop.")
         while True:
             msg = self.geiger.get_state()
+            msg["type"]="geigerjson-status"
             log.debug("broadcasting status %s"%msg)
             for client in self.clients:
                 if client.send_status:
@@ -99,3 +132,16 @@ class ClientsHandler():
                     if client.send_ticks:
                         self.send_if_active(client,{"type":"tick", "count":ticks})
             time.sleep(0.2)
+
+    def loop_log(self):
+        my_last_log = None
+        log.info("Starting log update loop")
+        while True:
+            time.sleep(1)
+            log_last_log = self.geigerlog.last_log
+            if log_last_log:
+                if my_last_log != log_last_log:
+                    for client in self.clients:
+                        if client.send_log:
+                            self.send_if_active(client,log_last_log)
+                my_last_log = log_last_log

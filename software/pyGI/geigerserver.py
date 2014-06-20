@@ -69,7 +69,7 @@ def handle_ws():
     log.info("websocket opened (%s)"%wsock.path)
     client = geigerclient.WebSocketClientConnector(wsock)
     clients_handler.add(client)
-    client.receive_commands()
+    client.receive_commands(clients_handler)
 
 @app.route('/ws_log')
 def handle_ws_log():
@@ -170,7 +170,7 @@ def start(g,gl):
     global geiger, geigerlog, clients_handler
     geiger = g
     geigerlog = gl
-    clients_handler = geigerclient.ClientsHandler(geiger)
+    clients_handler = geigerclient.ClientsHandler(geiger,geigerlog)
 
     ip = cfg.get('server','ip')
     port = cfg.getint('server','port')

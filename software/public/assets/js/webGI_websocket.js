@@ -42,7 +42,9 @@ webGI.websocket = (function($) {
                     webGI.livechart.now = parseInt(msg.timestamp * 1000);
                     webGI.tracer.add(parseInt(msg.data.cps_dtc));
                     break;
-
+                case "tick":
+                    webGI.ticker.play_ticks(msg.count);
+                    break;
                 default:
                     console.log('INVALID MESSAGE', msg);
             }
@@ -62,6 +64,10 @@ webGI.websocket = (function($) {
             console.log ("websocket reset");
         };
     };
+
+    my.send = function(msg){
+        ws.send(JSON.stringify(msg))
+    }
 
     /***************************************************************************
      * Private functions *******************************************************/

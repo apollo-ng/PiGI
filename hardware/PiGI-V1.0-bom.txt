@@ -11,7 +11,7 @@ D1        UF4007                 MBRA340T3              SMA                  Sur
 D2        1N4148                 CGRM4001-G             SOD-123_MINI-SMA     Molded plasitc,JEDEC SOD-123/Mini SMA  
 HV+       HV+                    SMD5                   SMD2,54-5,08         SMD PAD                                
 HV-       HV-                    SMD5                   SMD2,54-5,08         SMD PAD                                
-IC1       NE555D                 NE555D                 SO08                 TIMER                                  
+IC1       TLC555QDRQ1            TLC555QDRQ1            SO08                 TIMER                                  
 L1        15mH                   1200LRS                1200LRS                                                     
 LOGO1     OSHW_LOGO_FILLX0150-NT OSHW_LOGO_FILLX0150-NT OSHW_FILLX150_NOTEXT                                        
 PIGI-V1.0 RASPBERRY-PI           RASPBERRY-PI           RASPBERRY-PI         Raspberry Pi Board                     
